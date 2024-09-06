@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:simon_pkl/app/modules/home/views/home_view.dart';
+import 'package:simon_pkl/app/modules/login_page/views/login_page_view.dart';
 import 'package:simon_pkl/cusplash_screen.dart';
 
 import 'app/routes/app_pages.dart';
@@ -20,8 +20,8 @@ void main() async {
             debugShowCheckedModeBanner: false,
           );
         } else {
-          return GetMaterialApp(
-            home: const HomeView(),
+          return GetMaterialApp(      
+            home: const LoginPageView(),
             title: "Simon PKL",
             getPages: AppPages.routes,
             debugShowCheckedModeBanner: false,

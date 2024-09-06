@@ -13,6 +13,10 @@ dependencies:
   google_fonts: ^6.2.1
   get_storage: ^2.1.1
   easy_splash_screen: ^1.0.4
+  persistent_bottom_nav_bar: ^6.2.1
+  hugeicons: ^0.0.7
+  flutter_svg: ^2.0.10+1
+  material_design_icons_flutter: ^7.0.7296
 
 dev_dependencies: 
   flutter_lints: ^3.0.0
@@ -22,5 +26,7 @@ dev_dependencies:
 flutter: 
   assets:
     - assets/logo/
+    - assets/images/
+    - assets/icons/
   uses-material-design: true
 

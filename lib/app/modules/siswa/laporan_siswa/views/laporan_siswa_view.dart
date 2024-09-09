@@ -95,18 +95,25 @@ class LaporanSiswaView extends GetView<LaporanSiswaController> {
                                     Icon(item['icon'], color: item['color']),
                                 title: Text(
                                   item['tanggal'],
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold),
+                                  style: AllMaterial.montSerrat(
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                                subtitle: Text(item['status']),
+                                subtitle: Text(
+                                  item['status'],
+                                  style: AllMaterial.montSerrat(),
+                                ),
                                 trailing: const Icon(Icons.arrow_forward_ios),
                               ),
                             ),
                           );
                         },
                       )
-                    : const Center(
-                        child: Text("Tidak ada laporan untuk bulan ini"),
+                    : Center(
+                        child: Text(
+                          "Tidak ada laporan untuk bulan ini",
+                          style: AllMaterial.montSerrat(),
+                        ),
                       ),
               ),
             ),
@@ -146,10 +153,13 @@ class ChoiceChipWidget extends StatelessWidget {
           }
         },
         backgroundColor: Colors.grey[200],
-        labelStyle: TextStyle(
+        labelStyle: AllMaterial.montSerrat(
           color: controller.selectedMonth.value == month
               ? Colors.white
               : AllMaterial.colorGrey,
+          fontWeight: controller.selectedMonth.value == month
+              ? AllMaterial.fontMedium
+              : AllMaterial.fontRegular,
         ),
       ),
     );

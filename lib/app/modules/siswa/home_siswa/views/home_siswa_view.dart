@@ -42,6 +42,7 @@ class HomeSiswaView extends GetView<HomeSiswaController> {
         scrollToTopOnNavBarItemPress: true,
         icon: SvgPicture.asset(
           "assets/icons/laporan.svg",
+          // ignore: deprecated_member_use
           color: AllMaterial.colorWhite,
         ),
         title: ("Laporan"),
@@ -71,6 +72,7 @@ class HomeSiswaView extends GetView<HomeSiswaController> {
     return Scaffold(
       backgroundColor: AllMaterial.colorWhite,
       body: PersistentTabView(
+        
         margin: const EdgeInsets.all(15),
         padding: const EdgeInsets.only(top: 6, bottom: 2),
         context,

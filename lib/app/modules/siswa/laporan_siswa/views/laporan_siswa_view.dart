@@ -22,102 +22,105 @@ class LaporanSiswaView extends GetView<LaporanSiswaController> {
         ),
         centerTitle: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          children: [
-            // Chip untuk memilih bulan
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: [
-                  ChoiceChipWidget(
-                    controller: controller,
-                    label: 'Juli',
-                    month: 7,
-                  ),
-                  const SizedBox(width: 8),
-                  ChoiceChipWidget(
-                    controller: controller,
-                    label: 'Agustus',
-                    month: 8,
-                  ),
-                  const SizedBox(width: 8),
-                  ChoiceChipWidget(
-                    controller: controller,
-                    label: 'September',
-                    month: 9,
-                  ),
-                  const SizedBox(width: 8),
-                  ChoiceChipWidget(
-                    controller: controller,
-                    label: 'Oktober',
-                    month: 10,
-                  ),
-                  const SizedBox(width: 8),
-                  ChoiceChipWidget(
-                    controller: controller,
-                    label: 'November',
-                    month: 11,
-                  ),
-                  const SizedBox(width: 8),
-                  ChoiceChipWidget(
-                    controller: controller,
-                    label: 'Desember',
-                    month: 12,
-                  ),
-                ],
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            children: [
+              // Chip untuk memilih bulan
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    ChoiceChipWidget(
+                      controller: controller,
+                      label: 'Juli',
+                      month: 7,
+                    ),
+                    const SizedBox(width: 8),
+                    ChoiceChipWidget(
+                      controller: controller,
+                      label: 'Agustus',
+                      month: 8,
+                    ),
+                    const SizedBox(width: 8),
+                    ChoiceChipWidget(
+                      controller: controller,
+                      label: 'September',
+                      month: 9,
+                    ),
+                    const SizedBox(width: 8),
+                    ChoiceChipWidget(
+                      controller: controller,
+                      label: 'Oktober',
+                      month: 10,
+                    ),
+                    const SizedBox(width: 8),
+                    ChoiceChipWidget(
+                      controller: controller,
+                      label: 'November',
+                      month: 11,
+                    ),
+                    const SizedBox(width: 8),
+                    ChoiceChipWidget(
+                      controller: controller,
+                      label: 'Desember',
+                      month: 12,
+                    ),
+                  ],
+                ),
               ),
-            ),
-
-            const SizedBox(height: 20),
-
-            Expanded(
-              child: Obx(
-                () => controller.laporan.isNotEmpty
-                    ? ListView.builder(
-                        itemCount: controller.laporan.length,
-                        itemBuilder: (context, index) {
-                          var item = controller.laporan[index];
-                          return Padding(
-                            padding: const EdgeInsets.only(top: 5),
-                            child: Card(
-                              surfaceTintColor: AllMaterial.colorWhite,
-                              color: AllMaterial.colorWhite,
-                              borderOnForeground: true,
-                              shadowColor: AllMaterial.colorGreySec,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(16),
-                              ),
-                              child: ListTile(
-                                onTap: () {},
-                                leading:
-                                    Icon(item['icon'], color: item['color']),
-                                title: Text(
-                                  item['tanggal'],
-                                  style: AllMaterial.montSerrat(
-                                    fontWeight: FontWeight.bold,
+            
+              const SizedBox(height: 20),
+            
+              Expanded(
+                child: Obx(
+                  () => controller.laporan.isNotEmpty
+                      ? ListView.builder(
+                          itemCount: controller.laporan.length,
+                          itemBuilder: (context, index) {
+                            var item = controller.laporan[index];
+                            return Padding(
+                              padding: const EdgeInsets.only(top: 5),
+                              child: Card(
+                                surfaceTintColor: AllMaterial.colorWhite,
+                                color: AllMaterial.colorWhite,
+                                borderOnForeground: true,
+                                shadowColor: AllMaterial.colorGreySec,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                                child: ListTile(
+                                  onTap: () {},
+                                  leading:
+                                      Icon(item['icon'], color: item['color']),
+                                  title: Text(
+                                    item['tanggal'],
+                                    style: AllMaterial.montSerrat(
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
+                                  subtitle: Text(
+                                    item['status'],
+                                    style: AllMaterial.montSerrat(),
+                                  ),
+                                  trailing: const Icon(Icons.arrow_forward_ios),
                                 ),
-                                subtitle: Text(
-                                  item['status'],
-                                  style: AllMaterial.montSerrat(),
-                                ),
-                                trailing: const Icon(Icons.arrow_forward_ios),
                               ),
-                            ),
-                          );
-                        },
-                      )
-                    : Center(
-                        child: Text(
-                          "Tidak ada laporan untuk bulan ini",
-                          style: AllMaterial.montSerrat(),
+                            );
+                          },
+                        )
+                      : Center(
+                          child: Text(
+                            "Tidak ada laporan untuk bulan ini",
+                            style: AllMaterial.montSerrat(),
+                          ),
                         ),
-                      ),
+                ),
               ),
-            ),
-          ],
+              const SizedBox(height: 60),
+            ],
+          ),
         ),
       ),
     );

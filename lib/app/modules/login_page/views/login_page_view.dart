@@ -70,12 +70,14 @@ class LoginPageView extends GetView<LoginPageController> {
                     const SizedBox(height: 20),
                     // Username Field
                     TextField(
+                      selectionControls: MaterialTextSelectionControls(),
                       controller: loginController.userC,
                       focusNode: loginController.userF,
                       cursorColor: AllMaterial.colorBlue,
                       onTapOutside: (_) {
                         loginController.userF.unfocus();
                       },
+                      
                       decoration: InputDecoration(
                         focusedBorder: OutlineInputBorder(
                           borderSide: const BorderSide(

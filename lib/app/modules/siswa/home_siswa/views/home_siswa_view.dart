@@ -72,7 +72,8 @@ class HomeSiswaView extends GetView<HomeSiswaController> {
     return Scaffold(
       backgroundColor: AllMaterial.colorWhite,
       body: PersistentTabView(
-        
+        confineToSafeArea: true,
+
         margin: const EdgeInsets.all(15),
         padding: const EdgeInsets.only(top: 6, bottom: 2),
         context,

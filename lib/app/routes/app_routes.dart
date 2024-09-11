@@ -11,6 +11,7 @@ abstract class Routes {
   static const LAPORAN_SISWA = _Paths.LAPORAN_SISWA;
   static const NOTIFIKASI_SISWA = _Paths.NOTIFIKASI_SISWA;
   static const PILIH_DUDI_SISWA = _Paths.PILIH_DUDI_SISWA;
+  static const AJUAN_SISWA = _Paths.AJUAN_SISWA;
 }
 
 abstract class _Paths {
@@ -23,4 +24,5 @@ abstract class _Paths {
   static const LAPORAN_SISWA = '/laporan-siswa';
   static const NOTIFIKASI_SISWA = '/notifikasi-siswa';
   static const PILIH_DUDI_SISWA = '/pilih-dudi-siswa';
+  static const AJUAN_SISWA = '/ajuan-siswa';
 }

@@ -91,11 +91,32 @@ class ProfileSiswaView extends GetView<ProfileSiswaController> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    ProfileWidget(controller: controller, textController: controller.kelasC, title: "Kelas:"),
-                    ProfileWidget(controller: controller, textController: controller.noTeleponC, title: "No. Telepon:"),
-                    ProfileWidget(controller: controller, textController: controller.alamatC, title: "Alamat:"),
-                    ProfileWidget(controller: controller, textController: controller.statusPklC, title: "Status PKL:"),
-                    ProfileWidget(controller: controller, textController: controller.guruPembimbingC, title: "Guru Pembimbing:"),
+                    ProfileWidget(
+                      controller: controller,
+                      textController: controller.kelasC,
+                      title: "Kelas:",
+                    ),
+                    ProfileWidget(
+                      controller: controller,
+                      textController: controller.noTeleponC,
+                      title: "No. Telepon:",
+                    ),
+                    ProfileWidget(
+                      controller: controller,
+                      textController: controller.alamatC,
+                      title: "Alamat:",
+                    ),
+                    ProfileWidget(
+                      controller: controller,
+                      textController: controller.statusPklC,
+                      title: "Status PKL:",
+                    ),
+                    ProfileWidget(
+                      controller: controller,
+                      textController: controller.guruPembimbingC,
+                      title: "Guru Pembimbing:",
+                    ),
+                    const SizedBox(height: 60),
                   ],
                 ),
               ),

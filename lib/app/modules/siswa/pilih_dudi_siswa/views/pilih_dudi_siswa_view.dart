@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:simon_pkl/all_material.dart';
+import 'package:simon_pkl/app/modules/siswa/ajuan_siswa/views/ajuan_siswa_view.dart';
 
 import '../controllers/pilih_dudi_siswa_controller.dart';
 
@@ -425,6 +426,7 @@ class PilihDudiSiswaView extends GetView<PilihDudiSiswaController> {
                                             // controller.postAjuanPKL(controller
                                             //     .dataPrevDudi[index]["id"]);
                                             Get.back();
+                                            Get.to(()=> const AjuanSiswaView());
                                             // Get.offAllNamed(
                                             //   // Routes.AJUAN_PKL,
                                               

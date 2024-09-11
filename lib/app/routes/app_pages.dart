@@ -2,6 +2,8 @@ import 'package:get/get.dart';
 
 import '../modules/login_page/bindings/login_page_binding.dart';
 import '../modules/login_page/views/login_page_view.dart';
+import '../modules/siswa/ajuan_siswa/bindings/ajuan_siswa_binding.dart';
+import '../modules/siswa/ajuan_siswa/views/ajuan_siswa_view.dart';
 import '../modules/siswa/home_siswa/bindings/home_siswa_binding.dart';
 import '../modules/siswa/home_siswa/views/home_siswa_view.dart';
 import '../modules/siswa/homepage_siswa/bindings/homepage_siswa_binding.dart';
@@ -55,6 +57,11 @@ class AppPages {
       name: _Paths.PILIH_DUDI_SISWA,
       page: () => const PilihDudiSiswaView(),
       binding: PilihDudiSiswaBinding(),
+    ),
+    GetPage(
+      name: _Paths.AJUAN_SISWA,
+      page: () => const AjuanSiswaView(),
+      binding: AjuanSiswaBinding(),
     ),
   ];
 }

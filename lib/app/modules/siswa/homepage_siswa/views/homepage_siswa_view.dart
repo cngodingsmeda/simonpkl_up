@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:simon_pkl/all_material.dart';
 import 'package:simon_pkl/app/modules/siswa/ajuan_siswa/views/ajuan_siswa_view.dart';
+import 'package:simon_pkl/app/modules/siswa/homepage_siswa/widgets/cards_widget.dart';
 import 'package:simon_pkl/app/modules/siswa/laporan_siswa/views/laporan_siswa_view.dart';
 import 'package:simon_pkl/app/modules/siswa/notifikasi_siswa/views/notifikasi_siswa_view.dart';
 import 'package:simon_pkl/app/modules/siswa/pilih_dudi_siswa/views/pilih_dudi_siswa_view.dart';
+import 'package:simon_pkl/app/modules/siswa/pilihan_absen_siswa/views/pilihan_absen_siswa_view.dart';
 
 import '../controllers/homepage_siswa_controller.dart';
 
@@ -184,91 +186,99 @@ class HomepageSiswaView extends GetView<HomepageSiswaController> {
                                     ),
                                   ),
                                   const SizedBox(height: 5),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      ElevatedButton(
-                                        onPressed: () {
-                                          Get.defaultDialog(
-                                            middleTextStyle:
-                                                AllMaterial.montSerrat(),
+                                  SizedBox(
+                                    width: Get.width,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        ElevatedButton(
+                                          onPressed: () {
+                                            Get.defaultDialog(
+                                              middleTextStyle:
+                                                  AllMaterial.montSerrat(),
+                                              backgroundColor:
+                                                  AllMaterial.colorWhite,
+                                              radius: 10,
+                                              buttonColor:
+                                                  AllMaterial.colorBlue,
+                                              titleStyle:
+                                                  AllMaterial.montSerrat(
+                                                fontWeight:
+                                                    AllMaterial.fontMedium,
+                                              ),
+                                              title: "Konfirmasi",
+                                              middleText:
+                                                  "Apakah Anda yakin ingin membatalkan ajuan PKL?",
+                                              onConfirm: () {
+                                                Get.back();
+                                                controller.status.value =
+                                                    "sedang pkl";
+                                              },
+                                              textCancel: "Batalkan",
+                                              cancelTextColor:
+                                                  AllMaterial.colorBlue,
+                                              textConfirm: "Konfirmasi",
+                                            );
+                                          },
+                                          style: ElevatedButton.styleFrom(
+                                            shadowColor: Colors.transparent,
                                             backgroundColor:
-                                                AllMaterial.colorWhite,
-                                            radius: 10,
-                                            buttonColor: AllMaterial.colorBlue,
-                                            titleStyle: AllMaterial.montSerrat(
+                                                AllMaterial.colorBlue,
+                                            elevation: 0,
+                                            shape: const RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.all(
+                                                Radius.circular(16),
+                                              ),
+                                              side: BorderSide(
+                                                color: AllMaterial.colorWhite,
+                                              ),
+                                            ),
+                                          ),
+                                          child: Text(
+                                            "Batalkan",
+                                            style: AllMaterial.montSerrat(
+                                              color: AllMaterial.colorWhite,
                                               fontWeight:
                                                   AllMaterial.fontMedium,
                                             ),
-                                            title: "Konfirmasi",
-                                            middleText:
-                                                "Apakah Anda yakin ingin membatalkan ajuan PKL?",
-                                            onConfirm: () {
-                                              Get.back();
-                                              controller.status.value =
-                                                  "sedang pkl";
-                                            },
-                                            textCancel: "Batalkan",
-                                            cancelTextColor:
-                                                AllMaterial.colorBlue,
-                                            textConfirm: "Konfirmasi",
-                                          );
-                                        },
-                                        style: ElevatedButton.styleFrom(
-                                          shadowColor: Colors.transparent,
-                                          backgroundColor:
-                                              AllMaterial.colorBlue,
-                                          elevation: 0,
-                                          shape: const RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.all(
-                                              Radius.circular(16),
-                                            ),
-                                            side: BorderSide(
-                                              color: AllMaterial.colorWhite,
-                                            ),
                                           ),
                                         ),
-                                        child: Text(
-                                          "Batalkan",
-                                          style: AllMaterial.montSerrat(
-                                            color: AllMaterial.colorWhite,
-                                            fontWeight: AllMaterial.fontMedium,
+                                        ElevatedButton(
+                                          onPressed: () {
+                                            Get.to(
+                                                () => const AjuanSiswaView());
+                                          },
+                                          style: ElevatedButton.styleFrom(
+                                            shadowColor: Colors.transparent,
+                                            backgroundColor:
+                                                AllMaterial.colorWhite,
+                                            elevation: 0,
+                                            shape: const RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.all(
+                                                Radius.circular(16),
+                                              ),
+                                            ),
                                           ),
-                                        ),
-                                      ),
-                                      ElevatedButton(
-                                        onPressed: () {
-                                          Get.to(() => const AjuanSiswaView());
-                                        },
-                                        style: ElevatedButton.styleFrom(
-                                          shadowColor: Colors.transparent,
-                                          backgroundColor:
-                                              AllMaterial.colorWhite,
-                                          elevation: 0,
-                                          shape: const RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.all(
-                                              Radius.circular(16),
+                                          child: Text(
+                                            "Cek Status",
+                                            style: AllMaterial.montSerrat(
+                                              color: AllMaterial.colorBlue,
+                                              fontWeight:
+                                                  AllMaterial.fontMedium,
                                             ),
                                           ),
                                         ),
-                                        child: Text(
-                                          "Cek Status",
-                                          style: AllMaterial.montSerrat(
-                                            color: AllMaterial.colorBlue,
-                                            fontWeight: AllMaterial.fontMedium,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 ],
                               )
                             : GestureDetector(
-                              onTap: () {
-                                controller.status.value = "belum pkl";
-                              },
-                              child: Column(
+                                onTap: () {
+                                  controller.status.value = "belum pkl";
+                                },
+                                child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
@@ -297,7 +307,8 @@ class HomepageSiswaView extends GetView<HomepageSiswaController> {
                                                 child: Text(
                                                   "CV. Global Vintage Numeration 313",
                                                   style: AllMaterial.montSerrat(
-                                                    color: AllMaterial.colorWhite,
+                                                    color:
+                                                        AllMaterial.colorWhite,
                                                     fontWeight:
                                                         AllMaterial.fontMedium,
                                                   ),
@@ -317,7 +328,8 @@ class HomepageSiswaView extends GetView<HomepageSiswaController> {
                                                 child: Text(
                                                   "+62 867654321",
                                                   style: AllMaterial.montSerrat(
-                                                    color: AllMaterial.colorWhite,
+                                                    color:
+                                                        AllMaterial.colorWhite,
                                                     fontWeight:
                                                         AllMaterial.fontMedium,
                                                   ),
@@ -337,7 +349,8 @@ class HomepageSiswaView extends GetView<HomepageSiswaController> {
                                                 child: Text(
                                                   "Jl. Lorem ipsum, Dolor sit, No. 313",
                                                   style: AllMaterial.montSerrat(
-                                                    color: AllMaterial.colorWhite,
+                                                    color:
+                                                        AllMaterial.colorWhite,
                                                     fontWeight:
                                                         AllMaterial.fontMedium,
                                                   ),
@@ -351,7 +364,7 @@ class HomepageSiswaView extends GetView<HomepageSiswaController> {
                                     ),
                                   ],
                                 ),
-                            ),
+                              ),
                   ),
                 ),
                 Obx(
@@ -364,7 +377,7 @@ class HomepageSiswaView extends GetView<HomepageSiswaController> {
                               child: ElevatedButton.icon(
                                 onPressed: () {
                                   // absen
-
+                                  Get.to(()=> const PilihanAbsenSiswaView());
                                 },
                                 icon: const Icon(
                                   Icons.fingerprint,
@@ -422,7 +435,6 @@ class HomepageSiswaView extends GetView<HomepageSiswaController> {
                                     color: Colors.green,
                                   ),
                                   keterangan: "Hadir",
-                                  tekan: () {},
                                 ),
                                 CardWidget(
                                   tanggal: "Sabtu, 24 Agustus 2024",
@@ -431,7 +443,6 @@ class HomepageSiswaView extends GetView<HomepageSiswaController> {
                                     color: Colors.green,
                                   ),
                                   keterangan: "Hadir",
-                                  tekan: () {},
                                 ),
                                 CardWidget(
                                   tanggal: "Sabtu, 24 Agustus 2024",
@@ -440,7 +451,6 @@ class HomepageSiswaView extends GetView<HomepageSiswaController> {
                                     color: Colors.green,
                                   ),
                                   keterangan: "Hadir",
-                                  tekan: () {},
                                 ),
                                 const SizedBox(height: 60),
                               ],
@@ -452,51 +462,6 @@ class HomepageSiswaView extends GetView<HomepageSiswaController> {
               ],
             ),
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class CardWidget extends StatelessWidget {
-  CardWidget({
-    super.key,
-    required this.tanggal,
-    required this.icon,
-    required this.keterangan,
-    this.tekan,
-  });
-
-  String keterangan;
-  String tanggal;
-  Icon icon;
-  void Function()? tekan;
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 10),
-      child: Card(
-        surfaceTintColor: AllMaterial.colorWhite,
-        color: AllMaterial.colorWhite,
-        borderOnForeground: true,
-        shadowColor: AllMaterial.colorGreySec,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
-        child: ListTile(
-          onTap: tekan,
-          leading: icon,
-          title: Text(
-            tanggal,
-            style: AllMaterial.montSerrat(
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          subtitle: Text(
-            keterangan,
-            style: AllMaterial.montSerrat(),
-          ),
-          trailing: const Icon(Icons.arrow_forward_ios),
         ),
       ),
     );

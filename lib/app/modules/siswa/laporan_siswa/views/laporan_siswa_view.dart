@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:simon_pkl/all_material.dart';
+import 'package:simon_pkl/app/modules/siswa/homepage_siswa/widgets/cards_widget.dart';
 
 import '../controllers/laporan_siswa_controller.dart';
 
@@ -70,9 +71,9 @@ class LaporanSiswaView extends GetView<LaporanSiswaController> {
                   ],
                 ),
               ),
-            
+
               const SizedBox(height: 20),
-            
+
               Expanded(
                 child: Obx(
                   () => controller.laporan.isNotEmpty
@@ -80,33 +81,38 @@ class LaporanSiswaView extends GetView<LaporanSiswaController> {
                           itemCount: controller.laporan.length,
                           itemBuilder: (context, index) {
                             var item = controller.laporan[index];
-                            return Padding(
-                              padding: const EdgeInsets.only(top: 5),
-                              child: Card(
-                                surfaceTintColor: AllMaterial.colorWhite,
-                                color: AllMaterial.colorWhite,
-                                borderOnForeground: true,
-                                shadowColor: AllMaterial.colorGreySec,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(16),
-                                ),
-                                child: ListTile(
-                                  onTap: () {},
-                                  leading:
-                                      Icon(item['icon'], color: item['color']),
-                                  title: Text(
-                                    item['tanggal'],
-                                    style: AllMaterial.montSerrat(
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  subtitle: Text(
-                                    item['status'],
-                                    style: AllMaterial.montSerrat(),
-                                  ),
-                                  trailing: const Icon(Icons.arrow_forward_ios),
-                                ),
-                              ),
+                            // return Padding(
+                            //   padding: const EdgeInsets.only(top: 5),
+                            //   child: Card(
+                            //     surfaceTintColor: AllMaterial.colorWhite,
+                            //     color: AllMaterial.colorWhite,
+                            //     borderOnForeground: true,
+                            //     shadowColor: AllMaterial.colorGreySec,
+                            //     shape: RoundedRectangleBorder(
+                            //       borderRadius: BorderRadius.circular(16),
+                            //     ),
+                            //     child: ListTile(
+                            //       onTap: () {},
+                            //       leading:
+                            //           Icon(item['icon'], color: item['color']),
+                            //       title: Text(
+                            //         item['tanggal'],
+                            //         style: AllMaterial.montSerrat(
+                            //           fontWeight: FontWeight.bold,
+                            //         ),
+                            //       ),
+                            //       subtitle: Text(
+                            //         item['status'],
+                            //         style: AllMaterial.montSerrat(),
+                            //       ),
+                            //       trailing: const Icon(Icons.arrow_forward_ios),
+                            //     ),
+                            //   ),
+                            // );
+                            return CardWidget(
+                              tanggal: item["tanggal"],
+                              icon: Icon(item["icon"], color: item["color"],),
+                              keterangan: item["status"],
                             );
                           },
                         )

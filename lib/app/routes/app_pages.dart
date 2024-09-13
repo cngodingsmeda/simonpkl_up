@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 
+import '../modules/siswa/detil_notifikasi_siswa/bindings/detil_notifikasi_siswa_binding.dart';
+import '../modules/siswa/detil_notifikasi_siswa/views/detil_notifikasi_siswa_view.dart';
 import '../modules/login_page/bindings/login_page_binding.dart';
 import '../modules/login_page/views/login_page_view.dart';
 import '../modules/siswa/absen_abnormal_siswa/bindings/absen_abnormal_siswa_binding.dart';
@@ -90,6 +92,11 @@ class AppPages {
       name: _Paths.ABSEN_ABNORMAL_SISWA,
       page: () => const AbsenAbnormalSiswaView(),
       binding: AbsenAbnormalSiswaBinding(),
+    ),
+    GetPage(
+      name: _Paths.DETIL_NOTIFIKASI_SISWA,
+      page: () => const DetilNotifikasiSiswaView(),
+      binding: DetilNotifikasiSiswaBinding(),
     ),
   ];
 }

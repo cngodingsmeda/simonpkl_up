@@ -16,6 +16,7 @@ abstract class Routes {
   static const PILIHAN_ABSEN_SISWA = _Paths.PILIHAN_ABSEN_SISWA;
   static const ABSEN_NORMAL_SISWA = _Paths.ABSEN_NORMAL_SISWA;
   static const ABSEN_ABNORMAL_SISWA = _Paths.ABSEN_ABNORMAL_SISWA;
+  static const DETIL_NOTIFIKASI_SISWA = _Paths.DETIL_NOTIFIKASI_SISWA;
 }
 
 abstract class _Paths {
@@ -33,4 +34,5 @@ abstract class _Paths {
   static const PILIHAN_ABSEN_SISWA = '/pilihan-absen-siswa';
   static const ABSEN_NORMAL_SISWA = '/absen-normal-siswa';
   static const ABSEN_ABNORMAL_SISWA = '/absen-abnormal-siswa';
+  static const DETIL_NOTIFIKASI_SISWA = '/detil-notifikasi-siswa';
 }

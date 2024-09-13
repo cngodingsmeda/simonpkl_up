@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:simon_pkl/all_material.dart';
+import 'package:simon_pkl/app/modules/siswa/detil_notifikasi_siswa/views/detil_notifikasi_siswa_view.dart';
 
 import '../controllers/notifikasi_siswa_controller.dart';
 
@@ -45,6 +46,7 @@ class NotifikasiSiswaView extends GetView<NotifikasiSiswaController> {
                     child: InkWell(
                       onTap: () {
                         // ke detil notifikasi
+                        Get.to(()=> const DetilNotifikasiSiswaView());
                       },
                       child: Container(
                         padding: const EdgeInsets.symmetric(

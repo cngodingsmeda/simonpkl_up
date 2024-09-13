@@ -10,187 +10,117 @@ import '../controllers/ajuan_siswa_controller.dart';
 
 class AjuanSiswaView extends GetView<AjuanSiswaController> {
   const AjuanSiswaView({super.key});
+
   @override
   Widget build(BuildContext context) {
+    var controller = Get.put(AjuanSiswaController());
     return Scaffold(
       backgroundColor: AllMaterial.colorWhite,
-      body: SingleChildScrollView(
-        child: Stack(
-          children: [
-            ClipPath(
-              clipper: ClipPathClass(),
-              child: Container(
-                height: 300,
-                width: Get.width,
-                color: AllMaterial.colorBlue,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      MdiIcons.clockCheckOutline,
+      body: Obx(() {
+        if (controller.isLoading.value) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        return SingleChildScrollView(
+          child: Stack(
+            children: [
+              ClipPath(
+                clipper: ClipPathClass(),
+                child: Container(
+                  height: 300,
+                  width: Get.width,
+                  color: AllMaterial.colorBlue,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        MdiIcons.clockCheckOutline,
+                        color: AllMaterial.colorWhite,
+                        size: 80,
+                      ),
+                      Text(
+                        "Ajuan Diproses",
+                        style: AllMaterial.montSerrat(
+                          color: AllMaterial.colorWhite,
+                          fontSize: 25,
+                          fontWeight: AllMaterial.fontSemiBold,
+                        ),
+                      ),
+                      Text(
+                        "Harap verifikasi data Anda!",
+                        style: AllMaterial.montSerrat(
+                          color: AllMaterial.colorWhite,
+                          fontSize: 15,
+                          fontWeight: AllMaterial.fontRegular,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.only(top: 240),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Container(
+                    width: Get.width,
+                    margin: const EdgeInsets.symmetric(vertical: 0),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
                       color: AllMaterial.colorWhite,
-                      size: 80,
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Color.fromARGB(34, 63, 63, 63),
+                          offset: Offset(5, 5),
+                          blurRadius: 25,
+                        ),
+                      ],
                     ),
-                    Text(
-                      "Ajuan Diproses",
-                      style: AllMaterial.montSerrat(
-                        color: AllMaterial.colorWhite,
-                        fontSize: 25,
-                        fontWeight: AllMaterial.fontSemiBold,
-                      ),
+                    child: Column(
+                      children: [
+                        TextInfoAjuan(
+                          controller: controller,
+                          title: "Status Info :",
+                          subtitle: "Menunggu Proses"
+                          // controller.ajuan.value.status,
+                          ,
+                        ),
+                        TextInfoAjuan(
+                          controller: controller,
+                          title: "Instansi Dipilih :",
+                          subtitle: "CV. Global Vintage Numeration"
+                          // controller.ajuan.value.instansiNama,
+                          ,
+                        ),
+                        TextInfoAjuan(
+                          controller: controller,
+                          title: "Batas Verifikasi :",
+                          subtitle: "Sampai 25 September"
+                          // controller.ajuan.value.batasVerifikasi,
+                          ,
+                        ),
+                        TextInfoAjuan(
+                          controller: controller,
+                          title: "No. Telpon Instansi :",
+                          subtitle: "0812446642"
+                          // controller.ajuan.value.noTeleponInstansi,
+                          ,
+                        ),
+                        TextInfoAjuan(
+                            controller: controller,
+                            title: "Alamat Instansi",
+                            subtitle: "Dusun Tapen"
+                            // controller.ajuan.value.alamatInstansi,
+                            ),
+                        const SizedBox(height: 10),
+                      ],
                     ),
-                    Text(
-                      "Harap verifikasi data Anda!",
-                      style: AllMaterial.montSerrat(
-                        color: AllMaterial.colorWhite,
-                        fontSize: 15,
-                        fontWeight: AllMaterial.fontRegular,
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
               ),
-            ),
-            Container(
-              margin: const EdgeInsets.only(top: 240),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      width: Get.width,
-                      margin: const EdgeInsets.symmetric(
-                        horizontal: 10,
-                        vertical: 0,
-                      ),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: AllMaterial.colorWhite,
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Color.fromARGB(34, 63, 63, 63),
-                            offset: Offset(5, 5),
-                            blurRadius: 25,
-                          ),
-                        ],
-                      ),
-                      child: Column(
-                        children: [
-                          ListTile(
-                            contentPadding: const EdgeInsets.symmetric(
-                              vertical: 0,
-                              horizontal: 15,
-                            ),
-                            title: Text(
-                              "Status Info :",
-                              style: AllMaterial.montSerrat(
-                                fontSize: 13,
-                              ),
-                            ),
-                            subtitle: Text(
-                              "Menunggu Verifikasi",
-                              style: AllMaterial.montSerrat(
-                                fontSize: 16,
-                                fontWeight: AllMaterial.fontBold,
-                              ),
-                            ),
-                          ),
-                          ListTile(
-                            contentPadding: const EdgeInsets.symmetric(
-                              vertical: 0,
-                              horizontal: 15,
-                            ),
-                            title: Text(
-                              "Instansi Dipilih :",
-                              style: AllMaterial.montSerrat(
-                                fontSize: 13,
-                              ),
-                            ),
-                            subtitle: Text(
-                              // "${dataDudiIndex["nama_instansi_perusahaan"]}"
-                              //     .capitalizeEach(),
-                              "CV. Global Vintage Numeration",
-                              style: AllMaterial.montSerrat(
-                                fontSize: 16,
-                                fontWeight: AllMaterial.fontBold,
-                              ),
-                            ),
-                          ),
-                          ListTile(
-                            contentPadding: const EdgeInsets.symmetric(
-                              vertical: 0,
-                              horizontal: 15,
-                            ),
-                            title: Text(
-                              "Batas Verifikasi :",
-                              style: AllMaterial.montSerrat(
-                                fontSize: 13,
-                              ),
-                            ),
-                            subtitle: Text(
-                              // "Sampai ${controller.formattedDate}",
-                              "Sampai 25 Agustus 2024",
-                              style: AllMaterial.montSerrat(
-                                fontSize: 16,
-                                fontWeight: AllMaterial.fontBold,
-                              ),
-                            ),
-                          ),
-                          ListTile(
-                            contentPadding: const EdgeInsets.symmetric(
-                              vertical: 0,
-                              horizontal: 15,
-                            ),
-                            title: Text(
-                              "No. Telpon Instansi :",
-                              style: AllMaterial.montSerrat(
-                                fontSize: 13,
-                              ),
-                            ),
-                            subtitle: Text(
-                              // "${dataDudiIndex["no_telepon"]}",
-                              "081257421421",
-                              style: AllMaterial.montSerrat(
-                                fontSize: 16,
-                                fontWeight: AllMaterial.fontBold,
-                              ),
-                            ),
-                          ),
-                          ListTile(
-                            contentPadding: const EdgeInsets.symmetric(
-                              vertical: 0,
-                              horizontal: 15,
-                            ),
-                            title: Text(
-                              "Alamat Instansi :",
-                              style: AllMaterial.montSerrat(
-                                fontSize: 13,
-                              ),
-                            ),
-                            subtitle: Text(
-                              // "${dataDudiIndex["detail_tempat"]}, ${dataDudiIndex["desa"]}, ${dataDudiIndex["kecamatan"]}, ${dataDudiIndex["kabupaten"]}, ${dataDudiIndex["provinsi"]}"
-                              //     .capitalizeEach(),
-                              "Jl. Gomong Sakura, Nusa Tenggara Barat",
-                              style: AllMaterial.montSerrat(
-                                fontSize: 16,
-                                fontWeight: AllMaterial.fontBold,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
+            ],
+          ),
+        );
+      }),
       bottomNavigationBar: GestureDetector(
         onTap: () {
           var status = Get.put(HomepageSiswaController());
@@ -218,6 +148,40 @@ class AjuanSiswaView extends GetView<AjuanSiswaController> {
               ),
             ),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class TextInfoAjuan extends StatelessWidget {
+  TextInfoAjuan({
+    super.key,
+    required this.controller,
+    required this.title,
+    required this.subtitle,
+  });
+
+  final AjuanSiswaController controller;
+  String title;
+  String subtitle;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      contentPadding: const EdgeInsets.symmetric(
+        vertical: 0,
+        horizontal: 15,
+      ),
+      title: Text(
+        title,
+        style: AllMaterial.montSerrat(fontSize: 13),
+      ),
+      subtitle: Text(
+        subtitle,
+        style: AllMaterial.montSerrat(
+          fontSize: 16,
+          fontWeight: AllMaterial.fontBold,
         ),
       ),
     );

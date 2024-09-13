@@ -8,184 +8,199 @@ import '../controllers/detil_laporan_siswa_controller.dart';
 
 class DetilLaporanSiswaView extends GetView<DetilLaporanSiswaController> {
   const DetilLaporanSiswaView({super.key});
+
   @override
   Widget build(BuildContext context) {
+    final DetilLaporanSiswaController controller =
+        Get.put(DetilLaporanSiswaController());
     return Scaffold(
       backgroundColor: AllMaterial.colorWhite,
-      body: SingleChildScrollView(
-        child: Stack(
-          children: [
-            ClipPath(
-              clipper: ClipPathClass(),
-              child: Container(
-                height: 300,
-                width: Get.width,
-                color: AllMaterial.colorBlue,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SvgPicture.asset("assets/icons/laporan.svg"),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal:  20),
-                      child: FittedBox(
-                        fit: BoxFit.scaleDown,
-                        child: Text(
-                          "Senin, 25 September 2024",
-                          style: AllMaterial.montSerrat(
-                            color: AllMaterial.colorWhite,
-                            fontSize: 20,
-                            fontWeight: AllMaterial.fontSemiBold,
+      body: Obx(() {
+        // ignore: unused_local_variable
+        final laporanDetail = controller.laporanDetail.value;
+
+        // if (laporanDetail == null) {
+        //   return const Center(child: Text("Kesalahan tidak terduga, coba lagi nanti"));
+        // }
+        return SingleChildScrollView(
+          child: Stack(
+            children: [
+              ClipPath(
+                clipper: ClipPathClass(),
+                child: Container(
+                  height: 300,
+                  width: Get.width,
+                  color: AllMaterial.colorBlue,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SvgPicture.asset("assets/icons/laporan.svg"),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(
+                            // laporanDetail!.tanggal,
+                            "Senin, 25 Agustus 2024",
+                            style: AllMaterial.montSerrat(
+                              color: AllMaterial.colorWhite,
+                              fontSize: 20,
+                              fontWeight: AllMaterial.fontSemiBold,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    Text(
-                      "Jenis Absen : Absen Masuk",
-                      style: AllMaterial.montSerrat(
-                        color: AllMaterial.colorWhite,
-                        fontSize: 15,
-                        fontWeight: AllMaterial.fontRegular,
+                      Text(
+                        "Jenis Absen: Absen Masuk",
+                        style: AllMaterial.montSerrat(
+                          color: AllMaterial.colorWhite,
+                          fontSize: 15,
+                          fontWeight: AllMaterial.fontRegular,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-            Container(
-              margin: const EdgeInsets.only(top: 250),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      width: Get.width,
-                      margin: const EdgeInsets.symmetric(
-                        horizontal: 10,
-                        vertical: 0,
+              Container(
+                margin: const EdgeInsets.only(top: 250),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Column(
+                    children: [
+                      Container(
+                        width: Get.width,
+                        margin: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 0,
+                        ),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: AllMaterial.colorWhite,
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Color.fromARGB(34, 63, 63, 63),
+                              offset: Offset(5, 5),
+                              blurRadius: 25,
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          children: [
+                            ListTile(
+                              contentPadding: const EdgeInsets.symmetric(
+                                vertical: 0,
+                                horizontal: 15,
+                              ),
+                              title: Text(
+                                "Status Absen:",
+                                style: AllMaterial.montSerrat(
+                                  fontSize: 13,
+                                ),
+                              ),
+                              subtitle: Text(
+                                // laporanDetail.status,
+                                "Di dalam radius",
+                                style: AllMaterial.montSerrat(
+                                  fontSize: 16,
+                                  fontWeight: AllMaterial.fontBold,
+                                ),
+                              ),
+                            ),
+                            ListTile(
+                              contentPadding: const EdgeInsets.symmetric(
+                                vertical: 0,
+                                horizontal: 15,
+                              ),
+                              title: Text(
+                                "Waktu Absen:",
+                                style: AllMaterial.montSerrat(
+                                  fontSize: 13,
+                                ),
+                              ),
+                              subtitle: Text(
+                                // laporanDetail.waktu,
+                                "10:24",
+                                style: AllMaterial.montSerrat(
+                                  fontSize: 16,
+                                  fontWeight: AllMaterial.fontBold,
+                                ),
+                              ),
+                            ),
+                            ListTile(
+                              contentPadding: const EdgeInsets.symmetric(
+                                vertical: 0,
+                                horizontal: 15,
+                              ),
+                              title: Text(
+                                "Keterangan Waktu:",
+                                style: AllMaterial.montSerrat(
+                                  fontSize: 13,
+                                ),
+                              ),
+                              subtitle: Text(
+                                // laporanDetail.keteranganWaktu,
+                                "Tepat Waktu",
+                                style: AllMaterial.montSerrat(
+                                  fontSize: 16,
+                                  fontWeight: AllMaterial.fontBold,
+                                ),
+                              ),
+                            ),
+                            ListTile(
+                              contentPadding: const EdgeInsets.symmetric(
+                                vertical: 0,
+                                horizontal: 15,
+                              ),
+                              title: Text(
+                                "Instansi terkait:",
+                                style: AllMaterial.montSerrat(
+                                  fontSize: 13,
+                                ),
+                              ),
+                              subtitle: Text(
+                                // laporanDetail.instansiTerkait,
+                                "CV GLOBAL VINTAGE NUMERATION",
+                                style: AllMaterial.montSerrat(
+                                  fontSize: 16,
+                                  fontWeight: AllMaterial.fontBold,
+                                ),
+                              ),
+                            ),
+                            ListTile(
+                              contentPadding: const EdgeInsets.symmetric(
+                                vertical: 0,
+                                horizontal: 15,
+                              ),
+                              title: Text(
+                                "Jam Ditentukan:",
+                                style: AllMaterial.montSerrat(
+                                  fontSize: 13,
+                                ),
+                              ),
+                              subtitle: Text(
+                                // laporanDetail.jamDitentukan,
+                                "10:00 - 18:25",
+                                style: AllMaterial.montSerrat(
+                                  fontSize: 16,
+                                  fontWeight: AllMaterial.fontBold,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                          ],
+                        ),
                       ),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: AllMaterial.colorWhite,
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Color.fromARGB(34, 63, 63, 63),
-                            offset: Offset(5, 5),
-                            blurRadius: 25,
-                          ),
-                        ],
-                      ),
-                      child: Column(
-                        children: [
-                          ListTile(
-                            contentPadding: const EdgeInsets.symmetric(
-                              vertical: 0,
-                              horizontal: 15,
-                            ),
-                            title: Text(
-                              "Status Absen :",
-                              style: AllMaterial.montSerrat(
-                                fontSize: 13,
-                              ),
-                            ),
-                            subtitle: Text(
-                              "Di dalam radius",
-                              style: AllMaterial.montSerrat(
-                                fontSize: 16,
-                                fontWeight: AllMaterial.fontBold,
-                              ),
-                            ),
-                          ),
-                          ListTile(
-                            contentPadding: const EdgeInsets.symmetric(
-                              vertical: 0,
-                              horizontal: 15,
-                            ),
-                            title: Text(
-                              "Waktu Absen :",
-                              style: AllMaterial.montSerrat(
-                                fontSize: 13,
-                              ),
-                            ),
-                            subtitle: Text(
-                              "11:31 AM",
-                              style: AllMaterial.montSerrat(
-                                fontSize: 16,
-                                fontWeight: AllMaterial.fontBold,
-                              ),
-                            ),
-                          ),
-                          ListTile(
-                            contentPadding: const EdgeInsets.symmetric(
-                              vertical: 0,
-                              horizontal: 15,
-                            ),
-                            title: Text(
-                              "Keterangan Waktu :",
-                              style: AllMaterial.montSerrat(
-                                fontSize: 13,
-                              ),
-                            ),
-                            subtitle: Text(
-                              // "Sampai ${controller.formattedDate}",
-                              "Tepat Waktu",
-                              style: AllMaterial.montSerrat(
-                                fontSize: 16,
-                                fontWeight: AllMaterial.fontBold,
-                              ),
-                            ),
-                          ),
-                          ListTile(
-                            contentPadding: const EdgeInsets.symmetric(
-                              vertical: 0,
-                              horizontal: 15,
-                            ),
-                            title: Text(
-                              "Instansi terkait :",
-                              style: AllMaterial.montSerrat(
-                                fontSize: 13,
-                              ),
-                            ),
-                            subtitle: Text(
-                              "CV. Global Vintage Numeration 313",
-                              style: AllMaterial.montSerrat(
-                                fontSize: 16,
-                                fontWeight: AllMaterial.fontBold,
-                              ),
-                            ),
-                          ),
-                          ListTile(
-                            contentPadding: const EdgeInsets.symmetric(
-                              vertical: 0,
-                              horizontal: 15,
-                            ),
-                            title: Text(
-                              "Jam Ditentukan :",
-                              style: AllMaterial.montSerrat(
-                                fontSize: 13,
-                              ),
-                            ),
-                            subtitle: Text(
-                              "10:25 AM - 15:30 AM",
-                              style: AllMaterial.montSerrat(
-                                fontSize: 16,
-                                fontWeight: AllMaterial.fontBold,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
-        ),
-      ),
+            ],
+          ),
+        );
+      }),
       bottomNavigationBar: GestureDetector(
         onTap: () {
           Get.back();

@@ -7,8 +7,10 @@ import '../controllers/notifikasi_siswa_controller.dart';
 
 class NotifikasiSiswaView extends GetView<NotifikasiSiswaController> {
   const NotifikasiSiswaView({super.key});
+
   @override
   Widget build(BuildContext context) {
+    var controller = Get.put(NotifikasiSiswaController());
     return Scaffold(
       backgroundColor: AllMaterial.colorWhite,
       appBar: AppBar(
@@ -22,76 +24,97 @@ class NotifikasiSiswaView extends GetView<NotifikasiSiswaController> {
         ),
         centerTitle: true,
       ),
-      // ignore: avoid_unnecessary_containers
-      body: Container(
-        child: ListView.builder(
-          itemCount: 5,
-          itemBuilder: (context, index) {
-            return Column(
-              children: [
-                Material(
-                  color: const Color(0xffFAFAFA),
-                  child: InkWell(
-                    onTap: () {},
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 18,
-                        horizontal: 20,
-                      ),
-                      margin: EdgeInsets.zero,
-                      child: Row(children: [
-                        Row(
+      body: Obx(
+        () {
+          if (controller.isLoading.isFalse) {
+            return const Center(
+              child: CircularProgressIndicator(
+                color: AllMaterial.colorBlue,
+              ),
+            );
+          }
+          return ListView.builder(
+            // itemCount: controller.notifikasiList.length,
+            itemCount: 2,
+            itemBuilder: (context, index) {
+              // final notifikasi = controller.notifikasiList[index];
+              return Column(
+                children: [
+                  Material(
+                    color: const Color(0xffFAFAFA),
+                    child: InkWell(
+                      onTap: () {
+                        // ke detil notifikasi
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 18,
+                          horizontal: 20,
+                        ),
+                        child: Row(
                           children: [
-                            const CircleAvatar(
-                              radius: 5,
-                              backgroundColor: AllMaterial.colorRed,
+                            Row(
+                              children: [
+                                // if (!notifikasi.isRead)
+                                //   const CircleAvatar(
+                                //     radius: 5,
+                                //     backgroundColor: AllMaterial.colorRed,
+                                //   ),
+                                const CircleAvatar(
+                                  radius: 5,
+                                  backgroundColor: AllMaterial.colorRed,
+                                ),
+                                const SizedBox(width: 5),
+                                SvgPicture.asset("assets/icons/check.svg"),
+                              ],
                             ),
-                            const SizedBox(width: 5),
-                            SvgPicture.asset("assets/icons/check.svg"),
+                            const SizedBox(width: 15),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  ListTile(
+                                    contentPadding: EdgeInsets.zero,
+                                    minVerticalPadding: 0,
+                                    title: Text(
+                                      // notifikasi.title,
+                                      "Kabar Baik Untukmu!",
+                                      style: AllMaterial.montSerrat(
+                                        fontWeight: AllMaterial.fontSemiBold,
+                                      ),
+                                    ),
+                                    subtitle: Text(
+                                      // notifikasi.message,
+                                      "Ajuan PKL-mu yang telah Anda ajukan telah diterima di PT. Telkom Indonesia...",
+                                      maxLines: 2,
+                                      style: AllMaterial.montSerrat(),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(width: 15),
+                            Text(
+                              // notifikasi.timestamp,
+                              "20:10",
+                              style: AllMaterial.montSerrat(),
+                            ),
                           ],
                         ),
-                        const SizedBox(width: 15),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              ListTile(
-                                contentPadding: EdgeInsets.zero,
-                                minVerticalPadding: 0,
-                                title: Text(
-                                  "Kabar Baik!",
-                                  style: AllMaterial.montSerrat(
-                                    fontWeight: AllMaterial.fontSemiBold,
-                                  ),
-                                ),
-                                subtitle: Text(
-                                  "Ajuan PKL-mu yang telah Anda ajukan telah diterima di PT. Telkom Indonesia",
-                                  maxLines: 2,
-                                  style: AllMaterial.montSerrat(),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(width: 15),
-                        Text(
-                          "19:55",
-                          style: AllMaterial.montSerrat(),
-                        ),
-                      ]),
+                      ),
                     ),
                   ),
-                ),
-                Container(
-                  height: 1,
-                  width: Get.width,
-                  color: const Color(0xffD9D9D9),
-                ),
-              ],
-            );
-          },
-        ),
+                  Container(
+                    height: 1,
+                    width: Get.width,
+                    color: const Color(0xffD9D9D9),
+                  ),
+                ],
+              );
+            },
+          );
+        },
       ),
     );
   }

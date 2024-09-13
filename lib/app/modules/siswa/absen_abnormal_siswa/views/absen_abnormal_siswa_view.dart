@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -7,9 +9,11 @@ import '../controllers/absen_abnormal_siswa_controller.dart';
 
 class AbsenAbnormalSiswaView extends GetView<AbsenAbnormalSiswaController> {
   const AbsenAbnormalSiswaView({super.key});
+
   @override
   Widget build(BuildContext context) {
     var controller = Get.put(AbsenAbnormalSiswaController());
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -52,13 +56,12 @@ class AbsenAbnormalSiswaView extends GetView<AbsenAbnormalSiswaController> {
                         fontWeight: AllMaterial.fontSemiBold,
                       ),
                     ),
+                    const SizedBox(height: 20),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const SizedBox(height: 20),
-                        const SizedBox(height: 10),
                         Text(
-                          "Alasan Izin",
+                          "Alasan Izin :",
                           style: AllMaterial.montSerrat(
                             fontSize: 15,
                             color: AllMaterial.colorWhite,
@@ -75,6 +78,9 @@ class AbsenAbnormalSiswaView extends GetView<AbsenAbnormalSiswaController> {
                           ),
                           cursorColor: AllMaterial.colorBlue,
                           autocorrect: false,
+                          onTapOutside: (_) {
+                            controller.inputF.unfocus();
+                          },
                           enableSuggestions: false,
                           decoration: InputDecoration(
                             hintText: "Masukkan alasan izin",
@@ -108,7 +114,7 @@ class AbsenAbnormalSiswaView extends GetView<AbsenAbnormalSiswaController> {
                         ),
                         const SizedBox(height: 20),
                         Text(
-                          "Bukti Dokumen (Opsional)",
+                          "Bukti Dokumen (Opsional) :",
                           style: AllMaterial.montSerrat(
                             fontSize: 15,
                             color: AllMaterial.colorWhite,
@@ -123,141 +129,192 @@ class AbsenAbnormalSiswaView extends GetView<AbsenAbnormalSiswaController> {
                                     controller.pickDocument();
                                   }
                                 : null,
-                            child: Obx(() {
-                              if (controller.selectedFile.value != null) {
-                                final file = controller.selectedFile.value!;
-                                if (file.path.endsWith('.jpg') ||
-                                    file.path.endsWith('.png') ||
-                                    file.path.endsWith('.jpeg')) {
-                                  return Container(
-                                    padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(15),
-                                      border: Border.all(
-                                        width: 1,
-                                        color: AllMaterial.colorWhite,
-                                      ),
-                                    ),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(
-                                              25,
-                                            ),
-                                          ),
-                                          child: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(5),
-                                            child: Image.file(
-                                              file,
-                                              fit: BoxFit.contain,
-                                              width: 35,
-                                              height: 35,
-                                            ),
-                                          ),
-                                        ),
-                                        const SizedBox(width: 10),
-                                        Text(
-                                          file.path.split('/').last,
-                                          style: AllMaterial.montSerrat(
-                                            color: AllMaterial.colorWhite,
-                                            fontWeight: AllMaterial.fontMedium,
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  );
-                                } else {
-                                  return DottedBorder(
-                                    color: Colors.white,
-                                    strokeWidth: 2,
-                                    dashPattern: const [6, 3],
-                                    borderType: BorderType.RRect,
-                                    radius: const Radius.circular(15),
-                                    child: Container(
-                                      width: Get.width,
-                                      height: 150,
-                                      alignment: Alignment.center,
-                                      child: Text(
-                                        "File: ${file.path.split('/').last}",
-                                        style: AllMaterial.montSerrat(
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                }
-                              } else {
-                                return Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    const Icon(
-                                      Icons.file_upload,
-                                      color: Colors.white,
-                                      size: 50,
-                                    ),
-                                    const SizedBox(height: 10),
-                                    Text(
-                                      "docx, pdf, jpg, atau png",
-                                      style: AllMaterial.montSerrat(
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 10),
-                                  ],
-                                );
-                              }
-                            }),
-                          ),
-                        ),
-                        const SizedBox(height: 30),
-                      ],
-                    ),
-                    // Tombol Absen Masuk
-                    Obx(
-                      () => ElevatedButton(
-                        onPressed: (controller.selectedFile.value != null)
-                            ? () {
-                                print(
-                                    "Alasan Izin: ${controller.alasanIzin.value}");
+                            child: Obx(
+                              () {
                                 if (controller.selectedFile.value != null) {
-                                  print(
-                                    "Dokumen: ${controller.selectedFile.value!.path}",
-                                  );
+                                  final file = controller.selectedFile.value!;
+                                  if (file.path.endsWith('.jpg') ||
+                                      file.path.endsWith('.png') ||
+                                      file.path.endsWith('.jpeg')) {
+                                    return previewImage(file);
+                                  } else {
+                                    return previewOtherFile(file);
+                                  }
+                                } else {
+                                  return uploadFilePlaceholder();
                                 }
-                                controller.selectedFile.value = null;
-                              }
-                            : null,
-                        style: ElevatedButton.styleFrom(
-                          fixedSize: Size.fromWidth(Get.width),
-                          disabledBackgroundColor:
-                              AllMaterial.colorWhite.withOpacity(0.2),
-                          shadowColor: Colors.transparent,
-                          backgroundColor: AllMaterial.colorWhite,
-                          elevation: 0,
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(16),
+                              },
                             ),
                           ),
                         ),
-                        child: Text(
-                          "Absen Masuk",
-                          style: AllMaterial.montSerrat(
-                            color: AllMaterial.colorBlue,
-                            fontWeight: AllMaterial.fontSemiBold,
+                        const SizedBox(height: 30),
+                        Obx(
+                          () => ElevatedButton(
+                            onPressed: (controller.selectedFile.value != null)
+                                ? () {
+                                    print(
+                                        "Alasan Izin: ${controller.alasanIzin.value}");
+                                    if (controller.selectedFile.value != null) {
+                                      print(
+                                        "Dokumen: ${controller.selectedFile.value!.path}",
+                                      );
+                                    }
+                                    controller.selectedFile.value = null;
+                                  }
+                                : null,
+                            style: ElevatedButton.styleFrom(
+                              fixedSize: Size.fromWidth(Get.width),
+                              disabledBackgroundColor:
+                                  AllMaterial.colorWhite.withOpacity(0.2),
+                              shadowColor: Colors.transparent,
+                              backgroundColor: AllMaterial.colorWhite,
+                              elevation: 0,
+                              shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(16),
+                                ),
+                              ),
+                            ),
+                            child: Text(
+                              "Absen Masuk",
+                              style: AllMaterial.montSerrat(
+                                color: AllMaterial.colorBlue,
+                                fontWeight: AllMaterial.fontSemiBold,
+                              ),
+                            ),
                           ),
                         ),
-                      ),
+                      ],
                     ),
                   ],
                 ),
               ),
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget previewImage(File file) {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15),
+        border: Border.all(
+          width: 1,
+          color: AllMaterial.colorWhite,
+        ),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(25),
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(5),
+              child: Image.file(
+                file,
+                fit: BoxFit.cover,
+                width: 35,
+                height: 35,
+              ),
+            ),
+          ),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Text(
+              file.path.split('/').last,
+              overflow: TextOverflow.ellipsis,
+              style: AllMaterial.montSerrat(
+                color: AllMaterial.colorWhite,
+                fontWeight: AllMaterial.fontMedium,
+              ),
+            ),
+          ),
+          IconButton(
+            onPressed: () {
+              controller.selectedFile.value = null;
+            },
+            icon: const Icon(
+              Icons.clear,
+              size: 20,
+              color: AllMaterial.colorWhite,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget previewOtherFile(File file) {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15),
+        border: Border.all(
+          width: 1,
+          color: AllMaterial.colorWhite,
+        ),
+      ),
+      child: Row(
+        children: [
+          const Icon(Icons.description, color: Colors.white),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Text(
+              controller.selectedFile.value!.path.split('/').last,
+              overflow: TextOverflow.ellipsis,
+              style: AllMaterial.montSerrat(
+                color: AllMaterial.colorWhite,
+                fontWeight: AllMaterial.fontMedium,
+              ),
+            ),
+          ),
+          IconButton(
+            onPressed: () {
+              controller.selectedFile.value = null;
+            },
+            icon: const Icon(
+              Icons.clear_rounded,
+              color: Colors.white,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget uploadFilePlaceholder() {
+    return DottedBorder(
+      color: Colors.white,
+      strokeWidth: 2,
+      dashPattern: const [6, 3],
+      borderType: BorderType.RRect,
+      radius: const Radius.circular(15),
+      child: Container(
+        width: Get.width,
+        height: 150,
+        alignment: Alignment.center,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(
+              Icons.file_upload,
+              color: Colors.white,
+              size: 50,
+            ),
+            const SizedBox(height: 10),
+            Text(
+              "docx, pdf, jpg, atau png",
+              style: AllMaterial.montSerrat(
+                color: Colors.white,
+              ),
+            ),
+            const SizedBox(height: 10),
+          ],
         ),
       ),
     );

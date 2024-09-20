@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 import 'package:simon_pkl/all_material.dart';
 import 'package:simon_pkl/app/modules/siswa/homepage_siswa/views/homepage_siswa_view.dart';
-import 'package:simon_pkl/app/modules/siswa/laporan_siswa/views/laporan_siswa_view.dart';
+import 'package:simon_pkl/app/modules/siswa/histori_absen_siswa/views/histori_absen_siswa_view.dart';
 import 'package:simon_pkl/app/modules/siswa/profile_siswa/views/profile_siswa_view.dart';
 
 import '../controllers/home_siswa_controller.dart';
@@ -17,7 +17,7 @@ class HomeSiswaView extends GetView<HomeSiswaController> {
   List<Widget> _buildScreens() {
     return [
       const HomepageSiswaView(),
-      const LaporanSiswaView(),
+      const HistoriAbsenSiswaView(),
       const ProfileSiswaView()
     ];
   }
@@ -41,11 +41,11 @@ class HomeSiswaView extends GetView<HomeSiswaController> {
       PersistentBottomNavBarItem(
         scrollToTopOnNavBarItemPress: true,
         icon: SvgPicture.asset(
-          "assets/icons/laporan.svg",
+          "assets/icons/histori-absen.svg",
           // ignore: deprecated_member_use
           color: AllMaterial.colorWhite,
         ),
-        title: ("Laporan"),
+        title: ("Histori Absen"),
         activeColorPrimary: Colors.blue,
         inactiveColorPrimary: Colors.grey,
       ),

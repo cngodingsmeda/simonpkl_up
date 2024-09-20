@@ -30,7 +30,7 @@ class DetilNotifikasiSiswaView extends GetView<DetilNotifikasiSiswaController> {
               "18 September 2024 - 13.48",
               style: AllMaterial.montSerrat(
                 color: AllMaterial.colorGrey,
-                fontSize: 12,
+                fontSize: 13,
               ),
             ),
             const SizedBox(height: 3),
@@ -38,7 +38,7 @@ class DetilNotifikasiSiswaView extends GetView<DetilNotifikasiSiswaController> {
               "Kabar baik untukmu!",
               style: AllMaterial.montSerrat(
                 color: AllMaterial.colorBlack,
-                fontSize: 16,
+                fontSize: 18,
                 fontWeight: AllMaterial.fontBold,
               ),
             ),
@@ -47,7 +47,7 @@ class DetilNotifikasiSiswaView extends GetView<DetilNotifikasiSiswaController> {
               "Ajuan PKL-mu yang telah Anda ajukan telah diterima di PT. Telkom Indonesia, Selamat bergabung!",
               style: AllMaterial.montSerrat(
                 color: AllMaterial.colorBlack,
-                fontSize: 12,
+                fontSize: 13,
                 fontWeight: AllMaterial.fontMedium,
               ),
             ),

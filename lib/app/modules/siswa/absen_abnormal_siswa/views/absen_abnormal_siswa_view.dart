@@ -1,11 +1,15 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:photo_view/photo_view.dart';
 import 'package:simon_pkl/all_material.dart';
-
-import '../controllers/absen_abnormal_siswa_controller.dart';
+import 'package:simon_pkl/app/modules/siswa/absen_abnormal_siswa/controllers/absen_abnormal_siswa_controller.dart';
+import 'package:simon_pkl/app/modules/siswa/detil_histori_absen_siswa/controllers/detil_histori_absen_siswa_controller.dart';
+import 'package:simon_pkl/app/modules/siswa/home_siswa/views/home_siswa_view.dart';
+import 'package:simon_pkl/app/modules/siswa/homepage_siswa/views/homepage_siswa_view.dart';
 
 class AbsenAbnormalSiswaView extends GetView<AbsenAbnormalSiswaController> {
   const AbsenAbnormalSiswaView({super.key});
@@ -73,7 +77,7 @@ class AbsenAbnormalSiswaView extends GetView<AbsenAbnormalSiswaController> {
                           controller: controller.inputC,
                           focusNode: controller.inputF,
                           style: AllMaterial.montSerrat(
-                            fontWeight: AllMaterial.fontRegular,
+                            fontWeight: AllMaterial.fontMedium,
                             color: AllMaterial.colorWhite,
                           ),
                           cursorColor: AllMaterial.colorBlue,
@@ -122,29 +126,74 @@ class AbsenAbnormalSiswaView extends GetView<AbsenAbnormalSiswaController> {
                           ),
                         ),
                         const SizedBox(height: 15),
-                        Obx(
-                          () => GestureDetector(
-                            onTap: (controller.selectedFile.value == null)
-                                ? () {
-                                    controller.pickDocument();
-                                  }
-                                : null,
-                            child: Obx(
-                              () {
-                                if (controller.selectedFile.value != null) {
-                                  final file = controller.selectedFile.value!;
-                                  if (file.path.endsWith('.jpg') ||
-                                      file.path.endsWith('.png') ||
-                                      file.path.endsWith('.jpeg')) {
-                                    return previewImage(file);
-                                  } else {
-                                    return previewOtherFile(file);
-                                  }
+                        GestureDetector(
+                          onTap: () {
+                            final file = controller.selectedFile.value;
+                            if (file != null) {
+                              if (file.path.endsWith('.jpg') ||
+                                  file.path.endsWith('.png') ||
+                                  file.path.endsWith('.jpeg')) {
+                                showDialog(
+                                  barrierColor: Colors.black.withOpacity(0.6),
+                                  context: context,
+                                  builder: (context) => Dialog(
+                                    backgroundColor: Colors.transparent,
+                                    child: LayoutBuilder(
+                                      builder: (context, constraints) {
+                                        return FutureBuilder(
+                                          future: getImageSize(file),
+                                          builder: (context, snapshot) {
+                                            if (snapshot.connectionState ==
+                                                    ConnectionState.done &&
+                                                snapshot.hasData) {
+                                              // ignore: unused_local_variable
+                                              final imageSize = snapshot.data!;
+                                              return PhotoView(
+                                                imageProvider: FileImage(file),
+                                                minScale: PhotoViewComputedScale
+                                                    .contained,
+                                                maxScale: PhotoViewComputedScale
+                                                        .covered *
+                                                    2,
+                                                basePosition: Alignment.center,
+                                                enableRotation: false,
+                                              );
+                                            } else {
+                                              return const Center(
+                                                child:
+                                                    CircularProgressIndicator(),
+                                              );
+                                            }
+                                          },
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                );
+                              } else if (file.path.endsWith('.pdf') ||
+                                  file.path.endsWith('.doc') ||
+                                  file.path.endsWith('.docx')) {
+                                controller.openFile(file);
+                              }
+                            } else {
+                              controller.pickDocument();
+                            }
+                          },
+                          child: Obx(
+                            () {
+                              if (controller.selectedFile.value != null) {
+                                final file = controller.selectedFile.value!;
+                                if (file.path.endsWith('.jpg') ||
+                                    file.path.endsWith('.png') ||
+                                    file.path.endsWith('.jpeg')) {
+                                  return previewImage(file);
                                 } else {
-                                  return uploadFilePlaceholder();
+                                  return previewOtherFile(file);
                                 }
-                              },
-                            ),
+                              } else {
+                                return uploadFilePlaceholder();
+                              }
+                            },
                           ),
                         ),
                         const SizedBox(height: 30),
@@ -159,7 +208,11 @@ class AbsenAbnormalSiswaView extends GetView<AbsenAbnormalSiswaController> {
                                         "Dokumen: ${controller.selectedFile.value!.path}",
                                       );
                                     }
-                                    controller.selectedFile.value = null;
+                                    // controller.selectedFile.value = null;
+                                    var historiAbsen = Get.put(DetilHistoriAbsenSiswaControllr());
+                                    historiAbsen.buktiDokumen.value = controller.selectedFile.value;
+                                    print(historiAbsen.buktiDokumen.value);
+                                    Get.off(()=> HomeSiswaView());
                                   }
                                 : null,
                             style: ElevatedButton.styleFrom(
@@ -196,6 +249,22 @@ class AbsenAbnormalSiswaView extends GetView<AbsenAbnormalSiswaController> {
     );
   }
 
+  Future<Size> getImageSize(File file) async {
+    final completer = Completer<Size>();
+    final image = Image.file(file);
+    image.image.resolve(const ImageConfiguration()).addListener(
+      ImageStreamListener((ImageInfo imageInfo, bool synchronousCall) {
+        completer.complete(
+          Size(
+            imageInfo.image.width.toDouble(),
+            imageInfo.image.height.toDouble(),
+          ),
+        );
+      }),
+    );
+    return completer.future;
+  }
+
   Widget previewImage(File file) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
@@ -226,7 +295,7 @@ class AbsenAbnormalSiswaView extends GetView<AbsenAbnormalSiswaController> {
           const SizedBox(width: 10),
           Expanded(
             child: Text(
-              file.path.split('/').last,
+              file.path.split('/').last.toString().split(' ').join('-'),
               overflow: TextOverflow.ellipsis,
               style: AllMaterial.montSerrat(
                 color: AllMaterial.colorWhite,
@@ -265,7 +334,12 @@ class AbsenAbnormalSiswaView extends GetView<AbsenAbnormalSiswaController> {
           const SizedBox(width: 10),
           Expanded(
             child: Text(
-              controller.selectedFile.value!.path.split('/').last,
+              controller.selectedFile.value!.path
+                  .split('/')
+                  .last
+                  .toString()
+                  .split(' ')
+                  .join('-'),
               overflow: TextOverflow.ellipsis,
               style: AllMaterial.montSerrat(
                 color: AllMaterial.colorWhite,
@@ -275,7 +349,8 @@ class AbsenAbnormalSiswaView extends GetView<AbsenAbnormalSiswaController> {
           ),
           IconButton(
             onPressed: () {
-              controller.selectedFile.value = null;
+              // controller.selectedFile.value = null;
+              Get.off(const HomepageSiswaView());
             },
             icon: const Icon(
               Icons.clear_rounded,

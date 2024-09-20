@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:simon_pkl/all_material.dart';
-import 'package:simon_pkl/app/modules/siswa/detil_laporan_siswa/views/detil_laporan_siswa_view.dart';
 
 class CardWidget extends StatelessWidget {
   CardWidget({
@@ -9,11 +7,14 @@ class CardWidget extends StatelessWidget {
     required this.tanggal,
     required this.icon,
     required this.keterangan,
+    this.onTap,
   });
 
   String keterangan;
   String tanggal;
-  Icon icon;
+  Widget icon;
+  void Function()? onTap;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -26,20 +27,27 @@ class CardWidget extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
         ),
-        child: ListTile(
-          onTap: () => Get.to(()=> const DetilLaporanSiswaView()),
-          leading: icon,
-          title: Text(
-            tanggal,
-            style: AllMaterial.montSerrat(
-              fontWeight: FontWeight.bold,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(16),
+          onTap: onTap,
+          child: ListTile(
+            leading: icon,
+            title: Text(
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+              tanggal,
+              style: AllMaterial.montSerrat(
+                fontWeight: FontWeight.bold,
+              ),
             ),
+            subtitle: Text(
+              keterangan,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+              style: AllMaterial.montSerrat(),
+            ),
+            trailing: const Icon(Icons.arrow_forward_ios),
           ),
-          subtitle: Text(
-            keterangan,
-            style: AllMaterial.montSerrat(),
-          ),
-          trailing: const Icon(Icons.arrow_forward_ios),
         ),
       ),
     );

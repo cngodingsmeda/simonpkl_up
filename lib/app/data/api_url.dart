@@ -2,9 +2,9 @@ abstract class ApiUrl {
   // SISWA
   static var urlGetProfileSiswa = "";
   static var urlGetAllNotifSiswa = "";
-  static var urlGetAllLaporanSiswa = "";
+  static var urlGetAllHistoriAbsenSiswa = "";
   static var urlGetAllDudiSiswa = "";
-  static var urlGetLaporanDetil = "";
+  static var urlGetHistoriAbsenDetil = "";
   static var urlGetAjuanSiswa = "";
   static var urlGetNotifSiswa = "";
   static var urlGetStatusRadius = "";

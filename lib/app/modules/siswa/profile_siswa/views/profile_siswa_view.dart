@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:simon_pkl/all_material.dart';
+import 'package:simon_pkl/app/modules/login_page/views/login_page_view.dart';
 import 'package:simon_pkl/app/modules/siswa/profile_siswa/widgets/profile_widgets.dart';
 
 import '../controllers/profile_siswa_controller.dart';
@@ -21,6 +22,20 @@ class ProfileSiswaView extends GetView<ProfileSiswaController> {
             fontWeight: AllMaterial.fontSemiBold,
           ),
         ),
+        actions: [
+          IconButton(
+            tooltip: "Logout",
+            padding: const EdgeInsets.all(16),
+            onPressed: () {
+              Get.offAll(()=> const LoginPageView());
+              AllMaterial.box.erase();
+            },
+            icon: const Icon(
+              Icons.logout,
+              color: Colors.red,
+            ),
+          )
+        ],
         centerTitle: true,
       ),
       body: SingleChildScrollView(

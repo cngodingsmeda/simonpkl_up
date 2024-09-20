@@ -58,8 +58,7 @@ class AbsenNormalSiswaView extends GetView<AbsenNormalSiswaController> {
                         ),
                         GestureDetector(
                           onTap: () {
-                            controller
-                                .showImageSourceDialog();
+                            controller.showImageSourceDialog();
                           },
                           child: Obx(
                             () => DottedBorder(

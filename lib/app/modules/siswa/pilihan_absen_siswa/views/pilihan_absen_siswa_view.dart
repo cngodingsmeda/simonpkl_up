@@ -68,14 +68,12 @@ class PilihanAbsenSiswaView extends GetView<PilihanAbsenSiswaController> {
             ),
           );
         }
-        return Stack(
-          children: [
-            Positioned(
-              top: 0,
-              left: 0,
-              right: 0,
-              child: Container(
-                height: MediaQuery.of(context).size.height * 0.35,
+        return SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                height: MediaQuery.of(context).size.height * 0.30,
+                width: Get.width,
                 decoration: const BoxDecoration(
                   color: AllMaterial.colorBlue,
                   image: DecorationImage(
@@ -92,137 +90,132 @@ class PilihanAbsenSiswaView extends GetView<PilihanAbsenSiswaController> {
                         "CV. Global Vintage Numeration",
                         style: AllMaterial.montSerrat(
                           fontWeight: AllMaterial.fontBold,
-                          fontSize: 15,
+                          fontSize: 18,
                           color: AllMaterial.colorWhite,
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          FittedBox(
-                            fit: BoxFit.scaleDown,
-                            child: Text(
-                              // "Jam Masuk : ${instansi.jamMasuk}",
-                              "Jam Masuk : 08:25-11:00",
-                              style: AllMaterial.montSerrat(
-                                fontWeight: AllMaterial.fontSemiBold,
-                                color: AllMaterial.colorWhite,
-                                fontSize: 12,
+                    FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            FittedBox(
+                              fit: BoxFit.scaleDown,
+                              child: Text(
+                                // "Jam Masuk : ${instansi.jamMasuk}",
+                                "Jam Masuk : 08:25-11:00",
+                                style: AllMaterial.montSerrat(
+                                  fontWeight: AllMaterial.fontSemiBold,
+                                  color: AllMaterial.colorWhite,
+                                  fontSize: 13,
+                                ),
                               ),
                             ),
-                          ),
-                          Text(
-                            "|",
-                            style: AllMaterial.montSerrat(
-                              color: AllMaterial.colorWhite,
-                              fontWeight: AllMaterial.fontSemiBold,
-                            ),
-                          ),
-                          FittedBox(
-                            fit: BoxFit.scaleDown,
-                            child: Text(
-                              // "Jam Keluar : ${instansi.jamKeluar}",
-                              "Jam Keluar : 18:00-20:00",
+                            Text(
+                              " | ",
                               style: AllMaterial.montSerrat(
-                                fontWeight: AllMaterial.fontSemiBold,
                                 color: AllMaterial.colorWhite,
-                                fontSize: 12,
+                                fontWeight: AllMaterial.fontSemiBold,
                               ),
                             ),
-                          ),
-                        ],
+                            FittedBox(
+                              fit: BoxFit.scaleDown,
+                              child: Text(
+                                // "Jam Keluar : ${instansi.jamKeluar}",
+                                "Jam Keluar : 18:00-20:00",
+                                style: AllMaterial.montSerrat(
+                                  fontWeight: AllMaterial.fontSemiBold,
+                                  color: AllMaterial.colorWhite,
+                                  fontSize: 13,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ],
                 ),
               ),
-            ),
-            Positioned(
-              top: Get.height * 0.28,
-              left: 0,
-              right: 0,
-              child: SingleChildScrollView(
-                child: Container(
-                  padding: const EdgeInsets.all(24),
-                  height: Get.height,
-                  decoration: BoxDecoration(
-                    color: AllMaterial.colorWhite,
-                    boxShadow: [
-                      BoxShadow(
-                        color: const Color.fromARGB(255, 0, 0, 0)
-                            .withOpacity(0.04),
-                        blurRadius: 20,
-                        offset: const Offset(-12, -5),
-                      )
-                    ],
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(35),
-                      topRight: Radius.circular(35),
-                    ),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        "Disarankan untuk : Absen Masuk",
-                        style: AllMaterial.montSerrat(
-                          color: AllMaterial.colorGrey,
-                          fontWeight: AllMaterial.fontSemiBold,
-                        ),
-                      ),
-                      const SizedBox(height: 30),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          ButtonAbsen(
-                            nama: "Absen Masuk",
-                            svg: "assets/icons/absen_masuk.svg",
-                            tekan: () {
-                              Get.to(() => const AbsenNormalSiswaView());
-                            },
-                          ),
-                          const SizedBox(width: 12),
-                          ButtonAbsen(
-                            nama: "Absen Keluar",
-                            svg: "assets/icons/absen_keluar.svg",
-                            tekan: () {
-                              Get.to(() => const AbsenNormalSiswaView());
-                            },
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 30),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          ButtonAbsen(
-                            nama: "Absen Telat",
-                            svg: "assets/icons/absen_telat.svg",
-                            tekan: () {
-                              Get.to(() => const AbsenAbnormalSiswaView());
-                            },
-                          ),
-                          const SizedBox(width: 12),
-                          ButtonAbsen(
-                            nama: "Absen Izin",
-                            svg: "assets/icons/absen_izin.svg",
-                            tekan: () {
-                              Get.to(() => const AbsenAbnormalSiswaView());
-                            },
-                          ),
-                        ],
-                      ),
-                    ],
+              Container(
+                padding: const EdgeInsets.all(24),
+                decoration: BoxDecoration(
+                  color: AllMaterial.colorWhite,
+                  boxShadow: [
+                    BoxShadow(
+                      color:
+                          const Color.fromARGB(255, 0, 0, 0).withOpacity(0.04),
+                      blurRadius: 20,
+                      offset: const Offset(-12, -5),
+                    )
+                  ],
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(35),
+                    topRight: Radius.circular(35),
                   ),
                 ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      "Disarankan untuk : Absen Masuk",
+                      style: AllMaterial.montSerrat(
+                        color: AllMaterial.colorGrey,
+                        fontWeight: AllMaterial.fontSemiBold,
+                      ),
+                    ),
+                    const SizedBox(height: 30),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ButtonAbsen(
+                          nama: "Absen Masuk",
+                          svg: "assets/icons/absen_masuk.svg",
+                          tekan: () {
+                            Get.to(() => const AbsenNormalSiswaView());
+                          },
+                        ),
+                        const SizedBox(width: 12),
+                        ButtonAbsen(
+                          nama: "Absen Keluar",
+                          svg: "assets/icons/absen_keluar.svg",
+                          tekan: () {
+                            Get.to(() => const AbsenNormalSiswaView());
+                          },
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 30),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ButtonAbsen(
+                          nama: "Absen Telat",
+                          svg: "assets/icons/absen_telat.svg",
+                          tekan: () {
+                            Get.to(() => const AbsenAbnormalSiswaView());
+                          },
+                        ),
+                        const SizedBox(width: 12),
+                        ButtonAbsen(
+                          nama: "Absen Izin",
+                          svg: "assets/icons/absen_izin.svg",
+                          tekan: () {
+                            Get.to(() => const AbsenAbnormalSiswaView());
+                          },
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         );
       }),
       bottomNavigationBar: GestureDetector(
@@ -275,7 +268,7 @@ class ButtonAbsen extends StatelessWidget {
         onTap: tekan,
         child: Ink(
           child: Container(
-            width: 150,
+            width: Get.width / 2.5,
             decoration: const BoxDecoration(),
             padding: const EdgeInsets.all(20),
             child: Column(

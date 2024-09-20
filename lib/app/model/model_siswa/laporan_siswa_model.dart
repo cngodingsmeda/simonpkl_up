@@ -1,21 +1,21 @@
-// model/LaporanSiswa.dart
+// model/HistoriAbsenSiswa.dart
 import 'package:flutter/material.dart';
 
-class LaporanSiswa {
+class HistoriAbsenSiswa {
   final String tanggal;
   final String status;
   final IconData icon;
   final Color color;
 
-  LaporanSiswa({
+  HistoriAbsenSiswa({
     required this.tanggal,
     required this.status,
     required this.icon,
     required this.color,
   });
 
-  factory LaporanSiswa.fromJson(Map<String, dynamic> json) {
-    return LaporanSiswa(
+  factory HistoriAbsenSiswa.fromJson(Map<String, dynamic> json) {
+    return HistoriAbsenSiswa(
       tanggal: json['tanggal'],
       status: json['status'],
       icon: _iconFromString(json['status']),

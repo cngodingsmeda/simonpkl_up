@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:simon_pkl/all_material.dart';
-import 'package:simon_pkl/app/modules/siswa/profile_siswa/controllers/profile_siswa_controller.dart';
 
 class ProfileWidget extends StatelessWidget {
   ProfileWidget({
@@ -10,7 +9,8 @@ class ProfileWidget extends StatelessWidget {
     required this.textController,
   });
 
-  final ProfileSiswaController controller;
+  // ignore: prefer_typing_uninitialized_variables
+  final controller;
   String title;
   TextEditingController textController;
 

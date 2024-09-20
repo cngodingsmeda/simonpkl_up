@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:simon_pkl/all_material.dart';
 import 'package:simon_pkl/app/modules/siswa/ajuan_siswa/views/ajuan_siswa_view.dart';
+import 'package:simon_pkl/app/modules/siswa/detil_histori_absen_siswa/views/detil_histori_absen_siswa_view.dart';
+import 'package:simon_pkl/app/modules/siswa/histori_absen_siswa/views/histori_absen_siswa_view.dart';
 import 'package:simon_pkl/app/modules/siswa/homepage_siswa/widgets/cards_widget.dart';
 import 'package:simon_pkl/app/modules/siswa/laporan_siswa/views/laporan_siswa_view.dart';
 import 'package:simon_pkl/app/modules/siswa/notifikasi_siswa/views/notifikasi_siswa_view.dart';
@@ -291,9 +294,7 @@ class HomepageSiswaView extends GetView<HomepageSiswaController> {
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.symmetric(
-                                        horizontal: 10,
-                                        vertical: 10,
-                                      ),
+                                          horizontal: 10, vertical: 10),
                                       child: Column(
                                         children: [
                                           Row(
@@ -358,7 +359,88 @@ class HomepageSiswaView extends GetView<HomepageSiswaController> {
                                               ),
                                             ],
                                           ),
-                                          const SizedBox(height: 10),
+                                        ],
+                                      ),
+                                    ),
+                                    const SizedBox(height: 5),
+                                    SizedBox(
+                                      width: Get.width,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          Flexible(
+                                            child: ElevatedButton.icon(
+                                              icon: SvgPicture.asset(
+                                                "assets/icons/laporan.svg",
+                                                height: 30,
+                                              ),
+                                              onPressed: () {
+                                                Get.to(() =>
+                                                    const LaporanSiswaView());
+                                              },
+                                              style: ElevatedButton.styleFrom(
+                                                shadowColor: Colors.transparent,
+                                                backgroundColor:
+                                                    AllMaterial.colorBlue,
+                                                elevation: 0,
+                                                shape:
+                                                    const RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                    Radius.circular(16),
+                                                  ),
+                                                  side: BorderSide(
+                                                    color:
+                                                        AllMaterial.colorWhite,
+                                                  ),
+                                                ),
+                                              ),
+                                              label: Text(
+                                                "Laporan",
+                                                style: AllMaterial.montSerrat(
+                                                  color: AllMaterial.colorWhite,
+                                                  fontWeight:
+                                                      AllMaterial.fontMedium,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          Flexible(
+                                            child: ElevatedButton.icon(
+                                              icon: const Icon(
+                                                Icons.fingerprint,
+                                                color: AllMaterial.colorBlue,
+                                              ),
+                                              onPressed: () {
+                                                Get.to(
+                                                  () =>
+                                                      const PilihanAbsenSiswaView(),
+                                                );
+                                              },
+                                              style: ElevatedButton.styleFrom(
+                                                shadowColor: Colors.transparent,
+                                                backgroundColor:
+                                                    AllMaterial.colorWhite,
+                                                elevation: 0,
+                                                shape:
+                                                    const RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                    Radius.circular(16),
+                                                  ),
+                                                ),
+                                              ),
+                                              label: Text(
+                                                "Absensi",
+                                                style: AllMaterial.montSerrat(
+                                                  color: AllMaterial.colorBlue,
+                                                  fontWeight:
+                                                      AllMaterial.fontMedium,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
                                         ],
                                       ),
                                     ),
@@ -372,41 +454,41 @@ class HomepageSiswaView extends GetView<HomepageSiswaController> {
                       ? Column(
                           children: [
                             const SizedBox(height: 10),
-                            SizedBox(
-                              width: Get.width,
-                              child: ElevatedButton.icon(
-                                onPressed: () {
-                                  // absen
-                                  Get.to(()=> const PilihanAbsenSiswaView());
-                                },
-                                icon: const Icon(
-                                  Icons.fingerprint,
-                                  color: AllMaterial.colorBlue,
-                                ),
-                                label: Text(
-                                  "Absen Harian",
-                                  style: AllMaterial.montSerrat(
-                                    color: AllMaterial.colorBlue,
-                                    fontWeight: AllMaterial.fontMedium,
-                                  ),
-                                ),
-                                style: ElevatedButton.styleFrom(
-                                  foregroundColor: AllMaterial.colorBlue,
-                                  backgroundColor: AllMaterial.colorWhite,
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 24,
-                                    vertical: 12,
-                                  ),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(30),
-                                  ),
-                                ),
-                              ),
-                            ),
+                            // SizedBox(
+                            //   width: Get.width,
+                            //   child: ElevatedButton.icon(
+                            //     onPressed: () {
+                            //       // absen
+                            //       Get.to(() => const PilihanAbsenSiswaView());
+                            //     },
+                            //     icon: const Icon(
+                            //       Icons.fingerprint,
+                            //       color: AllMaterial.colorBlue,
+                            //     ),
+                            //     label: Text(
+                            //       "Absen Harian",
+                            //       style: AllMaterial.montSerrat(
+                            //         color: AllMaterial.colorBlue,
+                            //         fontWeight: AllMaterial.fontMedium,
+                            //       ),
+                            //     ),
+                            //     style: ElevatedButton.styleFrom(
+                            //       foregroundColor: AllMaterial.colorBlue,
+                            //       backgroundColor: AllMaterial.colorWhite,
+                            //       padding: const EdgeInsets.symmetric(
+                            //         horizontal: 24,
+                            //         vertical: 12,
+                            //       ),
+                            //       shape: RoundedRectangleBorder(
+                            //         borderRadius: BorderRadius.circular(30),
+                            //       ),
+                            //     ),
+                            //   ),
+                            // ),
                             const SizedBox(height: 30),
                             InkWell(
                               onTap: () {
-                                Get.to(() => const LaporanSiswaView());
+                                Get.to(() => const HistoriAbsenSiswaView());
                               },
                               child: Row(
                                 mainAxisAlignment:
@@ -429,6 +511,8 @@ class HomepageSiswaView extends GetView<HomepageSiswaController> {
                             Column(
                               children: [
                                 CardWidget(
+                                  onTap: () => Get.to(
+                                      () => const DetilHistoriAbsenSiswaView()),
                                   tanggal: "Sabtu, 24 Agustus 2024",
                                   icon: const Icon(
                                     Icons.check_circle,
@@ -437,6 +521,8 @@ class HomepageSiswaView extends GetView<HomepageSiswaController> {
                                   keterangan: "Hadir",
                                 ),
                                 CardWidget(
+                                  onTap: () => Get.to(
+                                      () => const DetilHistoriAbsenSiswaView()),
                                   tanggal: "Sabtu, 24 Agustus 2024",
                                   icon: const Icon(
                                     Icons.check_circle,
@@ -445,6 +531,8 @@ class HomepageSiswaView extends GetView<HomepageSiswaController> {
                                   keterangan: "Hadir",
                                 ),
                                 CardWidget(
+                                  onTap: () => Get.to(
+                                      () => const DetilHistoriAbsenSiswaView()),
                                   tanggal: "Sabtu, 24 Agustus 2024",
                                   icon: const Icon(
                                     Icons.check_circle,

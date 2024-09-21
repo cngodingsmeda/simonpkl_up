@@ -37,8 +37,6 @@ class BuatLaporanSiswaController extends GetxController {
   void onClose() {
     inputC.text = "";
     topikC.text = "";
-    inputC.dispose();
-    topikC.dispose();
     super.onClose();
   }
 }

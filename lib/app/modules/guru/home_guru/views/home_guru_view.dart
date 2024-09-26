@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 import 'package:simon_pkl/all_material.dart';
 import 'package:simon_pkl/app/modules/guru/homepage_guru/views/homepage_guru_view.dart';
-import 'package:simon_pkl/app/modules/guru/laporan_siswa_guru/views/laporan_siswa_guru_view.dart';
+import 'package:simon_pkl/app/modules/guru/laporan_absen_siswa_guru/views/laporan_absen_siswa_guru_view.dart';
 import 'package:simon_pkl/app/modules/guru/profile_guru/views/profile_guru_view.dart';
 
 import '../controllers/home_guru_controller.dart';
@@ -16,7 +16,7 @@ class HomeGuruView extends GetView<HomeGuruController> {
   List<Widget> _buildScreens() {
     return [
       const HomepageGuruView(),
-      const LaporanSiswaGuruView(),
+      const LaporanAbsenSiswaGuruView(),
       const ProfileGuruView()
     ];
   }
@@ -44,7 +44,7 @@ class HomeGuruView extends GetView<HomeGuruController> {
           // ignore: deprecated_member_use
           color: AllMaterial.colorWhite,
         ),
-        title: ("Laporan Siswa"),
+        title: ("Absen Siswa"),
         activeColorPrimary: Colors.blue,
         inactiveColorPrimary: Colors.grey,
       ),

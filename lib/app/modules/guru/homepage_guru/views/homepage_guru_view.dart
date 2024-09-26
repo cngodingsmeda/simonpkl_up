@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:simon_pkl/all_material.dart';
+import 'package:simon_pkl/app/modules/guru/detil_siswa_guru/views/detil_siswa_guru_view.dart';
+import 'package:simon_pkl/app/modules/guru/histori_absen_siswa_guru/views/histori_absen_siswa_guru_view.dart';
+import 'package:simon_pkl/app/modules/guru/monitoring_guru/views/monitoring_guru_view.dart';
 import 'package:simon_pkl/app/modules/guru/notifikasi_guru/views/notifikasi_guru_view.dart';
-import 'package:simon_pkl/app/modules/siswa/detil_histori_absen_siswa/views/detil_histori_absen_siswa_view.dart';
-import 'package:simon_pkl/app/modules/siswa/histori_absen_siswa/views/histori_absen_siswa_view.dart';
+import 'package:simon_pkl/app/modules/guru/siswa_bimbingan_guru/views/siswa_bimbingan_guru_view.dart';
 import 'package:simon_pkl/app/modules/siswa/homepage_siswa/widgets/cards_widget.dart';
-import 'package:simon_pkl/app/modules/siswa/pilihan_absen_siswa/views/pilihan_absen_siswa_view.dart';
 
 import '../controllers/homepage_guru_controller.dart';
 
@@ -158,7 +159,7 @@ class HomepageGuruView extends GetView<HomepageGuruController> {
                           ),
                           onPressed: () {
                             Get.to(
-                              () => const PilihanAbsenSiswaView(),
+                              () => const MonitoringGuruView(),
                             );
                           },
                           style: ElevatedButton.styleFrom(
@@ -173,7 +174,7 @@ class HomepageGuruView extends GetView<HomepageGuruController> {
                             ),
                           ),
                           label: Text(
-                            "Monitoring Siswa",
+                            "Monitoring PKL",
                             style: AllMaterial.montSerrat(
                               color: AllMaterial.colorBlue,
                               fontWeight: AllMaterial.fontMedium,
@@ -189,13 +190,13 @@ class HomepageGuruView extends GetView<HomepageGuruController> {
                     const SizedBox(height: 30),
                     InkWell(
                       onTap: () {
-                        Get.to(() => const HistoriAbsenSiswaView());
+                        Get.to(() => const SiswaBimbinganGuruView());
                       },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "Histori Absen",
+                            "Siswa Bimbingan",
                             style: AllMaterial.montSerrat(
                               color: AllMaterial.colorBlack,
                               fontWeight: AllMaterial.fontSemiBold,
@@ -211,9 +212,8 @@ class HomepageGuruView extends GetView<HomepageGuruController> {
                     Column(
                       children: [
                         CardWidget(
-                          onTap: () =>
-                              Get.to(() => const DetilHistoriAbsenSiswaView()),
-                          tanggal: "Habil Arlian Asrori",
+                          onTap: () => Get.to(() => const DetilSiswaGuruView()),
+                          tanggal: "Aditya Putra Budiman",
                           icon: CircleAvatar(
                             backgroundColor: const Color(0xffF8F8F8),
                             child: SvgPicture.asset(
@@ -223,8 +223,7 @@ class HomepageGuruView extends GetView<HomepageGuruController> {
                           keterangan: "XI RPL 1",
                         ),
                         CardWidget(
-                          onTap: () =>
-                              Get.to(() => const DetilHistoriAbsenSiswaView()),
+                          onTap: () => Get.to(() => const DetilSiswaGuruView()),
                           tanggal: "Gheral Deva Bagus Archana",
                           icon: CircleAvatar(
                             backgroundColor: const Color(0xffF8F8F8),
@@ -235,8 +234,9 @@ class HomepageGuruView extends GetView<HomepageGuruController> {
                           keterangan: "XI RPL 2",
                         ),
                         CardWidget(
-                          onTap: () =>
-                              Get.to(() => const DetilHistoriAbsenSiswaView()),
+                          onTap: () {
+                            Get.to(() => const HistoriAbsenSiswaGuruView());
+                          },
                           tanggal: "Fauzan Azka Al-Haqi",
                           icon: CircleAvatar(
                             backgroundColor: const Color(0xffF8F8F8),

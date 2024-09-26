@@ -87,7 +87,7 @@ class BuatLaporanSiswaView extends GetView<BuatLaporanSiswaController> {
                             fontWeight: AllMaterial.fontMedium,
                             color: AllMaterial.colorWhite,
                           ),
-                          cursorColor: AllMaterial.colorBlue,
+                          cursorColor: AllMaterial.colorWhite,
                           onTapOutside: (_) {
                             controller.inputF.unfocus();
                           },
@@ -142,7 +142,7 @@ class BuatLaporanSiswaView extends GetView<BuatLaporanSiswaController> {
                             fontWeight: AllMaterial.fontMedium,
                             color: AllMaterial.colorWhite,
                           ),
-                          cursorColor: AllMaterial.colorBlue,
+                          cursorColor: AllMaterial.colorWhite,
                           onTapOutside: (_) {
                             controller.topikF.unfocus();
                           },

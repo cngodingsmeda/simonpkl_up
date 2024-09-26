@@ -9,8 +9,8 @@ class LoginPageController extends GetxController {
   TextEditingController passC = TextEditingController();
   FocusNode userF = FocusNode();
   FocusNode passF = FocusNode();
-  var username = ''.obs;
-  var password = ''.obs;
+  var username = "".obs;
+  var password = "".obs;
   var isPasswordHidden = true.obs;
 
   void togglePasswordVisibility() {
@@ -19,22 +19,32 @@ class LoginPageController extends GetxController {
 
   @override
   void onClose() {
+    userC.text = "";
+    passC.text = "";
     userC.dispose();
     passC.dispose();
     userF.dispose();
     passF.dispose();
-    userC.text = "";
-    passC.text = "";
     super.onClose();
   }
 
   void login() {
-    if (userC.text == "guru" && passC.text == "guru") {
-      Get.offAll(() => HomeGuruView());
-    } else if (userC.text == "siswa" || passC.text == "siswa") {
-      Get.offAll(() => HomeSiswaView());
+    if (userC.text == "" || passC.text == "") {
+      AllMaterial.cusBottomSheet(
+        text: "Kesalahan",
+        subtitle: "Username atau Password tidak boleh kosong!",
+      );
     } else {
-      AllMaterial.cusBottomSheet(text: "Kesalahan", subtitle: "Username atau Password salah!");
+      if (userC.text == "guru" && passC.text == "guru") {
+        Get.offAll(() => HomeGuruView());
+      } else if (userC.text == "siswa" && passC.text == "siswa") {
+        Get.offAll(() => HomeSiswaView());
+      } else {
+        AllMaterial.cusBottomSheet(
+          text: "Kesalahan",
+          subtitle: "Username atau Password salah!",
+        );
+      }
     }
   }
 }

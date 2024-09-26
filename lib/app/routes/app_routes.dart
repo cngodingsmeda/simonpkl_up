@@ -22,9 +22,15 @@ abstract class Routes {
   static const BUAT_LAPORAN_SISWA = _Paths.BUAT_LAPORAN_SISWA;
   static const HOME_GURU = _Paths.HOME_GURU;
   static const HOMEPAGE_GURU = _Paths.HOMEPAGE_GURU;
-  static const LAPORAN_SISWA_GURU = _Paths.LAPORAN_SISWA_GURU;
+  static const LAPORAN_ABSEN_SISWA_GURU = _Paths.LAPORAN_ABSEN_SISWA_GURU;
   static const PROFILE_GURU = _Paths.PROFILE_GURU;
   static const NOTIFIKASI_GURU = _Paths.NOTIFIKASI_GURU;
+  static const SISWA_BIMBINGAN_GURU = _Paths.SISWA_BIMBINGAN_GURU;
+  static const DETIL_SISWA_GURU = _Paths.DETIL_SISWA_GURU;
+  static const HISTORI_ABSEN_SISWA_GURU = _Paths.HISTORI_ABSEN_SISWA_GURU;
+  static const MONITORING_GURU = _Paths.MONITORING_GURU;
+  static const LAPORAN_SISWA_GURU = _Paths.LAPORAN_SISWA_GURU;
+  static const DETIL_LAPORAN_GURU =_Paths.DETIL_LAPORAN_GURU;
 }
 
 abstract class _Paths {
@@ -48,7 +54,13 @@ abstract class _Paths {
   static const BUAT_LAPORAN_SISWA = '/buat-laporan-siswa';
   static const HOME_GURU = '/home-guru';
   static const HOMEPAGE_GURU = '/homepage-guru';
-  static const LAPORAN_SISWA_GURU = '/laporan-siswa-guru';
+  static const LAPORAN_ABSEN_SISWA_GURU = '/laporan-absen-siswa-guru';
   static const PROFILE_GURU = '/profile-guru';
   static const NOTIFIKASI_GURU = '/notifikasi-guru';
+  static const SISWA_BIMBINGAN_GURU = '/siswa-bimbingan-guru';
+  static const DETIL_SISWA_GURU = '/detil-siswa-guru';
+  static const HISTORI_ABSEN_SISWA_GURU = '/histori-absen-siswa-guru';
+  static const MONITORING_GURU = '/monitoring-guru';
+  static const LAPORAN_SISWA_GURU = '/laporan-siswa-guru';
+  static const DETIL_LAPORAN_GURU = '/detil-laporan-guru';
 }

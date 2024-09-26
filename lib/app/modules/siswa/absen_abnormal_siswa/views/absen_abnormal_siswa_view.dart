@@ -17,7 +17,6 @@ class AbsenAbnormalSiswaView extends GetView<AbsenAbnormalSiswaController> {
   @override
   Widget build(BuildContext context) {
     var controller = Get.put(AbsenAbnormalSiswaController());
-
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(

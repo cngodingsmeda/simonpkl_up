@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:simon_pkl/all_material.dart';
 import 'package:simon_pkl/app/modules/siswa/ajuan_siswa/widgets/clippath_widget.dart';
 
-import '../controllers/detil_laporan_siswa_controller.dart';
+import '../controllers/detil_laporan_guru_controller.dart';
 
-class DetilLaporanSiswaView extends GetView<DetilLaporanSiswaControllr> {
-  const DetilLaporanSiswaView({super.key});
+class DetilLaporanGuruView extends GetView<DetilLaporanGuruController> {
+  const DetilLaporanGuruView({super.key});
   @override
   Widget build(BuildContext context) {
-    var role = Get.arguments;
-    bool isKendala = AllMaterial.box.read("isKendala");
     return Scaffold(
       backgroundColor: AllMaterial.colorWhite,
       body: SingleChildScrollView(
@@ -43,7 +40,7 @@ class DetilLaporanSiswaView extends GetView<DetilLaporanSiswaControllr> {
                         ),
                       ),
                     ),
-                    Text(role == "Instansi" ? "Oleh : CV. GLOBAL VINTAGE NUMERATION" :
+                    Text(
                       "Oleh : Habil Arlian Asrori",
                       style: AllMaterial.montSerrat(
                         color: AllMaterial.colorWhite,
@@ -85,7 +82,7 @@ class DetilLaporanSiswaView extends GetView<DetilLaporanSiswaControllr> {
                               vertical: 0,
                               horizontal: 15,
                             ),
-                            title: Text( isKendala ? "Kendala Terkait:" :
+                            title: Text(
                               "Topik Pekerjaan:",
                               style: AllMaterial.montSerrat(
                                 fontSize: 13,
@@ -104,7 +101,7 @@ class DetilLaporanSiswaView extends GetView<DetilLaporanSiswaControllr> {
                               vertical: 0,
                               horizontal: 15,
                             ),
-                            title: Text(isKendala ? "Deskripsi Kendala:" :
+                            title: Text(
                               "Rujukan Kompetensi Dasar:",
                               style: AllMaterial.montSerrat(
                                 fontSize: 13,
@@ -123,13 +120,13 @@ class DetilLaporanSiswaView extends GetView<DetilLaporanSiswaControllr> {
                               vertical: 0,
                               horizontal: 15,
                             ),
-                            title: Text(role == "Instansi" ? "Siswa Terkait:" :
+                            title: Text(
                               "Instansi terkait:",
                               style: AllMaterial.montSerrat(
                                 fontSize: 13,
                               ),
                             ),
-                            subtitle: Text(role == "Instansi" ? "Gheral Deva Bagus Archana" :
+                            subtitle: Text(
                               "CV GLOBAL VINTAGE NUMERATION",
                               style: AllMaterial.montSerrat(
                                 fontSize: 16,
@@ -143,7 +140,7 @@ class DetilLaporanSiswaView extends GetView<DetilLaporanSiswaControllr> {
                               horizontal: 15,
                             ),
                             title: Text(
-                              "Bukti Dokumen (Opsional):",
+                              "Bukti Dokumen:",
                               style: AllMaterial.montSerrat(
                                 fontSize: 13,
                               ),
@@ -152,8 +149,10 @@ class DetilLaporanSiswaView extends GetView<DetilLaporanSiswaControllr> {
                               onTap: () {
                                 // print(
                                 //     "di ontap: ${controller.buktiDokumen.value}");
-                                // final File? file = controller.buktiDokumen.value;
-                                // final String fileUrl = controller.buktiDokumenUrl.value;
+                                // final File? file =
+                                //     controller.buktiDokumen.value;
+                                // final String fileUrl =
+                                //     controller.buktiDokumenUrl.value;
                                 // if (file != null && fileUrl.isNotEmpty) {
                                 //   controller.openFile(fileUrl, file);
                                 // } else {
@@ -210,62 +209,27 @@ class DetilLaporanSiswaView extends GetView<DetilLaporanSiswaControllr> {
           ],
         ),
       ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SizedBox(
-              width: Get.width,
-              child: ElevatedButton.icon(
-                onPressed: () {
-                  
-                },
-                icon: Icon(MdiIcons.whatsapp, color: AllMaterial.colorWhite),
-                label: Text(
-                  'Hubungi $role Ini',
-                  style: AllMaterial.montSerrat(
-                    fontWeight: AllMaterial.fontSemiBold,
-                    color: Colors.white,
-                  ),
-                ),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AllMaterial.colorBlue,
-                  padding: const EdgeInsets.symmetric(vertical: 14),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
+      bottomNavigationBar: GestureDetector(
+        onTap: () {
+          Get.back();
+        },
+        child: Container(
+          margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+          decoration: BoxDecoration(
+            color: AllMaterial.colorBlue,
+            borderRadius: BorderRadius.circular(5),
+          ),
+          width: Get.width,
+          height: 50,
+          child: Center(
+            child: Text(
+              "Kembali Ke Beranda",
+              style: AllMaterial.montSerrat(
+                fontWeight: AllMaterial.fontSemiBold,
+                color: AllMaterial.colorWhite,
               ),
             ),
-            const SizedBox(height: 15),
-            SizedBox(
-              width: Get.width,
-              child: OutlinedButton.icon(
-                onPressed: () {
-                  Get.back();
-                },
-                label: Text(
-                  'Kembali Ke Beranda',
-                  style: AllMaterial.montSerrat(
-                    fontWeight: AllMaterial.fontSemiBold,
-                    color: AllMaterial.colorBlue,
-                  ),
-                ),
-                style: OutlinedButton.styleFrom(
-                  foregroundColor: AllMaterial.colorBlue,
-                  padding: const EdgeInsets.symmetric(vertical: 14),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  side: const BorderSide(
-                    color: AllMaterial.colorBlue,
-                    width: 2,
-                  ),
-                ),
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );

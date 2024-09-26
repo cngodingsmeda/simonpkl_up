@@ -1,13 +1,23 @@
 import 'package:get/get.dart';
 
-import '../modules/guru/notifikasi_guru/bindings/notifikasi_guru_binding.dart';
-import '../modules/guru/notifikasi_guru/views/notifikasi_guru_view.dart';
+import '../modules/guru/detil_laporan_guru/bindings/detil_laporan_guru_binding.dart';
+import '../modules/guru/detil_laporan_guru/views/detil_laporan_guru_view.dart';
+import '../modules/guru/detil_siswa_guru/bindings/detil_siswa_guru_binding.dart';
+import '../modules/guru/detil_siswa_guru/views/detil_siswa_guru_view.dart';
+import '../modules/guru/histori_absen_siswa_guru/bindings/histori_absen_siswa_guru_binding.dart';
+import '../modules/guru/histori_absen_siswa_guru/views/histori_absen_siswa_guru_view.dart';
 import '../modules/guru/home_guru/bindings/home_guru_binding.dart';
 import '../modules/guru/home_guru/views/home_guru_view.dart';
 import '../modules/guru/homepage_guru/bindings/homepage_guru_binding.dart';
 import '../modules/guru/homepage_guru/views/homepage_guru_view.dart';
+import '../modules/guru/laporan_absen_siswa_guru/bindings/laporan_absen_siswa_guru_binding.dart';
+import '../modules/guru/laporan_absen_siswa_guru/views/laporan_absen_siswa_guru_view.dart';
 import '../modules/guru/laporan_siswa_guru/bindings/laporan_siswa_guru_binding.dart';
 import '../modules/guru/laporan_siswa_guru/views/laporan_siswa_guru_view.dart';
+import '../modules/guru/monitoring_guru/bindings/monitoring_guru_binding.dart';
+import '../modules/guru/monitoring_guru/views/monitoring_guru_view.dart';
+import '../modules/guru/notifikasi_guru/bindings/notifikasi_guru_binding.dart';
+import '../modules/guru/notifikasi_guru/views/notifikasi_guru_view.dart';
 import '../modules/guru/profile_guru/bindings/profile_guru_binding.dart';
 import '../modules/guru/profile_guru/views/profile_guru_view.dart';
 import '../modules/login_page/bindings/login_page_binding.dart';
@@ -141,8 +151,15 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.LAPORAN_SISWA_GURU,
-      page: () => const LaporanSiswaGuruView(),
-      binding: LaporanSiswaGuruBinding(),
+      page: () => const LaporanAbsenSiswaGuruView(),
+      binding: LaporanAbsenSiswaGuruBinding(),
+      children: [
+        GetPage(
+          name: _Paths.LAPORAN_SISWA_GURU,
+          page: () => const LaporanSiswaGuruView(),
+          binding: LaporanSiswaGuruBinding(),
+        ),
+      ],
     ),
     GetPage(
       name: _Paths.PROFILE_GURU,
@@ -153,6 +170,26 @@ class AppPages {
       name: _Paths.NOTIFIKASI_GURU,
       page: () => const NotifikasiGuruView(),
       binding: NotifikasiGuruBinding(),
+    ),
+    GetPage(
+      name: _Paths.DETIL_SISWA_GURU,
+      page: () => const DetilSiswaGuruView(),
+      binding: DetilSiswaGuruBinding(),
+    ),
+    GetPage(
+      name: _Paths.HISTORI_ABSEN_SISWA_GURU,
+      page: () => const HistoriAbsenSiswaGuruView(),
+      binding: HistoriAbsenSiswaGuruBinding(),
+    ),
+    GetPage(
+      name: _Paths.MONITORING_GURU,
+      page: () => const MonitoringGuruView(),
+      binding: MonitoringGuruBinding(),
+    ),
+    GetPage(
+      name: _Paths.DETIL_LAPORAN_GURU,
+      page: () => const DetilLaporanGuruView(),
+      binding: DetilLaporanGuruBinding(),
     ),
   ];
 }

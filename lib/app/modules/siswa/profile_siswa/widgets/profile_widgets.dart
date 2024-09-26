@@ -4,15 +4,15 @@ import 'package:simon_pkl/all_material.dart';
 class ProfileWidget extends StatelessWidget {
   ProfileWidget({
     super.key,
-    required this.controller,
+    this.controller,
     required this.title,
-    required this.textController,
+    this.textController,
   });
 
   // ignore: prefer_typing_uninitialized_variables
   final controller;
   String title;
-  TextEditingController textController;
+  TextEditingController? textController;
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +29,7 @@ class ProfileWidget extends StatelessWidget {
         ),
         const SizedBox(height: 10),
         TextField(
+        
           style: AllMaterial.montSerrat(
             fontWeight: AllMaterial.fontRegular,
           ),

@@ -80,7 +80,7 @@ class AjuanSiswaView extends GetView<AjuanSiswaController> {
                         TextInfoAjuan(
                           controller: controller,
                           title: "Status Info :",
-                          subtitle: "Menunggu Proses"
+                          subtitle: "Verifikasi Selesai"
                           // controller.ajuan.value.status,
                           ,
                         ),

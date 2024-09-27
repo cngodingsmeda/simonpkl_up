@@ -1,17 +1,18 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:simon_pkl/all_material.dart';
-import 'package:simon_pkl/app/modules/guru/detil_siswa_guru/views/detil_siswa_guru_view.dart';
+import 'package:simon_pkl/app/modules/dudi/ajuan_pkl_siswa_dudi/views/ajuan_pkl_siswa_dudi_view.dart';
 import 'package:simon_pkl/app/modules/guru/monitoring_guru/views/monitoring_guru_view.dart';
 import 'package:simon_pkl/app/modules/guru/notifikasi_guru/views/notifikasi_guru_view.dart';
-import 'package:simon_pkl/app/modules/guru/siswa_bimbingan_guru/views/siswa_bimbingan_guru_view.dart';
 import 'package:simon_pkl/app/modules/siswa/homepage_siswa/widgets/cards_widget.dart';
 
-import '../controllers/homepage_guru_controller.dart';
+import '../controllers/homepage_dudi_controller.dart';
 
-class HomepageGuruView extends GetView<HomepageGuruController> {
-  const HomepageGuruView({super.key});
+class HomepageDudiView extends GetView<HomepageDudiController> {
+  const HomepageDudiView({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,14 +30,14 @@ class HomepageGuruView extends GetView<HomepageGuruController> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Selamat Datang, Guru",
+                          "Selamat Datang, Dudi",
                           style: AllMaterial.montSerrat(
                             fontWeight: AllMaterial.fontBold,
                             fontSize: 15,
                           ),
                         ),
                         Text(
-                          "NIP : 21414125125",
+                          "Username : haqicuy",
                           style: AllMaterial.montSerrat(
                             fontWeight: AllMaterial.fontRegular,
                           ),
@@ -98,7 +99,7 @@ class HomepageGuruView extends GetView<HomepageGuruController> {
                                 const SizedBox(width: 10),
                                 Expanded(
                                   child: Text(
-                                    "3 Siswa Bimbingan",
+                                    "3 Siswa Terikat",
                                     style: AllMaterial.montSerrat(
                                       color: AllMaterial.colorWhite,
                                       fontWeight: AllMaterial.fontMedium,
@@ -117,7 +118,7 @@ class HomepageGuruView extends GetView<HomepageGuruController> {
                                 const SizedBox(width: 10),
                                 Expanded(
                                   child: Text(
-                                    "2 Dudi Terkait",
+                                    "3 Guru Pembimbing Terikat",
                                     style: AllMaterial.montSerrat(
                                       color: AllMaterial.colorWhite,
                                       fontWeight: AllMaterial.fontMedium,
@@ -130,13 +131,13 @@ class HomepageGuruView extends GetView<HomepageGuruController> {
                             Row(
                               children: [
                                 const Icon(
-                                  Icons.report_gmailerrorred_rounded,
+                                  Icons.running_with_errors_sharp,
                                   color: AllMaterial.colorWhite,
                                 ),
                                 const SizedBox(width: 10),
                                 Expanded(
                                   child: Text(
-                                    "0 Kendala Siswa",
+                                    "4 Ajuan Menunggu Persetujuan",
                                     style: AllMaterial.montSerrat(
                                       color: AllMaterial.colorWhite,
                                       fontWeight: AllMaterial.fontMedium,
@@ -173,7 +174,7 @@ class HomepageGuruView extends GetView<HomepageGuruController> {
                             ),
                           ),
                           label: Text(
-                            "Monitoring PKL",
+                            "Skema PKL",
                             style: AllMaterial.montSerrat(
                               color: AllMaterial.colorBlue,
                               fontWeight: AllMaterial.fontMedium,
@@ -189,13 +190,13 @@ class HomepageGuruView extends GetView<HomepageGuruController> {
                     const SizedBox(height: 30),
                     InkWell(
                       onTap: () {
-                        Get.to(() => const SiswaBimbinganGuruView());
+                        Get.to(() => const AjuanPklSiswaDudiView());
                       },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "Siswa Bimbingan",
+                            "Ajuan PKL",
                             style: AllMaterial.montSerrat(
                               color: AllMaterial.colorBlack,
                               fontWeight: AllMaterial.fontSemiBold,
@@ -211,36 +212,37 @@ class HomepageGuruView extends GetView<HomepageGuruController> {
                     Column(
                       children: [
                         CardWidget(
-                          onTap: () => Get.to(() => const DetilSiswaGuruView()),
+                          // onTap: () => Get.to(() => const DetilSiswaGuruView()),
                           tanggal: "Aditya Putra Budiman",
                           icon: CircleAvatar(
                             backgroundColor: const Color(0xffF8F8F8),
                             child: SvgPicture.asset(
-                              "assets/icons/person.svg",
+                              "assets/icons/tanda-seru.svg",
+                              color: Colors.yellow,
                             ),
                           ),
                           keterangan: "XI RPL 1",
                         ),
                         CardWidget(
-                          onTap: () => Get.to(() => const DetilSiswaGuruView()),
+                          // onTap: () => Get.to(() => const DetilSiswaGuruView()),
                           tanggal: "Gheral Deva Bagus Archana",
                           icon: CircleAvatar(
                             backgroundColor: const Color(0xffF8F8F8),
                             child: SvgPicture.asset(
-                              "assets/icons/person.svg",
+                              "assets/icons/tanda-seru.svg",
                             ),
                           ),
                           keterangan: "XI RPL 2",
                         ),
                         CardWidget(
                           onTap: () {
-                            Get.to(() => const DetilSiswaGuruView());
+                            // Get.to(() => const HistoriAbsenSiswaGuruView());
                           },
                           tanggal: "Fauzan Azka Al-Haqi",
                           icon: CircleAvatar(
                             backgroundColor: const Color(0xffF8F8F8),
                             child: SvgPicture.asset(
-                              "assets/icons/person.svg",
+                              "assets/icons/tanda-seru.svg",
                             ),
                           ),
                           keterangan: "XI RPL 3",

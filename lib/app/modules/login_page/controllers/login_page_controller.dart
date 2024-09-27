@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:simon_pkl/all_material.dart';
+import 'package:simon_pkl/app/modules/dudi/home_dudi/views/home_dudi_view.dart';
 import 'package:simon_pkl/app/modules/guru/home_guru/views/home_guru_view.dart';
 import 'package:simon_pkl/app/modules/siswa/home_siswa/views/home_siswa_view.dart';
 
@@ -36,9 +37,17 @@ class LoginPageController extends GetxController {
       );
     } else {
       if (userC.text == "guru" && passC.text == "guru") {
+        userC.text = "";
+        passC.text = "";
         Get.offAll(() => HomeGuruView());
       } else if (userC.text == "siswa" && passC.text == "siswa") {
+        userC.text = "";
+        passC.text = "";
         Get.offAll(() => HomeSiswaView());
+      } else if (userC.text == "dudi" && passC.text == "dudi") {
+        userC.text = "";
+        passC.text = "";
+        Get.offAll(() =>  HomeDudiView());
       } else {
         AllMaterial.cusBottomSheet(
           text: "Kesalahan",

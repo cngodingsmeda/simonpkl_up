@@ -22,7 +22,7 @@ void main() async {
             theme: ThemeData(
               textSelectionTheme: const TextSelectionThemeData(
                 cursorColor: AllMaterial.colorBlue,
-                selectionHandleColor: AllMaterial.colorBlue
+                selectionHandleColor: AllMaterial.colorBlue,
               ),
             ),
             debugShowCheckedModeBanner: false,

@@ -2,13 +2,13 @@ name: simon_pkl
 version: 1.0.0+1
 publish_to: none
 description: A new Flutter project.
-environment: 
+environment:
   sdk: '>=3.4.3 <4.0.0'
 
-dependencies: 
+dependencies:
   cupertino_icons: ^1.0.6
   get: 4.6.6
-  flutter: 
+  flutter:
     sdk: flutter
   google_fonts: ^6.2.1
   get_storage: ^2.1.1
@@ -27,9 +27,9 @@ dependencies:
   url_launcher: ^6.3.0
   open_file: ^3.5.3
 
-dev_dependencies: 
-  flutter_lints: ^3.0.0
-  flutter_test: 
+dev_dependencies:
+  flutter_lints: ^4.0.0
+  flutter_test:
     sdk: flutter
 
 icons_launcher:
@@ -40,10 +40,10 @@ icons_launcher:
     ios:
       enable: true
 
-flutter: 
+flutter:
   assets:
-    - assets/logo/
-    - assets/images/
-    - assets/icons/
+  - assets/logo/
+  - assets/images/
+  - assets/icons/
   uses-material-design: true
 

@@ -29,29 +29,49 @@ class LoginPageController extends GetxController {
     super.onClose();
   }
 
-  void login() {
+  void login(BuildContext context) {
     if (userC.text == "" || passC.text == "") {
-      AllMaterial.cusBottomSheet(
-        text: "Kesalahan",
-        subtitle: "Username atau Password tidak boleh kosong!",
+      // AllMaterial.cusBottomSheet(
+      //   text: "Kesalahan",
+      //   subtitle: "Username atau Password tidak boleh kosong!",
+      // );
+      AllMaterial.messageScaffold(
+        title: "Username atau Password tidak boleh kosong!",
+        context: context,
       );
     } else {
       if (userC.text == "guru" && passC.text == "guru") {
         userC.text = "";
         passC.text = "";
         Get.offAll(() => HomeGuruView());
+        AllMaterial.messageScaffold(
+          title: "Verifikasi Berhasil, Selamat Datang!",
+          context: context,
+        );
       } else if (userC.text == "siswa" && passC.text == "siswa") {
         userC.text = "";
         passC.text = "";
         Get.offAll(() => HomeSiswaView());
+        AllMaterial.messageScaffold(
+          title: "Verifikasi Berhasil, Selamat Datang!",
+          context: context,
+        );
       } else if (userC.text == "dudi" && passC.text == "dudi") {
         userC.text = "";
         passC.text = "";
-        Get.offAll(() =>  HomeDudiView());
+        Get.offAll(() => HomeDudiView());
+        AllMaterial.messageScaffold(
+          title: "Verifikasi Berhasil, Selamat Datang!",
+          context: context,
+        );
       } else {
-        AllMaterial.cusBottomSheet(
-          text: "Kesalahan",
-          subtitle: "Username atau Password salah!",
+        // AllMaterial.cusBottomSheet(
+        //   text: "Kesalahan",
+        //   subtitle: "Username atau Password salah!",
+        // );
+        AllMaterial.messageScaffold(
+          title: "Username atau Password salah!",
+          context: context,
         );
       }
     }

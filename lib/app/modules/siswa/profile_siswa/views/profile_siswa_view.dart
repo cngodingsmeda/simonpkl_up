@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:simon_pkl/all_material.dart';
-import 'package:simon_pkl/app/modules/login_page/views/login_page_view.dart';
+import 'package:simon_pkl/app/controller/general_controller.dart';
 import 'package:simon_pkl/app/modules/siswa/profile_siswa/widgets/profile_widgets.dart';
 
 import '../controllers/profile_siswa_controller.dart';
@@ -27,8 +27,8 @@ class ProfileSiswaView extends GetView<ProfileSiswaController> {
             tooltip: "Logout",
             padding: const EdgeInsets.all(16),
             onPressed: () {
-              Get.offAll(()=> const LoginPageView());
-              AllMaterial.box.erase();
+              var genController = Get.find<GeneralController>();
+              genController.logoutUser(context);
             },
             icon: const Icon(
               Icons.logout,
@@ -67,7 +67,12 @@ class ProfileSiswaView extends GetView<ProfileSiswaController> {
                       style: const ButtonStyle(
                         padding: WidgetStatePropertyAll(EdgeInsets.zero),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        AllMaterial.messageScaffold(
+                          title: "Fitur Sedang Digarap, Coming Soon",
+                          context: context,
+                        );
+                      },
                       icon: const Icon(
                         size: 20,
                         Icons.edit,

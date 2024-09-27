@@ -1,5 +1,9 @@
 import 'package:get/get.dart';
 
 class AjuanPklSiswaDudiController extends GetxController {
- var stringTitle = ["Menunggu Persetujuan", "Membatalkan Ajuan", "Disetujui"];
+  var stringTitle = [
+    "Menunggu Verifikasi",
+    "Membatalkan Verifikasi",
+    "Verifikasi Selesai"
+  ];
 }

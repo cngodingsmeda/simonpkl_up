@@ -151,7 +151,10 @@ class DetilSiswaGuruView extends GetView<DetilSiswaGuruController> {
             SizedBox(
               width: Get.width,
               child: OutlinedButton.icon(
-                onPressed: () {},
+                onPressed: () {                          AllMaterial.messageScaffold(
+                            title: "Fitur Sedang Digarap, Coming Soon",
+                            context: context,
+                          );},
                 icon: Icon(MdiIcons.whatsapp, color: AllMaterial.colorBlue),
                 label: Text(
                   'Hubungi Siswa Ini',

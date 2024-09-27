@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:simon_pkl/all_material.dart';
 import 'package:simon_pkl/app/modules/dudi/menunggu_verifikasi_pkl_siswa_dudi/views/menunggu_verifikasi_pkl_siswa_dudi_view.dart';
+import 'package:simon_pkl/app/modules/dudi/verifikasi_dibatalkan_siswa_dudi/views/verifikasi_dibatalkan_siswa_dudi_view.dart';
 import 'package:simon_pkl/app/modules/dudi/verifikasi_selesai_pkl_siswa_dudi/views/verifikasi_selesai_pkl_siswa_dudi_view.dart';
 import 'package:simon_pkl/app/modules/siswa/homepage_siswa/widgets/cards_widget.dart';
 
@@ -94,7 +95,7 @@ class AjuanPklSiswaDudiView extends GetView<AjuanPklSiswaDudiController> {
                         ),
                         keterangan: "XI RPL 5",
                         onTap: () => Get.to(
-                          () => const VerifikasiSelesaiPklSiswaDudiView(),
+                          () => const VerifikasiDibatalkanSiswaDudiView(),
                         ),
                       );
                     }),

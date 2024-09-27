@@ -43,8 +43,10 @@ class DetilLaporanSiswaView extends GetView<DetilLaporanSiswaControllr> {
                         ),
                       ),
                     ),
-                    Text(role == "Instansi" ? "Oleh : CV. GLOBAL VINTAGE NUMERATION" :
-                      "Oleh : Habil Arlian Asrori",
+                    Text(
+                      role == "Instansi"
+                          ? "Oleh : CV. GLOBAL VINTAGE NUMERATION"
+                          : "Oleh : Habil Arlian Asrori",
                       style: AllMaterial.montSerrat(
                         color: AllMaterial.colorWhite,
                         fontSize: 15,
@@ -85,8 +87,10 @@ class DetilLaporanSiswaView extends GetView<DetilLaporanSiswaControllr> {
                               vertical: 0,
                               horizontal: 15,
                             ),
-                            title: Text( isKendala ? "Kendala Terkait:" :
-                              "Topik Pekerjaan:",
+                            title: Text(
+                              isKendala
+                                  ? "Kendala Terkait:"
+                                  : "Topik Pekerjaan:",
                               style: AllMaterial.montSerrat(
                                 fontSize: 13,
                               ),
@@ -104,8 +108,10 @@ class DetilLaporanSiswaView extends GetView<DetilLaporanSiswaControllr> {
                               vertical: 0,
                               horizontal: 15,
                             ),
-                            title: Text(isKendala ? "Deskripsi Kendala:" :
-                              "Rujukan Kompetensi Dasar:",
+                            title: Text(
+                              isKendala
+                                  ? "Deskripsi Kendala:"
+                                  : "Rujukan Kompetensi Dasar:",
                               style: AllMaterial.montSerrat(
                                 fontSize: 13,
                               ),
@@ -123,14 +129,18 @@ class DetilLaporanSiswaView extends GetView<DetilLaporanSiswaControllr> {
                               vertical: 0,
                               horizontal: 15,
                             ),
-                            title: Text(role == "Instansi" ? "Siswa Terkait:" :
-                              "Instansi terkait:",
+                            title: Text(
+                              role == "Instansi"
+                                  ? "Siswa Terkait:"
+                                  : "Instansi terkait:",
                               style: AllMaterial.montSerrat(
                                 fontSize: 13,
                               ),
                             ),
-                            subtitle: Text(role == "Instansi" ? "Gheral Deva Bagus Archana" :
-                              "CV GLOBAL VINTAGE NUMERATION",
+                            subtitle: Text(
+                              role == "Instansi"
+                                  ? "Gheral Deva Bagus Archana"
+                                  : "CV GLOBAL VINTAGE NUMERATION",
                               style: AllMaterial.montSerrat(
                                 fontSize: 16,
                                 fontWeight: AllMaterial.fontBold,
@@ -219,7 +229,10 @@ class DetilLaporanSiswaView extends GetView<DetilLaporanSiswaControllr> {
               width: Get.width,
               child: ElevatedButton.icon(
                 onPressed: () {
-                  
+                  AllMaterial.messageScaffold(
+                    title: "Fitur Sedang Digarap, Coming Soon",
+                    context: context,
+                  );
                 },
                 icon: Icon(MdiIcons.whatsapp, color: AllMaterial.colorWhite),
                 label: Text(

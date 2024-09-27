@@ -5,7 +5,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:simon_pkl/all_material.dart';
 import 'package:simon_pkl/app/modules/dudi/ajuan_pkl_siswa_dudi/views/ajuan_pkl_siswa_dudi_view.dart';
-import 'package:simon_pkl/app/modules/guru/monitoring_guru/views/monitoring_guru_view.dart';
+import 'package:simon_pkl/app/modules/dudi/menunggu_verifikasi_pkl_siswa_dudi/views/menunggu_verifikasi_pkl_siswa_dudi_view.dart';
+import 'package:simon_pkl/app/modules/dudi/skema_pkl_dudi/views/skema_pkl_dudi_view.dart';
 import 'package:simon_pkl/app/modules/guru/notifikasi_guru/views/notifikasi_guru_view.dart';
 import 'package:simon_pkl/app/modules/siswa/homepage_siswa/widgets/cards_widget.dart';
 
@@ -137,7 +138,7 @@ class HomepageDudiView extends GetView<HomepageDudiController> {
                                 const SizedBox(width: 10),
                                 Expanded(
                                   child: Text(
-                                    "4 Ajuan Menunggu Persetujuan",
+                                    "4 Ajuan Menunggu Verifikasi",
                                     style: AllMaterial.montSerrat(
                                       color: AllMaterial.colorWhite,
                                       fontWeight: AllMaterial.fontMedium,
@@ -159,7 +160,7 @@ class HomepageDudiView extends GetView<HomepageDudiController> {
                           ),
                           onPressed: () {
                             Get.to(
-                              () => const MonitoringGuruView(),
+                              () => const SkemaPklDudiView(),
                             );
                           },
                           style: ElevatedButton.styleFrom(
@@ -212,7 +213,9 @@ class HomepageDudiView extends GetView<HomepageDudiController> {
                     Column(
                       children: [
                         CardWidget(
-                          // onTap: () => Get.to(() => const DetilSiswaGuruView()),
+                          onTap: () => Get.to(
+                            () => const MenungguVerifikasiPklSiswaDudiView(),
+                          ),
                           tanggal: "Aditya Putra Budiman",
                           icon: CircleAvatar(
                             backgroundColor: const Color(0xffF8F8F8),
@@ -224,7 +227,9 @@ class HomepageDudiView extends GetView<HomepageDudiController> {
                           keterangan: "XI RPL 1",
                         ),
                         CardWidget(
-                          // onTap: () => Get.to(() => const DetilSiswaGuruView()),
+                          onTap: () => Get.to(
+                            () => const MenungguVerifikasiPklSiswaDudiView(),
+                          ),
                           tanggal: "Gheral Deva Bagus Archana",
                           icon: CircleAvatar(
                             backgroundColor: const Color(0xffF8F8F8),
@@ -236,7 +241,9 @@ class HomepageDudiView extends GetView<HomepageDudiController> {
                         ),
                         CardWidget(
                           onTap: () {
-                            // Get.to(() => const HistoriAbsenSiswaGuruView());
+                            Get.to(
+                              () => const MenungguVerifikasiPklSiswaDudiView(),
+                            );
                           },
                           tanggal: "Fauzan Azka Al-Haqi",
                           icon: CircleAvatar(

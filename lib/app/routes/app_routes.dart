@@ -36,9 +36,18 @@ abstract class Routes {
   static const DATA_SISWA_DUDI = _Paths.DATA_SISWA_DUDI;
   static const PROFILE_DUDI = _Paths.PROFILE_DUDI;
   static const AJUAN_PKL_SISWA_DUDI = _Paths.AJUAN_PKL_SISWA_DUDI;
-  static const MENUNGGU_VERIFIKASI_PKL_SISWA_DUDI = 
+  static const MENUNGGU_VERIFIKASI_PKL_SISWA_DUDI =
       _Paths.MENUNGGU_VERIFIKASI_PKL_SISWA_DUDI;
-  static const VERIFIKASI_SELESAI_PKL_SISWA_DUDI = _Paths.VERIFIKASI_SELESAI_PKL_SISWA_DUDI;
+  static const VERIFIKASI_SELESAI_PKL_SISWA_DUDI =
+      _Paths.VERIFIKASI_SELESAI_PKL_SISWA_DUDI;
+  static const DETIL_SISWA_DUDI = _Paths.DETIL_SISWA_DUDI;
+  static const HISTORI_ABSEN_SISWA_DUDI = _Paths.HISTORI_ABSEN_SISWA_DUDI;
+  static const VERIFIKASI_DIBATALKAN_SISWA_DUDI =
+      _Paths.VERIFIKASI_DIBATALKAN_SISWA_DUDI;
+  static const SKEMA_PKL_DUDI = _Paths.SKEMA_PKL_DUDI;
+  static const LAPORAN_PKL_DUDI = _Paths.LAPORAN_PKL_DUDI;
+  static const DETIL_LAPORAN_PKL_DUDI = _Paths.DETIL_LAPORAN_PKL_DUDI;
+  static const BUAT_LAPORAN_PKL_DUDI = _Paths.BUAT_LAPORAN_PKL_DUDI;
 }
 
 abstract class _Paths {
@@ -80,4 +89,12 @@ abstract class _Paths {
       '/menunggu-verifikasi-pkl-siswa-dudi';
   static const VERIFIKASI_SELESAI_PKL_SISWA_DUDI =
       '/verifikasi-selesai-pkl-siswa-dudi';
+  static const DETIL_SISWA_DUDI = '/detil-siswa-dudi';
+  static const HISTORI_ABSEN_SISWA_DUDI = '/histori-absen-siswa-dudi';
+  static const VERIFIKASI_DIBATALKAN_SISWA_DUDI =
+      '/verifikasi-dibatalkan-siswa-dudi';
+  static const SKEMA_PKL_DUDI = '/skema-pkl-dudi';
+  static const LAPORAN_PKL_DUDI = '/laporan-pkl-dudi';
+  static const DETIL_LAPORAN_PKL_DUDI = '/detil-laporan-pkl-dudi';
+  static const BUAT_LAPORAN_PKL_DUDI = '/buat-laporan-pkl-dudi';
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:simon_pkl/all_material.dart';
+import 'package:simon_pkl/app/controller/general_controller.dart';
 import 'package:simon_pkl/app/modules/login_page/views/login_page_view.dart';
 import 'package:simon_pkl/cusplash_screen.dart';
 
@@ -14,6 +15,7 @@ void main() async {
     FutureBuilder(
       future: Future.delayed(const Duration(seconds: 3)),
       builder: (context, snapshot) {
+        Get.put(GeneralController(), permanent: true);
         if (snapshot.connectionState == ConnectionState.waiting) {
           return GetMaterialApp(
             home: const CusplashScreen(),

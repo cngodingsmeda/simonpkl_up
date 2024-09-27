@@ -35,6 +35,20 @@ abstract class AllMaterial {
   );
 
   // Bottom Sheet
+  static messageScaffold({
+    required String title,
+    required BuildContext context,
+  }) {
+    return ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        duration: const Duration(seconds: 2),
+        content: Text(
+          title,
+        ),
+      ),
+    );
+  }
+
   static cusBottomSheet({
     required String text,
     required String subtitle,

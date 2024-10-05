@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:open_file/open_file.dart';
 import 'package:simon_pkl/app/model/model_siswa/laporan_detil_siswa_model.dart';
-import 'package:simon_pkl/app/services/service_siswa/laporan_detil_siswa_service.dart';
 
 class DetilHistoriAbsenSiswaControllr extends GetxController {
   var buktiDokumenUrl = ''.obs;
@@ -36,14 +35,5 @@ class DetilHistoriAbsenSiswaControllr extends GetxController {
     super.onInit();
     // final String historiAbsenId = Get.arguments;
     // fetchHistoriAbsenDetail(historiAbsenId);
-  }
-
-  Future<void> fetchHistoriAbsenDetail(String id) async {
-    try {
-      historiAbsenDetail.value =
-          await HistoriAbsenDetilSiswaService.fetchHistoriAbsenDetailSiswa(id);
-    } catch (e) {
-      print("Error fetching historiAbsen detail: $e");
-    }
   }
 }

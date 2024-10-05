@@ -25,99 +25,109 @@ class NotifikasiSiswaView extends GetView<NotifikasiSiswaController> {
         ),
         centerTitle: true,
       ),
-      body: Obx(
-        () {
-          if (controller.isLoading.isFalse) {
-            return const Center(
-              child: CircularProgressIndicator(
-                color: AllMaterial.colorBlue,
-              ),
-            );
-          }
-          return ListView.builder(
-            // itemCount: controller.notifikasiList.length,
-            itemCount: 2,
-            itemBuilder: (context, index) {
-              // final notifikasi = controller.notifikasiList[index];
-              return Column(
-                children: [
-                  Material(
-                    color: const Color(0xffFAFAFA),
-                    child: InkWell(
-                      onTap: () {
-                        // ke detil notifikasi
-                        Get.to(()=> const DetilNotifikasiSiswaView());
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 18,
-                          horizontal: 20,
-                        ),
-                        child: Row(
-                          children: [
-                            Row(
+      body: Obx(() {
+        if (controller.allNotifikasi.value == null) {
+          return const Center(
+            child: CircularProgressIndicator(
+              color: AllMaterial.colorBlue,
+            ),
+          );
+        }
+        var allNotif = controller.allNotifikasi.value!.data;
+        return ListView.builder(
+          itemCount: allNotif.length,
+          itemBuilder: (context, index) {
+            final notifikasi = allNotif[index];
+
+            return Column(
+              children: [
+                Material(
+                  color: notifikasi.reads.isEmpty
+                      ? const Color(0xffFAFAFA)
+                      : AllMaterial.colorWhite,
+                  child: InkWell(
+                    onTap: () {
+                      Get.to(
+                        () => const DetilNotifikasiSiswaView(),
+                        arguments: notifikasi.id,
+                      );
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 18,
+                        horizontal: 20,
+                      ),
+                      child: Row(
+                        children: [
+                          Row(
+                            children: [
+                              (notifikasi.reads.isEmpty)
+                                  ? const CircleAvatar(
+                                      radius: 5,
+                                      backgroundColor: AllMaterial.colorRed,
+                                    )
+                                  : const SizedBox(width: 10),
+                              const SizedBox(width: 5),
+                              (notifikasi.body.toLowerCase().contains("buruk"))
+                                  ? SvgPicture.asset("assets/icons/silang.svg")
+                                  : (notifikasi.body
+                                          .toLowerCase()
+                                          .contains("informasi"))
+                                      ? SvgPicture.asset(
+                                          "assets/icons/tanda_seru.svg",
+                                        )
+                                      : SvgPicture.asset(
+                                          "assets/icons/check.svg",
+                                        ),
+                            ],
+                          ),
+                          const SizedBox(width: 15),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                // if (!notifikasi.isRead)
-                                //   const CircleAvatar(
-                                //     radius: 5,
-                                //     backgroundColor: AllMaterial.colorRed,
-                                //   ),
-                                const CircleAvatar(
-                                  radius: 5,
-                                  backgroundColor: AllMaterial.colorRed,
-                                ),
-                                const SizedBox(width: 5),
-                                SvgPicture.asset("assets/icons/check.svg"),
-                              ],
-                            ),
-                            const SizedBox(width: 15),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  ListTile(
-                                    contentPadding: EdgeInsets.zero,
-                                    minVerticalPadding: 0,
-                                    title: Text(
-                                      // notifikasi.title,
-                                      "Kabar Baik Untukmu!",
-                                      style: AllMaterial.montSerrat(
-                                        fontWeight: AllMaterial.fontSemiBold,
-                                      ),
+                                ListTile(
+                                  contentPadding: EdgeInsets.zero,
+                                  minVerticalPadding: 0,
+                                  title: Text(
+                                    AllMaterial.setiapHurufPertama(
+                                      notifikasi.title,
                                     ),
-                                    subtitle: Text(
-                                      // notifikasi.message,
-                                      "Ajuan PKL-mu yang telah Anda ajukan telah diterima di PT. Telkom Indonesia...",
-                                      maxLines: 2,
-                                      style: AllMaterial.montSerrat(),
-                                      overflow: TextOverflow.ellipsis,
+                                    style: AllMaterial.montSerrat(
+                                      fontWeight: AllMaterial.fontSemiBold,
                                     ),
                                   ),
-                                ],
-                              ),
+                                  subtitle: Text(
+                                    AllMaterial.hurufPertama(notifikasi.body),
+                                    maxLines: 2,
+                                    style: AllMaterial.montSerrat(),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                              ],
                             ),
-                            const SizedBox(width: 15),
-                            Text(
-                              // notifikasi.timestamp,
-                              "20:10",
-                              style: AllMaterial.montSerrat(),
-                            ),
-                          ],
-                        ),
+                          ),
+                          const SizedBox(width: 15),
+                          Text(
+                            AllMaterial.ubahJam(
+                                notifikasi.createdAt.toString()),
+                            style: AllMaterial.montSerrat(),
+                          ),
+                        ],
                       ),
                     ),
                   ),
-                  Container(
-                    height: 1,
-                    width: Get.width,
-                    color: const Color(0xffD9D9D9),
-                  ),
-                ],
-              );
-            },
-          );
-        },
-      ),
+                ),
+                Container(
+                  height: 1,
+                  width: Get.width,
+                  color: const Color(0xffD9D9D9),
+                ),
+              ],
+            );
+          },
+        );
+      }),
     );
   }
 }

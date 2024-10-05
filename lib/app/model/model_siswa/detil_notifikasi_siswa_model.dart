@@ -1,37 +1,21 @@
 // To parse this JSON data, do
 //
-//     final allNotifikasiModel = allNotifikasiModelFromJson(jsonString);
+//     final detilNotifikasiModel = detilNotifikasiModelFromJson(jsonString);
 
 import 'dart:convert';
 
-AllNotifikasiModel allNotifikasiModelFromJson(String str) => AllNotifikasiModel.fromJson(json.decode(str));
+DetilNotifikasiModel detilNotifikasiModelFromJson(String str) => DetilNotifikasiModel.fromJson(json.decode(str));
 
-String allNotifikasiModelToJson(AllNotifikasiModel data) => json.encode(data.toJson());
+String detilNotifikasiModelToJson(DetilNotifikasiModel data) => json.encode(data.toJson());
 
-class AllNotifikasiModel {
-    List<Datum> data;
-
-    AllNotifikasiModel({
-        required this.data,
-    });
-
-    factory AllNotifikasiModel.fromJson(Map<String, dynamic> json) => AllNotifikasiModel(
-        data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
-    );
-
-    Map<String, dynamic> toJson() => {
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
-    };
-}
-
-class Datum {
+class DetilNotifikasiModel {
     int id;
     String title;
     String body;
     DateTime createdAt;
     List<Read> reads;
 
-    Datum({
+    DetilNotifikasiModel({
         required this.id,
         required this.title,
         required this.body,
@@ -39,7 +23,7 @@ class Datum {
         required this.reads,
     });
 
-    factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+    factory DetilNotifikasiModel.fromJson(Map<String, dynamic> json) => DetilNotifikasiModel(
         id: json["id"],
         title: json["title"],
         body: json["body"],

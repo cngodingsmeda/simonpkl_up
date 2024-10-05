@@ -53,18 +53,6 @@ class DetilSiswaGuruView extends GetView<DetilSiswaGuruController> {
                       ),
                       color: AllMaterial.colorBlue,
                     ),
-                    child: IconButton(
-                      tooltip: "Edit Profil",
-                      style: const ButtonStyle(
-                        padding: WidgetStatePropertyAll(EdgeInsets.zero),
-                      ),
-                      onPressed: () {},
-                      icon: const Icon(
-                        size: 20,
-                        Icons.edit,
-                        color: AllMaterial.colorWhite,
-                      ),
-                    ),
                   ),
                   const SizedBox(width: 20),
                   Column(
@@ -125,7 +113,7 @@ class DetilSiswaGuruView extends GetView<DetilSiswaGuruController> {
               width: Get.width,
               child: ElevatedButton.icon(
                 onPressed: () {
-                  Get.to(()=> const HistoriAbsenSiswaGuruView());
+                  Get.to(() => const HistoriAbsenSiswaGuruView());
                 },
                 icon: const Icon(
                   Icons.fingerprint,
@@ -151,10 +139,12 @@ class DetilSiswaGuruView extends GetView<DetilSiswaGuruController> {
             SizedBox(
               width: Get.width,
               child: OutlinedButton.icon(
-                onPressed: () {                          AllMaterial.messageScaffold(
-                            title: "Fitur Sedang Digarap, Coming Soon",
-                            context: context,
-                          );},
+                onPressed: () {
+                  AllMaterial.messageScaffold(
+                    title: "Fitur Sedang Digarap, Coming Soon",
+                    context: context,
+                  );
+                },
                 icon: Icon(MdiIcons.whatsapp, color: AllMaterial.colorBlue),
                 label: Text(
                   'Hubungi Siswa Ini',

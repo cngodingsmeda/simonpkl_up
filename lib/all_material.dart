@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 
 abstract class AllMaterial {
   // Get Storage
@@ -42,9 +43,7 @@ abstract class AllMaterial {
     return ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         duration: const Duration(seconds: 2),
-        content: Text(
-          title,
-        ),
+        content: Text(title),
       ),
     );
   }
@@ -83,4 +82,34 @@ abstract class AllMaterial {
       },
     ));
   }
+
+  static String setiapHurufPertama(String text) {
+    return text.split(' ').map((word) {
+      return word[0].toUpperCase() + word.substring(1).toLowerCase();
+    }).join(' ');
+  }
+
+  static String hurufPertama(String text) {
+    if (text.isEmpty) return text;
+    return text[0].toUpperCase() + text.substring(1).toLowerCase();
+  }
+
+  static String ubahTanggal(String isoDate) {
+    DateTime parsedDate = DateTime.parse(isoDate);
+    String formattedDate =
+        DateFormat('dd MMMM yyyy', 'id_ID').format(parsedDate);
+    return formattedDate;
+  }
+
+  static String ubahJam(String inputDate) {
+    DateTime dateTime = DateTime.parse(inputDate);
+    String formattedDate = DateFormat('HH:mm').format(dateTime);
+    return formattedDate;
+  }
+
+  static String ubahTanggaldanJam(String dateTimeString) {
+  DateTime dateTime = DateTime.parse(dateTimeString);
+  String formattedDate = DateFormat('d MMMM yyyy - HH.mm').format(dateTime);
+  return formattedDate;
+}
 }

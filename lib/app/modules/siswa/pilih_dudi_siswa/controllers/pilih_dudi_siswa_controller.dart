@@ -1,35 +1,66 @@
+import 'dart:convert';
+
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
+import 'package:simon_pkl/all_material.dart';
+import 'package:simon_pkl/app/data/api_url.dart';
 import 'package:simon_pkl/app/model/model_siswa/pilih_dudi_model.dart';
-import 'package:simon_pkl/app/services/service_siswa/pilih_dudi_siswa_service.dart';
+import 'package:simon_pkl/app/modules/siswa/ajuan_siswa/views/ajuan_siswa_view.dart';
 
 class PilihDudiSiswaController extends GetxController {
   var intPage = 0.obs;
-
-  var dudiList = <PilihDudiModel>[].obs;
-  var du = [2,5];
+  var dudi = Rx<PilihDudiModel?>(null);
   var isLoading = true.obs;
+  String token = AllMaterial.box.read("token");
 
-  final PilihDudiSiswaService _pilihDudiService = PilihDudiSiswaService();
-
-  @override
-  void onInit() {
-    // fetchDudiList();
-    super.onInit();
+  Future<void> fetchDudiList() async {
+    final response = await http.get(
+      Uri.parse("${ApiUrl.urlGetAllDudiSiswa}${intPage.value + 1}"),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer $token",
+      },
+    );
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body);
+      print(data);
+      var pilihDudiModel = PilihDudiModel.fromJson(data["data"]);
+      isLoading.value = false;
+      dudi.value = pilihDudiModel;
+      update();
+    } else {
+      print("gagal menampilkan data");
+      throw Exception('Failed to load data');
+    }
   }
 
-  void fetchDudiList() async {
-    try {
-      isLoading(true);
-      var dudiData = await _pilihDudiService.fetchDudiList();
-      dudiList.assignAll(dudiData);
-    } catch (e) {
-      print("Error fetching DUDI data: $e");
-    } finally {
-      isLoading(false);
+  Future<void> ajukanPKL(int id) async {
+    final response = await http.post(
+      Uri.parse(ApiUrl.urlPostAjuanPkl),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer $token",
+      },
+      body: jsonEncode(
+        {
+          "id_dudi": id,
+        },
+      ),
+    );
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body);
+      Get.back();
+      Get.off(() => const AjuanSiswaView(), arguments: data["data"]["id"]);
+      print(data);
+      update();
+    } else {
+      print("gagal mengirim data");
+      throw Exception('Failed to send data');
     }
   }
 
   void changePage(int index) {
     intPage.value = index;
+    fetchDudiList();
   }
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:simon_pkl/app/model/model_siswa/laporan_siswa_model.dart';
-import 'package:simon_pkl/app/services/service_siswa/laporan_siswa_service.dart';
 
 class HistoriAbsenSiswaControllr extends GetxController {
   var selectedMonth = 7.obs;
@@ -56,14 +55,6 @@ class HistoriAbsenSiswaControllr extends GetxController {
   // ignore: unnecessary_overrides
   void onInit() {
     super.onInit();
-    // fetchHistoriAbsen(); 
-  }
-
-  Future<void> fetchHistoriAbsen({int? month}) async {
-    try {
-      historiAbsenM.value = await HistoriAbsenSiswaService.fetchHistoriAbsenSiswa(month);
-    } catch (e) {
-      print("Error fetching historiAbsen: $e");
-    }
+    // fetchHistoriAbsen();
   }
 }

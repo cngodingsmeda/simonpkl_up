@@ -4,7 +4,6 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:simon_pkl/all_material.dart';
 import 'package:simon_pkl/app/modules/siswa/ajuan_siswa/widgets/clippath_widget.dart';
 import 'package:simon_pkl/app/modules/siswa/home_siswa/views/home_siswa_view.dart';
-import 'package:simon_pkl/app/modules/siswa/homepage_siswa/controllers/homepage_siswa_controller.dart';
 
 import '../controllers/ajuan_siswa_controller.dart';
 
@@ -13,120 +12,124 @@ class AjuanSiswaView extends GetView<AjuanSiswaController> {
 
   @override
   Widget build(BuildContext context) {
+    var id = Get.arguments;
     var controller = Get.put(AjuanSiswaController());
     return Scaffold(
       backgroundColor: AllMaterial.colorWhite,
-      body: Obx(() {
-        if (controller.isLoading.value) {
-          return const Center(child: CircularProgressIndicator());
-        }
-        return SingleChildScrollView(
-          child: Stack(
-            children: [
-              ClipPath(
-                clipper: ClipPathClass(),
-                child: Container(
-                  height: 300,
-                  width: Get.width,
-                  color: AllMaterial.colorBlue,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        MdiIcons.clockCheckOutline,
-                        color: AllMaterial.colorWhite,
-                        size: 80,
-                      ),
-                      Text(
-                        "Ajuan Diproses",
-                        style: AllMaterial.montSerrat(
-                          color: AllMaterial.colorWhite,
-                          fontSize: 25,
-                          fontWeight: AllMaterial.fontSemiBold,
-                        ),
-                      ),
-                      Text(
-                        "Harap verifikasi data Anda!",
-                        style: AllMaterial.montSerrat(
-                          color: AllMaterial.colorWhite,
-                          fontSize: 15,
-                          fontWeight: AllMaterial.fontRegular,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Container(
-                margin: const EdgeInsets.only(top: 240),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
+      body: FutureBuilder(
+        future: controller.getAjuanPklById(id),
+        builder: (context, snapshot) {
+          var dataAjuan = controller.ajuanPklById.value;
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Center(child: CircularProgressIndicator()),
+              ],
+            );
+          }
+          return SingleChildScrollView(
+            child: Stack(
+              children: [
+                ClipPath(
+                  clipper: ClipPathClass(),
                   child: Container(
+                    height: 300,
                     width: Get.width,
-                    margin: const EdgeInsets.symmetric(vertical: 0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: AllMaterial.colorWhite,
-                      boxShadow: const [
-                        BoxShadow(
-                          color: Color.fromARGB(34, 63, 63, 63),
-                          offset: Offset(5, 5),
-                          blurRadius: 25,
-                        ),
-                      ],
-                    ),
+                    color: AllMaterial.colorBlue,
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        TextInfoAjuan(
-                          controller: controller,
-                          title: "Status Info :",
-                          subtitle: "Verifikasi Selesai"
-                          // controller.ajuan.value.status,
-                          ,
+                        Icon(
+                          MdiIcons.clockCheckOutline,
+                          color: AllMaterial.colorWhite,
+                          size: 80,
                         ),
-                        TextInfoAjuan(
-                          controller: controller,
-                          title: "Instansi Dipilih :",
-                          subtitle: "CV. Global Vintage Numeration"
-                          // controller.ajuan.value.instansiNama,
-                          ,
+                        Text(
+                          "Ajuan Diproses",
+                          style: AllMaterial.montSerrat(
+                            color: AllMaterial.colorWhite,
+                            fontSize: 25,
+                            fontWeight: AllMaterial.fontSemiBold,
+                          ),
                         ),
-                        TextInfoAjuan(
-                          controller: controller,
-                          title: "Batas Verifikasi :",
-                          subtitle: "Sampai 25 September"
-                          // controller.ajuan.value.batasVerifikasi,
-                          ,
+                        Text(
+                          "Harap verifikasi data Anda!",
+                          style: AllMaterial.montSerrat(
+                            color: AllMaterial.colorWhite,
+                            fontSize: 15,
+                            fontWeight: AllMaterial.fontRegular,
+                          ),
                         ),
-                        TextInfoAjuan(
-                          controller: controller,
-                          title: "No. Telpon Instansi :",
-                          subtitle: "0812446642"
-                          // controller.ajuan.value.noTeleponInstansi,
-                          ,
-                        ),
-                        TextInfoAjuan(
-                            controller: controller,
-                            title: "Alamat Instansi",
-                            subtitle: "Dusun Tapen"
-                            // controller.ajuan.value.alamatInstansi,
-                            ),
-                        const SizedBox(height: 10),
                       ],
                     ),
                   ),
                 ),
-              ),
-            ],
-          ),
-        );
-      }),
+                Container(
+                  margin: const EdgeInsets.only(top: 240),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Container(
+                      width: Get.width,
+                      margin: const EdgeInsets.symmetric(vertical: 0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: AllMaterial.colorWhite,
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Color.fromARGB(34, 63, 63, 63),
+                            offset: Offset(5, 5),
+                            blurRadius: 25,
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        children: [
+                          TextInfoAjuan(
+                            controller: controller,
+                            title: "Status Info :",
+                            subtitle: "Verifikasi Selesai",
+                          ),
+                          TextInfoAjuan(
+                            controller: controller,
+                            title: "Instansi Dipilih :",
+                            subtitle: dataAjuan!.dudi.namaInstansiPerusahaan,
+                          ),
+                          TextInfoAjuan(
+                            controller: controller,
+                            title: "Tanggal Ajuan Verifikasi :",
+                            subtitle: AllMaterial.ubahTanggal(
+                              dataAjuan.waktuPengajuan.toIso8601String(),
+                            ),
+                          ),
+                          TextInfoAjuan(
+                            controller: controller,
+                            title: "No. Telpon Instansi :",
+                            subtitle: dataAjuan.dudi.noTelepon,
+                          ),
+                          TextInfoAjuan(
+                            controller: controller,
+                            title: "Alamat Instansi :",
+                            subtitle: AllMaterial.setiapHurufPertama(
+                                "${dataAjuan.dudi.alamat.detailTempat}, ${dataAjuan.dudi.alamat.desa}, ${dataAjuan.dudi.alamat.kecamatan}, ${dataAjuan.dudi.alamat.kabupaten}, ${dataAjuan.dudi.alamat.kabupaten}, ${dataAjuan.dudi.alamat.provinsi}"),
+                          ),
+                          const SizedBox(height: 10),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
       bottomNavigationBar: GestureDetector(
         onTap: () {
-          var status = Get.put(HomepageSiswaController());
-          if (status.statusPKL() == "belum pkl") {
+          var status = AllMaterial.box.read("statusSiswa");
+          if (status == null || status == "") {
             Get.off(() => HomeSiswaView());
-            status.status.value = "menunggu pkl";
+            AllMaterial.box.write("statusSiswa", "proses");
           } else {
             Get.back();
           }

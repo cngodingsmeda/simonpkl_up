@@ -27,7 +27,7 @@ class ProfileGuruView extends GetView<ProfileGuruController> {
             tooltip: "Logout",
             padding: const EdgeInsets.all(16),
             onPressed: () {
-              var genController = Get.find<GeneralController>();
+              var genController = Get.put(GeneralController());
               genController.logoutUser(context);
             },
             icon: const Icon(
@@ -67,10 +67,12 @@ class ProfileGuruView extends GetView<ProfileGuruController> {
                       style: const ButtonStyle(
                         padding: WidgetStatePropertyAll(EdgeInsets.zero),
                       ),
-                      onPressed: () {                          AllMaterial.messageScaffold(
-                            title: "Fitur Sedang Digarap, Coming Soon",
-                            context: context,
-                          );},
+                      onPressed: () {
+                        AllMaterial.messageScaffold(
+                          title: "Fitur Sedang Digarap, Coming Soon",
+                          context: context,
+                        );
+                      },
                       icon: const Icon(
                         size: 20,
                         Icons.edit,

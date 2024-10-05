@@ -9,6 +9,8 @@ class DetilNotifikasiSiswaView extends GetView<DetilNotifikasiSiswaController> {
   const DetilNotifikasiSiswaView({super.key});
   @override
   Widget build(BuildContext context) {
+    var id = Get.arguments;
+    var controller = Get.put(DetilNotifikasiSiswaController());
     return Scaffold(
       backgroundColor: AllMaterial.colorWhite,
       appBar: AppBar(
@@ -22,42 +24,59 @@ class DetilNotifikasiSiswaView extends GetView<DetilNotifikasiSiswaController> {
         ),
         centerTitle: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "18 September 2024 - 13.48",
-              style: AllMaterial.montSerrat(
-                color: AllMaterial.colorGrey,
-                fontSize: 13,
+      body: FutureBuilder(
+          future: controller.getNotifById(id),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Center(
+                    child: CircularProgressIndicator(
+                      color: AllMaterial.colorBlue,
+                    ),
+                  ),
+                ],
+              );
+            }
+            var notif = controller.detilNotif.value;
+            return Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    AllMaterial.ubahTanggaldanJam(notif!.createdAt.toString()),
+                    style: AllMaterial.montSerrat(
+                      color: AllMaterial.colorGrey,
+                      fontSize: 13,
+                    ),
+                  ),
+                  const SizedBox(height: 3),
+                  Text(
+                    AllMaterial.setiapHurufPertama(notif.title),
+                    style: AllMaterial.montSerrat(
+                      color: AllMaterial.colorBlack,
+                      fontSize: 18,
+                      fontWeight: AllMaterial.fontBold,
+                    ),
+                  ),
+                  const SizedBox(height: 3),
+                  Text(
+                    AllMaterial.setiapHurufPertama(notif.body),
+                    style: AllMaterial.montSerrat(
+                      color: AllMaterial.colorBlack,
+                      fontSize: 13,
+                      fontWeight: AllMaterial.fontMedium,
+                    ),
+                  ),
+                ],
               ),
-            ),
-            const SizedBox(height: 3),
-            Text(
-              "Kabar baik untukmu!",
-              style: AllMaterial.montSerrat(
-                color: AllMaterial.colorBlack,
-                fontSize: 18,
-                fontWeight: AllMaterial.fontBold,
-              ),
-            ),
-            const SizedBox(height: 3),
-            Text(
-              "Ajuan PKL-mu yang telah Anda ajukan telah diterima di PT. Telkom Indonesia, Selamat bergabung!",
-              style: AllMaterial.montSerrat(
-                color: AllMaterial.colorBlack,
-                fontSize: 13,
-                fontWeight: AllMaterial.fontMedium,
-              ),
-            ),
-          ],
-        ),
-      ),
+            );
+          }),
       bottomNavigationBar: GestureDetector(
         onTap: () {
-          Get.to(()=> const DetilHistoriAbsenSiswaView());
+          Get.to(() => const DetilHistoriAbsenSiswaView());
         },
         child: Container(
           margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),

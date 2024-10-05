@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:simon_pkl/all_material.dart';
+import 'package:simon_pkl/app/modules/dudi/buat_form_pkl_dudi/views/buat_form_pkl_dudi_view.dart';
 import 'package:simon_pkl/app/modules/dudi/laporan_pkl_dudi/views/laporan_pkl_dudi_view.dart';
 import 'package:simon_pkl/app/modules/siswa/pilihan_absen_siswa/views/pilihan_absen_siswa_view.dart';
 
@@ -86,10 +87,8 @@ class SkemaPklDudiView extends GetView<SkemaPklDudiController> {
                         nama: "Jadwal Absen",
                         svg: "assets/icons/buat-jadwal.svg",
                         tekan: () {
-                          AllMaterial.messageScaffold(
-                            title: "Fitur Sedang Digarap, Coming Soon",
-                            context: context,
-                          );
+                          Get.to(() => const BuatFormPklDudiView());
+                          AllMaterial.box.write("isJadwal", true);
                         },
                       ),
                       const SizedBox(width: 12),
@@ -97,10 +96,8 @@ class SkemaPklDudiView extends GetView<SkemaPklDudiController> {
                         nama: "Form Rekrut",
                         svg: "assets/icons/buat-rekrut.svg",
                         tekan: () {
-                          AllMaterial.messageScaffold(
-                            title: "Fitur Sedang Digarap, Coming Soon",
-                            context: context,
-                          );
+                          Get.to(() => const BuatFormPklDudiView());
+                          AllMaterial.box.write("isJadwal", false);
                         },
                       ),
                     ],

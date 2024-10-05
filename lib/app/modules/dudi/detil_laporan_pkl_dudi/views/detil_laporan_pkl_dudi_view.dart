@@ -225,10 +225,12 @@ class DetilLaporanPklDudiView extends GetView<DetilLaporanPklDudiController> {
                   SizedBox(
                     width: Get.width,
                     child: ElevatedButton.icon(
-                      onPressed: () {                          AllMaterial.messageScaffold(
-                            title: "Fitur Sedang Digarap, Coming Soon",
-                            context: context,
-                          );},
+                      onPressed: () {
+                        AllMaterial.messageScaffold(
+                          title: "Fitur Sedang Digarap, Coming Soon",
+                          context: context,
+                        );
+                      },
                       icon: Icon(MdiIcons.whatsapp,
                           color: AllMaterial.colorWhite),
                       label: Text(

@@ -29,7 +29,6 @@ class ProfileWidget extends StatelessWidget {
         ),
         const SizedBox(height: 10),
         TextField(
-        
           style: AllMaterial.montSerrat(
             fontWeight: AllMaterial.fontRegular,
           ),

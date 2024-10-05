@@ -48,6 +48,7 @@ abstract class Routes {
   static const LAPORAN_PKL_DUDI = _Paths.LAPORAN_PKL_DUDI;
   static const DETIL_LAPORAN_PKL_DUDI = _Paths.DETIL_LAPORAN_PKL_DUDI;
   static const BUAT_LAPORAN_PKL_DUDI = _Paths.BUAT_LAPORAN_PKL_DUDI;
+  static const BUAT_FORM_PKL_DUDI =_Paths.BUAT_FORM_PKL_DUDI;
 }
 
 abstract class _Paths {
@@ -97,4 +98,5 @@ abstract class _Paths {
   static const LAPORAN_PKL_DUDI = '/laporan-pkl-dudi';
   static const DETIL_LAPORAN_PKL_DUDI = '/detil-laporan-pkl-dudi';
   static const BUAT_LAPORAN_PKL_DUDI = '/buat-laporan-pkl-dudi';
+  static const BUAT_FORM_PKL_DUDI = '/buat-form-pkl-dudi';
 }

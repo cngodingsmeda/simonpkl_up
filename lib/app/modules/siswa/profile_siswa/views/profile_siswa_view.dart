@@ -27,7 +27,7 @@ class ProfileSiswaView extends GetView<ProfileSiswaController> {
             tooltip: "Logout",
             padding: const EdgeInsets.all(16),
             onPressed: () {
-              var genController = Get.find<GeneralController>();
+              var genController = Get.put(GeneralController());
               genController.logoutUser(context);
             },
             icon: const Icon(
@@ -51,8 +51,12 @@ class ProfileSiswaView extends GetView<ProfileSiswaController> {
                     width: 100,
                     height: 100,
                     decoration: BoxDecoration(
-                      image: const DecorationImage(
-                        image: AssetImage("assets/images/iyah.jpg"),
+                      image: DecorationImage(
+                        image: (controller.profil.value!.fotoProfile != null)
+                            ? NetworkImage(controller.profil.value!.fotoProfile)
+                            : const AssetImage(
+                                "assets/images/foto-profile.png",
+                              ),
                         fit: BoxFit.cover,
                       ),
                       borderRadius: BorderRadius.circular(500),
@@ -65,6 +69,7 @@ class ProfileSiswaView extends GetView<ProfileSiswaController> {
                     child: IconButton(
                       tooltip: "Edit Profil",
                       style: const ButtonStyle(
+                        elevation: WidgetStatePropertyAll(5),
                         padding: WidgetStatePropertyAll(EdgeInsets.zero),
                       ),
                       onPressed: () {
@@ -81,28 +86,30 @@ class ProfileSiswaView extends GetView<ProfileSiswaController> {
                     ),
                   ),
                   const SizedBox(width: 25),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      FittedBox(
-                        fit: BoxFit.scaleDown,
-                        child: Text(
-                          "Aditya Putra",
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: AllMaterial.montSerrat(
-                            fontWeight: AllMaterial.fontBold,
-                            fontSize: 20,
+                  Flexible(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(
+                            controller.profil.value!.nama.toUpperCase(),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: AllMaterial.montSerrat(
+                              fontWeight: AllMaterial.fontBold,
+                              fontSize: 20,
+                            ),
                           ),
                         ),
-                      ),
-                      Text(
-                        "NISN : 21414125125",
-                        style: AllMaterial.montSerrat(
-                          fontWeight: AllMaterial.fontRegular,
+                        Text(
+                          "NIS : ${controller.profil.value!.nis}",
+                          style: AllMaterial.montSerrat(
+                            fontWeight: AllMaterial.fontRegular,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ],
               ),

@@ -52,8 +52,11 @@ class ProfileSiswaView extends GetView<ProfileSiswaController> {
                     height: 100,
                     decoration: BoxDecoration(
                       image: DecorationImage(
+                        // ignore: unnecessary_null_comparison
                         image: (controller.profil.value!.fotoProfile != null)
-                            ? NetworkImage(controller.profil.value!.fotoProfile)
+                            ? NetworkImage(controller.profil.value!.fotoProfile
+                                .toString()
+                                .replaceAll("localhost", "10.0.2.2"))
                             : const AssetImage(
                                 "assets/images/foto-profile.png",
                               ),

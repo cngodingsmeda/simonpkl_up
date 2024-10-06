@@ -14,7 +14,6 @@ void main() async {
   await initializeDateFormatting('id_ID', null);
   await GetStorage.init();
 
-  // Bungkus aplikasi dengan GetMaterialApp
   runApp(
     GetMaterialApp(
       title: "Simon PKL",
@@ -38,7 +37,6 @@ class InitPage extends StatelessWidget {
   Widget build(BuildContext context) {
     var logController = Get.put(LoginPageController());
 
-    // Menggunakan Obx untuk memantau perubahan pada isAuth
     return FutureBuilder(
       future: Future.delayed(const Duration(seconds: 2)),
       builder: (context, snapshot) {

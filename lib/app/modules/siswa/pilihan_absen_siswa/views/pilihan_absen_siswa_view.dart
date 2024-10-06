@@ -17,43 +17,53 @@ class PilihanAbsenSiswaView extends GetView<PilihanAbsenSiswaController> {
       backgroundColor: AllMaterial.colorWhite,
       resizeToAvoidBottomInset: true,
       body: Obx(() {
-        if (controller.isLoading.value) {
-          return const Center(child: CircularProgressIndicator());
+        if (controller.isLoading.value == false) {
+          return const Center(
+            child: CircularProgressIndicator(
+              color: AllMaterial.colorBlue,
+            ),
+          );
         }
-        if (controller.isWithinRadius.isTrue) {
-          return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "Anda tidak berada dalam radius yang ditentukan.",
-                  style: AllMaterial.montSerrat(
-                      fontWeight: AllMaterial.fontSemiBold),
-                ),
-                const SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () {
-                    Get.back();
-                  },
-                  style: ElevatedButton.styleFrom(
-                    shadowColor: Colors.transparent,
-                    backgroundColor: AllMaterial.colorBlue,
-                    elevation: 0,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(16),
+        if (controller.isWithinRadius.isFalse) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    (controller.isWithinRadius.isFalse)
+                        ? controller.msg.value
+                        : "Anda tidak berada dalam radius yang ditentukan.",
+                    textAlign: TextAlign.center,
+                    style: AllMaterial.montSerrat(
+                        fontWeight: AllMaterial.fontSemiBold),
+                  ),
+                  const SizedBox(height: 10),
+                  ElevatedButton(
+                    onPressed: () {
+                      Get.back();
+                    },
+                    style: ElevatedButton.styleFrom(
+                      shadowColor: Colors.transparent,
+                      backgroundColor: AllMaterial.colorBlue,
+                      elevation: 0,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(16),
+                        ),
+                      ),
+                    ),
+                    child: Text(
+                      "Kembali",
+                      style: AllMaterial.montSerrat(
+                        color: AllMaterial.colorWhite,
+                        fontWeight: AllMaterial.fontMedium,
                       ),
                     ),
                   ),
-                  child: Text(
-                    "Kembali",
-                    style: AllMaterial.montSerrat(
-                      color: AllMaterial.colorWhite,
-                      fontWeight: AllMaterial.fontMedium,
-                    ),
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
           );
         }
@@ -218,29 +228,32 @@ class PilihanAbsenSiswaView extends GetView<PilihanAbsenSiswaController> {
           ),
         );
       }),
-      bottomNavigationBar: GestureDetector(
-        onTap: () {
-          Get.back();
-        },
-        child: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-          decoration: BoxDecoration(
-            color: AllMaterial.colorBlue,
-            borderRadius: BorderRadius.circular(5),
-          ),
-          width: Get.width,
-          height: 50,
-          child: Center(
-            child: Text(
-              "Kembali Ke Beranda",
-              style: AllMaterial.montSerrat(
-                fontWeight: AllMaterial.fontSemiBold,
-                color: AllMaterial.colorWhite,
+      bottomNavigationBar: controller.isWithinRadius.isFalse
+          ? const SizedBox.shrink()
+          : GestureDetector(
+              onTap: () {
+                Get.back();
+              },
+              child: Container(
+                margin:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                decoration: BoxDecoration(
+                  color: AllMaterial.colorBlue,
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                width: Get.width,
+                height: 50,
+                child: Center(
+                  child: Text(
+                    "Kembali Ke Beranda",
+                    style: AllMaterial.montSerrat(
+                      fontWeight: AllMaterial.fontSemiBold,
+                      color: AllMaterial.colorWhite,
+                    ),
+                  ),
+                ),
               ),
             ),
-          ),
-        ),
-      ),
     );
   }
 }

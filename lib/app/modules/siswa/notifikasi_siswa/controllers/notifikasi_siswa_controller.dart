@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:simon_pkl/all_material.dart';
@@ -10,6 +9,7 @@ import 'package:simon_pkl/app/modules/siswa/homepage_siswa/controllers/homepage_
 class NotifikasiSiswaController extends GetxController {
   var allNotifikasi = Rxn<AllNotifikasiModel>();
   var token = AllMaterial.box.read("token");
+
   @override
   void onInit() {
     getAllNotif();
@@ -18,31 +18,33 @@ class NotifikasiSiswaController extends GetxController {
 
   @override
   void onClose() {
-    var getNotif = Get.put(HomepageSiswaController());
+    var getNotif = Get.find<HomepageSiswaController>();
     getNotif.getNotifUnread();
     super.onClose();
   }
 
   Future<void> getAllNotif() async {
-    final response = await http.get(
-      Uri.parse(ApiUrl.urlGetAllNotifSiswa),
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer $token",
-      },
-    );
-    var data = jsonDecode(response.body);
-    print(response.statusCode);
-    if (response.statusCode == 200) {
-      print(data);
-      var notifList = data["data"] as List;
-      allNotifikasi.value = AllNotifikasiModel(
-        data: notifList.map((item) => Datum.fromJson(item)).toList(),
+    try {
+      final response = await http.get(
+        Uri.parse(ApiUrl.urlGetAllNotifSiswa),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer $token",
+        },
       );
-      update();
-    } else {
-      print("gagal mengirim data");
-      throw Exception('Failed to send data');
+
+      if (response.statusCode == 200) {
+        var data = jsonDecode(response.body);
+        print(data);
+
+        // Parsing sesuai struktur model baru
+        allNotifikasi.value = AllNotifikasiModel.fromJson(data);
+        update();
+      } else {
+        print("Failed to load notifications");
+      }
+    } catch (e) {
+      print("Exception occurred while fetching notifications: $e");
     }
   }
 }

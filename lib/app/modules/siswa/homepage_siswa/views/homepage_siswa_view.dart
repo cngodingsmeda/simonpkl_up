@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:simon_pkl/all_material.dart';
 import 'package:simon_pkl/app/modules/siswa/ajuan_siswa/views/ajuan_siswa_view.dart';
+import 'package:simon_pkl/app/modules/siswa/batalkan_pkl_siswa/views/batalkan_pkl_siswa_view.dart';
 import 'package:simon_pkl/app/modules/siswa/detil_histori_absen_siswa/views/detil_histori_absen_siswa_view.dart';
 import 'package:simon_pkl/app/modules/siswa/histori_absen_siswa/views/histori_absen_siswa_view.dart';
 import 'package:simon_pkl/app/modules/siswa/homepage_siswa/widgets/cards_widget.dart';
@@ -172,8 +173,6 @@ class HomepageSiswaView extends GetView<HomepageSiswaController> {
                                                   const Duration(seconds: 1),
                                                 ),
                                       builder: (context, snapshot) {
-                                        var ajuanPkl =
-                                            controller.ajuanPkl.value;
                                         if (snapshot.connectionState ==
                                             ConnectionState.waiting) {
                                           return const Column(
@@ -189,6 +188,8 @@ class HomepageSiswaView extends GetView<HomepageSiswaController> {
                                             ],
                                           );
                                         }
+                                        var ajuanPkl =
+                                            controller.ajuanPkl.value;
                                         return Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
@@ -219,8 +220,9 @@ class HomepageSiswaView extends GetView<HomepageSiswaController> {
                                                       const SizedBox(width: 10),
                                                       Expanded(
                                                         child: Text(
-                                                          ajuanPkl!.dudi
-                                                              .namaInstansiPerusahaan,
+                                                          ajuanPkl?.dudi
+                                                                  .namaInstansiPerusahaan ??
+                                                              'No Instansi Perusahaan',
                                                           style: AllMaterial
                                                               .montSerrat(
                                                             color: AllMaterial
@@ -244,7 +246,7 @@ class HomepageSiswaView extends GetView<HomepageSiswaController> {
                                                       const SizedBox(width: 10),
                                                       Expanded(
                                                         child: Text(
-                                                          ajuanPkl
+                                                          ajuanPkl!
                                                               .dudi.noTelepon,
                                                           style: AllMaterial
                                                               .montSerrat(
@@ -297,39 +299,15 @@ class HomepageSiswaView extends GetView<HomepageSiswaController> {
                                                 children: [
                                                   ElevatedButton(
                                                     onPressed: () {
-                                                      Get.defaultDialog(
-                                                        middleTextStyle:
-                                                            AllMaterial
-                                                                .montSerrat(),
-                                                        backgroundColor:
-                                                            AllMaterial
-                                                                .colorWhite,
-                                                        radius: 10,
-                                                        buttonColor: AllMaterial
-                                                            .colorBlue,
-                                                        titleStyle: AllMaterial
-                                                            .montSerrat(
-                                                          fontWeight:
-                                                              AllMaterial
-                                                                  .fontMedium,
-                                                        ),
-                                                        title: "Konfirmasi",
-                                                        middleText:
-                                                            "Apakah Anda yakin ingin membatalkan ajuan PKL?",
-                                                        onConfirm: () {
-                                                          Get.back();
-                                                          controller
-                                                              .batalkanPkl(
-                                                            ajuanPkl.id,
-                                                          );
-                                                        },
-                                                        textCancel: "Batalkan",
-                                                        cancelTextColor:
-                                                            AllMaterial
-                                                                .colorBlue,
-                                                        textConfirm:
-                                                            "Konfirmasi",
-                                                      );
+                                                      Get.to(
+                                                          () =>
+                                                              const BatalkanPklSiswaView(),
+                                                          arguments: {
+                                                            "id": ajuanPkl.id,
+                                                            "instansi": ajuanPkl
+                                                                .dudi
+                                                                .namaInstansiPerusahaan
+                                                          });
                                                     },
                                                     style: ElevatedButton
                                                         .styleFrom(
@@ -404,151 +382,41 @@ class HomepageSiswaView extends GetView<HomepageSiswaController> {
                                       })
                                   : (HomepageSiswaController.statusPkl.value ==
                                           "sudah_pkl")
-                                      ? GestureDetector(
-                                          onTap: () {
-                                            // controller.status.value = "belum pkl";
-                                          },
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                "Tempat PKL Saya",
-                                                style: AllMaterial.montSerrat(
-                                                  color: AllMaterial.colorWhite,
-                                                  fontWeight:
-                                                      AllMaterial.fontSemiBold,
-                                                  fontSize: 16,
-                                                ),
+                                      ? Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              "Tempat PKL Saya",
+                                              style: AllMaterial.montSerrat(
+                                                color: AllMaterial.colorWhite,
+                                                fontWeight:
+                                                    AllMaterial.fontSemiBold,
+                                                fontSize: 16,
                                               ),
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 10,
-                                                        vertical: 10),
-                                                child: Column(
-                                                  children: [
-                                                    Row(
-                                                      children: [
-                                                        const Icon(
-                                                          Icons.cases_outlined,
-                                                          color: AllMaterial
-                                                              .colorWhite,
-                                                        ),
-                                                        const SizedBox(
-                                                            width: 10),
-                                                        Expanded(
-                                                          child: Text(
-                                                            "CV. Global Vintage Numeration 313",
-                                                            style: AllMaterial
-                                                                .montSerrat(
-                                                              color: AllMaterial
-                                                                  .colorWhite,
-                                                              fontWeight:
-                                                                  AllMaterial
-                                                                      .fontMedium,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    const SizedBox(height: 10),
-                                                    Row(
-                                                      children: [
-                                                        const Icon(
-                                                          Icons.phone_outlined,
-                                                          color: AllMaterial
-                                                              .colorWhite,
-                                                        ),
-                                                        const SizedBox(
-                                                            width: 10),
-                                                        Expanded(
-                                                          child: Text(
-                                                            "+62 867654321",
-                                                            style: AllMaterial
-                                                                .montSerrat(
-                                                              color: AllMaterial
-                                                                  .colorWhite,
-                                                              fontWeight:
-                                                                  AllMaterial
-                                                                      .fontMedium,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    const SizedBox(height: 10),
-                                                    Row(
-                                                      children: [
-                                                        const Icon(
-                                                          Icons
-                                                              .pin_drop_outlined,
-                                                          color: AllMaterial
-                                                              .colorWhite,
-                                                        ),
-                                                        const SizedBox(
-                                                            width: 10),
-                                                        Expanded(
-                                                          child: Text(
-                                                            "Jl. Lorem ipsum, Dolor sit, No. 313",
-                                                            style: AllMaterial
-                                                                .montSerrat(
-                                                              color: AllMaterial
-                                                                  .colorWhite,
-                                                              fontWeight:
-                                                                  AllMaterial
-                                                                      .fontMedium,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                              const SizedBox(height: 5),
-                                              SizedBox(
-                                                width: Get.width,
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceEvenly,
-                                                  children: [
-                                                    Flexible(
-                                                      child:
-                                                          ElevatedButton.icon(
-                                                        icon: SvgPicture.asset(
-                                                          "assets/icons/laporan.svg",
-                                                          height: 30,
-                                                        ),
-                                                        onPressed: () {
-                                                          Get.to(() =>
-                                                              const LaporanSiswaView());
-                                                        },
-                                                        style: ElevatedButton
-                                                            .styleFrom(
-                                                          shadowColor: Colors
-                                                              .transparent,
-                                                          backgroundColor:
-                                                              AllMaterial
-                                                                  .colorBlue,
-                                                          elevation: 0,
-                                                          shape:
-                                                              const RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .all(
-                                                              Radius.circular(
-                                                                  16),
-                                                            ),
-                                                            side: BorderSide(
-                                                              color: AllMaterial
-                                                                  .colorWhite,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        label: Text(
-                                                          "Laporan",
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 10,
+                                                      vertical: 10),
+                                              child: Column(
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      const Icon(
+                                                        Icons.cases_outlined,
+                                                        color: AllMaterial
+                                                            .colorWhite,
+                                                      ),
+                                                      const SizedBox(width: 10),
+                                                      Expanded(
+                                                        child: Text(
+                                                          profController
+                                                              .profil
+                                                              .value!
+                                                              .dudi
+                                                              .namaInstansiPerusahaan,
                                                           style: AllMaterial
                                                               .montSerrat(
                                                             color: AllMaterial
@@ -559,57 +427,159 @@ class HomepageSiswaView extends GetView<HomepageSiswaController> {
                                                           ),
                                                         ),
                                                       ),
-                                                    ),
-                                                    Flexible(
-                                                      child:
-                                                          ElevatedButton.icon(
-                                                        icon: const Icon(
-                                                          Icons.fingerprint,
-                                                          color: AllMaterial
-                                                              .colorBlue,
-                                                        ),
-                                                        onPressed: () {
-                                                          Get.to(
-                                                            () =>
-                                                                const PilihanAbsenSiswaView(),
-                                                          );
-                                                        },
-                                                        style: ElevatedButton
-                                                            .styleFrom(
-                                                          shadowColor: Colors
-                                                              .transparent,
-                                                          backgroundColor:
-                                                              AllMaterial
-                                                                  .colorWhite,
-                                                          elevation: 0,
-                                                          shape:
-                                                              const RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .all(
-                                                              Radius.circular(
-                                                                  16),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        label: Text(
-                                                          "Absensi",
+                                                    ],
+                                                  ),
+                                                  const SizedBox(height: 10),
+                                                  Row(
+                                                    children: [
+                                                      const Icon(
+                                                        Icons.phone_outlined,
+                                                        color: AllMaterial
+                                                            .colorWhite,
+                                                      ),
+                                                      const SizedBox(width: 10),
+                                                      Expanded(
+                                                        child: Text(
+                                                          profController.profil
+                                                              .value!.noTelepon,
                                                           style: AllMaterial
                                                               .montSerrat(
                                                             color: AllMaterial
-                                                                .colorBlue,
+                                                                .colorWhite,
                                                             fontWeight:
                                                                 AllMaterial
                                                                     .fontMedium,
                                                           ),
                                                         ),
                                                       ),
-                                                    ),
-                                                  ],
-                                                ),
+                                                    ],
+                                                  ),
+                                                  const SizedBox(height: 10),
+                                                  Row(
+                                                    children: [
+                                                      const Icon(
+                                                        Icons.pin_drop_outlined,
+                                                        color: AllMaterial
+                                                            .colorWhite,
+                                                      ),
+                                                      const SizedBox(width: 10),
+                                                      Expanded(
+                                                        child: Text(
+                                                          AllMaterial
+                                                              .setiapHurufPertama(
+                                                                  "${profController.profil.value!.dudi.alamat.detailTempat}, ${profController.profil.value!.dudi.alamat.desa}, ${profController.profil.value!.dudi.alamat.kecamatan}, ${profController.profil.value!.dudi.alamat.kabupaten}, ${profController.profil.value!.dudi.alamat.kabupaten}, ${profController.profil.value!.dudi.alamat.provinsi}"),
+                                                          style: AllMaterial
+                                                              .montSerrat(
+                                                            color: AllMaterial
+                                                                .colorWhite,
+                                                            fontWeight:
+                                                                AllMaterial
+                                                                    .fontMedium,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
                                               ),
-                                            ],
-                                          ),
+                                            ),
+                                            const SizedBox(height: 5),
+                                            SizedBox(
+                                              width: Get.width,
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
+                                                children: [
+                                                  Flexible(
+                                                    child: ElevatedButton.icon(
+                                                      icon: SvgPicture.asset(
+                                                        "assets/icons/laporan.svg",
+                                                        height: 30,
+                                                      ),
+                                                      onPressed: () {
+                                                        Get.to(() =>
+                                                            const LaporanSiswaView());
+                                                      },
+                                                      style: ElevatedButton
+                                                          .styleFrom(
+                                                        shadowColor:
+                                                            Colors.transparent,
+                                                        backgroundColor:
+                                                            AllMaterial
+                                                                .colorBlue,
+                                                        elevation: 0,
+                                                        shape:
+                                                            const RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                            Radius.circular(16),
+                                                          ),
+                                                          side: BorderSide(
+                                                            color: AllMaterial
+                                                                .colorWhite,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      label: Text(
+                                                        "Laporan",
+                                                        style: AllMaterial
+                                                            .montSerrat(
+                                                          color: AllMaterial
+                                                              .colorWhite,
+                                                          fontWeight:
+                                                              AllMaterial
+                                                                  .fontMedium,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Flexible(
+                                                    child: ElevatedButton.icon(
+                                                      icon: const Icon(
+                                                        Icons.fingerprint,
+                                                        color: AllMaterial
+                                                            .colorBlue,
+                                                      ),
+                                                      onPressed: () {
+                                                        Get.to(
+                                                          () =>
+                                                              const PilihanAbsenSiswaView(),
+                                                        );
+                                                      },
+                                                      style: ElevatedButton
+                                                          .styleFrom(
+                                                        shadowColor:
+                                                            Colors.transparent,
+                                                        backgroundColor:
+                                                            AllMaterial
+                                                                .colorWhite,
+                                                        elevation: 0,
+                                                        shape:
+                                                            const RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                            Radius.circular(16),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      label: Text(
+                                                        "Absensi",
+                                                        style: AllMaterial
+                                                            .montSerrat(
+                                                          color: AllMaterial
+                                                              .colorBlue,
+                                                          fontWeight:
+                                                              AllMaterial
+                                                                  .fontMedium,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
                                         )
                                       : const SizedBox.shrink(),
                         ),
@@ -618,38 +588,6 @@ class HomepageSiswaView extends GetView<HomepageSiswaController> {
                         () => profController.profil.value!.status == "sudah_pkl"
                             ? Column(
                                 children: [
-                                  const SizedBox(height: 10),
-                                  // SizedBox(
-                                  //   width: Get.width,
-                                  //   child: ElevatedButton.icon(
-                                  //     onPressed: () {
-                                  //       // absen
-                                  //       Get.to(() => const PilihanAbsenSiswaView());
-                                  //     },
-                                  //     icon: const Icon(
-                                  //       Icons.fingerprint,
-                                  //       color: AllMaterial.colorBlue,
-                                  //     ),
-                                  //     label: Text(
-                                  //       "Absen Harian",
-                                  //       style: AllMaterial.montSerrat(
-                                  //         color: AllMaterial.colorBlue,
-                                  //         fontWeight: AllMaterial.fontMedium,
-                                  //       ),
-                                  //     ),
-                                  //     style: ElevatedButton.styleFrom(
-                                  //       foregroundColor: AllMaterial.colorBlue,
-                                  //       backgroundColor: AllMaterial.colorWhite,
-                                  //       padding: const EdgeInsets.symmetric(
-                                  //         horizontal: 24,
-                                  //         vertical: 12,
-                                  //       ),
-                                  //       shape: RoundedRectangleBorder(
-                                  //         borderRadius: BorderRadius.circular(30),
-                                  //       ),
-                                  //     ),
-                                  //   ),
-                                  // ),
                                   const SizedBox(height: 30),
                                   InkWell(
                                     onTap: () {
@@ -675,41 +613,117 @@ class HomepageSiswaView extends GetView<HomepageSiswaController> {
                                       ],
                                     ),
                                   ),
-                                  Column(
-                                    children: [
-                                      CardWidget(
-                                        onTap: () => Get.to(() =>
-                                            const DetilHistoriAbsenSiswaView()),
-                                        tanggal: "Sabtu, 24 Agustus 2024",
-                                        icon: const Icon(
-                                          Icons.check_circle,
-                                          color: Colors.green,
-                                        ),
-                                        keterangan: "Hadir",
-                                      ),
-                                      CardWidget(
-                                        onTap: () => Get.to(() =>
-                                            const DetilHistoriAbsenSiswaView()),
-                                        tanggal: "Sabtu, 24 Agustus 2024",
-                                        icon: const Icon(
-                                          Icons.check_circle,
-                                          color: Colors.green,
-                                        ),
-                                        keterangan: "Hadir",
-                                      ),
-                                      CardWidget(
-                                        onTap: () => Get.to(() =>
-                                            const DetilHistoriAbsenSiswaView()),
-                                        tanggal: "Sabtu, 24 Agustus 2024",
-                                        icon: const Icon(
-                                          Icons.check_circle,
-                                          color: Colors.green,
-                                        ),
-                                        keterangan: "Hadir",
-                                      ),
-                                      const SizedBox(height: 60),
-                                    ],
-                                  ),
+                                  FutureBuilder(
+                                      future: controller.getAbsenTigaHari(),
+                                      builder: (context, snapshot) {
+                                        if (snapshot.connectionState ==
+                                            ConnectionState.waiting) {
+                                          return const Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Center(
+                                                child:
+                                                    CircularProgressIndicator(
+                                                  color: AllMaterial.colorBlue,
+                                                ),
+                                              ),
+                                            ],
+                                          );
+                                        }
+                                        return (controller.absenTigaHari.value
+                                                    ?.data ==
+                                                null)
+                                            ? Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  const SizedBox(height: 25),
+                                                  Center(
+                                                    child: Text(
+                                                      "Belum ada histori absen",
+                                                      style: AllMaterial
+                                                          .montSerrat(),
+                                                    ),
+                                                  ),
+                                                ],
+                                              )
+                                            : ListView.builder(
+                                                itemCount: controller
+                                                    .absenTigaHari
+                                                    .value!
+                                                    .data
+                                                    .length,
+                                                itemBuilder: (context, index) {
+                                                  var absen = controller
+                                                      .absenTigaHari
+                                                      .value!
+                                                      .data[index];
+                                                  return CardWidget(
+                                                    onTap: () => Get.to(() =>
+                                                        const DetilHistoriAbsenSiswaView()),
+                                                    tanggal: AllMaterial
+                                                        .ubahTanggal(absen
+                                                            .tanggal
+                                                            .toIso8601String()),
+                                                    icon: (absen.status
+                                                            .contains("hadir"))
+                                                        ? const Icon(
+                                                            Icons.check_circle,
+                                                            color: Colors.green,
+                                                          )
+                                                        : (absen.status
+                                                                .contains(
+                                                                    "tidak"))
+                                                            ? const Icon(
+                                                                Icons
+                                                                    .cancel_sharp,
+                                                                color:
+                                                                    Colors.red,
+                                                              )
+                                                            : (absen.status.contains(
+                                                                        "sakit") ||
+                                                                    absen.status
+                                                                        .contains(
+                                                                            "izin"))
+                                                                ? const Icon(
+                                                                    Icons
+                                                                        .remove_circle,
+                                                                    color: Colors
+                                                                        .blue,
+                                                                  )
+                                                                : const Icon(
+                                                                    Icons
+                                                                        .info_rounded,
+                                                                    color: Colors
+                                                                        .yellow,
+                                                                  ),
+                                                    keterangan: absen.status,
+                                                  );
+                                                },
+                                              );
+                                      }),
+                                  // Column(
+                                  //   children: List.generate(
+                                  //     controller
+                                  //         .absenTigaHari.value!.data.length,
+                                  //     (index) {
+                                  //       var absen = controller
+                                  //           .absenTigaHari.value!.data[index];
+                                  //       return CardWidget(
+                                  //         onTap: () => Get.to(() =>
+                                  //             const DetilHistoriAbsenSiswaView()),
+                                  //         tanggal: AllMaterial.ubahTanggal(
+                                  //             absen.tanggal.toIso8601String()),
+                                  //         icon: const Icon(
+                                  //           Icons.check_circle,
+                                  //           color: Colors.green,
+                                  //         ),
+                                  //         keterangan: "Hadir",
+                                  //       );
+                                  //     },
+                                  //   ),
+                                  // ),
                                 ],
                               )
                             : const SizedBox.shrink(),

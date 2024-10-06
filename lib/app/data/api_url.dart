@@ -16,9 +16,8 @@ abstract class ApiUrl {
       "http://10.0.2.2:2008/siswa/notification/unread/count";
   static var urlGetAllNotifSiswa = "http://10.0.2.2:2008/siswa/notification";
   static var urlGetAllNotifByIdSiswa = "http://10.0.2.2:2008/siswa/notification";
+  static var urlGetAbsenTigaHariSiswa = "http://10.0.2.2:2008/siswa/absen?month=9&isGrouping=false&isSevenDayAgo=true";
   static var urlGetHistoriAbsenDetil = "";
-  static var urlGetAjuanSiswa = "";
-  static var urlGetNotifSiswa = "";
-  static var urlGetStatusRadius = "";
+  static var urlGetStatusRadiusSiswa = "http://10.0.2.2:2008/siswa/koordinat-absen/cek";
   static var urlGetJadwalAbsen = "";
 }

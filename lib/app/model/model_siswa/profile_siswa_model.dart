@@ -9,6 +9,7 @@ ProfileSiswaModel profileSiswaModelFromJson(String str) => ProfileSiswaModel.fro
 String profileSiswaModelToJson(ProfileSiswaModel data) => json.encode(data.toJson());
 
 class ProfileSiswaModel {
+    int id;
     String nis;
     String nama;
     String jenisKelamin;
@@ -16,15 +17,16 @@ class ProfileSiswaModel {
     String noTelepon;
     String status;
     dynamic tokenFcm;
-    dynamic fotoProfile;
+    String fotoProfile;
     Alamat alamat;
     Jurusan jurusan;
     Kelas kelas;
     GuruPembimbing guruPembimbing;
-    dynamic dudi;
-    dynamic pembimbingDudi;
+    Dudi dudi;
+    PembimbingDudi pembimbingDudi;
 
     ProfileSiswaModel({
+        required this.id,
         required this.nis,
         required this.nama,
         required this.jenisKelamin,
@@ -42,6 +44,7 @@ class ProfileSiswaModel {
     });
 
     factory ProfileSiswaModel.fromJson(Map<String, dynamic> json) => ProfileSiswaModel(
+        id: json["id"],
         nis: json["nis"],
         nama: json["nama"],
         jenisKelamin: json["jenis_kelamin"],
@@ -54,11 +57,12 @@ class ProfileSiswaModel {
         jurusan: Jurusan.fromJson(json["jurusan"]),
         kelas: Kelas.fromJson(json["kelas"]),
         guruPembimbing: GuruPembimbing.fromJson(json["guru_pembimbing"]),
-        dudi: json["dudi"],
-        pembimbingDudi: json["pembimbing_dudi"],
+        dudi: Dudi.fromJson(json["dudi"]),
+        pembimbingDudi: PembimbingDudi.fromJson(json["pembimbing_dudi"]),
     );
 
     Map<String, dynamic> toJson() => {
+        "id": id,
         "nis": nis,
         "nama": nama,
         "jenis_kelamin": jenisKelamin,
@@ -71,8 +75,8 @@ class ProfileSiswaModel {
         "jurusan": jurusan.toJson(),
         "kelas": kelas.toJson(),
         "guru_pembimbing": guruPembimbing.toJson(),
-        "dudi": dudi,
-        "pembimbing_dudi": pembimbingDudi,
+        "dudi": dudi.toJson(),
+        "pembimbing_dudi": pembimbingDudi.toJson(),
     };
 }
 
@@ -109,6 +113,54 @@ class Alamat {
         "kabupaten": kabupaten,
         "provinsi": provinsi,
         "negara": negara,
+    };
+}
+
+class Dudi {
+    int id;
+    String namaInstansiPerusahaan;
+    String bidangUsaha;
+    String noTelepon;
+    String deskripsi;
+    bool tersedia;
+    int idSekolah;
+    int idTahun;
+    Alamat alamat;
+
+    Dudi({
+        required this.id,
+        required this.namaInstansiPerusahaan,
+        required this.bidangUsaha,
+        required this.noTelepon,
+        required this.deskripsi,
+        required this.tersedia,
+        required this.idSekolah,
+        required this.idTahun,
+        required this.alamat,
+    });
+
+    factory Dudi.fromJson(Map<String, dynamic> json) => Dudi(
+        id: json["id"],
+        namaInstansiPerusahaan: json["nama_instansi_perusahaan"],
+        bidangUsaha: json["bidang_usaha"],
+        noTelepon: json["no_telepon"],
+        deskripsi: json["deskripsi"],
+        tersedia: json["tersedia"],
+        idSekolah: json["id_sekolah"],
+        idTahun: json["id_tahun"],
+        alamat: Alamat.fromJson(json["alamat"]),
+    );
+
+    Map<String, dynamic> toJson() => {
+        "id": id,
+        "nama_instansi_perusahaan": namaInstansiPerusahaan,
+        "bidang_usaha": bidangUsaha,
+        "no_telepon": noTelepon,
+        "deskripsi": deskripsi,
+        "tersedia": tersedia,
+        "id_sekolah": idSekolah,
+        "id_tahun": idTahun,
+        "alamat": alamat.toJson(),
     };
 }
 
@@ -229,5 +281,61 @@ class Kelas {
         "nama": nama,
         "tahun": tahun,
         "id_jurusan": idJurusan,
+    };
+}
+
+class PembimbingDudi {
+    int id;
+    String username;
+    String nama;
+    String noTelepon;
+    String email;
+    dynamic fotoProfile;
+    String jenisKelamin;
+    dynamic tokenFcm;
+    int idDudi;
+    int idSekolah;
+    int idTahun;
+
+    PembimbingDudi({
+        required this.id,
+        required this.username,
+        required this.nama,
+        required this.noTelepon,
+        required this.email,
+        required this.fotoProfile,
+        required this.jenisKelamin,
+        required this.tokenFcm,
+        required this.idDudi,
+        required this.idSekolah,
+        required this.idTahun,
+    });
+
+    factory PembimbingDudi.fromJson(Map<String, dynamic> json) => PembimbingDudi(
+        id: json["id"],
+        username: json["username"],
+        nama: json["nama"],
+        noTelepon: json["no_telepon"],
+        email: json["email"],
+        fotoProfile: json["foto_profile"],
+        jenisKelamin: json["jenis_kelamin"],
+        tokenFcm: json["token_FCM"],
+        idDudi: json["id_dudi"],
+        idSekolah: json["id_sekolah"],
+        idTahun: json["id_tahun"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "id": id,
+        "username": username,
+        "nama": nama,
+        "no_telepon": noTelepon,
+        "email": email,
+        "foto_profile": fotoProfile,
+        "jenis_kelamin": jenisKelamin,
+        "token_FCM": tokenFcm,
+        "id_dudi": idDudi,
+        "id_sekolah": idSekolah,
+        "id_tahun": idTahun,
     };
 }

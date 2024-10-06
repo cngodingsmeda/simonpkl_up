@@ -108,8 +108,9 @@ abstract class AllMaterial {
   }
 
   static String ubahTanggaldanJam(String dateTimeString) {
-  DateTime dateTime = DateTime.parse(dateTimeString);
-  String formattedDate = DateFormat('d MMMM yyyy - HH.mm').format(dateTime);
-  return formattedDate;
-}
+    DateTime dateTime = DateTime.parse(dateTimeString);
+    String formattedDate =
+        DateFormat('d MMMM yyyy - HH.mm', 'id_ID').format(dateTime);
+    return formattedDate;
+  }
 }

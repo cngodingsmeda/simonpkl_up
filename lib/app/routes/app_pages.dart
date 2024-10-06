@@ -1,9 +1,11 @@
 import 'package:get/get.dart';
 
-import '../modules/dudi/buat_form_pkl_dudi/bindings/buat_form_pkl_dudi_binding.dart';
-import '../modules/dudi/buat_form_pkl_dudi/views/buat_form_pkl_dudi_view.dart';
+import '../modules/siswa/batalkan_pkl_siswa/bindings/batalkan_pkl_siswa_binding.dart';
+import '../modules/siswa/batalkan_pkl_siswa/views/batalkan_pkl_siswa_view.dart';
 import '../modules/dudi/ajuan_pkl_siswa_dudi/bindings/ajuan_pkl_siswa_dudi_binding.dart';
 import '../modules/dudi/ajuan_pkl_siswa_dudi/views/ajuan_pkl_siswa_dudi_view.dart';
+import '../modules/dudi/buat_form_pkl_dudi/bindings/buat_form_pkl_dudi_binding.dart';
+import '../modules/dudi/buat_form_pkl_dudi/views/buat_form_pkl_dudi_view.dart';
 import '../modules/dudi/buat_laporan_pkl_dudi/bindings/buat_laporan_pkl_dudi_binding.dart';
 import '../modules/dudi/buat_laporan_pkl_dudi/views/buat_laporan_pkl_dudi_view.dart';
 import '../modules/dudi/data_siswa_dudi/bindings/data_siswa_dudi_binding.dart';
@@ -295,6 +297,11 @@ class AppPages {
       name: _Paths.BUAT_FORM_PKL_DUDI,
       page: () => const BuatFormPklDudiView(),
       binding: BuatFormPklDudiBinding(),
+    ),
+    GetPage(
+      name: _Paths.BATALKAN_PKL_SISWA,
+      page: () => const BatalkanPklSiswaView(),
+      binding: BatalkanPklSiswaBinding(),
     ),
   ];
 }

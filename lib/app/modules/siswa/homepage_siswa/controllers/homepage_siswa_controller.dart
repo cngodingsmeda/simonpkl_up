@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:simon_pkl/all_material.dart';
@@ -12,11 +13,13 @@ class HomepageSiswaController extends GetxController {
   static RxString statusPkl = "".obs;
   var readCount = 0.obs;
   var ajuanPkl = Rx<LastAjuanPklModel?>(null);
-  var absenTigaHari = Rxn<AbsenModel?>(null);
+  var absenTigaHari = <Datum>[].obs;
 
   @override
   void onInit() {
-    getLastAjuanPkl();
+    if (HomepageSiswaController.statusPkl.value == "menunggu") {
+      getLastAjuanPkl();
+    }
     super.onInit();
   }
 
@@ -84,23 +87,35 @@ class HomepageSiswaController extends GetxController {
   }
 
   Future<void> getAbsenTigaHari() async {
-    final response = await http.get(
-      Uri.parse(ApiUrl.urlGetAbsenTigaHariSiswa),
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer $token",
-      },
-    );
-    print(response.statusCode);
-    var data = jsonDecode(response.body);
-    if (response.statusCode == 200) {
-      print(data);
-      var absen = AbsenModel.fromJson(data["data"]);
-      absenTigaHari.value = absen;
-      update();
-    } else {
-      print("gagal mengirim data");
-      throw Exception('Failed to send data');
+    try {
+      final response = await http.get(
+        Uri.parse(ApiUrl.urlGetAbsenTigaHariSiswa),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer $token",
+        },
+      );
+
+      print("status: ${response.statusCode}");
+      var data = jsonDecode(response.body);
+      print("absen tiga hari: $data");
+
+      if (response.statusCode == 200) {
+        // Cek apakah data yang diterima adalah list
+        if (data["data"] is List) {
+          // Mengonversi list JSON menjadi list model Datum
+          absenTigaHari.value = List<Datum>.from(
+              data["data"].map((item) => Datum.fromJson(item)));
+        } else {
+          print("Data yang diterima tidak sesuai format list");
+        }
+        update();
+      } else {
+        print("Gagal mengambil data absen");
+        throw Exception('Failed to fetch data');
+      }
+    } catch (e) {
+      print("Error: $e");
     }
   }
 }

@@ -8,10 +8,17 @@ import 'package:simon_pkl/app/model/model_siswa/pilih_dudi_model.dart';
 import 'package:simon_pkl/app/modules/siswa/ajuan_siswa/views/ajuan_siswa_view.dart';
 
 class PilihDudiSiswaController extends GetxController {
-  var intPage = 0.obs;
   var dudi = Rx<PilihDudiModel?>(null);
   var isLoading = true.obs;
   String token = AllMaterial.box.read("token");
+  var intPage = 0.obs;
+
+  @override
+  void onClose() {
+    intPage.value = 0;
+    update();
+    super.onClose();
+  }
 
   Future<void> fetchDudiList() async {
     final response = await http.get(
@@ -21,6 +28,7 @@ class PilihDudiSiswaController extends GetxController {
         "Authorization": "Bearer $token",
       },
     );
+    print(response.statusCode);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
       print(data);
@@ -36,7 +44,7 @@ class PilihDudiSiswaController extends GetxController {
 
   Future<void> ajukanPKL(int id) async {
     final response = await http.post(
-      Uri.parse(ApiUrl.urlPostAjuanPkl),
+      Uri.parse(ApiUrl.urlPostAjuanPklSiswa),
       headers: {
         "Content-Type": "application/json",
         "Authorization": "Bearer $token",

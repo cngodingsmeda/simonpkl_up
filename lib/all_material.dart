@@ -1,4 +1,7 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -44,6 +47,82 @@ abstract class AllMaterial {
       SnackBar(
         duration: const Duration(seconds: 2),
         content: Text(title),
+      ),
+    );
+  }
+
+  static cusDialog({
+    required String topTitle,
+    required String path,
+    required String dateTime,
+    void Function()? onTap1,
+    void Function()? onTap2,
+  }) {
+    return AlertDialog(
+      backgroundColor: AllMaterial.colorWhite,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      contentPadding: const EdgeInsets.all(20),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            topTitle,
+            style: AllMaterial.montSerrat(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 10),
+          SvgPicture.asset(
+            path,
+            color: AllMaterial.colorBlue,
+          ),
+          const SizedBox(height: 10),
+          Text(
+            dateTime,
+            style: AllMaterial.montSerrat(
+                fontSize: 16,
+                color: Colors.grey,
+                fontWeight: AllMaterial.fontMedium),
+          ),
+          const SizedBox(height: 20),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AllMaterial.colorBlue,
+              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 40),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30),
+              ),
+            ),
+            onPressed: onTap1,
+            child: Text(
+              'Absen Masuk',
+              style: AllMaterial.montSerrat(
+                fontSize: 16,
+                color: AllMaterial.colorWhite,
+              ),
+            ),
+          ),
+          const SizedBox(height: 10),
+          TextButton(
+            style: TextButton.styleFrom(
+              foregroundColor: AllMaterial.colorBlue,
+              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 40),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30),
+                side: const BorderSide(color: Colors.blue),
+              ),
+            ),
+            onPressed: onTap2,
+            child: Text(
+              'Absen Pulang',
+              style: AllMaterial.montSerrat(
+                fontSize: 16,
+                color: Colors.blue,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -94,10 +173,22 @@ abstract class AllMaterial {
     return text[0].toUpperCase() + text.substring(1).toLowerCase();
   }
 
+  static String formatJam(String waktu) {
+    DateTime parsedTime = DateFormat("HH:mm:ss").parse(waktu);
+    return DateFormat("HH:mm").format(parsedTime);
+  }
+
   static String ubahTanggal(String isoDate) {
     DateTime parsedDate = DateTime.parse(isoDate);
     String formattedDate =
         DateFormat('dd MMMM yyyy', 'id_ID').format(parsedDate);
+    return formattedDate;
+  }
+
+  static String ubahHari(String isoDate) {
+    DateTime parsedDate = DateTime.parse(isoDate);
+    String formattedDate =
+        DateFormat('EEEE, dd MMMM yyyy', 'id_ID').format(parsedDate);
     return formattedDate;
   }
 
@@ -107,10 +198,25 @@ abstract class AllMaterial {
     return formattedDate;
   }
 
+  static String ubahJamMenitDetik(String timeString) {
+    DateTime parsedTime = DateFormat("HH:mm:ss.S").parse(timeString);
+    String formattedTime = DateFormat('HH:mm').format(parsedTime);
+    return formattedTime;
+  }
+
   static String ubahTanggaldanJam(String dateTimeString) {
     DateTime dateTime = DateTime.parse(dateTimeString);
     String formattedDate =
         DateFormat('d MMMM yyyy - HH.mm', 'id_ID').format(dateTime);
     return formattedDate;
+  }
+
+  static String formatNamaPanjang(String namaPanjang) {
+    List<String> namaArray = namaPanjang.split(' ');
+    List<String> namaTigaPertama = namaArray.take(3).toList();
+    List<String> inisialSisa =
+        namaArray.skip(3).map((nama) => '${nama[0].toLowerCase()}.').toList();
+
+    return (namaTigaPertama + inisialSisa).join(' ').toUpperCase();
   }
 }

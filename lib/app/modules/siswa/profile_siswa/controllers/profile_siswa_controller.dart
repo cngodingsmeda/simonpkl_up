@@ -28,7 +28,7 @@ class ProfileSiswaController extends GetxController {
         "Authorization": "Bearer $token",
       },
     );
-
+    print(response.statusCode);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
       print(data);
@@ -38,18 +38,19 @@ class ProfileSiswaController extends GetxController {
       profil.value = profileModel;
 
       HomepageSiswaController.statusPkl.value = data["data"]["status"];
-      
-      kelasC.text = profileModel.kelas.nama.toUpperCase();
+
+      kelasC.text = profileModel.kelas!.nama.toUpperCase();
       alamatC.text = AllMaterial.setiapHurufPertama(
-        '${profileModel.alamat.detailTempat}, ${profileModel.alamat.desa}, ${profileModel.alamat.kecamatan}, ${profileModel.alamat.kabupaten}, ${profileModel.alamat.provinsi}',
+        '${profileModel.alamat!.detailTempat}, ${profileModel.alamat!.desa}, ${profileModel.alamat!.kecamatan}, ${profileModel.alamat!.kabupaten}, ${profileModel.alamat!.provinsi}',
       );
-      noTeleponC.text = profileModel.noTelepon;
+      noTeleponC.text = profileModel.noTelepon ?? "";
       var status = profileModel.status;
-      statusPklC.text = status.contains("pkl")
+      statusPklC.text = status!.contains("pkl")
           ? "${AllMaterial.hurufPertama(status.replaceAll("_", " ").split(' ').elementAt(0))} ${status.replaceAll("_", " ").split(' ').elementAt(1).toUpperCase()}"
           : AllMaterial.hurufPertama(status);
       guruPembimbingC.text =
-          AllMaterial.setiapHurufPertama(profileModel.guruPembimbing.nama);
+          AllMaterial.setiapHurufPertama(profileModel.guruPembimbing!.nama);
+      update();
     } else {
       print("gagal menampilkan data");
       throw Exception('Failed to load profile');

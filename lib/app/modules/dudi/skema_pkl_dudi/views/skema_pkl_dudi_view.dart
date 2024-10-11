@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:simon_pkl/all_material.dart';
 import 'package:simon_pkl/app/modules/dudi/buat_form_pkl_dudi/views/buat_form_pkl_dudi_view.dart';
 import 'package:simon_pkl/app/modules/dudi/laporan_pkl_dudi/views/laporan_pkl_dudi_view.dart';
-import 'package:simon_pkl/app/modules/siswa/pilihan_absen_siswa/views/pilihan_absen_siswa_view.dart';
 
 import '../controllers/skema_pkl_dudi_controller.dart';
 
@@ -154,6 +154,58 @@ class SkemaPklDudiView extends GetView<SkemaPklDudiController> {
                 fontWeight: AllMaterial.fontSemiBold,
                 color: AllMaterial.colorWhite,
               ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ButtonAbsen extends StatelessWidget {
+  const ButtonAbsen({
+    super.key,
+    required this.nama,
+    required this.svg,
+    required this.tekan,
+  });
+
+  final String nama;
+  final String svg;
+  final void Function() tekan;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: const Color.fromARGB(255, 250, 250, 250),
+      borderRadius: BorderRadius.circular(15),
+      shadowColor: AllMaterial.colorBlack,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(15),
+        onTap: tekan,
+        child: Ink(
+          child: Container(
+            width: Get.width / 2.5,
+            decoration: const BoxDecoration(),
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(18),
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    color: AllMaterial.colorBlue,
+                  ),
+                  child: SvgPicture.asset(svg),
+                ),
+                const SizedBox(height: 15),
+                Text(
+                  nama,
+                  style: AllMaterial.montSerrat(
+                    fontWeight: AllMaterial.fontSemiBold,
+                  ),
+                ),
+              ],
             ),
           ),
         ),

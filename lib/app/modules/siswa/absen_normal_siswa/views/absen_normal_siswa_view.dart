@@ -2,6 +2,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:simon_pkl/all_material.dart';
+import 'package:simon_pkl/app/data/api_url.dart';
 
 import '../controllers/absen_normal_siswa_controller.dart';
 
@@ -11,6 +12,7 @@ class AbsenNormalSiswaView extends GetView<AbsenNormalSiswaController> {
   @override
   Widget build(BuildContext context) {
     var controller = Get.put(AbsenNormalSiswaController());
+    var arg = Get.arguments;
     return Scaffold(
       backgroundColor: AllMaterial.colorWhite,
       appBar: AppBar(
@@ -23,7 +25,7 @@ class AbsenNormalSiswaView extends GetView<AbsenNormalSiswaController> {
           },
         ),
         title: Text(
-          'Absen Masuk',
+          'Absen ${AllMaterial.setiapHurufPertama(arg["status"])}',
           style: AllMaterial.montSerrat(
             fontWeight: AllMaterial.fontSemiBold,
             color: Colors.black,
@@ -58,7 +60,11 @@ class AbsenNormalSiswaView extends GetView<AbsenNormalSiswaController> {
                         ),
                         GestureDetector(
                           onTap: () {
-                            controller.showImageSourceDialog();
+                            if (controller.selectedImagePath.value == null) {
+                              controller.showImageSourceDialog(context);
+                            } else {
+                              null;
+                            }
                           },
                           child: Obx(
                             () => DottedBorder(
@@ -117,13 +123,35 @@ class AbsenNormalSiswaView extends GetView<AbsenNormalSiswaController> {
                         ),
                         Obx(
                           () => ElevatedButton(
-                            onPressed: (controller.selectedImagePath.value !=
-                                    null)
-                                ? () {
-                                    // Absen Masuk
-                                    controller.selectedImagePath.value = null;
-                                  }
-                                : null,
+                            onPressed:
+                                (controller.selectedImagePath.value != null)
+                                    ? () {
+                                        bool diLuarRadius = arg["diLuarRadius"];
+                                        if (diLuarRadius) {
+                                          controller.postAbsenMasuk(
+                                            arg["latitude"],
+                                            arg["longitude"],
+                                            controller.selectedImagePath.value!,
+                                            ApiUrl.urlPostAbsenLuarRadiusSiswa,
+                                            context,
+                                            arg["status"],
+                                          );
+                                        } else {
+                                          controller.postAbsenMasuk(
+                                            arg["latitude"],
+                                            arg["longitude"],
+                                            controller.selectedImagePath.value!,
+                                            (arg["status"])
+                                                    .toString()
+                                                    .contains("pulang")
+                                                ? ApiUrl.urlPostAbsenPulangSiswa
+                                                : ApiUrl.urlPostAbsenMasukSiswa,
+                                            context,
+                                            arg["status"],
+                                          );
+                                        }
+                                      }
+                                    : null,
                             style: ElevatedButton.styleFrom(
                               fixedSize: Size.fromWidth(Get.width),
                               disabledBackgroundColor:
@@ -138,7 +166,7 @@ class AbsenNormalSiswaView extends GetView<AbsenNormalSiswaController> {
                               ),
                             ),
                             child: Text(
-                              "Absen Masuk",
+                              "Absen ${AllMaterial.setiapHurufPertama(arg["status"])}",
                               style: AllMaterial.montSerrat(
                                 color: AllMaterial.colorBlue,
                                 fontWeight: AllMaterial.fontSemiBold,

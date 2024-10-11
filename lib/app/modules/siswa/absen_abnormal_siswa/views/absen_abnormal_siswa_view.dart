@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:io';
 
 import 'package:dotted_border/dotted_border.dart';
@@ -7,15 +6,13 @@ import 'package:get/get.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:simon_pkl/all_material.dart';
 import 'package:simon_pkl/app/modules/siswa/absen_abnormal_siswa/controllers/absen_abnormal_siswa_controller.dart';
-import 'package:simon_pkl/app/modules/siswa/detil_histori_absen_siswa/controllers/detil_histori_absen_siswa_controller.dart';
-import 'package:simon_pkl/app/modules/siswa/home_siswa/views/home_siswa_view.dart';
-import 'package:simon_pkl/app/modules/siswa/homepage_siswa/views/homepage_siswa_view.dart';
 
 class AbsenAbnormalSiswaView extends GetView<AbsenAbnormalSiswaController> {
   const AbsenAbnormalSiswaView({super.key});
 
   @override
   Widget build(BuildContext context) {
+    var arg = Get.arguments;
     var controller = Get.put(AbsenAbnormalSiswaController());
     return Scaffold(
       backgroundColor: Colors.white,
@@ -29,7 +26,7 @@ class AbsenAbnormalSiswaView extends GetView<AbsenAbnormalSiswaController> {
           },
         ),
         title: Text(
-          'Absen Izin',
+          'Absen ${AllMaterial.setiapHurufPertama(arg["status"])}',
           style: AllMaterial.montSerrat(
             fontWeight: AllMaterial.fontSemiBold,
             color: Colors.black,
@@ -53,7 +50,9 @@ class AbsenAbnormalSiswaView extends GetView<AbsenAbnormalSiswaController> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      "10 September 2024 - 8:11:46 AM",
+                      AllMaterial.ubahTanggaldanJam(
+                        DateTime.now().toIso8601String(),
+                      ),
                       style: AllMaterial.montSerrat(
                         color: AllMaterial.colorWhite,
                         fontWeight: AllMaterial.fontSemiBold,
@@ -84,9 +83,10 @@ class AbsenAbnormalSiswaView extends GetView<AbsenAbnormalSiswaController> {
                           onTapOutside: (_) {
                             controller.inputF.unfocus();
                           },
-                          enableSuggestions: false,
+                          enableSuggestions: true,
+                          autofocus: true,
                           decoration: InputDecoration(
-                            hintText: "Masukkan alasan izin",
+                            hintText: "Masukkan alasan ${arg["status"]}",
                             hintStyle: AllMaterial.montSerrat(
                               color: AllMaterial.colorWhite,
                               fontWeight: AllMaterial.fontMedium,
@@ -132,50 +132,14 @@ class AbsenAbnormalSiswaView extends GetView<AbsenAbnormalSiswaController> {
                               if (file.path.endsWith('.jpg') ||
                                   file.path.endsWith('.png') ||
                                   file.path.endsWith('.jpeg')) {
-                                showDialog(
-                                  barrierColor: Colors.black.withOpacity(0.6),
-                                  context: context,
-                                  builder: (context) => Dialog(
-                                    backgroundColor: Colors.transparent,
-                                    child: LayoutBuilder(
-                                      builder: (context, constraints) {
-                                        return FutureBuilder(
-                                          future: getImageSize(file),
-                                          builder: (context, snapshot) {
-                                            if (snapshot.connectionState ==
-                                                    ConnectionState.done &&
-                                                snapshot.hasData) {
-                                              // ignore: unused_local_variable
-                                              final imageSize = snapshot.data!;
-                                              return PhotoView(
-                                                imageProvider: FileImage(file),
-                                                minScale: PhotoViewComputedScale
-                                                    .contained,
-                                                maxScale: PhotoViewComputedScale
-                                                        .covered *
-                                                    2,
-                                                basePosition: Alignment.center,
-                                                enableRotation: false,
-                                              );
-                                            } else {
-                                              return const Center(
-                                                child:
-                                                    CircularProgressIndicator(),
-                                              );
-                                            }
-                                          },
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                );
+                                previewImage(file, context);
                               } else if (file.path.endsWith('.pdf') ||
                                   file.path.endsWith('.doc') ||
                                   file.path.endsWith('.docx')) {
                                 controller.openFile(file);
                               }
                             } else {
-                              controller.pickDocument();
+                              controller.pickDocument(context);
                             }
                           },
                           child: Obx(
@@ -185,7 +149,7 @@ class AbsenAbnormalSiswaView extends GetView<AbsenAbnormalSiswaController> {
                                 if (file.path.endsWith('.jpg') ||
                                     file.path.endsWith('.png') ||
                                     file.path.endsWith('.jpeg')) {
-                                  return previewImage(file);
+                                  return previewImage(file, context);
                                 } else {
                                   return previewOtherFile(file);
                                 }
@@ -195,23 +159,58 @@ class AbsenAbnormalSiswaView extends GetView<AbsenAbnormalSiswaController> {
                             },
                           ),
                         ),
-                        const SizedBox(height: 30),
+                        const SizedBox(height: 10),
+                        Obx(
+                          () {
+                            print(controller.isSakit.value);
+                            return GestureDetector(
+                              onTap: () => controller.isSakit.toggle(),
+                              child: Row(
+                                children: [
+                                  Checkbox(
+                                    fillColor: const WidgetStatePropertyAll(
+                                      AllMaterial.colorBlue,
+                                    ),
+                                    value: controller.isSakit.value,
+                                    onChanged: (value) {
+                                      controller.isSakit.value = value!;
+                                    },
+                                    checkColor: Colors.white,
+                                    side: const BorderSide(
+                                        color: AllMaterial.colorWhite,
+                                        width: 2),
+                                    activeColor: Colors.white,
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                      'Tandai sebagai "Absen Sakit"',
+                                      style: AllMaterial.montSerrat(
+                                        color: AllMaterial.colorWhite,
+                                        fontWeight: AllMaterial.fontMedium,
+                                        fontSize: 13,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                        const SizedBox(height: 10),
                         Obx(
                           () => ElevatedButton(
                             onPressed: (controller.selectedFile.value != null)
                                 ? () {
-                                    print(
-                                        "Alasan Izin: ${controller.alasanIzin.value}");
-                                    if (controller.selectedFile.value != null) {
-                                      print(
-                                        "Dokumen: ${controller.selectedFile.value!.path}",
+                                    if (controller.inputC.text != "") {
+                                      controller.postAbsenTelat(
+                                        arg["latitude"],
+                                        arg["longitude"],
+                                        controller.selectedFile.value!,
+                                        controller.inputC.text,
+                                        arg["status"],
+                                        context,
                                       );
                                     }
-                                    // controller.selectedFile.value = null;
-                                    var historiAbsen = Get.put(DetilHistoriAbsenSiswaControllr());
-                                    historiAbsen.buktiDokumen.value = controller.selectedFile.value;
-                                    print(historiAbsen.buktiDokumen.value);
-                                    Get.off(()=> HomeSiswaView());
                                   }
                                 : null,
                             style: ElevatedButton.styleFrom(
@@ -228,7 +227,7 @@ class AbsenAbnormalSiswaView extends GetView<AbsenAbnormalSiswaController> {
                               ),
                             ),
                             child: Text(
-                              "Absen Masuk",
+                              "Kirim Absen ${AllMaterial.setiapHurufPertama(arg["status"])}",
                               style: AllMaterial.montSerrat(
                                 color: AllMaterial.colorBlue,
                                 fontWeight: AllMaterial.fontSemiBold,
@@ -248,71 +247,110 @@ class AbsenAbnormalSiswaView extends GetView<AbsenAbnormalSiswaController> {
     );
   }
 
-  Future<Size> getImageSize(File file) async {
-    final completer = Completer<Size>();
-    final image = Image.file(file);
-    image.image.resolve(const ImageConfiguration()).addListener(
-      ImageStreamListener((ImageInfo imageInfo, bool synchronousCall) {
-        completer.complete(
-          Size(
-            imageInfo.image.width.toDouble(),
-            imageInfo.image.height.toDouble(),
+  Widget previewImage(File file, BuildContext context) {
+    PhotoViewController photoViewController = PhotoViewController();
+
+    return GestureDetector(
+      onTap: () {
+        showDialog(
+          barrierColor: Colors.black.withOpacity(0.9),
+          context: context,
+          builder: (context) => StatefulBuilder(
+            builder: (context, setState) {
+              return Dialog(
+                backgroundColor: Colors.transparent,
+                child: Stack(
+                  children: [
+                    PhotoView(
+                      controller: photoViewController,
+                      imageProvider: FileImage(file),
+                      minScale: PhotoViewComputedScale.contained,
+                      maxScale: PhotoViewComputedScale.covered * 2,
+                      initialScale: PhotoViewComputedScale.contained,
+                      backgroundDecoration: const BoxDecoration(
+                        color: Colors.transparent,
+                      ),
+                      enableRotation: true,
+                      loadingBuilder: (context, event) => const Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                      onScaleEnd: (context, details, controllerValue) {
+                        if (controllerValue.scale != null &&
+                            controllerValue.scale! <= 1.0) {
+                          Get.back();
+                        }
+                      },
+                    ),
+                    Positioned(
+                      top: 0,
+                      right: 0,
+                      child: IconButton(
+                        icon: const Icon(
+                          Icons.close,
+                          color: Colors.white,
+                          size: 30,
+                        ),
+                        onPressed: () {
+                          Get.back();
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
           ),
         );
-      }),
-    );
-    return completer.future;
-  }
-
-  Widget previewImage(File file) {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15),
-        border: Border.all(
-          width: 1,
-          color: AllMaterial.colorWhite,
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15),
+          border: Border.all(
+            width: 1,
+            color: AllMaterial.colorWhite,
+          ),
         ),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(25),
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(5),
-              child: Image.file(
-                file,
-                fit: BoxFit.cover,
-                width: 35,
-                height: 35,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(25),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(5),
+                child: Image.file(
+                  file,
+                  fit: BoxFit.cover,
+                  width: 35,
+                  height: 35,
+                ),
               ),
             ),
-          ),
-          const SizedBox(width: 10),
-          Expanded(
-            child: Text(
-              file.path.split('/').last.toString().split(' ').join('-'),
-              overflow: TextOverflow.ellipsis,
-              style: AllMaterial.montSerrat(
+            const SizedBox(width: 10),
+            Expanded(
+              child: Text(
+                file.path.split('/').last.toString().split(' ').join('-'),
+                overflow: TextOverflow.ellipsis,
+                style: AllMaterial.montSerrat(
+                  color: AllMaterial.colorWhite,
+                  fontWeight: AllMaterial.fontMedium,
+                ),
+              ),
+            ),
+            IconButton(
+              onPressed: () {
+                controller.selectedFile.value = null;
+              },
+              icon: const Icon(
+                Icons.clear,
+                size: 20,
                 color: AllMaterial.colorWhite,
-                fontWeight: AllMaterial.fontMedium,
               ),
             ),
-          ),
-          IconButton(
-            onPressed: () {
-              controller.selectedFile.value = null;
-            },
-            icon: const Icon(
-              Icons.clear,
-              size: 20,
-              color: AllMaterial.colorWhite,
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -348,8 +386,7 @@ class AbsenAbnormalSiswaView extends GetView<AbsenAbnormalSiswaController> {
           ),
           IconButton(
             onPressed: () {
-              // controller.selectedFile.value = null;
-              Get.off(const HomepageSiswaView());
+              controller.selectedFile.value = null;
             },
             icon: const Icon(
               Icons.clear_rounded,

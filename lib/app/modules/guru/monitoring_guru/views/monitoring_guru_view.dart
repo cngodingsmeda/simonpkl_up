@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:simon_pkl/all_material.dart';
+import 'package:simon_pkl/app/modules/dudi/skema_pkl_dudi/views/skema_pkl_dudi_view.dart';
 import 'package:simon_pkl/app/modules/guru/laporan_siswa_guru/views/laporan_siswa_guru_view.dart';
-import 'package:simon_pkl/app/modules/siswa/pilihan_absen_siswa/views/pilihan_absen_siswa_view.dart';
 
 import '../controllers/monitoring_guru_controller.dart';
 

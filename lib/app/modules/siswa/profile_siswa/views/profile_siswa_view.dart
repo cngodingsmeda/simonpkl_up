@@ -69,24 +69,24 @@ class ProfileSiswaView extends GetView<ProfileSiswaController> {
                       ),
                       color: AllMaterial.colorBlue,
                     ),
-                    child: IconButton(
-                      tooltip: "Edit Profil",
-                      style: const ButtonStyle(
-                        elevation: WidgetStatePropertyAll(5),
-                        padding: WidgetStatePropertyAll(EdgeInsets.zero),
-                      ),
-                      onPressed: () {
-                        AllMaterial.messageScaffold(
-                          title: "Fitur Sedang Digarap, Coming Soon",
-                          context: context,
-                        );
-                      },
-                      icon: const Icon(
-                        size: 20,
-                        Icons.edit,
-                        color: AllMaterial.colorWhite,
-                      ),
-                    ),
+                    // child: IconButton(
+                    //   tooltip: "Edit Profil",
+                    //   style: const ButtonStyle(
+                    //     elevation: WidgetStatePropertyAll(5),
+                    //     padding: WidgetStatePropertyAll(EdgeInsets.zero),
+                    //   ),
+                    //   onPressed: () {
+                    //     AllMaterial.messageScaffold(
+                    //       title: "Fitur Sedang Digarap, Coming Soon",
+                    //       context: context,
+                    //     );
+                    //   },
+                    //   icon: const Icon(
+                    //     size: 20,
+                    //     Icons.edit,
+                    //     color: AllMaterial.colorWhite,
+                    //   ),
+                    // ),
                   ),
                   const SizedBox(width: 25),
                   Flexible(
@@ -96,7 +96,9 @@ class ProfileSiswaView extends GetView<ProfileSiswaController> {
                         FittedBox(
                           fit: BoxFit.scaleDown,
                           child: Text(
-                            controller.profil.value!.nama.toUpperCase(),
+                            AllMaterial.formatNamaPanjang(
+                              controller.profil.value!.nama!.toUpperCase(),
+                            ),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: AllMaterial.montSerrat(

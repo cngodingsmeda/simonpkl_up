@@ -64,7 +64,7 @@ class DetilNotifikasiSiswaView extends GetView<DetilNotifikasiSiswaController> {
                   ),
                   const SizedBox(height: 3),
                   Text(
-                    AllMaterial.hurufPertama(notif.body),
+                    notif.body,
                     style: AllMaterial.montSerrat(
                       color: AllMaterial.colorBlack,
                       fontSize: 13,

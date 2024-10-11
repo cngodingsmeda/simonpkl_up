@@ -82,7 +82,6 @@ class LoginPageController extends GetxController {
         var token = data["data"]["access_token"];
         AllMaterial.box.write("token", token);
         String roleData = data["data"]["role"];
-        print(data);
         AllMaterial.box.write("role", roleData);
         isAuth.value = true;
         if (roleData.contains("guru")) {

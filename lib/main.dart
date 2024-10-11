@@ -11,7 +11,7 @@ import 'app/routes/app_pages.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await initializeDateFormatting('id_ID', null);
+  await initializeDateFormatting('Yid_ID', null);
   await GetStorage.init();
 
   runApp(
@@ -47,7 +47,6 @@ class InitPage extends StatelessWidget {
           return Obx(
             () {
               if (logController.isAuth.value == true) {
-                print("masuk ke true");
                 return logController.periksaRole();
               } else {
                 return const LoginPageView();

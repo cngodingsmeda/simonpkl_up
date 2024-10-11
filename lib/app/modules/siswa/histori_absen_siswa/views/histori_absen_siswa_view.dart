@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:simon_pkl/all_material.dart';
-import 'package:simon_pkl/app/modules/siswa/detil_histori_absen_siswa/views/detil_histori_absen_siswa_view.dart';
+import 'package:simon_pkl/app/modules/siswa/detil_histori_absen_siswa/controllers/detil_histori_absen_siswa_controller.dart';
 import 'package:simon_pkl/app/modules/siswa/histori_absen_siswa/controllers/histori_absen_siswa_controller.dart';
 import 'package:simon_pkl/app/modules/siswa/homepage_siswa/widgets/cards_widget.dart';
 
@@ -13,7 +13,6 @@ class HistoriAbsenSiswaView extends GetView<HistoriAbsenSiswaControllr> {
   Widget build(BuildContext context) {
     final HistoriAbsenSiswaControllr controller =
         Get.put(HistoriAbsenSiswaControllr());
-
     return Scaffold(
       backgroundColor: AllMaterial.colorWhite,
       appBar: AppBar(
@@ -29,7 +28,7 @@ class HistoriAbsenSiswaView extends GetView<HistoriAbsenSiswaControllr> {
       ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
           child: Column(
             children: [
               SingleChildScrollView(
@@ -71,26 +70,113 @@ class HistoriAbsenSiswaView extends GetView<HistoriAbsenSiswaControllr> {
                       label: 'Desember',
                       month: 12,
                     ),
+                    const SizedBox(width: 8),
+                    ChoiceChipWidget(
+                      controller: controller,
+                      label: 'Januari',
+                      month: 1,
+                    ),
+                    const SizedBox(width: 8),
+                    ChoiceChipWidget(
+                      controller: controller,
+                      label: 'Februari',
+                      month: 2,
+                    ),
+                    const SizedBox(width: 8),
+                    ChoiceChipWidget(
+                      controller: controller,
+                      label: 'Maret',
+                      month: 3,
+                    ),
+                    const SizedBox(width: 8),
+                    ChoiceChipWidget(
+                      controller: controller,
+                      label: 'April',
+                      month: 4,
+                    ),
+                    const SizedBox(width: 8),
+                    ChoiceChipWidget(
+                      controller: controller,
+                      label: 'Mei',
+                      month: 5,
+                    ),
+                    const SizedBox(width: 8),
+                    ChoiceChipWidget(
+                      controller: controller,
+                      label: 'Juni',
+                      month: 6,
+                    ),
+                    const SizedBox(width: 8),
                   ],
                 ),
               ),
               const SizedBox(height: 20),
               Expanded(
                 child: Obx(
-                  () => controller.historiAbsen.isNotEmpty
+                  () => controller.absen.isNotEmpty
                       ? ListView.builder(
-                          itemCount: controller.historiAbsen.length,
+                          itemCount: controller.absen.length,
                           itemBuilder: (context, index) {
-                            var item = controller.historiAbsen[index];
+                            var item = controller.absen[index];
+                            var status = item.status.contains("_")
+                                ? item.status.split("_").join(" ")
+                                : item.status;
                             return CardWidget(
-                              tanggal: item["tanggal"],
+                              tanggal: AllMaterial.ubahHari(
+                                  item.tanggal.toIso8601String()),
                               icon: Icon(
-                                item["icon"],
-                                color: item["color"],
+                                controller.iconCard(status.toLowerCase()),
+                                color:
+                                    controller.iconColor(status.toLowerCase()),
                               ),
-                              onTap: () => Get.to(
-                                  () => const DetilHistoriAbsenSiswaView()),
-                              keterangan: item["status"],
+                              onTap: () {
+                                if (item.status.contains("tidak")) {
+                                  AllMaterial.messageScaffold(
+                                      title: "Anda melewatkan Absen Harian!",
+                                      context: context);
+                                } else {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AllMaterial.cusDialog(
+                                        topTitle: "Absen Harian",
+                                        path: "assets/icons/laporan.svg",
+                                        dateTime: AllMaterial.ubahHari(
+                                          item.tanggal.toIso8601String(),
+                                        ),
+                                        onTap1: () {
+                                          var absensi = Get.put(
+                                              DetilHistoriAbsenSiswaControllr());
+                                          absensi.getDetilAbsenById(
+                                            item.id,
+                                            "masuk",
+                                            item.status,
+                                          );
+                                        },
+                                        onTap2: () {
+                                          var absensi = Get.put(
+                                              DetilHistoriAbsenSiswaControllr());
+                                          if (item.statusAbsenPulang == null) {
+                                            Get.back();
+                                            AllMaterial.messageScaffold(
+                                                title:
+                                                    "Absen Pulang tidak ditemukan!",
+                                                context: context);
+                                          } else {
+                                            absensi.getDetilAbsenById(
+                                              item.id,
+                                              "pulang",
+                                              item.status,
+                                            );
+                                          }
+                                        },
+                                      );
+                                    },
+                                  );
+                                }
+                              },
+                              keterangan:
+                                  AllMaterial.setiapHurufPertama(status),
                             );
                           },
                         )
@@ -114,14 +200,14 @@ class HistoriAbsenSiswaView extends GetView<HistoriAbsenSiswaControllr> {
 class ChoiceChipWidget extends StatelessWidget {
   final String label;
   final int month;
-  // ignore: prefer_typing_uninitialized_variables
-  final controller;
+  final HistoriAbsenSiswaControllr controller;
 
-  const ChoiceChipWidget(
-      {super.key,
-      required this.label,
-      required this.month,
-      required this.controller});
+  const ChoiceChipWidget({
+    super.key,
+    required this.label,
+    required this.month,
+    required this.controller,
+  });
 
   @override
   Widget build(BuildContext context) {

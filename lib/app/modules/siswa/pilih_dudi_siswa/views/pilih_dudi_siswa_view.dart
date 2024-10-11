@@ -20,6 +20,13 @@ class PilihDudiSiswaView extends GetView<PilihDudiSiswaController> {
             fontWeight: AllMaterial.fontSemiBold,
           ),
         ),
+        leading: IconButton(
+          onPressed: () {
+            controller.intPage.value = 0;
+            Get.back();
+          },
+          icon: const Icon(Icons.arrow_back),
+        ),
         centerTitle: true,
         surfaceTintColor: AllMaterial.colorWhite,
         backgroundColor: AllMaterial.colorWhite,

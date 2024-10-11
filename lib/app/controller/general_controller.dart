@@ -6,7 +6,7 @@ import 'package:simon_pkl/app/modules/siswa/home_siswa/controllers/home_siswa_co
 
 class GeneralController extends GetxController {
   void logoutUser(BuildContext context) {
-    HomeSiswaController homeSiswaController = HomeSiswaController();
+    final homeSiswaController = Get.put(HomeSiswaController());
     homeSiswaController.indexPage.value = 0;
     Get.offAll(() => const LoginPageView());
     AllMaterial.box.erase();

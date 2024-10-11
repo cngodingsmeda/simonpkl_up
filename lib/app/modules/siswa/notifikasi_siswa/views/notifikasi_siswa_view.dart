@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:simon_pkl/all_material.dart';
 import 'package:simon_pkl/app/modules/siswa/detil_notifikasi_siswa/views/detil_notifikasi_siswa_view.dart';
+
 import '../controllers/notifikasi_siswa_controller.dart';
 
 class NotifikasiSiswaView extends GetView<NotifikasiSiswaController> {
@@ -46,7 +47,9 @@ class NotifikasiSiswaView extends GetView<NotifikasiSiswaController> {
               children: [
                 Padding(
                   padding: const EdgeInsets.symmetric(
-                      vertical: 8.0, horizontal: 16.0),
+                    vertical: 8.0,
+                    horizontal: 16.0,
+                  ),
                   child: Text(
                     tanggalNotifikasi,
                     style: AllMaterial.montSerrat(
@@ -111,8 +114,7 @@ class NotifikasiSiswaView extends GetView<NotifikasiSiswaController> {
                                         ),
                                       ),
                                       subtitle: Text(
-                                        AllMaterial.hurufPertama(
-                                            notifikasi.body),
+                                        notifikasi.body,
                                         maxLines: 2,
                                         style: AllMaterial.montSerrat(),
                                         overflow: TextOverflow.ellipsis,

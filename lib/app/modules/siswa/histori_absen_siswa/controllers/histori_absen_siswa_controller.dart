@@ -1,60 +1,81 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
+import 'package:simon_pkl/all_material.dart';
+import 'package:simon_pkl/app/data/api_url.dart';
+import 'package:simon_pkl/app/model/model_siswa/histori_absen_siswa_model.dart';
 import 'package:simon_pkl/app/model/model_siswa/laporan_siswa_model.dart';
 
 class HistoriAbsenSiswaControllr extends GetxController {
-  var selectedMonth = 7.obs;
-  var historiAbsen = <Map<String, dynamic>>[].obs;
+  var selectedMonth = 6.obs;
+  var token = AllMaterial.box.read("token");
+  var absen = <Datum>[].obs;
 
-  final allHistoriAbsen = {
-    7: [
-      {
-        "tanggal": "Jumat, 23 Juli 2024",
-        "status": "Hadir",
-        "icon": Icons.check_circle,
-        "color": Colors.green
-      },
-      {
-        "tanggal": "Kamis, 22 Juli 2024",
-        "status": "Sakit",
-        "icon": Icons.cancel,
-        "color": Colors.red
-      },
-    ],
-    8: [
-      {
-        "tanggal": "Sabtu, 24 Agustus 2024",
-        "status": "Sakit",
-        "icon": Icons.cancel,
-        "color": Colors.red
-      },
-      {
-        "tanggal": "Jumat, 23 Agustus 2024",
-        "status": "Hadir",
-        "icon": Icons.check_circle,
-        "color": Colors.green
-      },
-      {
-        "tanggal": "Kamis, 22 Agustus 2024",
-        "status": "Hadir",
-        "icon": Icons.check_circle,
-        "color": Colors.green
-      },
-    ],
-  };
+  Color iconColor(String status) {
+    if (status == "hadir") {
+      return Colors.green;
+    } else if (status.contains("tidak")) {
+      return Colors.red;
+    } else if (status.contains("sakit") || status.contains("izin")) {
+      return Colors.yellow;
+    } else {
+      return Colors.blueAccent;
+    }
+  }
+
+  IconData iconCard(String status) {
+    if (status == "hadir") {
+      return Icons.check_circle;
+    } else if (status.contains("tidak")) {
+      return Icons.cancel_sharp;
+    } else if (status.contains("sakit") || status.contains("izin")) {
+      return Icons.remove_circle;
+    } else {
+      return Icons.check_circle;
+    }
+  }
 
   void updateHistoriAbsen(int month) {
     selectedMonth.value = month;
-    historiAbsen.value = allHistoriAbsen[month] ?? [];
+    fetchHistoriAbsenSiswa();
   }
 
   // with api
   var historiAbsenM = RxList<HistoriAbsenSiswa>();
 
+  Future<void> fetchHistoriAbsenSiswa() async {
+    final response = await http.get(
+      Uri.parse(
+          "${ApiUrl.urlGetHistoriAbsenByMonthSiswa}${selectedMonth.value}"),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer $token",
+      },
+    );
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body);
+      print("data absen month: $data");
+      absen.clear();
+      absen.value = List<Datum>.from(
+        data["data"].map(
+          (item) => Datum.fromJson(item),
+        ),
+      );
+      update();
+    } else {
+      print("gagal menampilkan data");
+      throw Exception('Failed to load data');
+    }
+  }
+
   @override
   // ignore: unnecessary_overrides
   void onInit() {
     super.onInit();
-    // fetchHistoriAbsen();
+    var bulan = DateTime.now().month;
+    selectedMonth.value = bulan;
+    fetchHistoriAbsenSiswa();
   }
 }

@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -5,7 +7,7 @@ import 'package:get/get.dart';
 import 'package:simon_pkl/all_material.dart';
 import 'package:simon_pkl/app/modules/siswa/ajuan_siswa/views/ajuan_siswa_view.dart';
 import 'package:simon_pkl/app/modules/siswa/batalkan_pkl_siswa/views/batalkan_pkl_siswa_view.dart';
-import 'package:simon_pkl/app/modules/siswa/detil_histori_absen_siswa/views/detil_histori_absen_siswa_view.dart';
+import 'package:simon_pkl/app/modules/siswa/detil_histori_absen_siswa/controllers/detil_histori_absen_siswa_controller.dart';
 import 'package:simon_pkl/app/modules/siswa/histori_absen_siswa/views/histori_absen_siswa_view.dart';
 import 'package:simon_pkl/app/modules/siswa/homepage_siswa/widgets/cards_widget.dart';
 import 'package:simon_pkl/app/modules/siswa/laporan_siswa/views/laporan_siswa_view.dart';
@@ -22,25 +24,40 @@ class HomepageSiswaView extends GetView<HomepageSiswaController> {
   @override
   Widget build(BuildContext context) {
     var controller = Get.put(HomepageSiswaController());
+    if (HomepageSiswaController.statusPkl.value == "sudah_pkl") {
+      controller.getAbsenTigaHari();
+    }
     var profController = Get.put(ProfileSiswaController());
     return Scaffold(
       backgroundColor: AllMaterial.colorWhite,
       body: SafeArea(
         child: SingleChildScrollView(
           child: FutureBuilder(
-              future: controller.getNotifUnread(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Center(
-                        child: CircularProgressIndicator(
-                          color: AllMaterial.colorBlue,
-                        ),
+            future: controller.getNotifUnread(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Center(
+                      child: CircularProgressIndicator(
+                        color: AllMaterial.colorBlue,
                       ),
-                    ],
-                  );
+                    ),
+                  ],
+                );
+              } else {
+                if (profController.profil.value == null) {
+                  // return const Column(
+                  //   mainAxisAlignment: MainAxisAlignment.center,
+                  //   children: [
+                  //     Center(
+                  //       child: CircularProgressIndicator(
+                  //         color: AllMaterial.colorBlue,
+                  //       ),
+                  //     ),
+                  //   ],
+                  // );
                 }
                 return Container(
                   padding: const EdgeInsets.all(20),
@@ -415,8 +432,8 @@ class HomepageSiswaView extends GetView<HomepageSiswaController> {
                                                           profController
                                                               .profil
                                                               .value!
-                                                              .dudi
-                                                              .namaInstansiPerusahaan,
+                                                              .dudi!
+                                                              .namaInstansiPerusahaan ?? "",
                                                           style: AllMaterial
                                                               .montSerrat(
                                                             color: AllMaterial
@@ -441,7 +458,7 @@ class HomepageSiswaView extends GetView<HomepageSiswaController> {
                                                       Expanded(
                                                         child: Text(
                                                           profController.profil
-                                                              .value!.noTelepon,
+                                                              .value!.noTelepon ?? "",
                                                           style: AllMaterial
                                                               .montSerrat(
                                                             color: AllMaterial
@@ -467,7 +484,7 @@ class HomepageSiswaView extends GetView<HomepageSiswaController> {
                                                         child: Text(
                                                           AllMaterial
                                                               .setiapHurufPertama(
-                                                                  "${profController.profil.value!.dudi.alamat.detailTempat}, ${profController.profil.value!.dudi.alamat.desa}, ${profController.profil.value!.dudi.alamat.kecamatan}, ${profController.profil.value!.dudi.alamat.kabupaten}, ${profController.profil.value!.dudi.alamat.kabupaten}, ${profController.profil.value!.dudi.alamat.provinsi}"),
+                                                                  "${profController.profil.value!.dudi!.alamat!.detailTempat ?? ""}, ${profController.profil.value!.dudi!.alamat!.desa ?? ""}, ${profController.profil.value!.dudi!.alamat!.kecamatan ?? ""}, ${profController.profil.value!.dudi!.alamat!.kabupaten ?? ""}, ${profController.profil.value!.dudi!.alamat!.kabupaten ?? ""}, ${profController.profil.value!.dudi!.alamat!.provinsi ?? ""}"),
                                                           style: AllMaterial
                                                               .montSerrat(
                                                             color: AllMaterial
@@ -613,117 +630,133 @@ class HomepageSiswaView extends GetView<HomepageSiswaController> {
                                       ],
                                     ),
                                   ),
-                                  FutureBuilder(
-                                      future: controller.getAbsenTigaHari(),
-                                      builder: (context, snapshot) {
-                                        if (snapshot.connectionState ==
-                                            ConnectionState.waiting) {
-                                          return const Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Center(
-                                                child:
-                                                    CircularProgressIndicator(
-                                                  color: AllMaterial.colorBlue,
-                                                ),
-                                              ),
-                                            ],
-                                          );
-                                        }
-                                        return (controller.absenTigaHari.value
-                                                    ?.data ==
-                                                null)
-                                            ? Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  const SizedBox(height: 25),
-                                                  Center(
-                                                    child: Text(
-                                                      "Belum ada histori absen",
-                                                      style: AllMaterial
-                                                          .montSerrat(),
-                                                    ),
-                                                  ),
-                                                ],
-                                              )
-                                            : ListView.builder(
-                                                itemCount: controller
-                                                    .absenTigaHari
-                                                    .value!
-                                                    .data
-                                                    .length,
-                                                itemBuilder: (context, index) {
-                                                  var absen = controller
-                                                      .absenTigaHari
-                                                      .value!
-                                                      .data[index];
-                                                  return CardWidget(
-                                                    onTap: () => Get.to(() =>
-                                                        const DetilHistoriAbsenSiswaView()),
-                                                    tanggal: AllMaterial
-                                                        .ubahTanggal(absen
-                                                            .tanggal
-                                                            .toIso8601String()),
-                                                    icon: (absen.status
-                                                            .contains("hadir"))
-                                                        ? const Icon(
-                                                            Icons.check_circle,
-                                                            color: Colors.green,
-                                                          )
-                                                        : (absen.status
-                                                                .contains(
-                                                                    "tidak"))
-                                                            ? const Icon(
-                                                                Icons
-                                                                    .cancel_sharp,
-                                                                color:
-                                                                    Colors.red,
-                                                              )
-                                                            : (absen.status.contains(
-                                                                        "sakit") ||
-                                                                    absen.status
-                                                                        .contains(
-                                                                            "izin"))
-                                                                ? const Icon(
-                                                                    Icons
-                                                                        .remove_circle,
-                                                                    color: Colors
-                                                                        .blue,
-                                                                  )
-                                                                : const Icon(
-                                                                    Icons
-                                                                        .info_rounded,
-                                                                    color: Colors
-                                                                        .yellow,
-                                                                  ),
-                                                    keterangan: absen.status,
-                                                  );
-                                                },
-                                              );
-                                      }),
-                                  // Column(
-                                  //   children: List.generate(
-                                  //     controller
-                                  //         .absenTigaHari.value!.data.length,
-                                  //     (index) {
-                                  //       var absen = controller
-                                  //           .absenTigaHari.value!.data[index];
-                                  //       return CardWidget(
-                                  //         onTap: () => Get.to(() =>
-                                  //             const DetilHistoriAbsenSiswaView()),
-                                  //         tanggal: AllMaterial.ubahTanggal(
-                                  //             absen.tanggal.toIso8601String()),
-                                  //         icon: const Icon(
-                                  //           Icons.check_circle,
-                                  //           color: Colors.green,
-                                  //         ),
-                                  //         keterangan: "Hadir",
-                                  //       );
-                                  //     },
-                                  //   ),
-                                  // ),
+                                  Obx(() {
+                                    if (controller.absenTigaHari.isEmpty) {
+                                      return Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          const SizedBox(height: 25),
+                                          Center(
+                                            child: Text(
+                                              "Belum ada histori absen",
+                                              style: AllMaterial.montSerrat(),
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    } else {
+                                      return ListView.builder(
+                                        shrinkWrap: true,
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
+                                        itemCount:
+                                            controller.absenTigaHari.length,
+                                        itemBuilder: (context, index) {
+                                          var absen =
+                                              controller.absenTigaHari[index];
+                                          print(absen.status);
+                                          return (absen.status
+                                                  .contains("tidak"))
+                                              ? const SizedBox.shrink()
+                                              : CardWidget(
+                                                  onTap: () {
+                                                    showDialog(
+                                                      context: context,
+                                                      builder: (context) {
+                                                        return AllMaterial
+                                                            .cusDialog(
+                                                          topTitle:
+                                                              "Absen Harian",
+                                                          path:
+                                                              "assets/icons/laporan.svg",
+                                                          dateTime: AllMaterial
+                                                              .ubahHari(
+                                                            absen.tanggal
+                                                                .toIso8601String(),
+                                                          ),
+                                                          onTap1: () {
+                                                            var absensi = Get.put(
+                                                                DetilHistoriAbsenSiswaControllr());
+                                                            absensi
+                                                                .getDetilAbsenById(
+                                                                    absen.id,
+                                                                    "masuk",
+                                                                    absen
+                                                                        .status);
+                                                          },
+                                                          onTap2: () {
+                                                            var absensi = Get.put(
+                                                                DetilHistoriAbsenSiswaControllr());
+                                                            if (absen
+                                                                    .statusAbsenPulang !=
+                                                                null) {
+                                                              absensi.getDetilAbsenById(
+                                                                  absen.id,
+                                                                  "pulang",
+                                                                  absen.status);
+                                                            } else {
+                                                              Get.back();
+                                                              AllMaterial.messageScaffold(
+                                                                  title:
+                                                                      "Absen Pulang tidak ditemukan!",
+                                                                  context:
+                                                                      context);
+                                                            }
+                                                          },
+                                                        );
+                                                      },
+                                                    );
+                                                  },
+                                                  tanggal: AllMaterial.ubahHari(
+                                                      absen.tanggal
+                                                          .toIso8601String()),
+                                                  icon: (absen.status
+                                                          .contains("hadir"))
+                                                      ? const Icon(
+                                                          Icons.check_circle,
+                                                          color: Colors.green,
+                                                        )
+                                                      : (absen.status.contains(
+                                                              "tidak"))
+                                                          ? const Icon(
+                                                              Icons
+                                                                  .cancel_sharp,
+                                                              color: Colors.red,
+                                                            )
+                                                          : (absen.status.contains(
+                                                                      "sakit") ||
+                                                                  absen.status
+                                                                      .contains(
+                                                                          "izin"))
+                                                              ? const Icon(
+                                                                  Icons
+                                                                      .remove_circle,
+                                                                  color: Colors
+                                                                      .yellow,
+                                                                )
+                                                              : const Icon(
+                                                                  Icons
+                                                                      .info_rounded,
+                                                                  color: Colors
+                                                                      .yellow,
+                                                                ),
+                                                  keterangan: (absen.status
+                                                          .contains("_"))
+                                                      ? AllMaterial
+                                                          .setiapHurufPertama(
+                                                              absen.status
+                                                                  .split('_')
+                                                                  .join(' '))
+                                                      : AllMaterial
+                                                          .setiapHurufPertama(
+                                                          absen.status,
+                                                        ),
+                                                );
+                                        },
+                                      );
+                                    }
+                                  })
                                 ],
                               )
                             : const SizedBox.shrink(),
@@ -731,7 +764,9 @@ class HomepageSiswaView extends GetView<HomepageSiswaController> {
                     ],
                   ),
                 );
-              }),
+              }
+            },
+          ),
         ),
       ),
     );

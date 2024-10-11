@@ -3,7 +3,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:simon_pkl/all_material.dart';
 import 'package:simon_pkl/app/modules/guru/histori_absen_siswa_guru/views/histori_absen_siswa_guru_view.dart';
-import 'package:simon_pkl/app/modules/siswa/histori_absen_siswa/views/histori_absen_siswa_view.dart';
 import 'package:simon_pkl/app/modules/siswa/homepage_siswa/widgets/cards_widget.dart';
 
 import '../controllers/laporan_absen_siswa_guru_controller.dart';
@@ -77,7 +76,6 @@ class LaporanAbsenSiswaGuruView
                 ),
               ),
               const SizedBox(height: 20),
-
               Expanded(
                 child: ListView.builder(
                   itemCount: 2,
@@ -124,6 +122,50 @@ class LaporanAbsenSiswaGuruView
               const SizedBox(height: 60),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class ChoiceChipWidget extends StatelessWidget {
+  final String label;
+  final int month;
+  // ignore: prefer_typing_uninitialized_variables
+  final LaporanAbsenSiswaGuruController controller;
+
+  const ChoiceChipWidget({
+    super.key,
+    required this.label,
+    required this.month,
+    required this.controller,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Obx(
+      () => ChoiceChip(
+        label: Text(label),
+        checkmarkColor: AllMaterial.colorWhite,
+        elevation: 0,
+        disabledColor: AllMaterial.colorGreySec,
+        shadowColor: Colors.transparent,
+        side: const BorderSide(width: 0, color: Colors.transparent),
+        selected: controller.selectedMonth.value == month,
+        selectedColor: Colors.blue,
+        onSelected: (bool selected) {
+          if (selected) {
+            controller.updateHistoriAbsen(month);
+          }
+        },
+        backgroundColor: Colors.grey[200],
+        labelStyle: AllMaterial.montSerrat(
+          color: controller.selectedMonth.value == month
+              ? Colors.white
+              : AllMaterial.colorGrey,
+          fontWeight: controller.selectedMonth.value == month
+              ? AllMaterial.fontMedium
+              : AllMaterial.fontRegular,
         ),
       ),
     );

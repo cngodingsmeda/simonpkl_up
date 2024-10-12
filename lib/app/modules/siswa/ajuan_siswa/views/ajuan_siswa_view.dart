@@ -4,6 +4,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:simon_pkl/all_material.dart';
 import 'package:simon_pkl/app/modules/siswa/ajuan_siswa/widgets/clippath_widget.dart';
 import 'package:simon_pkl/app/modules/siswa/home_siswa/views/home_siswa_view.dart';
+import 'package:simon_pkl/app/modules/siswa/homepage_siswa/controllers/homepage_siswa_controller.dart';
 
 import '../controllers/ajuan_siswa_controller.dart';
 
@@ -12,6 +13,7 @@ class AjuanSiswaView extends GetView<AjuanSiswaController> {
 
   @override
   Widget build(BuildContext context) {
+    var status = AllMaterial.box.read("statusSiswa");
     var id = Get.arguments;
     var controller = Get.put(AjuanSiswaController());
     return Scaffold(
@@ -88,7 +90,7 @@ class AjuanSiswaView extends GetView<AjuanSiswaController> {
                           TextInfoAjuan(
                             controller: controller,
                             title: "Status Info :",
-                            subtitle: "Verifikasi Selesai",
+                            subtitle: "Verifikasi Diajukan",
                           ),
                           TextInfoAjuan(
                             controller: controller,
@@ -126,9 +128,9 @@ class AjuanSiswaView extends GetView<AjuanSiswaController> {
       ),
       bottomNavigationBar: GestureDetector(
         onTap: () {
-          var status = AllMaterial.box.read("statusSiswa");
           if (status == null || status == "") {
             Get.off(() => HomeSiswaView());
+            HomepageSiswaController.statusPkl.value = "menunggu";
             AllMaterial.box.write("statusSiswa", "proses");
           } else {
             Get.back();

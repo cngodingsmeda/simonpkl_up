@@ -20,6 +20,12 @@ class PilihDudiSiswaController extends GetxController {
     super.onClose();
   }
 
+  @override
+  void onInit() {
+    fetchDudiList();
+    super.onInit();
+  }
+
   Future<void> fetchDudiList() async {
     final response = await http.get(
       Uri.parse("${ApiUrl.urlGetAllDudiSiswa}${intPage.value + 1}"),
@@ -37,6 +43,8 @@ class PilihDudiSiswaController extends GetxController {
       dudi.value = pilihDudiModel;
       update();
     } else {
+      isLoading.value = true;
+      update();
       print("gagal menampilkan data");
       throw Exception('Failed to load data');
     }

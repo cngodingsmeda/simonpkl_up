@@ -17,115 +17,111 @@ class PilihanAbsenSiswaView extends GetView<PilihanAbsenSiswaController> {
     return Scaffold(
       backgroundColor: AllMaterial.colorWhite,
       resizeToAvoidBottomInset: true,
-      body: Obx(
-        () {
-          if (controller.isLoading.isTrue) {
-            return const Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Center(
-                  child: CircularProgressIndicator(
-                    color: AllMaterial.colorBlue,
-                  ),
-                ),
-              ],
-            );
-          }
-
-          // Cek jika tidak dalam radius
-          if (controller.isWithinRadius.isFalse) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Anda tidak berada dalam radius yang ditentukan.",
-                      textAlign: TextAlign.center,
-                      style: AllMaterial.montSerrat(
-                          fontWeight: AllMaterial.fontSemiBold),
-                    ),
-                    const SizedBox(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ElevatedButton(
-                          onPressed: () => Get.back(),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AllMaterial.colorBlue,
-                            shape: const RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(16)),
-                            ),
-                          ),
-                          child: Text(
-                            "Kembali",
-                            style: AllMaterial.montSerrat(
-                              color: AllMaterial.colorWhite,
-                              fontWeight: AllMaterial.fontMedium,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 15),
-                        ElevatedButton(
-                          onPressed: () async {
-                            controller.isWithinRadius.value = true;
-                            controller.absenLuarRadius.value = true;
-                            if (controller.isWithinRadius.isTrue) {
-                              await controller.getAllJadwalAbsen();
-                            }
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AllMaterial.colorWhite,
-                            side:
-                                const BorderSide(color: AllMaterial.colorBlue),
-                            shape: const RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(16)),
-                            ),
-                          ),
-                          child: Text(
-                            "Lanjutkan",
-                            style: AllMaterial.montSerrat(
-                              color: AllMaterial.colorBlue,
-                              fontWeight: AllMaterial.fontMedium,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
+      body: Obx(() {
+        if (controller.isLoading.isTrue) {
+          return const Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Center(
+                child: CircularProgressIndicator(
+                  color: AllMaterial.colorBlue,
                 ),
               ),
-            );
-          }
-          var hariIni =
-              DateFormat('EEEE', 'id_ID').format(DateTime.now()).toLowerCase();
-          var instansi = controller.jadwalAbsenSiswa.value;
+            ],
+          );
+        }
 
-          if (instansi == null) {
-            return const Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Center(
-                  child: CircularProgressIndicator(
-                    color: AllMaterial.colorBlue,
+        // Cek jika tidak dalam radius
+        if (controller.isWithinRadius.isFalse ||
+            controller.jadwalAbsenSiswa.value == null) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Anda tidak berada dalam radius yang ditentukan.",
+                    textAlign: TextAlign.center,
+                    style: AllMaterial.montSerrat(
+                        fontWeight: AllMaterial.fontSemiBold),
                   ),
-                ),
-              ],
-            );
-          }
-          var jadwalHariIni = instansi.data[0].hari.firstWhere(
-            (jadwal) => jadwal.hari.toString().toLowerCase() == hariIni,
-            orElse: () => Hari(
-              id: 0,
-              hari: "",
-              batasAbsenMasuk: "",
-              batasAbsenPulang: "",
+                  const SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () => Get.back(),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AllMaterial.colorBlue,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(16)),
+                          ),
+                        ),
+                        child: Text(
+                          "Kembali",
+                          style: AllMaterial.montSerrat(
+                            color: AllMaterial.colorWhite,
+                            fontWeight: AllMaterial.fontMedium,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 15),
+                      ElevatedButton(
+                        onPressed: () async {
+                          controller.isWithinRadius.value = true;
+                          controller.absenLuarRadius.value = true;
+                          if (controller.isWithinRadius.isTrue) {
+                            await controller.getAllJadwalAbsen();
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AllMaterial.colorWhite,
+                          side: const BorderSide(color: AllMaterial.colorBlue),
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(16)),
+                          ),
+                        ),
+                        child: Text(
+                          "Lanjutkan",
+                          style: AllMaterial.montSerrat(
+                            color: AllMaterial.colorBlue,
+                            fontWeight: AllMaterial.fontMedium,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           );
-          if (jadwalHariIni.hari == '') {
+        }
+        var hariIni =
+            DateFormat('EEEE', 'id_ID').format(DateTime.now()).toLowerCase();
+        JadwalAbsenSiswa? instansi = controller.jadwalAbsenSiswa.value;
+
+        if (instansi!.data.isEmpty) {
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Text(
+                    AllMaterial.hurufPertama(controller.msg.value),
+                    textAlign: TextAlign.center,
+                    style: AllMaterial.montSerrat(
+                      fontWeight: AllMaterial.fontMedium,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          );
+        } else {
+          Hari jadwalHariIni;
+          if (instansi.data.isEmpty) {
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
@@ -146,6 +142,15 @@ class PilihanAbsenSiswaView extends GetView<PilihanAbsenSiswaController> {
               ),
             );
           } else {
+            jadwalHariIni = instansi.data[0].hari.firstWhere(
+              (jadwal) => jadwal.hari.toString().toLowerCase() == hariIni,
+              orElse: () => Hari(
+                id: 0,
+                hari: "",
+                batasAbsenMasuk: "",
+                batasAbsenPulang: "",
+              ),
+            );
             return SingleChildScrollView(
               child: Column(
                 children: [
@@ -326,30 +331,30 @@ class PilihanAbsenSiswaView extends GetView<PilihanAbsenSiswaController> {
                                 }),
                             const SizedBox(width: 12),
                             ButtonAbsen(
-                                nama: "Absen Izin",
-                                svg: "assets/icons/absen_izin.svg",
-                                tekan: (controller.bisaAbsen.isTrue ||
-                                        controller.jenisAbsen.value
-                                            .contains("izin"))
-                                    ? () {
-                                        Get.to(
-                                          () => const AbsenAbnormalSiswaView(),
-                                          arguments: {
-                                            "status": "izin",
-                                            "latitude":
-                                                controller.latitude.value,
-                                            "longitude":
-                                                controller.longitude.value
-                                          },
-                                        );
-                                      }
-                                    : () {
-                                        AllMaterial.messageScaffold(
-                                          title:
-                                              "Absen Izin tidak tersedia saat ini",
-                                          context: context,
-                                        );
-                                      }),
+                              nama: "Absen Izin",
+                              svg: "assets/icons/absen_izin.svg",
+                              tekan: (controller.bisaAbsen.isTrue ||
+                                      controller.jenisAbsen.value
+                                          .contains("izin"))
+                                  ? () {
+                                      Get.to(
+                                        () => const AbsenAbnormalSiswaView(),
+                                        arguments: {
+                                          "status": "izin",
+                                          "latitude": controller.latitude.value,
+                                          "longitude":
+                                              controller.longitude.value
+                                        },
+                                      );
+                                    }
+                                  : () {
+                                      AllMaterial.messageScaffold(
+                                        title:
+                                            "Absen Izin tidak tersedia saat ini",
+                                        context: context,
+                                      );
+                                    },
+                            ),
                           ],
                         ),
                       ],
@@ -359,8 +364,8 @@ class PilihanAbsenSiswaView extends GetView<PilihanAbsenSiswaController> {
               ),
             );
           }
-        },
-      ),
+        }
+      }),
       bottomNavigationBar: Obx(() {
         if (controller.isLoading.isFalse && controller.isWithinRadius.isTrue) {
           return GestureDetector(

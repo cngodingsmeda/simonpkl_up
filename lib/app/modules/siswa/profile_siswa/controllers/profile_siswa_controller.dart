@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:simon_pkl/all_material.dart';
 import 'package:simon_pkl/app/data/api_url.dart';
 import 'package:simon_pkl/app/model/model_siswa/profile_siswa_model.dart';
+import 'package:simon_pkl/app/modules/siswa/home_siswa/controllers/home_siswa_controller.dart';
 import 'package:simon_pkl/app/modules/siswa/homepage_siswa/controllers/homepage_siswa_controller.dart';
 
 class ProfileSiswaController extends GetxController {
@@ -36,6 +37,7 @@ class ProfileSiswaController extends GetxController {
       var profileModel = ProfileSiswaModel.fromJson(data["data"]);
 
       profil.value = profileModel;
+      HomeSiswaController.isLoading.value = false;
 
       HomepageSiswaController.statusPkl.value = data["data"]["status"];
 

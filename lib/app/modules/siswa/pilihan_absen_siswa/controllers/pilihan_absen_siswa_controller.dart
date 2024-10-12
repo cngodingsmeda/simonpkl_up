@@ -71,19 +71,28 @@ class PilihanAbsenSiswaController extends GetxController {
         },
       ),
     );
+
     print(response.statusCode);
-    print(response.body);
-    var data = jsonDecode(response.body);
-    msg.value = data["msg"];
-    if (response.statusCode == 200) {
-      bool dalamRadius = data["data"]["inside_radius"];
-      isWithinRadius.value = dalamRadius;
-      await cekJenisAbsen(latitude, longitude);
-      update();
-      print(data);
+
+    if (response.body.isNotEmpty) {
+      print(response.body);
+      var data = jsonDecode(response.body);
+      msg.value = data["msg"];
+      if (response.statusCode == 200) {
+        bool dalamRadius = data["data"]["inside_radius"];
+        isWithinRadius.value = dalamRadius;
+        await cekJenisAbsen(latitude, longitude);
+        update();
+        print(data);
+      } else {
+        print("Gagal mengirim data");
+        throw Exception('Failed to send data');
+      }
     } else {
-      print("gagal mengirim data");
-      throw Exception('Failed to send data');
+      print("Response body kosong");
+      if (response.statusCode != 200) {
+        throw Exception('Failed to send data, response body is empty');
+      }
     }
   }
 

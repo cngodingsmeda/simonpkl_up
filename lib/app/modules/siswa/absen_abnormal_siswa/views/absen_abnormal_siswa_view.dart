@@ -84,7 +84,6 @@ class AbsenAbnormalSiswaView extends GetView<AbsenAbnormalSiswaController> {
                             controller.inputF.unfocus();
                           },
                           enableSuggestions: true,
-                          autofocus: true,
                           decoration: InputDecoration(
                             hintText: "Masukkan alasan ${arg["status"]}",
                             hintStyle: AllMaterial.montSerrat(
@@ -160,42 +159,46 @@ class AbsenAbnormalSiswaView extends GetView<AbsenAbnormalSiswaController> {
                           ),
                         ),
                         const SizedBox(height: 10),
-                        Obx(
-                          () {
-                            print(controller.isSakit.value);
-                            return GestureDetector(
-                              onTap: () => controller.isSakit.toggle(),
-                              child: Row(
-                                children: [
-                                  Checkbox(
-                                    fillColor: const WidgetStatePropertyAll(
-                                      AllMaterial.colorBlue,
+                        (arg["status"].toString().contains("izin"))
+                            ? Obx(
+                                () {
+                                  print(controller.isSakit.value);
+                                  return GestureDetector(
+                                    onTap: () => controller.isSakit.toggle(),
+                                    child: Row(
+                                      children: [
+                                        Checkbox(
+                                          fillColor:
+                                              const WidgetStatePropertyAll(
+                                            AllMaterial.colorBlue,
+                                          ),
+                                          value: controller.isSakit.value,
+                                          onChanged: (value) {
+                                            controller.isSakit.value = value!;
+                                          },
+                                          checkColor: Colors.white,
+                                          side: const BorderSide(
+                                              color: AllMaterial.colorWhite,
+                                              width: 2),
+                                          activeColor: Colors.white,
+                                        ),
+                                        Expanded(
+                                          child: Text(
+                                            'Tandai sebagai "Absen Sakit"',
+                                            style: AllMaterial.montSerrat(
+                                              color: AllMaterial.colorWhite,
+                                              fontWeight:
+                                                  AllMaterial.fontMedium,
+                                              fontSize: 13,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                    value: controller.isSakit.value,
-                                    onChanged: (value) {
-                                      controller.isSakit.value = value!;
-                                    },
-                                    checkColor: Colors.white,
-                                    side: const BorderSide(
-                                        color: AllMaterial.colorWhite,
-                                        width: 2),
-                                    activeColor: Colors.white,
-                                  ),
-                                  Expanded(
-                                    child: Text(
-                                      'Tandai sebagai "Absen Sakit"',
-                                      style: AllMaterial.montSerrat(
-                                        color: AllMaterial.colorWhite,
-                                        fontWeight: AllMaterial.fontMedium,
-                                        fontSize: 13,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            );
-                          },
-                        ),
+                                  );
+                                },
+                              )
+                            : const SizedBox.shrink(),
                         const SizedBox(height: 10),
                         Obx(
                           () => ElevatedButton(

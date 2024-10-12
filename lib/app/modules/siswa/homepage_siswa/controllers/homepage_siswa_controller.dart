@@ -14,12 +14,17 @@ class HomepageSiswaController extends GetxController {
   var readCount = 0.obs;
   var ajuanPkl = Rx<LastAjuanPklModel?>(null);
   var absenTigaHari = <Datum>[].obs;
+  var nisSiswa = "".obs;
 
   @override
   void onInit() {
-    if (HomepageSiswaController.statusPkl.value == "menunggu") {
+    var status = AllMaterial.box.read("statusSiswa");
+
+    if (status != null || status != "") {
       getLastAjuanPkl();
+      getAbsenTigaHari();
     }
+    getNotifUnread();
     super.onInit();
   }
 
@@ -52,6 +57,7 @@ class HomepageSiswaController extends GetxController {
       },
     );
     var data = jsonDecode(response.body);
+    print(data);
     if (response.statusCode == 200) {
       readCount.value = data["data"]["count"];
       update();
@@ -106,6 +112,8 @@ class HomepageSiswaController extends GetxController {
           // Mengonversi list JSON menjadi list model Datum
           absenTigaHari.value = List<Datum>.from(
               data["data"].map((item) => Datum.fromJson(item)));
+          nisSiswa.value = data["data"]["nis"];
+          update();
         } else {
           print("Data yang diterima tidak sesuai format list");
         }

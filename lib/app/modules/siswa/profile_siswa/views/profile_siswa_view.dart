@@ -53,7 +53,7 @@ class ProfileSiswaView extends GetView<ProfileSiswaController> {
                     decoration: BoxDecoration(
                       image: DecorationImage(
                         // ignore: unnecessary_null_comparison
-                        image: (controller.profil.value!.fotoProfile != null)
+                        image: (controller.profil.value?.fotoProfile != null)
                             ? NetworkImage(controller.profil.value!.fotoProfile
                                 .toString()
                                 .replaceAll("localhost", "10.0.2.2"))

@@ -3,12 +3,12 @@ class Datum {
   int idAbsenJadwal;
   int idSiswa;
   DateTime tanggal;
-  String? absenMasuk; // Nullable
-  String? absenPulang; // Nullable
-  String? statusAbsenMasuk; // Nullable
-  String? statusAbsenPulang; // Nullable
-  String? fotoAbsenMasuk; // Nullable
-  String? fotoAbsenPulang; // Nullable
+  String? absenMasuk;
+  String? absenPulang;
+  String? statusAbsenMasuk;
+  String? statusAbsenPulang;
+  String? fotoAbsenMasuk;
+  String? fotoAbsenPulang;
   String status;
   Siswa siswa;
   KeteranganAbsen? keteranganAbsenMasuk;
@@ -72,9 +72,9 @@ class Datum {
 
 class KeteranganAbsen {
   int id;
-  String? note; // Nullable
+  String? note;
   bool insideRadius;
-  String? statusIzin; // Nullable
+  String? statusIzin;
 
   KeteranganAbsen({
     required this.id,

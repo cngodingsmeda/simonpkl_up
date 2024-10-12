@@ -207,19 +207,33 @@ class DetilHistoriAbsenSiswaView
                                     ),
                                   ),
                                   subtitle: Text(
-                                    (absensi!.keteranganAbsenMasuk?.note !=
+                                    (absensi!.keteranganAbsenMasuk
+                                                        ?.statusIzin !=
                                                     null &&
                                                 absensi.keteranganAbsenMasuk
-                                                        ?.note !=
+                                                        ?.statusIzin !=
                                                     "") ||
                                             (absensi.keteranganAbsenPulang
-                                                        ?.note !=
+                                                        ?.statusIzin !=
                                                     null &&
                                                 absensi.keteranganAbsenPulang
-                                                        ?.note !=
+                                                        ?.statusIzin !=
                                                     "")
-                                        ? "Tepat Waktu"
-                                        : "Telat",
+                                        ? (arg["jenis"]
+                                                .toString()
+                                                .contains("pulang"))
+                                            ? absensi.keteranganAbsenPulang!
+                                                    .statusIzin
+                                                    .toString()
+                                                    .contains("radius")
+                                                ? "Telat"
+                                                : AllMaterial.setiapHurufPertama(absensi.keteranganAbsenPulang!
+                                                    .statusIzin
+                                                    .toString())
+                                            : AllMaterial.setiapHurufPertama(absensi.keteranganAbsenMasuk!
+                                                .statusIzin
+                                                .toString())
+                                        : "Tepat Waktu",
                                     style: AllMaterial.montSerrat(
                                       fontSize: 16,
                                       fontWeight: AllMaterial.fontBold,

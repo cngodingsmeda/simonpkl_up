@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:simon_pkl/all_material.dart';
 import 'package:simon_pkl/app/modules/siswa/homepage_siswa/controllers/homepage_siswa_controller.dart';
@@ -99,6 +98,7 @@ class BatalkanPklSiswaView extends GetView<BatalkanPklSiswaController> {
                         ),
                         const SizedBox(height: 10),
                         TextField(
+                          autofocus: true,
                           controller: controller.alasanC,
                           focusNode: controller.alasanF,
                           style: AllMaterial.montSerrat(

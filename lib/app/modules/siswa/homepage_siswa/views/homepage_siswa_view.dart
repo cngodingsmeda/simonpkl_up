@@ -594,7 +594,7 @@ class HomepageSiswaView extends GetView<HomepageSiswaController> {
                                   itemBuilder: (context, index) {
                                     var absen = controller.absenTigaHari[index];
                                     print(absen.status);
-                                    return (absen.status.contains("tidak"))
+                                    return (absen.status!.contains("tidak"))
                                         ? const SizedBox.shrink()
                                         : CardWidget(
                                             onTap: () {
@@ -607,16 +607,16 @@ class HomepageSiswaView extends GetView<HomepageSiswaController> {
                                                         "assets/icons/laporan.svg",
                                                     dateTime:
                                                         AllMaterial.ubahHari(
-                                                      absen.tanggal
+                                                      absen.tanggal!
                                                           .toIso8601String(),
                                                     ),
                                                     onTap1: () {
                                                       var absensi = Get.put(
                                                           DetilHistoriAbsenSiswaControllr());
                                                       absensi.getDetilAbsenById(
-                                                          absen.id,
+                                                          absen.id!.toInt(),
                                                           "masuk",
-                                                          absen.status);
+                                                          absen.status!);
                                                     },
                                                     onTap2: () {
                                                       var absensi = Get.put(
@@ -626,9 +626,10 @@ class HomepageSiswaView extends GetView<HomepageSiswaController> {
                                                           null) {
                                                         absensi
                                                             .getDetilAbsenById(
-                                                                absen.id,
+                                                                absen.id!
+                                                                    .toInt(),
                                                                 "pulang",
-                                                                absen.status);
+                                                                absen.status!);
                                                       } else {
                                                         Get.back();
                                                         AllMaterial.messageScaffold(
@@ -642,23 +643,23 @@ class HomepageSiswaView extends GetView<HomepageSiswaController> {
                                               );
                                             },
                                             tanggal: AllMaterial.ubahHari(absen
-                                                .tanggal
+                                                .tanggal!
                                                 .toIso8601String()),
-                                            icon: (absen.status
+                                            icon: (absen.status!
                                                     .contains("hadir"))
                                                 ? const Icon(
                                                     Icons.check_circle,
                                                     color: Colors.green,
                                                   )
-                                                : (absen.status
+                                                : (absen.status!
                                                         .contains("tidak"))
                                                     ? const Icon(
                                                         Icons.cancel_sharp,
                                                         color: Colors.red,
                                                       )
-                                                    : (absen.status.contains(
+                                                    : (absen.status!.contains(
                                                                 "sakit") ||
-                                                            absen.status
+                                                            absen.status!
                                                                 .contains(
                                                                     "izin"))
                                                         ? const Icon(
@@ -671,17 +672,17 @@ class HomepageSiswaView extends GetView<HomepageSiswaController> {
                                                             color:
                                                                 Colors.yellow,
                                                           ),
-                                            keterangan: (absen.status
-                                                    .contains("_"))
-                                                ? AllMaterial
-                                                    .setiapHurufPertama(absen
-                                                        .status
-                                                        .split('_')
-                                                        .join(' '))
-                                                : AllMaterial
-                                                    .setiapHurufPertama(
-                                                    absen.status,
-                                                  ),
+                                            keterangan:
+                                                (absen.status!.contains("_"))
+                                                    ? AllMaterial
+                                                        .setiapHurufPertama(
+                                                            absen.status!
+                                                                .split('_')
+                                                                .join(' '))
+                                                    : AllMaterial
+                                                        .setiapHurufPertama(
+                                                        absen.status,
+                                                      ),
                                           );
                                   },
                                 );

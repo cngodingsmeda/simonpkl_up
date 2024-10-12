@@ -75,6 +75,7 @@ class AbsenNormalSiswaController extends GetxController {
       );
       Get.to(() => HomeSiswaView());
     } else {
+      print(response.body);
       AllMaterial.messageScaffold(
         title: AllMaterial.hurufPertama(
           "Absen ${AllMaterial.hurufPertama(status)} gagal, coba lagi nanti!",

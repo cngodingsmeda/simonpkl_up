@@ -164,7 +164,9 @@ abstract class AllMaterial {
 
   static String setiapHurufPertama(String? text) {
     return text!.split(' ').map((word) {
-      return word[0].toUpperCase() + word.substring(1).toLowerCase();
+      if (text != "") {
+        return word[0].toUpperCase() + word.substring(1).toLowerCase();
+      }
     }).join(' ');
   }
 

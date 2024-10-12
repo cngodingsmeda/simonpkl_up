@@ -61,10 +61,12 @@ class DetilHistoriAbsenSiswaControllr extends GetxController {
             print("masuk ke data contains key data");
             var absensi = DetilHistoriAbsenModel.fromJson(data["data"]);
             detilAbsen.value = absensi;
+            if (detilAbsen.value != null) {
+              isLoading.value = false;
+            }
             Get.back();
             Get.to(() => const DetilHistoriAbsenSiswaView(),
                 arguments: {"jenis": jenisAbsen, "status": statusAbsen});
-            isLoading.value = false;
             update();
           } else {
             print('Error: "data" key not found or null in the response');
@@ -82,6 +84,47 @@ class DetilHistoriAbsenSiswaControllr extends GetxController {
     } catch (e) {
       print("Exception caught: $e");
       throw Exception(e.toString());
+    }
+  }
+
+  String getTextStatus(String arg) {
+    var absensi = detilAbsen.value;
+
+    // Retrieve statusIzin for masuk and pulang, default to null if not available.
+    String? statusIzinMasuk = absensi?.keteranganAbsenMasuk?.statusIzin;
+    String? statusIzinPulang = absensi?.keteranganAbsenPulang?.statusIzin;
+
+    // Determine if it's absen pulang or masuk.
+    if (arg.contains("pulang")) {
+      if (statusIzinPulang == null) {
+        return "Tepat Waktu";
+      }
+      // Handle statusIzin for pulang.
+      else if (statusIzinPulang.contains("radius")) {
+        return "Telat";
+      }
+      return AllMaterial.setiapHurufPertama(statusIzinPulang);
+    } else {
+      if (statusIzinMasuk == null) {
+        return "Tepat Waktu";
+      }
+      return AllMaterial.setiapHurufPertama(statusIzinMasuk);
+    }
+  }
+
+  String getTextRadiusStatus(arg) {
+    bool isMasuk = arg?.toString().contains("masuk") ?? false;
+
+    var absensi = detilAbsen.value;
+    print(absensi?.keteranganAbsenPulang?.insideRadius);
+    if (isMasuk) {
+      return absensi?.keteranganAbsenMasuk?.insideRadius ?? false
+          ? "Di dalam radius"
+          : "Di luar radius";
+    } else {
+      return absensi?.keteranganAbsenPulang?.insideRadius ?? false
+          ? "Di dalam radius"
+          : "Di luar radius";
     }
   }
 

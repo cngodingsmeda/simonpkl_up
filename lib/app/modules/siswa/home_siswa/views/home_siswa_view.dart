@@ -1,13 +1,9 @@
 // ignore_for_file: deprecated_member_use
 
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
-import 'package:restart_app/restart_app.dart';
 import 'package:simon_pkl/all_material.dart';
 import 'package:simon_pkl/app/modules/siswa/histori_absen_siswa/views/histori_absen_siswa_view.dart';
 import 'package:simon_pkl/app/modules/siswa/homepage_siswa/views/homepage_siswa_view.dart';
@@ -74,8 +70,9 @@ class HomeSiswaView extends GetView<HomeSiswaController> {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(HomeSiswaController());
     final profCont = Get.put(ProfileSiswaController());
-    profCont.fetchProfilSiswa();
+    // profCont.fetchProfilSiswa();
     return Scaffold(
         backgroundColor: AllMaterial.colorWhite,
         body: FutureBuilder(
@@ -106,7 +103,7 @@ class HomeSiswaView extends GetView<HomeSiswaController> {
                   ),
                 ),
               );
-            } else if (snapshot.hasData) {
+            } else {
               return PersistentTabView(
                 context,
                 controller: _controller,
@@ -137,75 +134,76 @@ class HomeSiswaView extends GetView<HomeSiswaController> {
                 ),
                 navBarStyle: NavBarStyle.style15,
               );
-            } else {
-              return SizedBox(
-                width: Get.width,
-                height: Get.height,
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Icon(
-                        Icons.error_outline,
-                        color: Colors.red,
-                        size: 50,
-                      ),
-                      const SizedBox(height: 15),
-                      Text(
-                        "Terjadi kesalahan!",
-                        style: AllMaterial.montSerrat(
-                          fontSize: 18,
-                          fontWeight: AllMaterial.fontMedium,
-                        ),
-                      ),
-                      const SizedBox(height: 15),
-                      ElevatedButton(
-                        onPressed: () {
-                          if (Platform.isAndroid) {
-                            SystemNavigator.pop();
-                          } else if (Platform.isIOS) {
-                            exit(0);
-                          }
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AllMaterial.colorWhite,
-                          side: const BorderSide(color: AllMaterial.colorBlue),
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(16)),
-                          ),
-                        ),
-                        child: Text(
-                          "Keluar",
-                          style: AllMaterial.montSerrat(
-                            color: AllMaterial.colorBlue,
-                            fontWeight: AllMaterial.fontMedium,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      ElevatedButton(
-                        onPressed: () {
-                          Restart.restartApp();
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AllMaterial.colorBlue,
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(16)),
-                          ),
-                        ),
-                        child: Text(
-                          "Coba Lagi",
-                          style: AllMaterial.montSerrat(
-                            color: AllMaterial.colorWhite,
-                            fontWeight: AllMaterial.fontMedium,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              );
             }
+            // } else {
+            //   return SizedBox(
+            //     width: Get.width,
+            //     height: Get.height,
+            //     child: Center(
+            //       child: Column(
+            //         mainAxisAlignment: MainAxisAlignment.center,
+            //         children: [
+            //           const Icon(
+            //             Icons.error_outline,
+            //             color: Colors.red,
+            //             size: 50,
+            //           ),
+            //           const SizedBox(height: 15),
+            //           Text(
+            //             "Terjadi kesalahan!",
+            //             style: AllMaterial.montSerrat(
+            //               fontSize: 18,
+            //               fontWeight: AllMaterial.fontMedium,
+            //             ),
+            //           ),
+            //           const SizedBox(height: 15),
+            //           ElevatedButton(
+            //             onPressed: () {
+            //               if (Platform.isAndroid) {
+            //                 SystemNavigator.pop();
+            //               } else if (Platform.isIOS) {
+            //                 exit(0);
+            //               }
+            //             },
+            //             style: ElevatedButton.styleFrom(
+            //               backgroundColor: AllMaterial.colorWhite,
+            //               side: const BorderSide(color: AllMaterial.colorBlue),
+            //               shape: const RoundedRectangleBorder(
+            //                 borderRadius: BorderRadius.all(Radius.circular(16)),
+            //               ),
+            //             ),
+            //             child: Text(
+            //               "Keluar",
+            //               style: AllMaterial.montSerrat(
+            //                 color: AllMaterial.colorBlue,
+            //                 fontWeight: AllMaterial.fontMedium,
+            //               ),
+            //             ),
+            //           ),
+            //           const SizedBox(height: 10),
+            //           ElevatedButton(
+            //             onPressed: () {
+            //               Restart.restartApp();
+            //             },
+            //             style: ElevatedButton.styleFrom(
+            //               backgroundColor: AllMaterial.colorBlue,
+            //               shape: const RoundedRectangleBorder(
+            //                 borderRadius: BorderRadius.all(Radius.circular(16)),
+            //               ),
+            //             ),
+            //             child: Text(
+            //               "Coba Lagi",
+            //               style: AllMaterial.montSerrat(
+            //                 color: AllMaterial.colorWhite,
+            //                 fontWeight: AllMaterial.fontMedium,
+            //               ),
+            //             ),
+            //           ),
+            //         ],
+            //       ),
+            //     ),
+            //   );
+            // }
           },
         ));
   }

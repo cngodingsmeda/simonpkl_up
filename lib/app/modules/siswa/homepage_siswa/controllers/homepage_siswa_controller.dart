@@ -22,8 +22,8 @@ class HomepageSiswaController extends GetxController {
 
     if (status != null || status != "") {
       getLastAjuanPkl();
-      getAbsenTigaHari();
     }
+    getAbsenTigaHari();
     getNotifUnread();
     super.onInit();
   }

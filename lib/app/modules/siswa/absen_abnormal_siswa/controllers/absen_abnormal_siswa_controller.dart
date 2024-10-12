@@ -40,8 +40,8 @@ class AbsenAbnormalSiswaController extends GetxController {
     await OpenFile.open(file.path);
   }
 
-  Future<void> postAbsenTelat(double? latitude, double? longitude,
-      File file, String note, String status, BuildContext context) async {
+  Future<void> postAbsenTelat(double? latitude, double? longitude, File file,
+      String note, String status, BuildContext context) async {
     final uri = Uri.parse(ApiUrl.urlPostAbsenTelatSiswa);
     final request = http.MultipartRequest('POST', uri);
 
@@ -78,6 +78,7 @@ class AbsenAbnormalSiswaController extends GetxController {
               "Absen ${AllMaterial.hurufPertama(status)} berhasil!"),
           context: context);
     } else {
+      print("res: ${response.body}");
       AllMaterial.messageScaffold(
           title: AllMaterial.hurufPertama(
               "Absen ${AllMaterial.hurufPertama(status)} gagal, coba lagi nanti!"),

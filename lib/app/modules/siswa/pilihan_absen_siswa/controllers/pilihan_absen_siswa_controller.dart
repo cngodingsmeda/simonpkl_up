@@ -81,7 +81,6 @@ class PilihanAbsenSiswaController extends GetxController {
       if (response.statusCode == 200) {
         bool dalamRadius = data["data"]["inside_radius"];
         isWithinRadius.value = dalamRadius;
-        await cekJenisAbsen(latitude, longitude);
         update();
         print(data);
       } else {
@@ -168,7 +167,10 @@ class PilihanAbsenSiswaController extends GetxController {
     if (userLocation.latitude != null || userLocation.longitude != null) {
       isLoading.value = false;
       print("${userLocation.latitude} : ${userLocation.longitude}");
+
       await postKoordinatSiswa(userLocation.latitude, userLocation.longitude);
+      cekJenisAbsen(latitude.value, longitude.value);
+
       update();
     }
   }

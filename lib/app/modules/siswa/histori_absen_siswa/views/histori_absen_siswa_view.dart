@@ -118,19 +118,19 @@ class HistoriAbsenSiswaView extends GetView<HistoriAbsenSiswaControllr> {
                           itemCount: controller.absen.length,
                           itemBuilder: (context, index) {
                             var item = controller.absen[index];
-                            var status = item.status.contains("_")
-                                ? item.status.split("_").join(" ")
+                            var status = item.status.toString().contains("_")
+                                ? item.status.toString().split("_").join(" ")
                                 : item.status;
                             return CardWidget(
                               tanggal: AllMaterial.ubahHari(
-                                  item.tanggal.toIso8601String()),
+                                  item.tanggal!.toIso8601String()),
                               icon: Icon(
-                                controller.iconCard(status.toLowerCase()),
+                                controller.iconCard(status!.toLowerCase()),
                                 color:
                                     controller.iconColor(status.toLowerCase()),
                               ),
                               onTap: () {
-                                if (item.status.contains("tidak")) {
+                                if (item.status!.contains("tidak")) {
                                   AllMaterial.messageScaffold(
                                       title: "Anda melewatkan Absen Harian!",
                                       context: context);
@@ -142,15 +142,15 @@ class HistoriAbsenSiswaView extends GetView<HistoriAbsenSiswaControllr> {
                                         topTitle: "Absen Harian",
                                         path: "assets/icons/laporan.svg",
                                         dateTime: AllMaterial.ubahHari(
-                                          item.tanggal.toIso8601String(),
+                                          item.tanggal!.toIso8601String(),
                                         ),
                                         onTap1: () {
                                           var absensi = Get.put(
                                               DetilHistoriAbsenSiswaControllr());
                                           absensi.getDetilAbsenById(
-                                            item.id,
+                                            item.id!.toInt(),
                                             "masuk",
-                                            item.status,
+                                            item.status!,
                                           );
                                         },
                                         onTap2: () {
@@ -164,9 +164,9 @@ class HistoriAbsenSiswaView extends GetView<HistoriAbsenSiswaControllr> {
                                                 context: context);
                                           } else {
                                             absensi.getDetilAbsenById(
-                                              item.id,
+                                              item.id!.toInt(),
                                               "pulang",
-                                              item.status,
+                                              item.status!,
                                             );
                                           }
                                         },

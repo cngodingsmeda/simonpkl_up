@@ -1,8 +1,7 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:open_file/open_file.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:simon_pkl/all_material.dart';
 import 'package:simon_pkl/app/modules/siswa/absen_abnormal_siswa/controllers/absen_abnormal_siswa_controller.dart';
@@ -23,6 +22,10 @@ class DetilHistoriAbsenSiswaView
     PhotoViewController photoViewController = PhotoViewController();
     var arg = Get.arguments;
 
+    void openFile(String file) async {
+      await OpenFile.open(file);
+    }
+
     return Scaffold(
       backgroundColor: AllMaterial.colorWhite,
       body: Obx(
@@ -39,6 +42,7 @@ class DetilHistoriAbsenSiswaView
               ],
             );
           } else {
+            print("masuk ke else detil histori absen");
             var absensi = controller.detilAbsen.value;
             return SingleChildScrollView(
               child: Stack(
@@ -62,7 +66,7 @@ class DetilHistoriAbsenSiswaView
                                 absensi == null
                                     ? "Gheral"
                                     : AllMaterial.ubahHari(
-                                        absensi.tanggal.toIso8601String()),
+                                        absensi.tanggal!.toIso8601String()),
                                 style: AllMaterial.montSerrat(
                                   color: AllMaterial.colorWhite,
                                   fontSize: 20,
@@ -120,17 +124,8 @@ class DetilHistoriAbsenSiswaView
                                     ),
                                   ),
                                   subtitle: Text(
-                                    arg["jenis"].toString().contains("masuk")
-                                        ? absensi?.keteranganAbsenMasuk
-                                                    ?.insideRadius ??
-                                                false
-                                            ? "Di dalam radius"
-                                            : "Di luar radius"
-                                        : absensi?.keteranganAbsenPulang
-                                                    ?.insideRadius ??
-                                                false
-                                            ? "Di dalam radius"
-                                            : "Di luar radius",
+                                    controller
+                                        .getTextRadiusStatus(arg["jenis"]),
                                     style: AllMaterial.montSerrat(
                                       fontSize: 16,
                                       fontWeight: AllMaterial.fontBold,
@@ -207,33 +202,7 @@ class DetilHistoriAbsenSiswaView
                                     ),
                                   ),
                                   subtitle: Text(
-                                    (absensi!.keteranganAbsenMasuk
-                                                        ?.statusIzin !=
-                                                    null &&
-                                                absensi.keteranganAbsenMasuk
-                                                        ?.statusIzin !=
-                                                    "") ||
-                                            (absensi.keteranganAbsenPulang
-                                                        ?.statusIzin !=
-                                                    null &&
-                                                absensi.keteranganAbsenPulang
-                                                        ?.statusIzin !=
-                                                    "")
-                                        ? (arg["jenis"]
-                                                .toString()
-                                                .contains("pulang"))
-                                            ? absensi.keteranganAbsenPulang!
-                                                    .statusIzin
-                                                    .toString()
-                                                    .contains("radius")
-                                                ? "Telat"
-                                                : AllMaterial.setiapHurufPertama(absensi.keteranganAbsenPulang!
-                                                    .statusIzin
-                                                    .toString())
-                                            : AllMaterial.setiapHurufPertama(absensi.keteranganAbsenMasuk!
-                                                .statusIzin
-                                                .toString())
-                                        : "Tepat Waktu",
+                                    controller.getTextStatus(arg["jenis"]),
                                     style: AllMaterial.montSerrat(
                                       fontSize: 16,
                                       fontWeight: AllMaterial.fontBold,
@@ -252,7 +221,8 @@ class DetilHistoriAbsenSiswaView
                                     ),
                                   ),
                                   subtitle: Text(
-                                    absensi.siswa.dudi.namaInstansiPerusahaan,
+                                    absensi!
+                                        .siswa!.dudi!.namaInstansiPerusahaan!,
                                     style: AllMaterial.montSerrat(
                                       fontSize: 16,
                                       fontWeight: AllMaterial.fontBold,
@@ -271,7 +241,7 @@ class DetilHistoriAbsenSiswaView
                                     ),
                                   ),
                                   subtitle: Text(
-                                    "${AllMaterial.formatJam(absensi.jadwalHari.batasAbsenMasuk ?? "Tidak tersedia")} - ${AllMaterial.formatJam(absensi.jadwalHari.batasAbsenPulang ?? "Tidak tersedia")}",
+                                    "${AllMaterial.formatJam(absensi.keteranganHari!.batasAbsenMasuk ?? "Tidak tersedia")} - ${AllMaterial.formatJam(absensi.keteranganHari!.batasAbsenPulang ?? "Tidak tersedia")}",
                                     style: AllMaterial.montSerrat(
                                       fontSize: 16,
                                       fontWeight: AllMaterial.fontBold,
@@ -309,93 +279,102 @@ class DetilHistoriAbsenSiswaView
                                       ),
                                       child: GestureDetector(
                                         onTap: () {
-                                          showDialog(
-                                            barrierColor:
-                                                Colors.black.withOpacity(0.9),
-                                            context: context,
-                                            builder: (context) =>
-                                                StatefulBuilder(
-                                              builder: (context, setState) {
-                                                return Dialog(
-                                                  backgroundColor:
-                                                      Colors.transparent,
-                                                  child: Stack(
-                                                    children: [
-                                                      PhotoView(
-                                                        controller:
-                                                            photoViewController,
-                                                        imageProvider:
-                                                            NetworkImage(
-                                                          arg["jenis"]
-                                                                  .toString()
-                                                                  .contains(
-                                                                      "masuk")
-                                                              ? absensi
-                                                                  .fotoAbsenMasuk!
-                                                                  .replaceAll(
-                                                                      "localhost",
-                                                                      "10.0.2.2")
-                                                              : absensi
-                                                                  .fotoAbsenPulang!
-                                                                  .replaceAll(
-                                                                      "localhost",
-                                                                      "10.0.2.2"),
-                                                        ),
-                                                        minScale:
-                                                            PhotoViewComputedScale
-                                                                .contained,
-                                                        maxScale:
-                                                            PhotoViewComputedScale
-                                                                    .covered *
-                                                                2,
-                                                        initialScale:
-                                                            PhotoViewComputedScale
-                                                                .contained,
-                                                        backgroundDecoration:
-                                                            const BoxDecoration(
-                                                          color: Colors
-                                                              .transparent,
-                                                        ),
-                                                        enableRotation: true,
-                                                        loadingBuilder:
-                                                            (context, event) =>
-                                                                const Center(
-                                                          child:
-                                                              CircularProgressIndicator(),
-                                                        ),
-                                                        onScaleEnd: (context,
-                                                            details,
-                                                            controllerValue) {
-                                                          if (controllerValue
-                                                                      .scale !=
-                                                                  null &&
-                                                              controllerValue
-                                                                      .scale! <=
-                                                                  1.0) {
-                                                            Get.back();
-                                                          }
-                                                        },
-                                                      ),
-                                                      Positioned(
-                                                        top: 0,
-                                                        right: 0,
-                                                        child: IconButton(
-                                                          icon: const Icon(
-                                                            Icons.close,
-                                                            color: Colors.white,
-                                                            size: 30,
+                                          final bool isMasuk = arg["jenis"]
+                                                  ?.toString()
+                                                  .contains("masuk") ??
+                                              false;
+                                          final String? fotoAbsen = isMasuk
+                                              ? absensi.fotoAbsenMasuk
+                                              : absensi.fotoAbsenPulang;
+                                          if (fotoAbsen != null &&
+                                              (fotoAbsen.endsWith('.pdf') ||
+                                                  fotoAbsen
+                                                      .endsWith('.docx'))) {
+                                            print("Masuk ke if dokumen");
+                                            openFile(fotoAbsen.replaceAll(
+                                                "localhost", "10.0.2.2"));
+                                          } else {
+                                            print("Masuk ke else gambar");
+                                            showDialog(
+                                              barrierColor:
+                                                  Colors.black.withOpacity(0.9),
+                                              context: context,
+                                              builder: (context) =>
+                                                  StatefulBuilder(
+                                                builder: (context, setState) {
+                                                  return Dialog(
+                                                    backgroundColor:
+                                                        Colors.transparent,
+                                                    child: Stack(
+                                                      children: [
+                                                        PhotoView(
+                                                          controller:
+                                                              photoViewController,
+                                                          imageProvider:
+                                                              NetworkImage(
+                                                            fotoAbsen?.replaceAll(
+                                                                    "localhost",
+                                                                    "10.0.2.2") ??
+                                                                "",
                                                           ),
-                                                          onPressed: () {
-                                                            Get.back();
+                                                          minScale:
+                                                              PhotoViewComputedScale
+                                                                  .contained,
+                                                          maxScale:
+                                                              PhotoViewComputedScale
+                                                                      .covered *
+                                                                  2,
+                                                          initialScale:
+                                                              PhotoViewComputedScale
+                                                                  .contained,
+                                                          backgroundDecoration:
+                                                              const BoxDecoration(
+                                                            color: Colors
+                                                                .transparent,
+                                                          ),
+                                                          enableRotation: true,
+                                                          loadingBuilder:
+                                                              (context,
+                                                                      event) =>
+                                                                  const Center(
+                                                            child:
+                                                                CircularProgressIndicator(),
+                                                          ),
+                                                          onScaleEnd: (context,
+                                                              details,
+                                                              controllerValue) {
+                                                            if (controllerValue
+                                                                        .scale !=
+                                                                    null &&
+                                                                controllerValue
+                                                                        .scale! <=
+                                                                    1.0) {
+                                                              Get.back();
+                                                            }
                                                           },
                                                         ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                );
-                                              },
-                                            ),
-                                          );
+                                                        Positioned(
+                                                          top: 0,
+                                                          right: 0,
+                                                          child: IconButton(
+                                                            icon: const Icon(
+                                                              Icons.close,
+                                                              color:
+                                                                  Colors.white,
+                                                              size: 30,
+                                                            ),
+                                                            onPressed: () {
+                                                              Get.back();
+                                                            },
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  );
+                                                },
+                                              ),
+                                            );
+                                          }
                                         },
                                         child: Row(
                                           children: [
@@ -420,7 +399,7 @@ class DetilHistoriAbsenSiswaView
                                                     Object exception,
                                                     StackTrace? stackTrace) {
                                                   return const Icon(
-                                                      Icons.error);
+                                                      Icons.description);
                                                 },
                                               ),
                                             ),
@@ -596,9 +575,8 @@ Widget previewImage(String file, BuildContext context) {
   );
 }
 
-Widget previewOtherFile(File file) {
+Widget previewOtherFile(String file) {
   return Container(
-    padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(15),
       border: Border.all(
@@ -608,20 +586,14 @@ Widget previewOtherFile(File file) {
     ),
     child: Row(
       children: [
-        const Icon(Icons.description, color: Colors.white),
+        const Icon(Icons.description, color: Colors.black),
         const SizedBox(width: 10),
         Expanded(
           child: Text(
-            // controller.selectedFile.value!.path
-            //     .split('/')
-            //     .last
-            //     .toString()
-            //     .split(' ')
-            //     .join('-'),
-            "",
+            file.split('/').last.toString().split(' ').join('-'),
             overflow: TextOverflow.ellipsis,
             style: AllMaterial.montSerrat(
-              color: AllMaterial.colorWhite,
+              color: AllMaterial.colorBlack,
               fontWeight: AllMaterial.fontMedium,
             ),
           ),

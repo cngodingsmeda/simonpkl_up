@@ -3,8 +3,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:simon_pkl/all_material.dart';
 import 'package:simon_pkl/app/modules/siswa/detil_notifikasi_siswa/views/detil_notifikasi_siswa_view.dart';
-import 'package:simon_pkl/app/modules/siswa/homepage_siswa/controllers/homepage_siswa_controller.dart';
-
 import '../controllers/notifikasi_siswa_controller.dart';
 
 class NotifikasiSiswaView extends GetView<NotifikasiSiswaController> {
@@ -13,7 +11,6 @@ class NotifikasiSiswaView extends GetView<NotifikasiSiswaController> {
   @override
   Widget build(BuildContext context) {
     var controller = Get.put(NotifikasiSiswaController());
-    var homeSiswaController = Get.put(HomepageSiswaController());
     return Scaffold(
       backgroundColor: AllMaterial.colorWhite,
       appBar: AppBar(
@@ -28,8 +25,7 @@ class NotifikasiSiswaView extends GetView<NotifikasiSiswaController> {
         centerTitle: true,
       ),
       body: Obx(() {
-        if (controller.allNotifikasi.value == null ||
-            homeSiswaController.readCount.value == 0) {
+        if (controller.allNotifikasi.value == null) {
           return Center(
             child: Text(
               "Belum ada notifikasi...",

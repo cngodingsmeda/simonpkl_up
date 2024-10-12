@@ -197,3 +197,36 @@ class BatalkanPklSiswaView extends GetView<BatalkanPklSiswaController> {
     );
   }
 }
+
+  // Get.defaultDialog(
+  //   middleTextStyle: AllMaterial.montSerrat(),
+  //   backgroundColor: AllMaterial.colorWhite,
+  //   radius: 10,
+  //   titleStyle: AllMaterial.montSerrat(
+  //     fontWeight: AllMaterial.fontMedium,
+  //   ),
+  //   title: "Konfirmasi",
+  //   middleText: "Apakah Anda yakin ingin membatalkan ajuan PKL?",
+  //   cancel: TextButton(
+  //     onPressed: () => Get.back(),
+  //     child: Text(
+  //       "Batalkan",
+  //       style: AllMaterial.montSerrat(
+  //         color: AllMaterial.colorBlue,
+  //       ),
+  //     ),
+  //   ),
+  //   confirm: TextButton(
+  //     onPressed: () {
+  //       Get.back();
+  //       var batal = Get.put(HomepageSiswaController());
+  //       batal.batalkanPkl(id["id"], controller.alasanC.text);
+  //     },
+  //     child: Text(
+  //       "Konfirmasi",
+  //       style: AllMaterial.montSerrat(
+  //         color: Colors.white,
+  //       ),
+  //     ),
+  //   ),
+  // );

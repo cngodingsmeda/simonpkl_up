@@ -1,41 +1,67 @@
+// To parse this JSON data, do
+//
+//     final historiAbsenModel = historiAbsenModelFromJson(jsonString);
+
+import 'dart:convert';
+
+HistoriAbsenModel historiAbsenModelFromJson(String str) => HistoriAbsenModel.fromJson(json.decode(str));
+
+String historiAbsenModelToJson(HistoriAbsenModel data) => json.encode(data.toJson());
+
+class HistoriAbsenModel {
+    List<Datum>? data;
+
+    HistoriAbsenModel({
+        this.data,
+    });
+
+    factory HistoriAbsenModel.fromJson(Map<String, dynamic> json) => HistoriAbsenModel(
+        data: json["data"] == null ? [] : List<Datum>.from(json["data"]!.map((x) => Datum.fromJson(x))),
+    );
+
+    Map<String, dynamic> toJson() => {
+        "data": data == null ? [] : List<dynamic>.from(data!.map((x) => x.toJson())),
+    };
+}
+
 class Datum {
-  int id;
-  int idAbsenJadwal;
-  int idSiswa;
-  DateTime tanggal;
-  String? absenMasuk;
-  String? absenPulang;
-  String? statusAbsenMasuk;
-  String? statusAbsenPulang;
-  String? fotoAbsenMasuk;
-  String? fotoAbsenPulang;
-  String status;
-  Siswa siswa;
-  KeteranganAbsen? keteranganAbsenMasuk;
-  KeteranganAbsen? keteranganAbsenPulang;
+    int? id;
+    int? idAbsenJadwal;
+    int? idSiswa;
+    DateTime? tanggal;
+    String? absenMasuk;
+    dynamic absenPulang;
+    String? statusAbsenMasuk;
+    dynamic statusAbsenPulang;
+    String? fotoAbsenMasuk;
+    dynamic fotoAbsenPulang;
+    String? status;
+    Siswa? siswa;
+    KeteranganAbsen? keteranganAbsenMasuk;
+    KeteranganAbsen? keteranganAbsenPulang;
 
-  Datum({
-    required this.id,
-    required this.idAbsenJadwal,
-    required this.idSiswa,
-    required this.tanggal,
-    this.absenMasuk,
-    this.absenPulang,
-    this.statusAbsenMasuk,
-    this.statusAbsenPulang,
-    this.fotoAbsenMasuk,
-    this.fotoAbsenPulang,
-    required this.status,
-    required this.siswa,
-    this.keteranganAbsenMasuk,
-    this.keteranganAbsenPulang,
-  });
+    Datum({
+        this.id,
+        this.idAbsenJadwal,
+        this.idSiswa,
+        this.tanggal,
+        this.absenMasuk,
+        this.absenPulang,
+        this.statusAbsenMasuk,
+        this.statusAbsenPulang,
+        this.fotoAbsenMasuk,
+        this.fotoAbsenPulang,
+        this.status,
+        this.siswa,
+        this.keteranganAbsenMasuk,
+        this.keteranganAbsenPulang,
+    });
 
-  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+    factory Datum.fromJson(Map<String, dynamic> json) => Datum(
         id: json["id"],
         idAbsenJadwal: json["id_absen_jadwal"],
         idSiswa: json["id_siswa"],
-        tanggal: DateTime.parse(json["tanggal"]),
+        tanggal: json["tanggal"] == null ? null : DateTime.parse(json["tanggal"]),
         absenMasuk: json["absen_masuk"],
         absenPulang: json["absen_pulang"],
         statusAbsenMasuk: json["status_absen_masuk"],
@@ -43,20 +69,16 @@ class Datum {
         fotoAbsenMasuk: json["foto_absen_masuk"],
         fotoAbsenPulang: json["foto_absen_pulang"],
         status: json["status"],
-        siswa: Siswa.fromJson(json["siswa"]),
-        keteranganAbsenMasuk: json["keterangan_absen_masuk"] == null
-            ? null
-            : KeteranganAbsen.fromJson(json["keterangan_absen_masuk"]),
-        keteranganAbsenPulang: json["keterangan_absen_pulang"] == null
-            ? null
-            : KeteranganAbsen.fromJson(json["keterangan_absen_pulang"]),
-      );
+        siswa: json["siswa"] == null ? null : Siswa.fromJson(json["siswa"]),
+        keteranganAbsenMasuk: json["keterangan_absen_masuk"] == null ? null : KeteranganAbsen.fromJson(json["keterangan_absen_masuk"]),
+        keteranganAbsenPulang: json["keterangan_absen_pulang"] == null ? null : KeteranganAbsen.fromJson(json["keterangan_absen_pulang"]),
+    );
 
-  Map<String, dynamic> toJson() => {
+    Map<String, dynamic> toJson() => {
         "id": id,
         "id_absen_jadwal": idAbsenJadwal,
         "id_siswa": idSiswa,
-        "tanggal": tanggal.toIso8601String(),
+        "tanggal": "${tanggal!.year.toString().padLeft(4, '0')}-${tanggal!.month.toString().padLeft(2, '0')}-${tanggal!.day.toString().padLeft(2, '0')}",
         "absen_masuk": absenMasuk,
         "absen_pulang": absenPulang,
         "status_absen_masuk": statusAbsenMasuk,
@@ -64,65 +86,60 @@ class Datum {
         "foto_absen_masuk": fotoAbsenMasuk,
         "foto_absen_pulang": fotoAbsenPulang,
         "status": status,
-        "siswa": siswa.toJson(),
+        "siswa": siswa?.toJson(),
         "keterangan_absen_masuk": keteranganAbsenMasuk?.toJson(),
         "keterangan_absen_pulang": keteranganAbsenPulang?.toJson(),
-      };
+    };
 }
 
 class KeteranganAbsen {
-  int id;
-  String? note;
-  bool insideRadius;
-  String? statusIzin;
+    int? id;
+    String? note;
+    String? statusIzin;
 
-  KeteranganAbsen({
-    required this.id,
-    this.note,
-    required this.insideRadius,
-    this.statusIzin,
-  });
+    KeteranganAbsen({
+        this.id,
+        this.note,
+        this.statusIzin,
+    });
 
-  factory KeteranganAbsen.fromJson(Map<String, dynamic> json) =>
-      KeteranganAbsen(
+    factory KeteranganAbsen.fromJson(Map<String, dynamic> json) => KeteranganAbsen(
         id: json["id"],
         note: json["note"],
-        insideRadius: json["insideRadius"],
         statusIzin: json["status_izin"],
-      );
+    );
 
-  Map<String, dynamic> toJson() => {
+    Map<String, dynamic> toJson() => {
         "id": id,
         "note": note,
-        "insideRadius": insideRadius,
         "status_izin": statusIzin,
-      };
+    };
 }
 
 class Siswa {
-  int id;
-  String nis;
-  String nama;
-  String jenisKelamin;
-  String email;
-  String noTelepon;
-  String status;
-  dynamic tokenFcm;
-  String fotoProfile;
+    int? id;
+    String? nis;
+    String? nama;
+    String? jenisKelamin;
+    String? email;
+    String? noTelepon;
+    String? status;
+    dynamic tokenFcm;
+    dynamic fotoProfile;
 
-  Siswa({
-    required this.id,
-    required this.nis,
-    required this.nama,
-    required this.jenisKelamin,
-    required this.email,
-    required this.noTelepon,
-    required this.status,
-    required this.tokenFcm,
-    required this.fotoProfile,
-  });
+    Siswa({
+        this.id,
+        this.nis,
+        this.nama,
+        this.jenisKelamin,
+        this.email,
+        this.noTelepon,
+        this.status,
+        this.tokenFcm,
+        this.fotoProfile,
+    });
 
-  factory Siswa.fromJson(Map<String, dynamic> json) => Siswa(
+    factory Siswa.fromJson(Map<String, dynamic> json) => Siswa(
         id: json["id"],
         nis: json["nis"],
         nama: json["nama"],
@@ -132,9 +149,9 @@ class Siswa {
         status: json["status"],
         tokenFcm: json["token_FCM"],
         fotoProfile: json["foto_profile"],
-      );
+    );
 
-  Map<String, dynamic> toJson() => {
+    Map<String, dynamic> toJson() => {
         "id": id,
         "nis": nis,
         "nama": nama,
@@ -144,5 +161,5 @@ class Siswa {
         "status": status,
         "token_FCM": tokenFcm,
         "foto_profile": fotoProfile,
-      };
+    };
 }

@@ -4,55 +4,52 @@
 
 import 'dart:convert';
 
-DetilHistoriAbsenModel detilHistoriAbsenModelFromJson(String str) =>
-    DetilHistoriAbsenModel.fromJson(json.decode(str));
+DetilHistoriAbsenModel detilHistoriAbsenModelFromJson(String str) => DetilHistoriAbsenModel.fromJson(json.decode(str));
 
-String detilHistoriAbsenModelToJson(DetilHistoriAbsenModel data) =>
-    json.encode(data.toJson());
+String detilHistoriAbsenModelToJson(DetilHistoriAbsenModel data) => json.encode(data.toJson());
 
 class DetilHistoriAbsenModel {
-  int id;
-  int idAbsenJadwal;
-  int idSiswa;
-  DateTime tanggal;
-  String? absenMasuk;
-  String? absenPulang;
-  String? statusAbsenMasuk;
-  String? statusAbsenPulang;
-  String? fotoAbsenMasuk;
-  String? fotoAbsenPulang;
-  String status;
-  Siswa siswa;
-  KeteranganAbsen? keteranganAbsenMasuk;
-  KeteranganAbsen? keteranganAbsenPulang;
-  dynamic dokumenSakit;
-  JadwalHari jadwalHari;
+    int? id;
+    int? idAbsenJadwal;
+    int? idSiswa;
+    DateTime? tanggal;
+    String? absenMasuk;
+    String? absenPulang;
+    String? statusAbsenMasuk;
+    String? statusAbsenPulang;
+    String? fotoAbsenMasuk;
+    String? fotoAbsenPulang;
+    String? status;
+    Siswa? siswa;
+    KeteranganAbsen? keteranganAbsenMasuk;
+    KeteranganAbsen? keteranganAbsenPulang;
+    dynamic dokumenSakit;
+    KeteranganHari? keteranganHari;
 
-  DetilHistoriAbsenModel({
-    required this.id,
-    required this.idAbsenJadwal,
-    required this.idSiswa,
-    required this.tanggal,
-    this.absenMasuk,
-    this.absenPulang,
-    this.statusAbsenMasuk,
-    this.statusAbsenPulang,
-    this.fotoAbsenMasuk,
-    this.fotoAbsenPulang,
-    required this.status,
-    required this.siswa,
-    this.keteranganAbsenMasuk,
-    this.keteranganAbsenPulang,
-    this.dokumenSakit,
-    required this.jadwalHari,
-  });
+    DetilHistoriAbsenModel({
+        this.id,
+        this.idAbsenJadwal,
+        this.idSiswa,
+        this.tanggal,
+        this.absenMasuk,
+        this.absenPulang,
+        this.statusAbsenMasuk,
+        this.statusAbsenPulang,
+        this.fotoAbsenMasuk,
+        this.fotoAbsenPulang,
+        this.status,
+        this.siswa,
+        this.keteranganAbsenMasuk,
+        this.keteranganAbsenPulang,
+        this.dokumenSakit,
+        this.keteranganHari,
+    });
 
-  factory DetilHistoriAbsenModel.fromJson(Map<String, dynamic> json) =>
-      DetilHistoriAbsenModel(
+    factory DetilHistoriAbsenModel.fromJson(Map<String, dynamic> json) => DetilHistoriAbsenModel(
         id: json["id"],
         idAbsenJadwal: json["id_absen_jadwal"],
         idSiswa: json["id_siswa"],
-        tanggal: DateTime.parse(json["tanggal"]),
+        tanggal: json["tanggal"] == null ? null : DateTime.parse(json["tanggal"]),
         absenMasuk: json["absen_masuk"],
         absenPulang: json["absen_pulang"],
         statusAbsenMasuk: json["status_absen_masuk"],
@@ -60,23 +57,18 @@ class DetilHistoriAbsenModel {
         fotoAbsenMasuk: json["foto_absen_masuk"],
         fotoAbsenPulang: json["foto_absen_pulang"],
         status: json["status"],
-        siswa: Siswa.fromJson(json["siswa"]),
-        keteranganAbsenMasuk: json["keterangan_absen_masuk"] != null
-            ? KeteranganAbsen.fromJson(json["keterangan_absen_masuk"])
-            : null,
-        keteranganAbsenPulang: json["keterangan_absen_pulang"] != null
-            ? KeteranganAbsen.fromJson(json["keterangan_absen_pulang"])
-            : null,
+        siswa: json["siswa"] == null ? null : Siswa.fromJson(json["siswa"]),
+        keteranganAbsenMasuk: json["keterangan_absen_masuk"] == null ? null : KeteranganAbsen.fromJson(json["keterangan_absen_masuk"]),
+        keteranganAbsenPulang: json["keterangan_absen_pulang"] == null ? null : KeteranganAbsen.fromJson(json["keterangan_absen_pulang"]),
         dokumenSakit: json["dokumenSakit"],
-        jadwalHari: JadwalHari.fromJson(json["jadwal_hari"]),
-      );
+        keteranganHari: json["keterangan_hari"] == null ? null : KeteranganHari.fromJson(json["keterangan_hari"]),
+    );
 
-  Map<String, dynamic> toJson() => {
+    Map<String, dynamic> toJson() => {
         "id": id,
         "id_absen_jadwal": idAbsenJadwal,
         "id_siswa": idSiswa,
-        "tanggal":
-            "${tanggal.year.toString().padLeft(4, '0')}-${tanggal.month.toString().padLeft(2, '0')}-${tanggal.day.toString().padLeft(2, '0')}",
+        "tanggal": "${tanggal!.year.toString().padLeft(4, '0')}-${tanggal!.month.toString().padLeft(2, '0')}-${tanggal!.day.toString().padLeft(2, '0')}",
         "absen_masuk": absenMasuk,
         "absen_pulang": absenPulang,
         "status_absen_masuk": statusAbsenMasuk,
@@ -84,97 +76,96 @@ class DetilHistoriAbsenModel {
         "foto_absen_masuk": fotoAbsenMasuk,
         "foto_absen_pulang": fotoAbsenPulang,
         "status": status,
-        "siswa": siswa.toJson(),
+        "siswa": siswa?.toJson(),
         "keterangan_absen_masuk": keteranganAbsenMasuk?.toJson(),
         "keterangan_absen_pulang": keteranganAbsenPulang?.toJson(),
         "dokumenSakit": dokumenSakit,
-        "jadwal_hari": jadwalHari.toJson(),
-      };
+        "keterangan_hari": keteranganHari?.toJson(),
+    };
 }
 
-class JadwalHari {
-  int id;
-  String hari;
-  String? batasAbsenMasuk;
-  String? batasAbsenPulang;
+class KeteranganAbsen {
+    int? id;
+    String? note;
+    String? statusIzin;
+    bool? insideRadius;
 
-  JadwalHari({
-    required this.id,
-    required this.hari,
-    this.batasAbsenMasuk,
-    this.batasAbsenPulang,
-  });
+    KeteranganAbsen({
+        this.id,
+        this.note,
+        this.statusIzin,
+        this.insideRadius,
+    });
 
-  factory JadwalHari.fromJson(Map<String, dynamic> json) => JadwalHari(
+    factory KeteranganAbsen.fromJson(Map<String, dynamic> json) => KeteranganAbsen(
+        id: json["id"],
+        note: json["note"],
+        statusIzin: json["status_izin"],
+        insideRadius: json["inside_radius"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "id": id,
+        "note": note,
+        "status_izin": statusIzin,
+        "inside_radius": insideRadius,
+    };
+}
+
+class KeteranganHari {
+    int? id;
+    String? hari;
+    String? batasAbsenMasuk;
+    String? batasAbsenPulang;
+
+    KeteranganHari({
+        this.id,
+        this.hari,
+        this.batasAbsenMasuk,
+        this.batasAbsenPulang,
+    });
+
+    factory KeteranganHari.fromJson(Map<String, dynamic> json) => KeteranganHari(
         id: json["id"],
         hari: json["hari"],
         batasAbsenMasuk: json["batas_absen_masuk"],
         batasAbsenPulang: json["batas_absen_pulang"],
-      );
+    );
 
-  Map<String, dynamic> toJson() => {
+    Map<String, dynamic> toJson() => {
         "id": id,
         "hari": hari,
         "batas_absen_masuk": batasAbsenMasuk,
         "batas_absen_pulang": batasAbsenPulang,
-      };
-}
-
-class KeteranganAbsen {
-  int? id;
-  String? note;
-  bool? insideRadius;
-  String? statusIzin;
-
-  KeteranganAbsen({
-    this.id,
-    this.note,
-    this.insideRadius,
-    this.statusIzin,
-  });
-
-  factory KeteranganAbsen.fromJson(Map<String, dynamic> json) =>
-      KeteranganAbsen(
-        id: json["id"],
-        note: json["note"],
-        insideRadius: json["insideRadius"],
-        statusIzin: json["status_izin"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "note": note,
-        "insideRadius": insideRadius,
-        "status_izin": statusIzin,
-      };
+    };
 }
 
 class Siswa {
-  int id;
-  String nis;
-  String nama;
-  String jenisKelamin;
-  String email;
-  String noTelepon;
-  String status;
-  dynamic tokenFcm;
-  String fotoProfile;
-  Dudi dudi;
+    int? id;
+    String? nis;
+    String? nama;
+    String? jenisKelamin;
+    String? email;
+    String? noTelepon;
+    String? status;
+    dynamic tokenFcm;
+    dynamic fotoProfile;
+    Dudi? dudi;
 
-  Siswa({
-    required this.id,
-    required this.nis,
-    required this.nama,
-    required this.jenisKelamin,
-    required this.email,
-    required this.noTelepon,
-    required this.status,
-    this.tokenFcm,
-    required this.fotoProfile,
-    required this.dudi,
-  });
+    Siswa({
+        this.id,
+        this.nis,
+        this.nama,
+        this.jenisKelamin,
+        this.email,
+        this.noTelepon,
+        this.status,
+        this.tokenFcm,
+        this.fotoProfile,
+        this.dudi,
+    });
 
-  factory Siswa.fromJson(Map<String, dynamic> json) => Siswa(
+    factory Siswa.fromJson(Map<String, dynamic> json) => Siswa(
         id: json["id"],
         nis: json["nis"],
         nama: json["nama"],
@@ -184,10 +175,10 @@ class Siswa {
         status: json["status"],
         tokenFcm: json["token_FCM"],
         fotoProfile: json["foto_profile"],
-        dudi: Dudi.fromJson(json["dudi"]),
-      );
+        dudi: json["dudi"] == null ? null : Dudi.fromJson(json["dudi"]),
+    );
 
-  Map<String, dynamic> toJson() => {
+    Map<String, dynamic> toJson() => {
         "id": id,
         "nis": nis,
         "nama": nama,
@@ -197,32 +188,32 @@ class Siswa {
         "status": status,
         "token_FCM": tokenFcm,
         "foto_profile": fotoProfile,
-        "dudi": dudi.toJson(),
-      };
+        "dudi": dudi?.toJson(),
+    };
 }
 
 class Dudi {
-  int id;
-  String namaInstansiPerusahaan;
-  String bidangUsaha;
-  String noTelepon;
-  String deskripsi;
-  bool tersedia;
-  int idSekolah;
-  int idTahun;
+    int? id;
+    String? namaInstansiPerusahaan;
+    String? bidangUsaha;
+    String? noTelepon;
+    String? deskripsi;
+    bool? tersedia;
+    int? idSekolah;
+    int? idTahun;
 
-  Dudi({
-    required this.id,
-    required this.namaInstansiPerusahaan,
-    required this.bidangUsaha,
-    required this.noTelepon,
-    required this.deskripsi,
-    required this.tersedia,
-    required this.idSekolah,
-    required this.idTahun,
-  });
+    Dudi({
+        this.id,
+        this.namaInstansiPerusahaan,
+        this.bidangUsaha,
+        this.noTelepon,
+        this.deskripsi,
+        this.tersedia,
+        this.idSekolah,
+        this.idTahun,
+    });
 
-  factory Dudi.fromJson(Map<String, dynamic> json) => Dudi(
+    factory Dudi.fromJson(Map<String, dynamic> json) => Dudi(
         id: json["id"],
         namaInstansiPerusahaan: json["nama_instansi_perusahaan"],
         bidangUsaha: json["bidang_usaha"],
@@ -231,9 +222,9 @@ class Dudi {
         tersedia: json["tersedia"],
         idSekolah: json["id_sekolah"],
         idTahun: json["id_tahun"],
-      );
+    );
 
-  Map<String, dynamic> toJson() => {
+    Map<String, dynamic> toJson() => {
         "id": id,
         "nama_instansi_perusahaan": namaInstansiPerusahaan,
         "bidang_usaha": bidangUsaha,
@@ -242,5 +233,5 @@ class Dudi {
         "tersedia": tersedia,
         "id_sekolah": idSekolah,
         "id_tahun": idTahun,
-      };
+    };
 }

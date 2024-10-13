@@ -44,14 +44,18 @@ class InitPage extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const CusplashScreen();
         } else {
-          return Obx(
-            () {
-              if (logController.isAuth.value == true) {
-                return logController.periksaRole();
-              } else {
-                return const LoginPageView();
-              }
-            },
+          return PopScope(
+            canPop: true,
+            
+            child: Obx(
+              () {
+                if (logController.isAuth.value == true) {
+                  return logController.periksaRole();
+                } else {
+                  return const LoginPageView();
+                }
+              },
+            ),
           );
         }
       },

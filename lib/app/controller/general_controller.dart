@@ -18,4 +18,29 @@ class GeneralController extends GetxController {
       context: context,
     );
   }
+
+  String getErrorMessage(int statusCode) {
+    switch (statusCode) {
+      case 400:
+        return "Permintaan tidak valid. Periksa input Anda.";
+      case 401:
+        return "Anda tidak memiliki akses. Silakan login.";
+      case 403:
+        return "Anda tidak diizinkan untuk mengakses halaman ini.";
+      case 404:
+        return "Data tidak ditemukan.";
+      case 408:
+        return "Waktu habis. Silakan coba lagi.";
+      case 500:
+        return "Terjadi kesalahan pada server. Silakan coba lagi nanti.";
+      case 502:
+        return "Server sedang tidak dapat diakses. Coba lagi nanti.";
+      case 503:
+        return "Layanan sedang tidak tersedia. Silakan coba beberapa saat lagi.";
+      case 504:
+        return "Server tidak merespons tepat waktu. Silakan coba lagi.";
+      default:
+        return "Terjadi kesalahan tidak diketahui.";
+    }
+  }
 }

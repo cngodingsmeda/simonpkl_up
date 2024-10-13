@@ -15,6 +15,7 @@ class ProfileSiswaController extends GetxController {
   var noTeleponC = TextEditingController();
   var statusPklC = TextEditingController();
   var guruPembimbingC = TextEditingController();
+  var statusCode = 0.obs;
 
   var profil = Rx<ProfileSiswaModel?>(null);
 
@@ -29,6 +30,7 @@ class ProfileSiswaController extends GetxController {
         "Authorization": "Bearer $token",
       },
     );
+    statusCode.value = response.statusCode;
     print(response.statusCode);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
@@ -54,6 +56,8 @@ class ProfileSiswaController extends GetxController {
           AllMaterial.setiapHurufPertama(profileModel.guruPembimbing!.nama);
       update();
     } else {
+      statusCode.value = 500;
+      update();
       print("gagal menampilkan data");
       throw Exception('Failed to load profile');
     }

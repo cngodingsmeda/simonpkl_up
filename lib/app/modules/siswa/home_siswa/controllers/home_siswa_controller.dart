@@ -4,6 +4,7 @@ class HomeSiswaController extends GetxController {
   var indexPage = 0.obs;
   var keHistoriAbsen = false.obs;
   static var isLoading = true.obs;
+  static var statusCode = 0.obs;
 
   @override
   void onInit() {

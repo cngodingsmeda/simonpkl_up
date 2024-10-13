@@ -97,7 +97,8 @@ class ProfileSiswaView extends GetView<ProfileSiswaController> {
                           fit: BoxFit.scaleDown,
                           child: Text(
                             AllMaterial.formatNamaPanjang(
-                              controller.profil.value!.nama!.toUpperCase(),
+                              controller.profil.value?.nama?.toUpperCase() ??
+                                  "",
                             ),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
@@ -108,7 +109,7 @@ class ProfileSiswaView extends GetView<ProfileSiswaController> {
                           ),
                         ),
                         Text(
-                          "NIS : ${controller.profil.value!.nis}",
+                          "NIS : ${controller.profil.value?.nis ?? ""}",
                           style: AllMaterial.montSerrat(
                             fontWeight: AllMaterial.fontRegular,
                           ),

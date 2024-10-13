@@ -37,4 +37,5 @@ abstract class ApiUrl {
   static var urlGetHistoriAbsenByMonthSiswa =
       "http://10.0.2.2:2008/siswa/absen?isThreeDayAgo=false&month=";
   static var urlGetHistoriAbsenDetilSiswa = "http://10.0.2.2:2008/siswa/absen/";
+  static var urlGetAllLaporanHarianSiswa = "http://10.0.2.2:2008/siswa/laporan_pkl_siswa";
 }

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:simon_pkl/all_material.dart';
 import 'package:simon_pkl/app/modules/siswa/ajuan_siswa/widgets/clippath_widget.dart';
+import 'package:simon_pkl/app/modules/siswa/profile_siswa/controllers/profile_siswa_controller.dart';
 
 import '../controllers/detil_laporan_siswa_controller.dart';
 
@@ -11,8 +11,8 @@ class DetilLaporanSiswaView extends GetView<DetilLaporanSiswaControllr> {
   const DetilLaporanSiswaView({super.key});
   @override
   Widget build(BuildContext context) {
-    var role = Get.arguments;
-    bool isKendala = AllMaterial.box.read("isKendala");
+    final controller = Get.put(DetilLaporanSiswaControllr());
+    final profController = Get.put(ProfileSiswaController());
     return Scaffold(
       backgroundColor: AllMaterial.colorWhite,
       body: SingleChildScrollView(
@@ -31,22 +31,23 @@ class DetilLaporanSiswaView extends GetView<DetilLaporanSiswaControllr> {
                     const SizedBox(height: 10),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: FittedBox(
-                        fit: BoxFit.scaleDown,
-                        child: Text(
-                          "Senin, 25 Agustus 2024",
-                          style: AllMaterial.montSerrat(
-                            color: AllMaterial.colorWhite,
-                            fontSize: 20,
-                            fontWeight: AllMaterial.fontSemiBold,
+                      child: SizedBox(
+                        width: Get.width,
+                        child: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(
+                            "Laporan Harian",
+                            style: AllMaterial.montSerrat(
+                              color: AllMaterial.colorWhite,
+                              fontSize: 20,
+                              fontWeight: AllMaterial.fontSemiBold,
+                            ),
                           ),
                         ),
                       ),
                     ),
                     Text(
-                      role == "Instansi"
-                          ? "Oleh : CV. GLOBAL VINTAGE NUMERATION"
-                          : "Oleh : Habil Arlian Asrori",
+                      "Oleh : ${AllMaterial.setiapHurufPertama(profController.profil.value?.nama ?? 'Tidak diketahui')}",
                       style: AllMaterial.montSerrat(
                         color: AllMaterial.colorWhite,
                         fontSize: 15,
@@ -88,15 +89,16 @@ class DetilLaporanSiswaView extends GetView<DetilLaporanSiswaControllr> {
                               horizontal: 15,
                             ),
                             title: Text(
-                              isKendala
-                                  ? "Kendala Terkait:"
-                                  : "Topik Pekerjaan:",
+                              "Topik Pekerjaan:",
                               style: AllMaterial.montSerrat(
                                 fontSize: 13,
                               ),
                             ),
                             subtitle: Text(
-                              "Belajar Instalasi PHP",
+                              AllMaterial.hurufPertama(
+                                controller.laporan.value?.topikPekerjaan ??
+                                    "Tidak ada data",
+                              ),
                               style: AllMaterial.montSerrat(
                                 fontSize: 16,
                                 fontWeight: AllMaterial.fontBold,
@@ -109,15 +111,17 @@ class DetilLaporanSiswaView extends GetView<DetilLaporanSiswaControllr> {
                               horizontal: 15,
                             ),
                             title: Text(
-                              isKendala
-                                  ? "Deskripsi Kendala:"
-                                  : "Rujukan Kompetensi Dasar:",
+                              "Rujukan Kompetensi Dasar:",
                               style: AllMaterial.montSerrat(
                                 fontSize: 13,
                               ),
                             ),
                             subtitle: Text(
-                              "Pemrograman Web",
+                              AllMaterial.hurufPertama(
+                                controller.laporan.value
+                                        ?.rujukanKompetensiDasar ??
+                                    "Tidak ada data",
+                              ),
                               style: AllMaterial.montSerrat(
                                 fontSize: 16,
                                 fontWeight: AllMaterial.fontBold,
@@ -130,17 +134,16 @@ class DetilLaporanSiswaView extends GetView<DetilLaporanSiswaControllr> {
                               horizontal: 15,
                             ),
                             title: Text(
-                              role == "Instansi"
-                                  ? "Siswa Terkait:"
-                                  : "Instansi terkait:",
+                              "Instansi terkait:",
                               style: AllMaterial.montSerrat(
                                 fontSize: 13,
                               ),
                             ),
                             subtitle: Text(
-                              role == "Instansi"
-                                  ? "Gheral Deva Bagus Archana"
-                                  : "CV GLOBAL VINTAGE NUMERATION",
+                              profController.profil.value?.dudi
+                                      ?.namaInstansiPerusahaan
+                                      ?.toUpperCase() ??
+                                  "Tidak diketahui",
                               style: AllMaterial.montSerrat(
                                 fontSize: 16,
                                 fontWeight: AllMaterial.fontBold,
@@ -195,7 +198,16 @@ class DetilLaporanSiswaView extends GetView<DetilLaporanSiswaControllr> {
                                     const SizedBox(width: 5),
                                     Expanded(
                                       child: Text(
-                                        "file.docx",
+                                        controller.laporan.value!.dokumentasi ==
+                                                null
+                                            ? ""
+                                            : controller
+                                                .laporan.value!.dokumentasi!
+                                                .split('/')
+                                                .last
+                                                .toString()
+                                                .split(' ')
+                                                .join('-'),
                                         overflow: TextOverflow.ellipsis,
                                         style: AllMaterial.montSerrat(
                                           color:
@@ -222,63 +234,27 @@ class DetilLaporanSiswaView extends GetView<DetilLaporanSiswaControllr> {
       ),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(20.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SizedBox(
-              width: Get.width,
-              child: ElevatedButton.icon(
-                onPressed: () {
-                  AllMaterial.messageScaffold(
-                    title: "Fitur Sedang Digarap, Coming Soon",
-                    context: context,
-                  );
-                },
-                icon: Icon(MdiIcons.whatsapp, color: AllMaterial.colorWhite),
-                label: Text(
-                  'Hubungi $role Ini',
-                  style: AllMaterial.montSerrat(
-                    fontWeight: AllMaterial.fontSemiBold,
-                    color: Colors.white,
-                  ),
-                ),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AllMaterial.colorBlue,
-                  padding: const EdgeInsets.symmetric(vertical: 14),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
+        child: SizedBox(
+          width: Get.width,
+          child: ElevatedButton(
+            onPressed: () {
+              Get.back();
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AllMaterial.colorBlue,
+              padding: const EdgeInsets.symmetric(vertical: 14),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
               ),
             ),
-            const SizedBox(height: 15),
-            SizedBox(
-              width: Get.width,
-              child: OutlinedButton.icon(
-                onPressed: () {
-                  Get.back();
-                },
-                label: Text(
-                  'Kembali Ke Beranda',
-                  style: AllMaterial.montSerrat(
-                    fontWeight: AllMaterial.fontSemiBold,
-                    color: AllMaterial.colorBlue,
-                  ),
-                ),
-                style: OutlinedButton.styleFrom(
-                  foregroundColor: AllMaterial.colorBlue,
-                  padding: const EdgeInsets.symmetric(vertical: 14),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  side: const BorderSide(
-                    color: AllMaterial.colorBlue,
-                    width: 2,
-                  ),
-                ),
+            child: Text(
+              'Kembali Ke Beranda',
+              style: AllMaterial.montSerrat(
+                fontWeight: AllMaterial.fontSemiBold,
+                color: Colors.white,
               ),
             ),
-          ],
+          ),
         ),
       ),
     );

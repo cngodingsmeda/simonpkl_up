@@ -101,7 +101,7 @@ class PilihanAbsenSiswaView extends GetView<PilihanAbsenSiswaController> {
             DateFormat('EEEE', 'id_ID').format(DateTime.now()).toLowerCase();
         JadwalAbsenSiswa? instansi = controller.jadwalAbsenSiswa.value;
 
-        if (instansi!.data.isEmpty) {
+        if (instansi!.data!.isEmpty) {
           return Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -120,8 +120,8 @@ class PilihanAbsenSiswaView extends GetView<PilihanAbsenSiswaController> {
             ],
           );
         } else {
-          Hari jadwalHariIni;
-          if (instansi.data.isEmpty) {
+          Hari? jadwalHariIni;
+          if (instansi.data!.isEmpty) {
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
@@ -142,7 +142,7 @@ class PilihanAbsenSiswaView extends GetView<PilihanAbsenSiswaController> {
               ),
             );
           } else {
-            jadwalHariIni = instansi.data[0].hari.firstWhere(
+            jadwalHariIni = instansi.data![0].hari!.firstWhere(
               (jadwal) => jadwal.hari.toString().toLowerCase() == hariIni,
               orElse: () => Hari(
                 id: 0,
@@ -179,41 +179,55 @@ class PilihanAbsenSiswaView extends GetView<PilihanAbsenSiswaController> {
                           fit: BoxFit.scaleDown,
                           child: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 20),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                FittedBox(
-                                  fit: BoxFit.scaleDown,
-                                  child: Text(
-                                    "Batas Absen Masuk : ${AllMaterial.formatJam(jadwalHariIni.batasAbsenMasuk)}",
+                            child: (jadwalHariIni.batasAbsenMasuk!.isEmpty ||
+                                    jadwalHariIni.batasAbsenPulang!.isEmpty)
+                                ? Text(
+                                    "Tidak ada jadwal absen untuk hari ini",
                                     style: AllMaterial.montSerrat(
                                       fontWeight: AllMaterial.fontSemiBold,
                                       color: AllMaterial.colorWhite,
                                       fontSize: 13,
                                     ),
+                                  )
+                                : Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      FittedBox(
+                                        fit: BoxFit.scaleDown,
+                                        child: Text(
+                                          "Batas Absen Masuk : ${jadwalHariIni.batasAbsenMasuk != null ? AllMaterial.formatJam(jadwalHariIni.batasAbsenMasuk!) : 'Belum Ditentukan'}",
+                                          style: AllMaterial.montSerrat(
+                                            fontWeight:
+                                                AllMaterial.fontSemiBold,
+                                            color: AllMaterial.colorWhite,
+                                            fontSize: 13,
+                                          ),
+                                        ),
+                                      ),
+                                      Text(
+                                        " | ",
+                                        style: AllMaterial.montSerrat(
+                                          color: AllMaterial.colorWhite,
+                                          fontWeight: AllMaterial.fontSemiBold,
+                                        ),
+                                      ),
+                                      FittedBox(
+                                        fit: BoxFit.scaleDown,
+                                        child: Text(
+                                          "Batas Absen Pulang : ${jadwalHariIni.batasAbsenPulang != null ? AllMaterial.formatJam(jadwalHariIni.batasAbsenPulang!) : 'Belum Ditentukan'}",
+                                          style: AllMaterial.montSerrat(
+                                            fontWeight:
+                                                AllMaterial.fontSemiBold,
+                                            color: AllMaterial.colorWhite,
+                                            fontSize: 13,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ),
-                                Text(
-                                  " | ",
-                                  style: AllMaterial.montSerrat(
-                                    color: AllMaterial.colorWhite,
-                                    fontWeight: AllMaterial.fontSemiBold,
-                                  ),
-                                ),
-                                FittedBox(
-                                  fit: BoxFit.scaleDown,
-                                  child: Text(
-                                    "Batas Absen Pulang : ${AllMaterial.formatJam(jadwalHariIni.batasAbsenPulang)}",
-                                    style: AllMaterial.montSerrat(
-                                      fontWeight: AllMaterial.fontSemiBold,
-                                      color: AllMaterial.colorWhite,
-                                      fontSize: 13,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
                           ),
                         ),
                       ],

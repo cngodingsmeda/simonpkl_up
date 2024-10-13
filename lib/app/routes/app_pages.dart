@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 
-import '../modules/siswa/batalkan_pkl_siswa/bindings/batalkan_pkl_siswa_binding.dart';
-import '../modules/siswa/batalkan_pkl_siswa/views/batalkan_pkl_siswa_view.dart';
+import '../modules/siswa/laporan_kendala_siswa/bindings/laporan_kendala_siswa_binding.dart';
+import '../modules/siswa/laporan_kendala_siswa/views/laporan_kendala_siswa_view.dart';
 import '../modules/dudi/ajuan_pkl_siswa_dudi/bindings/ajuan_pkl_siswa_dudi_binding.dart';
 import '../modules/dudi/ajuan_pkl_siswa_dudi/views/ajuan_pkl_siswa_dudi_view.dart';
 import '../modules/dudi/buat_form_pkl_dudi/bindings/buat_form_pkl_dudi_binding.dart';
@@ -60,6 +60,8 @@ import '../modules/siswa/absen_normal_siswa/bindings/absen_normal_siswa_binding.
 import '../modules/siswa/absen_normal_siswa/views/absen_normal_siswa_view.dart';
 import '../modules/siswa/ajuan_siswa/bindings/ajuan_siswa_binding.dart';
 import '../modules/siswa/ajuan_siswa/views/ajuan_siswa_view.dart';
+import '../modules/siswa/batalkan_pkl_siswa/bindings/batalkan_pkl_siswa_binding.dart';
+import '../modules/siswa/batalkan_pkl_siswa/views/batalkan_pkl_siswa_view.dart';
 import '../modules/siswa/buat_laporan_siswa/bindings/buat_laporan_siswa_binding.dart';
 import '../modules/siswa/buat_laporan_siswa/views/buat_laporan_siswa_view.dart';
 import '../modules/siswa/detil_histori_absen_siswa/bindings/detil_histori_absen_siswa_binding.dart';
@@ -302,6 +304,11 @@ class AppPages {
       name: _Paths.BATALKAN_PKL_SISWA,
       page: () => const BatalkanPklSiswaView(),
       binding: BatalkanPklSiswaBinding(),
+    ),
+    GetPage(
+      name: _Paths.LAPORAN_KENDALA_SISWA,
+      page: () => const LaporanKendalaSiswaView(),
+      binding: LaporanKendalaSiswaBinding(),
     ),
   ];
 }

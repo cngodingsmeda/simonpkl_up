@@ -2,15 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:simon_pkl/all_material.dart';
 import 'package:simon_pkl/app/modules/siswa/buat_laporan_siswa/views/buat_laporan_siswa_view.dart';
-import 'package:simon_pkl/app/modules/siswa/detil_laporan_siswa/views/detil_laporan_siswa_view.dart';
 import 'package:simon_pkl/app/modules/siswa/homepage_siswa/widgets/cards_widget.dart';
-
-import '../controllers/laporan_siswa_controller.dart';
+import 'package:simon_pkl/app/modules/siswa/laporan_kendala_siswa/views/laporan_kendala_siswa_view.dart';
+import 'package:simon_pkl/app/modules/siswa/laporan_siswa/controllers/laporan_siswa_controller.dart';
 
 class LaporanSiswaView extends GetView<LaporanSiswaController> {
   const LaporanSiswaView({super.key});
+
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(LaporanSiswaController());
+    controller.getAllLaporanHarianSiswa();
+
     return Scaffold(
       backgroundColor: AllMaterial.colorWhite,
       appBar: AppBar(
@@ -26,10 +29,10 @@ class LaporanSiswaView extends GetView<LaporanSiswaController> {
         actions: [
           IconButton(
             padding: const EdgeInsets.all(16),
-            tooltip: "Laporkan Kendala",
+            tooltip: "Kendala Saya",
             onPressed: () {
               AllMaterial.box.write("isKendala", true);
-              Get.to(()=> const BuatLaporanSiswaView());
+              Get.to(() => const LaporanKendalaSiswaView());
             },
             icon: const Icon(
               Icons.report_problem,
@@ -43,46 +46,37 @@ class LaporanSiswaView extends GetView<LaporanSiswaController> {
           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
           child: Column(
             children: [
-              // Expanded(
-              //   child: Obx(() {
-              //     if (controller.historiAbsenM.isEmpty) {
-              //       return const Center(child: Text("Tidak ada historiAbsen di bulan ini"));
-              //     }
-              //     return ListView.builder(
-              //       itemCount: controller.historiAbsenM.length,
-              //       itemBuilder: (context, index) {
-              //         final item = controller.historiAbsenM[index];
-              //         return CardWidget(
-              //           tanggal: item.tanggal,
-              //           icon: Icon(
-              //             item.icon,
-              //             color: item.color,
-              //           ),
-              //           keterangan: item.status,
-              //         );
-              //       },
-              //     );
-              //   }),
-              // ),
-
-              //tanpa api
               Expanded(
-                child: ListView.builder(
-                    itemCount: 2,
+                child: Obx(() {
+                  // Check if laporanHarian is null or data is null
+                  if (controller.laporanHarian.value == null ||
+                      controller.laporanHarian.value!.data == null ||
+                      controller.laporanHarian.value!.data!.isEmpty) {
+                    return const Center(
+                        child: Text("Tidak ada laporan harian"));
+                  }
+                  return ListView.builder(
+                    itemCount: controller.laporanHarian.value!.data!.length,
                     itemBuilder: (context, index) {
+                      final item = controller.laporanHarian.value!.data![index];
                       return CardWidget(
-                        onTap: () =>
-                            Get.to(() => const DetilLaporanSiswaView()),
-                        tanggal: "Sabtu, 24 Agustus 2024",
+                        onTap: () {
+                          controller.getLaporanHarianByIdSiswa(
+                              item.id != null ? item.id!.toInt() : 0);
+                        },
+                        tanggal: AllMaterial.ubahHari(
+                            item.tanggal!.toIso8601String()),
                         icon: const Icon(
                           Icons.check_circle,
                           color: Colors.green,
                         ),
-                        keterangan: "Belajar Instalasi PHP",
+                        keterangan: AllMaterial.setiapHurufPertama(
+                            item.topikPekerjaan.toString()),
                       );
-                    }),
+                    },
+                  );
+                }),
               ),
-              const SizedBox(height: 60),
             ],
           ),
         ),
@@ -90,14 +84,14 @@ class LaporanSiswaView extends GetView<LaporanSiswaController> {
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: FloatingActionButton(
         elevation: 2,
-        tooltip: "Buat Laporan",
+        tooltip: "Buat Laporan Harian",
         backgroundColor: AllMaterial.colorBlue,
         child: const Icon(
           Icons.add,
           color: AllMaterial.colorWhite,
         ),
         onPressed: () {
-          Get.to(()=> const BuatLaporanSiswaView());
+          Get.to(() => const BuatLaporanSiswaView());
         },
       ),
     );

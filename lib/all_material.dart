@@ -175,9 +175,16 @@ abstract class AllMaterial {
     return text[0].toUpperCase() + text.substring(1).toLowerCase();
   }
 
-  static String formatJam(String waktu) {
-    DateTime parsedTime = DateFormat("HH:mm:ss").parse(waktu);
-    return DateFormat("HH:mm").format(parsedTime);
+  static String formatJam(String? waktu) {
+    if (waktu == null || waktu.isEmpty) {
+      return 'Belum Ditentukan';
+    }
+    try {
+      final parsedTime = DateFormat('HH:mm').parse(waktu);
+      return DateFormat('HH:mm').format(parsedTime);
+    } catch (e) {
+      return 'Format Tidak Valid';
+    }
   }
 
   static String ubahTanggal(String isoDate) {

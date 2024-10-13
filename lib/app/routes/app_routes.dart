@@ -3,8 +3,12 @@ part of 'app_pages.dart';
 
 abstract class Routes {
   Routes._();
+
+  // ALL
   static const HOME = _Paths.HOME;
   static const LOGIN_PAGE = _Paths.LOGIN_PAGE;
+
+  // SISWA
   static const HOME_SISWA = _Paths.HOME_SISWA;
   static const HOMEPAGE_SISWA = _Paths.HOMEPAGE_SISWA;
   static const PROFILE_SISWA = _Paths.PROFILE_SISWA;
@@ -19,7 +23,11 @@ abstract class Routes {
   static const DETIL_NOTIFIKASI_SISWA = _Paths.DETIL_NOTIFIKASI_SISWA;
   static const LAPORAN_SISWA = _Paths.LAPORAN_SISWA;
   static const DETIL_LAPORAN_SISWA = _Paths.DETIL_LAPORAN_SISWA;
+  static const BATALKAN_PKL_SISWA = _Paths.BATALKAN_PKL_SISWA;
+  static const LAPORAN_KENDALA_SISWA = _Paths.LAPORAN_KENDALA_SISWA;
   static const BUAT_LAPORAN_SISWA = _Paths.BUAT_LAPORAN_SISWA;
+
+  // GURU PEMBIMBING
   static const HOME_GURU = _Paths.HOME_GURU;
   static const HOMEPAGE_GURU = _Paths.HOMEPAGE_GURU;
   static const LAPORAN_ABSEN_SISWA_GURU = _Paths.LAPORAN_ABSEN_SISWA_GURU;
@@ -31,6 +39,8 @@ abstract class Routes {
   static const MONITORING_GURU = _Paths.MONITORING_GURU;
   static const LAPORAN_SISWA_GURU = _Paths.LAPORAN_SISWA_GURU;
   static const DETIL_LAPORAN_GURU = _Paths.DETIL_LAPORAN_GURU;
+
+  // DUDI
   static const HOME_DUDI = _Paths.HOME_DUDI;
   static const HOMEPAGE_DUDI = _Paths.HOMEPAGE_DUDI;
   static const DATA_SISWA_DUDI = _Paths.DATA_SISWA_DUDI;
@@ -49,7 +59,6 @@ abstract class Routes {
   static const DETIL_LAPORAN_PKL_DUDI = _Paths.DETIL_LAPORAN_PKL_DUDI;
   static const BUAT_LAPORAN_PKL_DUDI = _Paths.BUAT_LAPORAN_PKL_DUDI;
   static const BUAT_FORM_PKL_DUDI = _Paths.BUAT_FORM_PKL_DUDI;
-  static const BATALKAN_PKL_SISWA = _Paths.BATALKAN_PKL_SISWA;
 }
 
 abstract class _Paths {
@@ -101,4 +110,5 @@ abstract class _Paths {
   static const BUAT_LAPORAN_PKL_DUDI = '/buat-laporan-pkl-dudi';
   static const BUAT_FORM_PKL_DUDI = '/buat-form-pkl-dudi';
   static const BATALKAN_PKL_SISWA = '/batalkan-pkl-siswa';
+  static const LAPORAN_KENDALA_SISWA = '/laporan-kendala-siswa';
 }

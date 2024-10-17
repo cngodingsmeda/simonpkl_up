@@ -10,6 +10,7 @@ import 'package:open_file/open_file.dart';
 import 'package:simon_pkl/all_material.dart';
 import 'package:simon_pkl/app/data/api_url.dart';
 import 'package:simon_pkl/app/modules/siswa/home_siswa/views/home_siswa_view.dart';
+import 'package:simon_pkl/app/modules/siswa/pilihan_absen_siswa/controllers/pilihan_absen_siswa_controller.dart';
 
 class AbsenAbnormalSiswaController extends GetxController {
   var inputC = TextEditingController();
@@ -18,11 +19,12 @@ class AbsenAbnormalSiswaController extends GetxController {
   var isSakit = false.obs;
   var selectedFile = Rx<File?>(null);
   var token = AllMaterial.box.read("token");
+  final absenC = Get.put(PilihanAbsenSiswaController());
 
   Future<void> pickDocument(BuildContext context) async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
-      allowedExtensions: ['pdf', 'doc', 'docx', 'jpg', 'jpeg', 'png'],
+      allowedExtensions: ['docx', 'pdf', 'jpg', 'jpeg', 'png'],
     );
 
     if (result != null) {
@@ -73,6 +75,9 @@ class AbsenAbnormalSiswaController extends GetxController {
     // Mengecek isi body response
     if (response.statusCode == 200) {
       Get.off(() => HomeSiswaView());
+      absenC.isMasuk.value = false;
+      absenC.isPulang.value = false;
+      absenC.isTelat.value = false;
       AllMaterial.messageScaffold(
           title: AllMaterial.hurufPertama(
               "Absen ${AllMaterial.hurufPertama(status)} berhasil!"),
@@ -88,7 +93,9 @@ class AbsenAbnormalSiswaController extends GetxController {
 
   Future<void> postAbsenIzinSakit(double? latitude, double? longitude,
       File file, String note, String status, BuildContext context) async {
-    final uri = Uri.parse(ApiUrl.urlPostAbsenTelatSiswa);
+    final uri = Uri.parse((isSakit.isTrue)
+        ? ApiUrl.urlPostAbsenSakitSiswa
+        : ApiUrl.urlPostAbsenTelatSiswa);
     final request = http.MultipartRequest('POST', uri);
 
     // header
@@ -119,6 +126,9 @@ class AbsenAbnormalSiswaController extends GetxController {
     // Mengecek isi body response
     if (response.statusCode == 200) {
       Get.off(() => HomeSiswaView());
+      absenC.isMasuk.value = false;
+      absenC.isPulang.value = false;
+      absenC.isTelat.value = false;
       AllMaterial.messageScaffold(
           title: AllMaterial.hurufPertama(
               "Absen ${AllMaterial.hurufPertama(status)} berhasil!"),

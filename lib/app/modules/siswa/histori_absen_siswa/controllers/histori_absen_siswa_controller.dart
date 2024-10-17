@@ -31,7 +31,7 @@ class HistoriAbsenSiswaControllr extends GetxController {
     } else if (status.contains("tidak")) {
       return Icons.cancel_sharp;
     } else if (status.contains("sakit") || status.contains("izin")) {
-      return Icons.remove_circle;
+      return Icons.info_sharp;
     } else {
       return Icons.check_circle;
     }

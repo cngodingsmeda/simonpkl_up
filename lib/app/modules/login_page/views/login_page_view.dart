@@ -77,6 +77,7 @@ class LoginPageView extends GetView<LoginPageController> {
                         controller: loginController.userC,
                         focusNode: loginController.userF,
                         cursorColor: AllMaterial.colorBlue,
+                        textInputAction: TextInputAction.next,
                         onTapOutside: (_) {
                           loginController.userF.unfocus();
                         },

@@ -130,10 +130,9 @@ class HomepageSiswaView extends GetView<HomepageSiswaController> {
                                 ),
                               ),
                               const SizedBox(height: 10),
-                              ElevatedButton(
+                              ElevatedButton.icon(
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: AllMaterial.colorWhite,
-                                  fixedSize: const Size.fromWidth(85),
                                   elevation: 0,
                                   foregroundColor: AllMaterial.colorBlue,
                                   shadowColor: Colors.transparent,
@@ -144,7 +143,11 @@ class HomepageSiswaView extends GetView<HomepageSiswaController> {
                                   pilihDudi.fetchDudiList();
                                   Get.to(() => const PilihDudiSiswaView());
                                 },
-                                child: Text(
+                                icon: const Icon(
+                                  Icons.add,
+                                  color: AllMaterial.colorBlue,
+                                ),
+                                label: Text(
                                   "Pilih",
                                   style: AllMaterial.montSerrat(
                                     fontWeight: AllMaterial.fontMedium,

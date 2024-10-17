@@ -16,6 +16,7 @@ class ProfileSiswaController extends GetxController {
   var statusPklC = TextEditingController();
   var guruPembimbingC = TextEditingController();
   var statusCode = 0.obs;
+  var isLoading = true.obs;
 
   var profil = Rx<ProfileSiswaModel?>(null);
 
@@ -39,6 +40,7 @@ class ProfileSiswaController extends GetxController {
       var profileModel = ProfileSiswaModel.fromJson(data["data"]);
 
       profil.value = profileModel;
+      isLoading.value = false;
       HomeSiswaController.isLoading.value = false;
 
       HomepageSiswaController.statusPkl.value = data["data"]["status"];

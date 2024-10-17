@@ -321,24 +321,13 @@ class PilihDudiSiswaView extends GetView<PilihDudiSiswaController> {
                               onTap: (dudi.tersedia != true)
                                   ? null
                                   : () {
-                                      Get.defaultDialog(
-                                        middleTextStyle:
-                                            AllMaterial.montSerrat(),
-                                        backgroundColor: AllMaterial.colorWhite,
-                                        radius: 10,
-                                        buttonColor: AllMaterial.colorBlue,
-                                        titleStyle: AllMaterial.montSerrat(
-                                          fontWeight: AllMaterial.fontMedium,
-                                        ),
+                                      AllMaterial.cusDialogValidasi(
                                         title: "Konfirmasi",
-                                        middleText:
-                                            "Apakah Anda yakin ingin mengajukan PKL di ${AllMaterial.setiapHurufPertama(dudi.namaInstansiPerusahaan)}?",
-                                        onConfirm: () {
-                                          controller.ajukanPKL(dudi.id);
-                                        },
-                                        textCancel: "Batalkan",
-                                        cancelTextColor: AllMaterial.colorBlue,
-                                        textConfirm: "Konfirmasi",
+                                        subtitle:
+                                            "Apakah Anda ingin mengajukan PKL di ${AllMaterial.setiapHurufPertama(dudi.namaInstansiPerusahaan)}?",
+                                        onConfirm: () =>
+                                            controller.ajukanPKL(dudi.id),
+                                        onCancel: () => Get.back(),
                                       );
                                     },
                               child: Container(

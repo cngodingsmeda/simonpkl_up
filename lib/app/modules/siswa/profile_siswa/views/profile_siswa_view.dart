@@ -28,7 +28,12 @@ class ProfileSiswaView extends GetView<ProfileSiswaController> {
             padding: const EdgeInsets.all(16),
             onPressed: () {
               var genController = Get.put(GeneralController());
-              genController.logoutUser(context);
+              AllMaterial.cusDialogValidasi(
+                title: "Logout",
+                subtitle: "Apakah Anda ingin keluar dari akun saat ini?",
+                onConfirm: () => genController.logout(context),
+                onCancel: () => Get.back(),
+              );
             },
             icon: const Icon(
               Icons.logout,

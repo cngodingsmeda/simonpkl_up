@@ -422,7 +422,7 @@ class AbsenAbnormalSiswaView extends GetView<AbsenAbnormalSiswaController> {
             ),
             const SizedBox(height: 10),
             Text(
-              "docx, pdf, jpg, atau png",
+              "jpg, jpeg atau png",
               style: AllMaterial.montSerrat(
                 color: Colors.white,
               ),

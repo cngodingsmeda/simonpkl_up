@@ -144,26 +144,16 @@ class BatalkanPklSiswaView extends GetView<BatalkanPklSiswaController> {
                     ),
                     ElevatedButton(
                       onPressed: () {
-                        Get.defaultDialog(
-                          middleTextStyle: AllMaterial.montSerrat(),
-                          backgroundColor: AllMaterial.colorWhite,
-                          radius: 10,
-                          buttonColor: AllMaterial.colorBlue,
-                          titleStyle: AllMaterial.montSerrat(
-                            fontWeight: AllMaterial.fontMedium,
-                          ),
+                        AllMaterial.cusDialogValidasi(
                           title: "Konfirmasi",
-                          middleText:
-                              "Apakah Anda yakin ingin membatalkan ajuan PKL?",
+                          subtitle: "Apakah Anda ingin membatalkan ajuan PKL?",
                           onConfirm: () {
                             Get.back();
                             var batal = Get.put(HomepageSiswaController());
                             batal.batalkanPkl(
                                 id["id"], controller.alasanC.text);
                           },
-                          textCancel: "Batalkan",
-                          cancelTextColor: AllMaterial.colorBlue,
-                          textConfirm: "Konfirmasi",
+                          onCancel: () => Get.back(),
                         );
                       },
                       style: ElevatedButton.styleFrom(

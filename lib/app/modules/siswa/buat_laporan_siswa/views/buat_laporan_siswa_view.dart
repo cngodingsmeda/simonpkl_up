@@ -6,9 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:simon_pkl/all_material.dart';
-import 'package:simon_pkl/app/modules/siswa/detil_histori_absen_siswa/controllers/detil_histori_absen_siswa_controller.dart';
-import 'package:simon_pkl/app/modules/siswa/home_siswa/views/home_siswa_view.dart';
-import 'package:simon_pkl/app/modules/siswa/homepage_siswa/views/homepage_siswa_view.dart';
+import 'package:simon_pkl/app/modules/siswa/laporan_siswa/controllers/laporan_siswa_controller.dart';
 
 import '../controllers/buat_laporan_siswa_controller.dart';
 
@@ -19,7 +17,7 @@ class BuatLaporanSiswaView extends GetView<BuatLaporanSiswaController> {
 
   @override
   Widget build(BuildContext context) {
-    bool isKendala = AllMaterial.box.read("isKendala") ?? false;
+    bool isKendala = LaporanSiswaController.isKendala.value;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -83,6 +81,7 @@ class BuatLaporanSiswaView extends GetView<BuatLaporanSiswaController> {
                         TextField(
                           controller: controller.inputC,
                           focusNode: controller.inputF,
+                          textInputAction: TextInputAction.next,
                           style: AllMaterial.montSerrat(
                             fontWeight: AllMaterial.fontMedium,
                             color: AllMaterial.colorWhite,
@@ -126,7 +125,7 @@ class BuatLaporanSiswaView extends GetView<BuatLaporanSiswaController> {
                         const SizedBox(height: 20),
                         Text(
                           !isKendala
-                              ? "Topik Pekerjaan :"
+                              ? "Rujukan Kompetensi Dasar :"
                               : "Deskripsi Kendala :",
                           style: AllMaterial.montSerrat(
                             fontSize: 15,
@@ -259,45 +258,29 @@ class BuatLaporanSiswaView extends GetView<BuatLaporanSiswaController> {
                           ),
                         ),
                         const SizedBox(height: 30),
-                        Obx(
-                          () => ElevatedButton(
-                            onPressed: (controller.selectedFile.value != null)
-                                ? () {
-                                    print(
-                                        "Alasan Izin: ${controller.alasanIzin.value}");
-                                    if (controller.selectedFile.value != null) {
-                                      print(
-                                        "Dokumen: ${controller.selectedFile.value!.path}",
-                                      );
-                                    }
-                                    // controller.selectedFile.value = null;
-                                    var historiAbsen = Get.put(
-                                        DetilHistoriAbsenSiswaControllr());
-                                    historiAbsen.buktiDokumen.value =
-                                        controller.selectedFile.value;
-                                    print(historiAbsen.buktiDokumen.value);
-                                    Get.off(() => HomeSiswaView());
-                                  }
-                                : null,
-                            style: ElevatedButton.styleFrom(
-                              fixedSize: Size.fromWidth(Get.width),
-                              disabledBackgroundColor:
-                                  AllMaterial.colorWhite.withOpacity(0.2),
-                              shadowColor: Colors.transparent,
-                              backgroundColor: AllMaterial.colorWhite,
-                              elevation: 0,
-                              shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(16),
-                                ),
+                        ElevatedButton(
+                          onPressed: () =>
+                              (LaporanSiswaController.isKendala.isTrue)
+                                  ? controller.postLaporanKendalaSiswa(context)
+                                  : controller.postLaporanHarianSiswa(context),
+                          style: ElevatedButton.styleFrom(
+                            fixedSize: Size.fromWidth(Get.width),
+                            disabledBackgroundColor:
+                                AllMaterial.colorWhite.withOpacity(0.2),
+                            shadowColor: Colors.transparent,
+                            backgroundColor: AllMaterial.colorWhite,
+                            elevation: 0,
+                            shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(16),
                               ),
                             ),
-                            child: Text(
-                              !isKendala ? "Kirim Laporan" : "Kirim Kendala",
-                              style: AllMaterial.montSerrat(
-                                color: AllMaterial.colorBlue,
-                                fontWeight: AllMaterial.fontSemiBold,
-                              ),
+                          ),
+                          child: Text(
+                            !isKendala ? "Kirim Laporan" : "Kirim Kendala",
+                            style: AllMaterial.montSerrat(
+                              color: AllMaterial.colorBlue,
+                              fontWeight: AllMaterial.fontSemiBold,
                             ),
                           ),
                         ),
@@ -414,8 +397,7 @@ Widget previewOtherFile(File file) {
         ),
         IconButton(
           onPressed: () {
-            // controller.selectedFile.value = null;
-            Get.off(const HomepageSiswaView());
+            controller.selectedFile.value = null;
           },
           icon: const Icon(
             Icons.clear_rounded,

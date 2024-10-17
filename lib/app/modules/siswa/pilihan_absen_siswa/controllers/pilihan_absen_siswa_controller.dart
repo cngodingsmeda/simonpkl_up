@@ -10,7 +10,7 @@ import 'package:simon_pkl/app/data/api_url.dart';
 import 'package:simon_pkl/app/model/model_siswa/jadwal_absen_siswa.dart';
 
 class PilihanAbsenSiswaController extends GetxController {
-  var isWithinRadius = false.obs;
+  static var isWithinRadius = false.obs;
   var isLoading = true.obs;
   var jadwalAbsenSiswa = Rxn<JadwalAbsenSiswa?>(null);
   var token = AllMaterial.box.read("token");
@@ -21,11 +21,14 @@ class PilihanAbsenSiswaController extends GetxController {
   var hariIni = AllMaterial.ubahHari(DateTime.now().toIso8601String());
   var jenisAbsen = "".obs;
   var msg = "".obs;
+  var msgAbsen = "".obs;
   var bisaAbsen = false.obs;
   var isTelat = false.obs;
   var isMasuk = false.obs;
   var isPulang = false.obs;
   var absenLuarRadius = false.obs;
+  var belumAdaKoordinat = false.obs;
+  static var absenSelesai = false.obs;
 
   var namaDudi = "".obs;
 
@@ -73,17 +76,18 @@ class PilihanAbsenSiswaController extends GetxController {
     );
 
     print(response.statusCode);
-
     if (response.body.isNotEmpty) {
       print(response.body);
       var data = jsonDecode(response.body);
-      msg.value = data["msg"];
       if (response.statusCode == 200) {
         bool dalamRadius = data["data"]["inside_radius"];
         isWithinRadius.value = dalamRadius;
         update();
         print(data);
       } else {
+        if (response.statusCode == 404) {
+          belumAdaKoordinat.value = true;
+        }
         print("Gagal mengirim data");
         throw Exception('Failed to send data');
       }
@@ -116,12 +120,11 @@ class PilihanAbsenSiswaController extends GetxController {
       if (isWithinRadius.isTrue) {
         await getAllJadwalAbsen();
       }
+      msgAbsen.value = data["msg"];
       bisaAbsen.value = data["data"]["canAbsen"];
-      var jenis = data["data"]["jenis_absen"];
-      if (jenis != null) {
-        jenisAbsen.value = jenis;
-        btnAbsen(jenis);
-      }
+      var jenis = data["data"]["jenis_absen"] ?? "";
+      jenisAbsen.value = jenis;
+      btnAbsen(jenis);
     } else {
       print("gagal mengirim data");
       throw Exception('Failed to send data');
@@ -167,7 +170,6 @@ class PilihanAbsenSiswaController extends GetxController {
     if (userLocation.latitude != null || userLocation.longitude != null) {
       isLoading.value = false;
       print("${userLocation.latitude} : ${userLocation.longitude}");
-
       await postKoordinatSiswa(userLocation.latitude, userLocation.longitude);
       cekJenisAbsen(latitude.value, longitude.value);
 

@@ -8,12 +8,14 @@ class CardWidget extends StatelessWidget {
     required this.icon,
     required this.keterangan,
     this.onTap,
+    this.onPress,
   });
 
   String keterangan;
   String tanggal;
   Widget icon;
   void Function()? onTap;
+  void Function()? onPress;
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +32,7 @@ class CardWidget extends StatelessWidget {
         child: InkWell(
           borderRadius: BorderRadius.circular(16),
           onTap: onTap,
+          onLongPress: onPress,
           child: ListTile(
             leading: icon,
             title: Text(

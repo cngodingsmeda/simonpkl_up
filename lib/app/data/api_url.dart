@@ -1,6 +1,7 @@
 abstract class ApiUrl {
   // ALL
   static var urlPostLogin = "http://10.0.2.2:2008/auth/public/login";
+  static var urlPostLogout = "http://10.0.2.2:2008/auth/logout";
 
   // SISWA
   static var urlGetProfileSiswa = "http://10.0.2.2:2008/siswa/profile";
@@ -28,8 +29,10 @@ abstract class ApiUrl {
       "http://10.0.2.2:2008/siswa/absen-jadwal/cek";
   static var urlPostAbsenTelatSiswa =
       "http://10.0.2.2:2008/siswa/absen/absen-izin-telat";
-  static var urlPostAbsenMasukSiswa = "http://10.0.2.2:2008/siswa/absen/absen-masuk";
-  static var urlPostAbsenSakitSiswa = "http://10.0.2.2:2008/siswa/absen/absen-sakit";
+  static var urlPostAbsenMasukSiswa =
+      "http://10.0.2.2:2008/siswa/absen/absen-masuk";
+  static var urlPostAbsenSakitSiswa =
+      "http://10.0.2.2:2008/siswa/absen/absen-sakit";
   static var urlPostAbsenPulangSiswa =
       "http://10.0.2.2:2008/siswa/absen/absen-pulang";
   static var urlPostAbsenLuarRadiusSiswa =
@@ -37,5 +40,16 @@ abstract class ApiUrl {
   static var urlGetHistoriAbsenByMonthSiswa =
       "http://10.0.2.2:2008/siswa/absen?isThreeDayAgo=false&month=";
   static var urlGetHistoriAbsenDetilSiswa = "http://10.0.2.2:2008/siswa/absen/";
-  static var urlGetAllLaporanHarianSiswa = "http://10.0.2.2:2008/siswa/laporan_pkl_siswa";
+  static var urlGetAllLaporanHarianSiswa =
+      "http://10.0.2.2:2008/siswa/laporan_pkl_siswa";
+  static var urlGetAllLaporanKendalaSiswa =
+      "http://10.0.2.2:2008/siswa/laporan-kendala";
+  static var urlPostLaporanHarianSiswa =
+      "http://10.0.2.2:2008/siswa/laporan_pkl_siswa";
+  static var urlPutFileLaporanHarianSiswa =
+      "http://10.0.2.2:2008/siswa/laporan_pkl_siswa/file_laporan";
+  static var urlPostLaporanKendalaSiswa =
+      "http://10.0.2.2:2008/siswa/laporan-kendala";
+  static var urlPutFileLaporanKendalaSiswa =
+      "http://10.0.2.2:2008/siswa/laporan-kendala/file_laporan";
 }

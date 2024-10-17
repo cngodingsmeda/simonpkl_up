@@ -12,6 +12,7 @@ import 'package:simon_pkl/app/modules/dudi/home_dudi/views/home_dudi_view.dart';
 import 'package:simon_pkl/app/modules/guru/home_guru/views/home_guru_view.dart';
 import 'package:simon_pkl/app/modules/login_page/views/login_page_view.dart';
 import 'package:simon_pkl/app/modules/siswa/home_siswa/views/home_siswa_view.dart';
+import 'package:simon_pkl/app/modules/siswa/homepage_siswa/controllers/homepage_siswa_controller.dart';
 
 class LoginPageController extends GetxController {
   var isAuth = false.obs;
@@ -79,11 +80,14 @@ class LoginPageController extends GetxController {
 
       var data = jsonDecode(response.body);
       if (response.statusCode == 200) {
+        final homeSiswaC = Get.put(HomepageSiswaController());
+        homeSiswaC.refresh();
         var token = data["data"]["access_token"];
         AllMaterial.box.write("token", token);
         String roleData = data["data"]["role"];
         AllMaterial.box.write("role", roleData);
         isAuth.value = true;
+        Get.reloadAll();
         if (roleData.contains("guru")) {
           isAuth.value = true;
           userC.text = "";

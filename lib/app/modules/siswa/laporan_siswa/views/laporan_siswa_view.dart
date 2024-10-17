@@ -31,7 +31,7 @@ class LaporanSiswaView extends GetView<LaporanSiswaController> {
             padding: const EdgeInsets.all(16),
             tooltip: "Kendala Saya",
             onPressed: () {
-              AllMaterial.box.write("isKendala", true);
+              LaporanSiswaController.isKendala.value = true;
               Get.to(() => const LaporanKendalaSiswaView());
             },
             icon: const Icon(
@@ -43,35 +43,55 @@ class LaporanSiswaView extends GetView<LaporanSiswaController> {
       ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+          padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 20),
           child: Column(
             children: [
               Expanded(
                 child: Obx(() {
-                  // Check if laporanHarian is null or data is null
-                  if (controller.laporanHarian.value == null ||
-                      controller.laporanHarian.value!.data == null ||
-                      controller.laporanHarian.value!.data!.isEmpty) {
-                    return const Center(
-                        child: Text("Tidak ada laporan harian"));
+                  final laporanHarian = controller.laporanHarian.value;
+                  if (laporanHarian == null ||
+                      laporanHarian.data == null ||
+                      laporanHarian.data!.isEmpty) {
+                    return Center(
+                      child: Text(
+                        "Tidak ada laporan harian",
+                        style: AllMaterial.montSerrat(),
+                      ),
+                    );
                   }
+
+                  final reversedData = laporanHarian.data!.reversed.toList();
+
                   return ListView.builder(
-                    itemCount: controller.laporanHarian.value!.data!.length,
+                    itemCount: reversedData.length,
                     itemBuilder: (context, index) {
-                      final item = controller.laporanHarian.value!.data![index];
+                      final item = reversedData[index];
                       return CardWidget(
+                        onPress: () => AllMaterial.cusDialogValidasi(
+                          title: "Menghapus Laporan",
+                          subtitle: "Apakah anda yakin?",
+                          onCancel: () => Get.back(),
+                          onConfirm: () {
+                            controller.deleteLaporanSiswa(item.id!, context);
+                            reversedData.removeAt(index);
+                            controller.laporanHarian.refresh();
+                          },
+                        ),
                         onTap: () {
                           controller.getLaporanHarianByIdSiswa(
-                              item.id != null ? item.id!.toInt() : 0);
+                            item.id != null ? item.id!.toInt() : 0,
+                          );
                         },
                         tanggal: AllMaterial.ubahHari(
-                            item.tanggal!.toIso8601String()),
+                          item.tanggal!.toIso8601String(),
+                        ),
                         icon: const Icon(
                           Icons.check_circle,
                           color: Colors.green,
                         ),
                         keterangan: AllMaterial.setiapHurufPertama(
-                            item.topikPekerjaan.toString()),
+                          item.topikPekerjaan.toString(),
+                        ),
                       );
                     },
                   );

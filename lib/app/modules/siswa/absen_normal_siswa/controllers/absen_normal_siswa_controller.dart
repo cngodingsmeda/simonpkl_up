@@ -8,10 +8,12 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:simon_pkl/all_material.dart';
 import 'package:simon_pkl/app/modules/siswa/home_siswa/views/home_siswa_view.dart';
+import 'package:simon_pkl/app/modules/siswa/pilihan_absen_siswa/controllers/pilihan_absen_siswa_controller.dart';
 
 class AbsenNormalSiswaController extends GetxController {
   var selectedImagePath = Rx<File?>(null);
   var token = AllMaterial.box.read("token");
+  final absenC = Get.put(PilihanAbsenSiswaController());
 
   Future<void> pickImageFromGallery(BuildContext context) async {
     final picker = ImagePicker();
@@ -73,7 +75,10 @@ class AbsenNormalSiswaController extends GetxController {
         ),
         context: context,
       );
-      Get.to(() => HomeSiswaView());
+      Get.off(() => HomeSiswaView());
+      absenC.isMasuk.value = false;
+      absenC.isPulang.value = false;
+      absenC.isTelat.value = false;
     } else {
       print(response.body);
       AllMaterial.messageScaffold(

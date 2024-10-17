@@ -26,7 +26,10 @@ class AjuanSiswaView extends GetView<AjuanSiswaController> {
             return const Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Center(child: CircularProgressIndicator()),
+                Center(
+                    child: CircularProgressIndicator(
+                  color: AllMaterial.colorBlue,
+                )),
               ],
             );
           }

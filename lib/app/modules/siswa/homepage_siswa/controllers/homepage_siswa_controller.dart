@@ -68,6 +68,7 @@ class HomepageSiswaController extends GetxController {
   }
 
   Future<void> batalkanPkl(int id, String alasan) async {
+    print(id);
     final response = await http.put(
       Uri.parse(ApiUrl.urlPutCancelAjuanPklSiswa + id.toString()),
       headers: {
@@ -107,9 +108,7 @@ class HomepageSiswaController extends GetxController {
       print("absen tiga hari: $data");
 
       if (response.statusCode == 200) {
-        // Cek apakah data yang diterima adalah list
         if (data["data"] is List) {
-          // Mengonversi list JSON menjadi list model Datum
           absenTigaHari.value = List<Datum>.from(
               data["data"].map((item) => Datum.fromJson(item)));
           nisSiswa.value = data["data"]["nis"];

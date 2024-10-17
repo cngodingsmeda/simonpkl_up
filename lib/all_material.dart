@@ -162,6 +162,94 @@ abstract class AllMaterial {
     ));
   }
 
+  static void cusDialogValidasi({
+    required String title,
+    required String subtitle,
+    required VoidCallback onConfirm,
+    required VoidCallback onCancel,
+  }) {
+    Get.dialog(
+      Dialog(
+        backgroundColor: AllMaterial.colorWhite,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                title,
+                textAlign: TextAlign.center,
+                style: AllMaterial.montSerrat(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 10),
+              Text(
+                subtitle,
+                textAlign: TextAlign.center,
+                style: AllMaterial.montSerrat(
+                  fontSize: 16,
+                  fontWeight: AllMaterial.fontMedium,
+                  color: Colors.grey,
+                ),
+              ),
+              const SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Expanded(
+                    child: OutlinedButton(
+                      onPressed: onCancel,
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: AllMaterial.colorBlue,
+                        side: const BorderSide(color: AllMaterial.colorBlue),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        padding: const EdgeInsets.symmetric(vertical: 15),
+                      ),
+                      child: Text(
+                        'Batalkan',
+                        style: AllMaterial.montSerrat(
+                          fontWeight: AllMaterial.fontMedium,
+                          color: AllMaterial.colorBlue,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: onConfirm,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AllMaterial.colorBlue,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        padding: const EdgeInsets.symmetric(vertical: 15),
+                      ),
+                      child: Text(
+                        'Konfirmasi',
+                        style: AllMaterial.montSerrat(
+                          fontWeight: AllMaterial.fontMedium,
+                          color: AllMaterial.colorWhite,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   static String setiapHurufPertama(String? text) {
     return text!.split(' ').map((word) {
       if (text != "") {

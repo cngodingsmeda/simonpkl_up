@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:simon_pkl/all_material.dart';
 import 'package:simon_pkl/app/modules/siswa/buat_laporan_siswa/views/buat_laporan_siswa_view.dart';
-import 'package:simon_pkl/app/modules/siswa/detil_laporan_siswa/views/detil_laporan_siswa_view.dart';
 import 'package:simon_pkl/app/modules/siswa/homepage_siswa/widgets/cards_widget.dart';
+import 'package:simon_pkl/app/modules/siswa/laporan_siswa/controllers/laporan_siswa_controller.dart';
 
 import '../controllers/laporan_kendala_siswa_controller.dart';
 
@@ -12,9 +11,22 @@ class LaporanKendalaSiswaView extends GetView<LaporanKendalaSiswaController> {
   const LaporanKendalaSiswaView({super.key});
   @override
   Widget build(BuildContext context) {
+    final laporanSiswaC = Get.put(LaporanSiswaController());
+    final controller = Get.put(LaporanKendalaSiswaController());
+    controller.getAllLaporanKendalaSiswa();
     return Scaffold(
       backgroundColor: AllMaterial.colorWhite,
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            Get.back();
+            LaporanSiswaController.isKendala.value = false;
+            laporanSiswaC.getAllLaporanHarianSiswa();
+          },
+          icon: const Icon(
+            Icons.arrow_back,
+          ),
+        ),
         backgroundColor: AllMaterial.colorWhite,
         surfaceTintColor: AllMaterial.colorWhite,
         title: Text(
@@ -27,90 +39,60 @@ class LaporanKendalaSiswaView extends GetView<LaporanKendalaSiswaController> {
       ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+          padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 20),
           child: Column(
             children: [
-              // Expanded(
-              //   child: Obx(() {
-              //     if (controller.historiAbsenM.isEmpty) {
-              //       return const Center(child: Text("Tidak ada historiAbsen di bulan ini"));
-              //     }
-              //     return ListView.builder(
-              //       itemCount: controller.historiAbsenM.length,
-              //       itemBuilder: (context, index) {
-              //         final item = controller.historiAbsenM[index];
-              //         return CardWidget(
-              //           tanggal: item.tanggal,
-              //           icon: Icon(
-              //             item.icon,
-              //             color: item.color,
-              //           ),
-              //           keterangan: item.status,
-              //         );
-              //       },
-              //     );
-              //   }),
-              // ),
-
-              //tanpa api
               Expanded(
-                child: ListView.builder(
-                    itemCount: 2,
+                child: Obx(() {
+                  final laporanHarian = controller.laporanKendala.value;
+                  if (laporanHarian == null ||
+                      laporanHarian.data == null ||
+                      laporanHarian.data!.isEmpty) {
+                    return Center(
+                      child: Text(
+                        "Tidak ada laporan kendala",
+                        style: AllMaterial.montSerrat(),
+                      ),
+                    );
+                  }
+
+                  final reversedData = laporanHarian.data!.reversed.toList();
+
+                  return ListView.builder(
+                    itemCount: reversedData.length,
                     itemBuilder: (context, index) {
+                      final item = reversedData[index];
                       return CardWidget(
-                        onTap: () =>
-                            Get.to(() => const DetilLaporanSiswaView()),
-                        tanggal: "Sabtu, 24 Agustus 2024",
-                        icon: const Icon(
-                          Icons.check_circle,
-                          color: Colors.green,
+                        onPress: () => AllMaterial.cusDialogValidasi(
+                          title: "Menghapus Laporan",
+                          subtitle: "Apakah anda yakin?",
+                          onCancel: () => Get.back(),
+                          onConfirm: () {
+                            controller.deleteLaporanSiswa(item.id!, context);
+                            reversedData.removeAt(index);
+                            controller.laporanKendala.refresh();
+                          },
                         ),
-                        keterangan: "Belajar Instalasi PHP",
+                        onTap: () {
+                          controller.getLaporanKendalaByIdSiswa(
+                            item.id != null ? item.id!.toInt() : 0,
+                          );
+                        },
+                        tanggal: AllMaterial.ubahHari(
+                          item.tanggal!.toIso8601String(),
+                        ),
+                        icon: const Icon(
+                          Icons.info_sharp,
+                          color: Colors.yellow,
+                        ),
+                        keterangan: AllMaterial.setiapHurufPertama(
+                          item.kendala.toString(),
+                        ),
                       );
-                    }),
+                    },
+                  );
+                }),
               ),
-              const SizedBox(height: 60),
-              // SizedBox(
-              //   height: 65,
-              //   child: Padding(
-              //     padding: const EdgeInsets.all(8.0),
-              //     child: ListView.builder(
-              //       scrollDirection: Axis.horizontal,
-              //       itemCount: controller.dudi.value?.countPage ?? 1,
-              //       itemBuilder: (context, index) => Obx(
-              //         () => GestureDetector(
-              //           onTap: () {
-              //             if (controller.dudi.value!.countPage > 1) {
-              //               controller.changePage(index);
-              //             }
-              //           },
-              //           child: Container(
-              //             width: 50,
-              //             alignment: Alignment.center,
-              //             padding: const EdgeInsets.symmetric(horizontal: 20),
-              //             decoration: BoxDecoration(
-              //               borderRadius: BorderRadius.circular(15),
-              //               color: (controller.intPage.value == index)
-              //                   ? AllMaterial.colorBlue
-              //                   : AllMaterial.colorWhite,
-              //             ),
-              //             margin: const EdgeInsets.symmetric(horizontal: 5),
-              //             child: Text(
-              //               "${index + 1}",
-              //               style: AllMaterial.montSerrat(
-              //                 fontSize: 16,
-              //                 fontWeight: AllMaterial.fontSemiBold,
-              //                 color: (controller.intPage.value == index)
-              //                     ? AllMaterial.colorWhite
-              //                     : AllMaterial.colorBlue,
-              //               ),
-              //             ),
-              //           ),
-              //         ),
-              //       ),
-              //     ),
-              //   ),
-              // ),
             ],
           ),
         ),

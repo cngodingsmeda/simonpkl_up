@@ -1,17 +1,72 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 import 'package:simon_pkl/all_material.dart';
+import 'package:simon_pkl/app/data/api_url.dart';
 import 'package:simon_pkl/app/modules/login_page/views/login_page_view.dart';
+import 'package:simon_pkl/app/modules/siswa/histori_absen_siswa/controllers/histori_absen_siswa_controller.dart';
 import 'package:simon_pkl/app/modules/siswa/home_siswa/controllers/home_siswa_controller.dart';
+import 'package:simon_pkl/app/modules/siswa/homepage_siswa/controllers/homepage_siswa_controller.dart';
 import 'package:simon_pkl/app/modules/siswa/profile_siswa/controllers/profile_siswa_controller.dart';
 
 class GeneralController extends GetxController {
+  Future<dynamic> logout(BuildContext context) async {
+    try {
+      final response = await http.post(
+        Uri.parse(ApiUrl.urlPostLogout),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      );
+      print(response.body);
+      if (response.statusCode == 200) {
+        Get.back();
+        // Restart.restartApp();
+        // ALL
+        Get.offAll(() => const LoginPageView());
+        // Get.reloadAll();
+        AllMaterial.box.erase();
+        AllMaterial.box.remove("token");
+        AllMaterial.messageScaffold(
+          title: "Logout Berhasil, Sampai Jumpa!",
+          context: context,
+        );
+
+        // SISWA
+        final homeSiswaController = Get.put(HomeSiswaController());
+        final homePageSiswaController = Get.put(HomepageSiswaController());
+        final profileController = Get.put(ProfileSiswaController());
+        final historiController = Get.put(HistoriAbsenSiswaControllr());
+        homeSiswaController.indexPage.value = 0;
+        historiController.absen.value = [];
+        homePageSiswaController.ajuanPkl.value = null;
+        homePageSiswaController.readCount.value = 0;
+        profileController.profil.value = null;
+        profileController.isLoading.value = true;
+      } else {
+        AllMaterial.messageScaffold(
+          title: "Kesalahan, tidak dapat melakukan aksi sebelumnya!",
+          context: context,
+        );
+      }
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
   void logoutUser(BuildContext context) {
+    // SISWA
     final homeSiswaController = Get.put(HomeSiswaController());
-    Get.offAll(() => const LoginPageView());
-    homeSiswaController.indexPage.value = 0;
+    final homePageSiswaController = Get.put(HomepageSiswaController());
     final profileController = Get.put(ProfileSiswaController());
+    homeSiswaController.indexPage.value = 0;
+    homePageSiswaController.ajuanPkl.value = null;
     profileController.profil.value = null;
+
+    // ALL
+    Get.offAll(() => const LoginPageView());
     AllMaterial.box.erase();
     AllMaterial.messageScaffold(
       title: "Logout Berhasil, Sampai Jumpa!",

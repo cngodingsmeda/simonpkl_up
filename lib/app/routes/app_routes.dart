@@ -59,6 +59,7 @@ abstract class Routes {
   static const DETIL_LAPORAN_PKL_DUDI = _Paths.DETIL_LAPORAN_PKL_DUDI;
   static const BUAT_LAPORAN_PKL_DUDI = _Paths.BUAT_LAPORAN_PKL_DUDI;
   static const BUAT_FORM_PKL_DUDI = _Paths.BUAT_FORM_PKL_DUDI;
+  static const DETIL_NOTIFIKASI_GURU = _Paths.DETIL_NOTIFIKASI_GURU;
 }
 
 abstract class _Paths {
@@ -111,4 +112,5 @@ abstract class _Paths {
   static const BUAT_FORM_PKL_DUDI = '/buat-form-pkl-dudi';
   static const BATALKAN_PKL_SISWA = '/batalkan-pkl-siswa';
   static const LAPORAN_KENDALA_SISWA = '/laporan-kendala-siswa';
+  static const DETIL_NOTIFIKASI_GURU = '/detil-notifikasi-guru';
 }

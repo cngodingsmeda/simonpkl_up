@@ -9,22 +9,6 @@ ProfileGuruModel profileGuruModelFromJson(String str) => ProfileGuruModel.fromJs
 String profileGuruModelToJson(ProfileGuruModel data) => json.encode(data.toJson());
 
 class ProfileGuruModel {
-    Data? data;
-
-    ProfileGuruModel({
-        this.data,
-    });
-
-    factory ProfileGuruModel.fromJson(Map<String, dynamic> json) => ProfileGuruModel(
-        data: json["data"] == null ? null : Data.fromJson(json["data"]),
-    );
-
-    Map<String, dynamic> toJson() => {
-        "data": data?.toJson(),
-    };
-}
-
-class Data {
     int? id;
     String? nip;
     String? nama;
@@ -41,7 +25,7 @@ class Data {
     Alamat? alamat;
     Sekolah? sekolah;
 
-    Data({
+    ProfileGuruModel({
         this.id,
         this.nip,
         this.nama,
@@ -59,7 +43,7 @@ class Data {
         this.sekolah,
     });
 
-    factory Data.fromJson(Map<String, dynamic> json) => Data(
+    factory ProfileGuruModel.fromJson(Map<String, dynamic> json) => ProfileGuruModel(
         id: json["id"],
         nip: json["nip"],
         nama: json["nama"],

@@ -52,4 +52,13 @@ abstract class ApiUrl {
       "http://10.0.2.2:2008/siswa/laporan-kendala";
   static var urlPutFileLaporanKendalaSiswa =
       "http://10.0.2.2:2008/siswa/laporan-kendala/file_laporan";
+
+  // GURU
+  static var urlGetProfileGuru = "http://10.0.2.2:2008/guru-pembimbing/profile";
+  static var urlGetAllSiswaBimbinganGuru = "http://10.0.2.2:2008/guru-pembimbing/siswa";
+  static var urlGetAllDudiTerkaitGuru = "http://10.0.2.2:2008/guru-pembimbing/dudi";
+  static var urlGetNotifUnreadGuru = "http://10.0.2.2:2008/guru-pembimbing/notification/unread/count";
+  static var urlGetAllNotifGuru = "http://10.0.2.2:2008/guru-pembimbing/notification";
+  static var urlPostReadNotifGuru = "http://10.0.2.2:2008/guru-pembimbing/notification/read";
+  static var urlGetAllHistoriAbsenSiswaGuru = "http://10.0.2.2:2008/guru-pembimbing/absen/all/format";
 }

@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:simon_pkl/all_material.dart';
-import 'package:simon_pkl/app/modules/guru/detil_siswa_guru/views/detil_siswa_guru_view.dart';
+import 'package:simon_pkl/app/modules/guru/detil_siswa_guru/controllers/detil_siswa_guru_controller.dart';
+import 'package:simon_pkl/app/modules/guru/homepage_guru/controllers/homepage_guru_controller.dart';
 import 'package:simon_pkl/app/modules/siswa/homepage_siswa/widgets/cards_widget.dart';
 
 import '../controllers/siswa_bimbingan_guru_controller.dart';
@@ -29,40 +30,60 @@ class SiswaBimbinganGuruView extends GetView<SiswaBimbinganGuruController> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              CardWidget(
-                onTap: () => Get.to(() => const DetilSiswaGuruView()),
-                tanggal: "Aditya Putra Budiman",
-                icon: CircleAvatar(
-                  backgroundColor: const Color(0xffF8F8F8),
-                  child: SvgPicture.asset(
-                    "assets/icons/person.svg",
-                  ),
-                ),
-                keterangan: "XI RPL 1",
-              ),
-              CardWidget(
-                onTap: () => Get.to(() => const DetilSiswaGuruView()),
-                tanggal: "Gheral Deva Bagus Archana",
-                icon: CircleAvatar(
-                  backgroundColor: const Color(0xffF8F8F8),
-                  child: SvgPicture.asset(
-                    "assets/icons/person.svg",
-                  ),
-                ),
-                keterangan: "XI RPL 2",
-              ),
-              CardWidget(
-                onTap: () => Get.to(() => const DetilSiswaGuruView()),
-                tanggal: "Fauzan Azka Al-Haqi",
-                icon: CircleAvatar(
-                  backgroundColor: const Color(0xffF8F8F8),
-                  child: SvgPicture.asset(
-                    "assets/icons/person.svg",
-                  ),
-                ),
-                keterangan: "XI RPL 3",
-              ),
-              const SizedBox(height: 60),
+              Obx(() {
+                var homeCont = Get.put(HomepageGuruController());
+                if (homeCont.siswaBimbingan.value == null ||
+                    homeCont.siswaBimbingan.value!.data!.isEmpty) {
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const SizedBox(height: 25),
+                      Center(
+                        child: Text(
+                          "Belum ada siswa bimbingan",
+                          style: AllMaterial.montSerrat(),
+                        ),
+                      ),
+                    ],
+                  );
+                }
+                var siswaList = homeCont.siswaBimbingan.value!.data!;
+                return ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: siswaList.length,
+                  itemBuilder: (context, index) {
+                    var siswa = siswaList[index];
+                    return CardWidget(
+                      onTap: () {
+                        var detilSiswa = Get.put(DetilSiswaGuruController());
+                        detilSiswa.getDetilSiswaById(siswa.id ?? 0);
+                      },
+                      tanggal: AllMaterial.setiapHurufPertama(siswa.nama),
+                      icon: CircleAvatar(
+                        onBackgroundImageError: (exception, stackTrace) {
+                          const Icon(
+                            Icons.camera_alt_rounded,
+                            color: Colors.grey,
+                          );
+                        },
+                        backgroundColor: const Color(0xffF8F8F8),
+                        backgroundImage: (siswa.fotoProfile != null)
+                            ? NetworkImage(
+                                siswa.fotoProfile!
+                                    .replaceAll("localhost", "10.0.2.2"),
+                              )
+                            : const AssetImage("assets/images/foto-profile.png")
+                                as ImageProvider,
+                        child: (siswa.fotoProfile == null)
+                            ? SvgPicture.asset("assets/icons/person.svg")
+                            : null,
+                      ),
+                      keterangan: siswa.kelas!.nama!,
+                    );
+                  },
+                );
+              })
             ],
           ),
         ),

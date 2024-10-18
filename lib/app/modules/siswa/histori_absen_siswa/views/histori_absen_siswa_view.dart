@@ -13,6 +13,7 @@ class HistoriAbsenSiswaView extends GetView<HistoriAbsenSiswaControllr> {
   Widget build(BuildContext context) {
     final HistoriAbsenSiswaControllr controller =
         Get.put(HistoriAbsenSiswaControllr());
+    controller.fetchHistoriAbsenSiswa();
     return Scaffold(
       backgroundColor: AllMaterial.colorWhite,
       appBar: AppBar(

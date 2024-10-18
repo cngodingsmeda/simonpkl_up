@@ -14,6 +14,7 @@ class PilihanAbsenSiswaView extends GetView<PilihanAbsenSiswaController> {
   @override
   Widget build(BuildContext context) {
     var controller = Get.put(PilihanAbsenSiswaController());
+    controller.getLocation();
 
     if (controller.latitude.value != 0 && controller.longitude.value != 0) {
       controller.cekJenisAbsen(

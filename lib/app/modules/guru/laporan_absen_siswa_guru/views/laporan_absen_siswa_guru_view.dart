@@ -13,8 +13,8 @@ class LaporanAbsenSiswaGuruView
 
   @override
   Widget build(BuildContext context) {
-    var controller = Get.put(LaporanAbsenSiswaGuruController());
-
+    final controller = Get.put(LaporanAbsenSiswaGuruController());
+    controller.fetchHistoriAbsen();
     return Scaffold(
       backgroundColor: AllMaterial.colorWhite,
       appBar: AppBar(
@@ -72,53 +72,133 @@ class LaporanAbsenSiswaGuruView
                       label: 'Desember',
                       month: 12,
                     ),
+                    const SizedBox(width: 8),
+                    ChoiceChipWidget(
+                      controller: controller,
+                      label: 'Januari',
+                      month: 1,
+                    ),
+                    const SizedBox(width: 8),
+                    ChoiceChipWidget(
+                      controller: controller,
+                      label: 'Februari',
+                      month: 2,
+                    ),
+                    const SizedBox(width: 8),
+                    ChoiceChipWidget(
+                      controller: controller,
+                      label: 'Maret',
+                      month: 3,
+                    ),
+                    const SizedBox(width: 8),
+                    ChoiceChipWidget(
+                      controller: controller,
+                      label: 'April',
+                      month: 4,
+                    ),
+                    const SizedBox(width: 8),
+                    ChoiceChipWidget(
+                      controller: controller,
+                      label: 'Mei',
+                      month: 5,
+                    ),
+                    const SizedBox(width: 8),
+                    ChoiceChipWidget(
+                      controller: controller,
+                      label: 'Juni',
+                      month: 6,
+                    ),
+                    const SizedBox(width: 8),
                   ],
                 ),
               ),
               const SizedBox(height: 20),
-              Expanded(
-                child: ListView.builder(
-                  itemCount: 2,
-                  itemBuilder: (context, dayIndex) {
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+              Obx(() {
+                if (controller.historiAllAbsenSiswaGuru.value == null ||
+                    controller.historiAllAbsenSiswaGuru.value!.data!.isEmpty) {
+                  return Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 5),
+                        Center(
                           child: Text(
-                            "Selasa, 25 Agustus 2024",
-                            style: AllMaterial.montSerrat(
-                              fontWeight: AllMaterial.fontMedium,
-                              color: AllMaterial.colorBlue,
-                            ),
+                            "Tidak ada histori absen untuk bulan ini",
+                            style: AllMaterial.montSerrat(),
                           ),
                         ),
-                        ListView.builder(
-                          itemCount: 3,
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemBuilder: (context, cardIndex) {
-                            return CardWidget(
-                              tanggal: "Aditya Putra Budiman",
-                              icon: CircleAvatar(
-                                backgroundColor: const Color(0xffF8F8F8),
-                                child: SvgPicture.asset(
-                                  "assets/icons/person.svg",
+                      ],
+                    ),
+                  );
+                } else {
+                  return Expanded(
+                    child: ListView.builder(
+                      itemCount: controller
+                          .historiAllAbsenSiswaGuru.value!.data!.length,
+                      itemBuilder: (context, dayIndex) {
+                        var tanggal = controller
+                            .historiAllAbsenSiswaGuru.value!.data!.keys
+                            .toList()[dayIndex];
+                        var absen = controller.historiAllAbsenSiswaGuru.value!
+                                .data![tanggal] ??
+                            [];
+
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(top: 5),
+                              child: Text(
+                                AllMaterial.setiapHurufPertama(tanggal),
+                                style: AllMaterial.montSerrat(
+                                  fontWeight: AllMaterial.fontMedium,
+                                  color: AllMaterial.colorBlue,
                                 ),
                               ),
-                              keterangan: "XI RPL 5",
-                              onTap: () => Get.to(
-                                () => const HistoriAbsenSiswaGuruView(),
-                              ),
-                            );
-                          },
-                        ),
-                        const SizedBox(height: 20),
-                      ],
-                    );
-                  },
-                ),
-              ),
+                            ),
+                            ListView.builder(
+                              itemCount: absen.length,
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemBuilder: (context, cardIndex) {
+                                return CardWidget(
+                                  tanggal: AllMaterial.setiapHurufPertama(
+                                      absen[cardIndex].siswa?.nama ?? ""),
+                                  icon: CircleAvatar(
+                                    backgroundColor: const Color(0xffF8F8F8),
+                                    backgroundImage: (absen[cardIndex]
+                                                .siswa
+                                                ?.fotoProfile !=
+                                            null)
+                                        ? NetworkImage(absen[cardIndex]
+                                            .siswa!
+                                            .fotoProfile!
+                                            .replaceAll(
+                                                "localhost", "10.0.2.2"))
+                                        : const AssetImage(
+                                                "assets/images/foto-profile.png")
+                                            as ImageProvider,
+                                    child:
+                                        (absen[cardIndex].siswa?.fotoProfile ==
+                                                null)
+                                            ? SvgPicture.asset(
+                                                "assets/icons/person.svg")
+                                            : null,
+                                  ),
+                                  keterangan:
+                                      absen[cardIndex].siswa?.status ?? "",
+                                  onTap: () => Get.to(
+                                      () => const HistoriAbsenSiswaGuruView()),
+                                );
+                              },
+                            ),
+                            const SizedBox(height: 20),
+                          ],
+                        );
+                      },
+                    ),
+                  );
+                }
+              }),
               const SizedBox(height: 60),
             ],
           ),
@@ -131,7 +211,6 @@ class LaporanAbsenSiswaGuruView
 class ChoiceChipWidget extends StatelessWidget {
   final String label;
   final int month;
-  // ignore: prefer_typing_uninitialized_variables
   final LaporanAbsenSiswaGuruController controller;
 
   const ChoiceChipWidget({
@@ -156,6 +235,7 @@ class ChoiceChipWidget extends StatelessWidget {
         onSelected: (bool selected) {
           if (selected) {
             controller.updateHistoriAbsen(month);
+            controller.fetchHistoriAbsen();
           }
         },
         backgroundColor: Colors.grey[200],

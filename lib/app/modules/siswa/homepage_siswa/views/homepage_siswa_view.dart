@@ -27,6 +27,12 @@ class HomepageSiswaView extends GetView<HomepageSiswaController> {
     if (HomepageSiswaController.statusPkl.value == "sudah_pkl") {
       controller.getAbsenTigaHari();
     }
+
+    var status = AllMaterial.box.read("statusSiswa");
+    if (status != null || status != "") {
+      controller.getLastAjuanPkl();
+    }
+    controller.getNotifUnread();
     var profController = Get.put(ProfileSiswaController());
     return Scaffold(
       backgroundColor: AllMaterial.colorWhite,

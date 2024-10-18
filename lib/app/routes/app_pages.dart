@@ -1,7 +1,5 @@
 import 'package:get/get.dart';
 
-import '../modules/siswa/laporan_kendala_siswa/bindings/laporan_kendala_siswa_binding.dart';
-import '../modules/siswa/laporan_kendala_siswa/views/laporan_kendala_siswa_view.dart';
 import '../modules/dudi/ajuan_pkl_siswa_dudi/bindings/ajuan_pkl_siswa_dudi_binding.dart';
 import '../modules/dudi/ajuan_pkl_siswa_dudi/views/ajuan_pkl_siswa_dudi_view.dart';
 import '../modules/dudi/buat_form_pkl_dudi/bindings/buat_form_pkl_dudi_binding.dart';
@@ -76,6 +74,8 @@ import '../modules/siswa/home_siswa/bindings/home_siswa_binding.dart';
 import '../modules/siswa/home_siswa/views/home_siswa_view.dart';
 import '../modules/siswa/homepage_siswa/bindings/homepage_siswa_binding.dart';
 import '../modules/siswa/homepage_siswa/views/homepage_siswa_view.dart';
+import '../modules/siswa/laporan_kendala_siswa/bindings/laporan_kendala_siswa_binding.dart';
+import '../modules/siswa/laporan_kendala_siswa/views/laporan_kendala_siswa_view.dart';
 import '../modules/siswa/laporan_siswa/bindings/laporan_siswa_binding.dart';
 import '../modules/siswa/laporan_siswa/views/laporan_siswa_view.dart';
 import '../modules/siswa/notifikasi_siswa/bindings/notifikasi_siswa_binding.dart';

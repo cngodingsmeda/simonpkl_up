@@ -9,26 +9,15 @@ import 'package:simon_pkl/app/model/model_siswa/last_ajuan_pkl_model.dart';
 import 'package:simon_pkl/app/modules/siswa/home_siswa/views/home_siswa_view.dart';
 
 class HomepageSiswaController extends GetxController {
-  var token = AllMaterial.box.read("token");
   static RxString statusPkl = "".obs;
   var readCount = 0.obs;
   var ajuanPkl = Rx<LastAjuanPklModel?>(null);
   var absenTigaHari = <Datum>[].obs;
   var nisSiswa = "".obs;
 
-  @override
-  void onInit() {
-    var status = AllMaterial.box.read("statusSiswa");
-
-    if (status != null || status != "") {
-      getLastAjuanPkl();
-    }
-    getAbsenTigaHari();
-    getNotifUnread();
-    super.onInit();
-  }
-
   Future<void> getLastAjuanPkl() async {
+    var token = AllMaterial.box.read("token");
+
     final response = await http.get(
       Uri.parse(ApiUrl.urlGetLastPengajuanPklSiswa),
       headers: {
@@ -49,6 +38,8 @@ class HomepageSiswaController extends GetxController {
   }
 
   Future<void> getNotifUnread() async {
+    var token = AllMaterial.box.read("token");
+
     final response = await http.get(
       Uri.parse(ApiUrl.urlGetNotifUnreadSiswa),
       headers: {
@@ -68,6 +59,8 @@ class HomepageSiswaController extends GetxController {
   }
 
   Future<void> batalkanPkl(int id, String alasan) async {
+    var token = AllMaterial.box.read("token");
+
     print(id);
     final response = await http.put(
       Uri.parse(ApiUrl.urlPutCancelAjuanPklSiswa + id.toString()),
@@ -94,6 +87,7 @@ class HomepageSiswaController extends GetxController {
   }
 
   Future<void> getAbsenTigaHari() async {
+    var token = AllMaterial.box.read("token");
     try {
       final response = await http.get(
         Uri.parse(ApiUrl.urlGetAbsenTigaHariSiswa),

@@ -20,7 +20,7 @@ class DetilSiswaGuruView extends GetView<DetilSiswaGuruController> {
         surfaceTintColor: AllMaterial.colorWhite,
         elevation: 0,
         title: Text(
-          'Tentang Aditya',
+          'Tentang ${AllMaterial.hurufPertama((controller.siswa.value?.nama?.split(' ').length ?? 0) > 1 ? (controller.siswa.value?.nama?.split(' ')[0].length ?? 0) <= 2 ? controller.siswa.value?.nama?.split(' ')[1] ?? "Siswa" : controller.siswa.value?.nama?.split(' ')[0] ?? "Siswa" : controller.siswa.value?.nama ?? "Siswa")}',
           style: AllMaterial.montSerrat(
             fontWeight: AllMaterial.fontSemiBold,
             color: Colors.black,
@@ -34,7 +34,6 @@ class DetilSiswaGuruView extends GetView<DetilSiswaGuruController> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Profile Picture and Name
               Row(
                 children: [
                   Container(
@@ -42,8 +41,16 @@ class DetilSiswaGuruView extends GetView<DetilSiswaGuruController> {
                     width: 100,
                     height: 100,
                     decoration: BoxDecoration(
-                      image: const DecorationImage(
-                        image: AssetImage("assets/images/iyah.jpg"),
+                      image: DecorationImage(
+                        image: (controller.siswa.value?.fotoProfile != null)
+                            ? NetworkImage(
+                                controller.siswa.value!.fotoProfile
+                                    .toString()
+                                    .replaceAll("localhost", "10.0.2.2"),
+                              )
+                            : const AssetImage(
+                                "assets/images/foto-profile.png",
+                              ),
                         fit: BoxFit.cover,
                       ),
                       borderRadius: BorderRadius.circular(500),
@@ -55,25 +62,33 @@ class DetilSiswaGuruView extends GetView<DetilSiswaGuruController> {
                     ),
                   ),
                   const SizedBox(width: 20),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Aditya Putra',
-                        style: AllMaterial.montSerrat(
-                          fontWeight: AllMaterial.fontBold,
-                          fontSize: 20,
+                  Flexible(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            AllMaterial.formatNamaPanjang(
+                                controller.siswa.value?.nama ?? ""),
+                            style: AllMaterial.montSerrat(
+                              fontWeight: AllMaterial.fontBold,
+                              fontSize: 20,
+                            ),
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 5),
-                      Text(
-                        'NISN: 21414125125',
-                        style: AllMaterial.montSerrat(
-                          fontWeight: AllMaterial.fontRegular,
-                          color: Colors.grey,
+                        const SizedBox(height: 5),
+                        Text(
+                          'NISN: ${controller.siswa.value?.nis ?? ""}',
+                          style: AllMaterial.montSerrat(
+                            fontWeight: AllMaterial.fontRegular,
+                            color: Colors.grey,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -96,8 +111,16 @@ class DetilSiswaGuruView extends GetView<DetilSiswaGuruController> {
                   ProfileWidget(
                     controller: controller,
                     textController: controller.alamatC,
-                    title: "Alamat:",
+                    title: "Alamat Siswa:",
                   ),
+                  const SizedBox(height: 10),
+                  (controller.siswa.value?.dudi?.namaInstansiPerusahaan == null)
+                      ? const SizedBox.shrink()
+                      : ProfileWidget(
+                          controller: controller,
+                          textController: controller.instansiC,
+                          title: "Tempat PKL:",
+                        ),
                 ],
               ),
             ],
@@ -140,10 +163,13 @@ class DetilSiswaGuruView extends GetView<DetilSiswaGuruController> {
               width: Get.width,
               child: OutlinedButton.icon(
                 onPressed: () {
-                  AllMaterial.messageScaffold(
-                    title: "Fitur Sedang Digarap, Coming Soon",
-                    context: context,
-                  );
+                  controller.bukaWhatsApp(controller.siswa.value?.noTelepon
+                          ?.replaceAll("08", "62") ??
+                      "");
+                  // AllMaterial.messageScaffold(
+                  //   title: "Fitur Sedang Digarap, Coming Soon",
+                  //   context: context,
+                  // );
                 },
                 icon: Icon(MdiIcons.whatsapp, color: AllMaterial.colorBlue),
                 label: Text(

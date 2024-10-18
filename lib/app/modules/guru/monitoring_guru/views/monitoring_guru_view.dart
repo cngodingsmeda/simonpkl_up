@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:simon_pkl/all_material.dart';
 import 'package:simon_pkl/app/modules/dudi/skema_pkl_dudi/views/skema_pkl_dudi_view.dart';
 import 'package:simon_pkl/app/modules/guru/laporan_siswa_guru/views/laporan_siswa_guru_view.dart';
+import 'package:simon_pkl/app/modules/guru/profile_guru/controllers/profile_guru_controller.dart';
 
 import '../controllers/monitoring_guru_controller.dart';
 
@@ -10,6 +11,8 @@ class MonitoringGuruView extends GetView<MonitoringGuruController> {
   const MonitoringGuruView({super.key});
   @override
   Widget build(BuildContext context) {
+    // var controller = Get.put(MonitoringGuruController());
+    var profController = Get.put(ProfileGuruController());
     return Scaffold(
       backgroundColor: AllMaterial.colorWhite,
       body: SingleChildScrollView(
@@ -31,7 +34,7 @@ class MonitoringGuruView extends GetView<MonitoringGuruController> {
                   FittedBox(
                     child: Text(
                       // instansi.nama,
-                      "Monitoring PKL SMKN 2 Mataram",
+                      "Monitoring PKL ${profController.profil.value?.sekolah?.nama?.toUpperCase() ?? ""}",
                       style: AllMaterial.montSerrat(
                         fontWeight: AllMaterial.fontBold,
                         fontSize: 18,
@@ -46,7 +49,7 @@ class MonitoringGuruView extends GetView<MonitoringGuruController> {
                       child: FittedBox(
                         fit: BoxFit.scaleDown,
                         child: Text(
-                          "Guru Pembimbing : Gheral Deva S.pD",
+                          "Guru Pembimbing : ${profController.profil.value?.nama?.toUpperCase()}",
                           style: AllMaterial.montSerrat(
                             fontWeight: AllMaterial.fontSemiBold,
                             color: AllMaterial.colorWhite,
@@ -86,9 +89,9 @@ class MonitoringGuruView extends GetView<MonitoringGuruController> {
                         nama: "Laporan Siswa",
                         svg: "assets/icons/laporan-file.svg",
                         tekan: () {
-                          Get.to(() => const LaporanSiswaGuruView(), arguments: "Siswa");
+                          Get.to(() => const LaporanSiswaGuruView(),
+                              arguments: "Siswa");
                           AllMaterial.box.write("isKendala", false);
-        
                         },
                       ),
                       const SizedBox(width: 12),
@@ -96,7 +99,8 @@ class MonitoringGuruView extends GetView<MonitoringGuruController> {
                         nama: "Kendala Siswa",
                         svg: "assets/icons/kendala-toa.svg",
                         tekan: () {
-                          Get.to(() => const LaporanSiswaGuruView(), arguments: "Siswa");
+                          Get.to(() => const LaporanSiswaGuruView(),
+                              arguments: "Siswa");
                           AllMaterial.box.write("isKendala", true);
                         },
                       ),
@@ -110,7 +114,8 @@ class MonitoringGuruView extends GetView<MonitoringGuruController> {
                         nama: "Laporan Dudi",
                         svg: "assets/icons/laporan-file.svg",
                         tekan: () {
-                          Get.to(() => const LaporanSiswaGuruView(), arguments: "Dudi");
+                          Get.to(() => const LaporanSiswaGuruView(),
+                              arguments: "Dudi");
                           AllMaterial.box.write("isKendala", false);
                         },
                       ),
@@ -119,7 +124,8 @@ class MonitoringGuruView extends GetView<MonitoringGuruController> {
                         nama: "Kendala Dudi",
                         svg: "assets/icons/kendala-toa.svg",
                         tekan: () {
-                          Get.to(() => const LaporanSiswaGuruView(), arguments: "Dudi");
+                          Get.to(() => const LaporanSiswaGuruView(),
+                              arguments: "Dudi");
                           AllMaterial.box.write("isKendala", true);
                         },
                       ),

@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:simon_pkl/all_material.dart';
 import 'package:simon_pkl/app/data/api_url.dart';
+import 'package:simon_pkl/app/model/model_siswa/histori_absen_siswa_model.dart';
+import 'package:simon_pkl/app/modules/guru/home_guru/controllers/home_guru_controller.dart';
 import 'package:simon_pkl/app/modules/login_page/views/login_page_view.dart';
 import 'package:simon_pkl/app/modules/siswa/histori_absen_siswa/controllers/histori_absen_siswa_controller.dart';
 import 'package:simon_pkl/app/modules/siswa/home_siswa/controllers/home_siswa_controller.dart';
@@ -23,10 +25,8 @@ class GeneralController extends GetxController {
       print(response.body);
       if (response.statusCode == 200) {
         Get.back();
-        // Restart.restartApp();
         // ALL
         Get.offAll(() => const LoginPageView());
-        // Get.reloadAll();
         AllMaterial.box.erase();
         AllMaterial.box.remove("token");
         AllMaterial.messageScaffold(
@@ -34,17 +34,24 @@ class GeneralController extends GetxController {
           context: context,
         );
 
+        // GURU
+        // GURU
+        final homeGuruController = Get.put(HomeGuruController());
+        homeGuruController.indexPage.value = 0;
+
         // SISWA
         final homeSiswaController = Get.put(HomeSiswaController());
         final homePageSiswaController = Get.put(HomepageSiswaController());
         final profileController = Get.put(ProfileSiswaController());
         final historiController = Get.put(HistoriAbsenSiswaControllr());
         homeSiswaController.indexPage.value = 0;
-        historiController.absen.value = [];
+        historiController.absen.value = <Datum>[];
         homePageSiswaController.ajuanPkl.value = null;
         homePageSiswaController.readCount.value = 0;
         profileController.profil.value = null;
         profileController.isLoading.value = true;
+
+        update();
       } else {
         AllMaterial.messageScaffold(
           title: "Kesalahan, tidak dapat melakukan aksi sebelumnya!",
@@ -57,6 +64,10 @@ class GeneralController extends GetxController {
   }
 
   void logoutUser(BuildContext context) {
+    // GURU
+    final homeGuruController = Get.put(HomeGuruController());
+    homeGuruController.indexPage.value = 0;
+
     // SISWA
     final homeSiswaController = Get.put(HomeSiswaController());
     final homePageSiswaController = Get.put(HomepageSiswaController());
@@ -72,6 +83,7 @@ class GeneralController extends GetxController {
       title: "Logout Berhasil, Sampai Jumpa!",
       context: context,
     );
+    update();
   }
 
   String getErrorMessage(int statusCode) {

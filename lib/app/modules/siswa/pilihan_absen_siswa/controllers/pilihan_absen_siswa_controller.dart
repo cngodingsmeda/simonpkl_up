@@ -32,14 +32,6 @@ class PilihanAbsenSiswaController extends GetxController {
 
   var namaDudi = "".obs;
 
-  @override
-  // ignore: unnecessary_overrides
-  void onInit() async {
-    super.onInit();
-    getLocation();
-    print(hariIni);
-  }
-
   Future<void> getAllJadwalAbsen() async {
     final response = await http.get(
       Uri.parse(ApiUrl.urlGetAllJadwalAbsenSiswa),

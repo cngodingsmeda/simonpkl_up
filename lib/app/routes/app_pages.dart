@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 
+import '../modules/guru/detil_absen_siswa_guru/bindings/detil_absen_siswa_guru_binding.dart';
+import '../modules/guru/detil_absen_siswa_guru/views/detil_absen_siswa_guru_view.dart';
 import '../modules/dudi/ajuan_pkl_siswa_dudi/bindings/ajuan_pkl_siswa_dudi_binding.dart';
 import '../modules/dudi/ajuan_pkl_siswa_dudi/views/ajuan_pkl_siswa_dudi_view.dart';
 import '../modules/dudi/buat_form_pkl_dudi/bindings/buat_form_pkl_dudi_binding.dart';
@@ -309,6 +311,11 @@ class AppPages {
       name: _Paths.LAPORAN_KENDALA_SISWA,
       page: () => const LaporanKendalaSiswaView(),
       binding: LaporanKendalaSiswaBinding(),
+    ),
+    GetPage(
+      name: _Paths.DETIL_ABSEN_SISWA_GURU,
+      page: () => const DetilAbsenSiswaGuruView(),
+      binding: DetilAbsenSiswaGuruBinding(),
     ),
   ];
 }

@@ -4,7 +4,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:simon_pkl/all_material.dart';
 import 'package:simon_pkl/app/modules/guru/detil_siswa_guru/controllers/detil_siswa_guru_controller.dart';
-import 'package:simon_pkl/app/modules/guru/home_guru/controllers/home_guru_controller.dart';
 import 'package:simon_pkl/app/modules/guru/monitoring_guru/views/monitoring_guru_view.dart';
 import 'package:simon_pkl/app/modules/guru/notifikasi_guru/controllers/notifikasi_guru_controller.dart';
 import 'package:simon_pkl/app/modules/guru/notifikasi_guru/views/notifikasi_guru_view.dart';
@@ -20,9 +19,7 @@ class HomepageGuruView extends GetView<HomepageGuruController> {
   Widget build(BuildContext context) {
     var profController = Get.put(ProfileGuruController());
     var controller = Get.put(HomepageGuruController());
-    var homeController = Get.put(HomeGuruController());
     controller.getSiswaBimbingan();
-    homeController.indexPage.value = 0;
     controller.getDudiTerkait();
     return Scaffold(
       backgroundColor: AllMaterial.colorWhite,
@@ -137,11 +134,13 @@ class HomepageGuruView extends GetView<HomepageGuruController> {
                                 ),
                                 const SizedBox(width: 10),
                                 Expanded(
-                                  child: Text(
-                                    "${controller.jumlahSiswa.value} Siswa Bimbingan",
-                                    style: AllMaterial.montSerrat(
-                                      color: AllMaterial.colorWhite,
-                                      fontWeight: AllMaterial.fontMedium,
+                                  child: Obx(
+                                    () => Text(
+                                      "${controller.jumlahSiswa.value} Siswa Bimbingan",
+                                      style: AllMaterial.montSerrat(
+                                        color: AllMaterial.colorWhite,
+                                        fontWeight: AllMaterial.fontMedium,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -156,11 +155,13 @@ class HomepageGuruView extends GetView<HomepageGuruController> {
                                 ),
                                 const SizedBox(width: 10),
                                 Expanded(
-                                  child: Text(
-                                    "${controller.jumlahDudi.value} Dudi Terkait",
-                                    style: AllMaterial.montSerrat(
-                                      color: AllMaterial.colorWhite,
-                                      fontWeight: AllMaterial.fontMedium,
+                                  child: Obx(
+                                    () => Text(
+                                      "${controller.jumlahDudi.value} Dudi Terkait",
+                                      style: AllMaterial.montSerrat(
+                                        color: AllMaterial.colorWhite,
+                                        fontWeight: AllMaterial.fontMedium,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -175,11 +176,13 @@ class HomepageGuruView extends GetView<HomepageGuruController> {
                                 ),
                                 const SizedBox(width: 10),
                                 Expanded(
-                                  child: Text(
-                                    "0 Kendala Siswa",
-                                    style: AllMaterial.montSerrat(
-                                      color: AllMaterial.colorWhite,
-                                      fontWeight: AllMaterial.fontMedium,
+                                  child: Obx(
+                                    () => Text(
+                                      "${controller.jumlahKendalaSiswa.value} Kendala Siswa",
+                                      style: AllMaterial.montSerrat(
+                                        color: AllMaterial.colorWhite,
+                                        fontWeight: AllMaterial.fontMedium,
+                                      ),
                                     ),
                                   ),
                                 ),

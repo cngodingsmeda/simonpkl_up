@@ -185,9 +185,14 @@ class LaporanAbsenSiswaGuruView
                                             : null,
                                   ),
                                   keterangan:
-                                      absen[cardIndex].siswa?.status ?? "",
+                                      absen[cardIndex].siswa?.kelas?.nama ?? "",
                                   onTap: () => Get.to(
-                                      () => const HistoriAbsenSiswaGuruView()),
+                                      () => const HistoriAbsenSiswaGuruView(),
+                                      arguments: {
+                                        "nama":
+                                            absen[cardIndex].siswa?.nama ?? "",
+                                        "id": absen[cardIndex].siswa?.id,
+                                      }),
                                 );
                               },
                             ),

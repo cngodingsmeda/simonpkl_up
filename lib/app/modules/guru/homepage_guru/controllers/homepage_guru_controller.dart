@@ -30,9 +30,7 @@ class HomepageGuruController extends GetxController {
       var data = jsonDecode(response.body);
       print(data);
       siswaBimbingan.value = SiswaBimbinganModel.fromJson(data);
-      if (siswaBimbingan.value != null) {
-        jumlahSiswa.value = siswaBimbingan.value?.data?.length ?? 0;
-      }
+      jumlahSiswa.value = siswaBimbingan.value?.data?.length ?? 0;
       update();
     } else {
       print("Gagal mengirim data");
@@ -56,9 +54,7 @@ class HomepageGuruController extends GetxController {
       var data = jsonDecode(response.body);
       print(data);
       dudiTerkait.value = DudiTerkaitModel.fromJson(data);
-      if (dudiTerkait.value != null) {
-        jumlahDudi.value = dudiTerkait.value?.data?.length ?? 0;
-      }
+      jumlahDudi.value = dudiTerkait.value?.data?.length ?? 0;
       update();
     } else {
       print("Gagal mengirim data");

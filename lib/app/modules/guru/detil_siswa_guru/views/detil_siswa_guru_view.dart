@@ -136,7 +136,11 @@ class DetilSiswaGuruView extends GetView<DetilSiswaGuruController> {
               width: Get.width,
               child: ElevatedButton.icon(
                 onPressed: () {
-                  Get.to(() => const HistoriAbsenSiswaGuruView());
+                  Get.to(() => const HistoriAbsenSiswaGuruView(),
+                      arguments: {
+                        "nama": controller.siswa.value?.nama?.toString(),
+                        "id": controller.siswa.value?.id,
+                      });
                 },
                 icon: const Icon(
                   Icons.fingerprint,

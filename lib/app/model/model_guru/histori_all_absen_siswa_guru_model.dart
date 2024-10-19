@@ -98,6 +98,8 @@ class Siswa {
     String? status;
     dynamic tokenFcm;
     String? fotoProfile;
+    Jurusan? jurusan;
+    Kelas? kelas;
     Dudi? dudi;
 
     Siswa({
@@ -110,6 +112,8 @@ class Siswa {
         this.status,
         this.tokenFcm,
         this.fotoProfile,
+        this.jurusan,
+        this.kelas,
         this.dudi,
     });
 
@@ -123,6 +127,8 @@ class Siswa {
         status: json["status"],
         tokenFcm: json["token_FCM"],
         fotoProfile: json["foto_profile"],
+        jurusan: json["jurusan"] == null ? null : Jurusan.fromJson(json["jurusan"]),
+        kelas: json["kelas"] == null ? null : Kelas.fromJson(json["kelas"]),
         dudi: json["dudi"] == null ? null : Dudi.fromJson(json["dudi"]),
     );
 
@@ -136,6 +142,8 @@ class Siswa {
         "status": status,
         "token_FCM": tokenFcm,
         "foto_profile": fotoProfile,
+        "jurusan": jurusan?.toJson(),
+        "kelas": kelas?.toJson(),
         "dudi": dudi?.toJson(),
     };
 }
@@ -181,5 +189,61 @@ class Dudi {
         "tersedia": tersedia,
         "id_sekolah": idSekolah,
         "id_tahun": idTahun,
+    };
+}
+
+class Jurusan {
+    int? id;
+    String? nama;
+    int? idSekolah;
+    int? idTahun;
+
+    Jurusan({
+        this.id,
+        this.nama,
+        this.idSekolah,
+        this.idTahun,
+    });
+
+    factory Jurusan.fromJson(Map<String, dynamic> json) => Jurusan(
+        id: json["id"],
+        nama: json["nama"],
+        idSekolah: json["id_sekolah"],
+        idTahun: json["id_tahun"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "id": id,
+        "nama": nama,
+        "id_sekolah": idSekolah,
+        "id_tahun": idTahun,
+    };
+}
+
+class Kelas {
+    int? id;
+    String? nama;
+    String? tahun;
+    int? idJurusan;
+
+    Kelas({
+        this.id,
+        this.nama,
+        this.tahun,
+        this.idJurusan,
+    });
+
+    factory Kelas.fromJson(Map<String, dynamic> json) => Kelas(
+        id: json["id"],
+        nama: json["nama"],
+        tahun: json["tahun"],
+        idJurusan: json["id_jurusan"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "id": id,
+        "nama": nama,
+        "tahun": tahun,
+        "id_jurusan": idJurusan,
     };
 }

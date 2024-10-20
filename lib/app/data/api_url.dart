@@ -71,4 +71,14 @@ abstract class ApiUrl {
       "http://10.0.2.2:2008/guru-pembimbing/absen";
   static var urlGetHistoriAbsenSiswaById =
       "http://10.0.2.2:2008/guru-pembimbing/absen/";
+  static var urlGetKendalaSiswaCountGuru =
+      "http://10.0.2.2:2008/guru-pembimbing/laporan-kendala-siswa/get/count";
+  static var urlGetAllKendalaSiswaGuru =
+      "http://10.0.2.2:2008/guru-pembimbing/laporan-kendala-siswa";
+  static var urlGetAllKendalaDudiGuru =
+      "http://10.0.2.2:2008/guru-pembimbing/laporan-kendala-dudi";
+  static var urlGetAllLaporanHarianSiswaGuru =
+      "http://10.0.2.2:2008/guru-pembimbing/laporan-pkl-siswa";
+  static var urlGetAllLaporanHarianDudiGuru =
+      "http://10.0.2.2:2008/guru-pembimbing/laporan-pkl-dudi";
 }

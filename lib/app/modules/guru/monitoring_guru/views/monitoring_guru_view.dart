@@ -49,7 +49,7 @@ class MonitoringGuruView extends GetView<MonitoringGuruController> {
                       child: FittedBox(
                         fit: BoxFit.scaleDown,
                         child: Text(
-                          "Guru Pembimbing : ${profController.profil.value?.nama?.toUpperCase()}",
+                          "Guru Pembimbing : ${profController.profil.value?.nama?.toUpperCase() ?? ""}",
                           style: AllMaterial.montSerrat(
                             fontWeight: AllMaterial.fontSemiBold,
                             color: AllMaterial.colorWhite,

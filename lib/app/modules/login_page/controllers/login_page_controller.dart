@@ -87,7 +87,6 @@ class LoginPageController extends GetxController {
         String roleData = data["data"]["role"];
         AllMaterial.box.write("role", roleData);
         isAuth.value = true;
-        Get.reloadAll();
         if (roleData.contains("guru")) {
           isAuth.value = true;
           userC.text = "";

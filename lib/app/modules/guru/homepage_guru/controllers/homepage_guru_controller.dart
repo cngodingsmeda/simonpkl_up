@@ -38,6 +38,28 @@ class HomepageGuruController extends GetxController {
     }
   }
 
+  Future<void> getKendalaSiswaCount() async {
+    var token = AllMaterial.box.read("token");
+
+    final response = await http.get(
+      Uri.parse(ApiUrl.urlGetKendalaSiswaCountGuru),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer $token",
+      },
+    );
+
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body);
+      print(data);
+      jumlahKendalaSiswa.value = data["data"]["count"] ?? 0;
+      update();
+    } else {
+      print("Gagal mengirim data");
+      throw Exception('Failed to fetch data');
+    }
+  }
+
   Future<void> getDudiTerkait() async {
     print("dijalankan");
     var token = AllMaterial.box.read("token");

@@ -20,7 +20,7 @@ class DetilSiswaGuruView extends GetView<DetilSiswaGuruController> {
         surfaceTintColor: AllMaterial.colorWhite,
         elevation: 0,
         title: Text(
-          'Tentang ${AllMaterial.hurufPertama((controller.siswa.value?.nama?.split(' ').length ?? 0) > 1 ? (controller.siswa.value?.nama?.split(' ')[0].length ?? 0) <= 2 ? controller.siswa.value?.nama?.split(' ')[1] ?? "Siswa" : controller.siswa.value?.nama?.split(' ')[0] ?? "Siswa" : controller.siswa.value?.nama ?? "Siswa")}',
+          'Tentang ${AllMaterial.setiapHurufPertama((controller.siswa.value?.nama?.split(' ').length ?? 0) > 1 ? (controller.siswa.value?.nama?.split(' ')[0].length ?? 0) <= 2 ? controller.siswa.value?.nama?.split(' ')[1] ?? "Siswa" : controller.siswa.value?.nama?.split(' ')[0].replaceAll(".", "") ?? "Siswa" : controller.siswa.value?.nama ?? "Siswa")}',
           style: AllMaterial.montSerrat(
             fontWeight: AllMaterial.fontSemiBold,
             color: Colors.black,
@@ -136,11 +136,10 @@ class DetilSiswaGuruView extends GetView<DetilSiswaGuruController> {
               width: Get.width,
               child: ElevatedButton.icon(
                 onPressed: () {
-                  Get.to(() => const HistoriAbsenSiswaGuruView(),
-                      arguments: {
-                        "nama": controller.siswa.value?.nama?.toString(),
-                        "id": controller.siswa.value?.id,
-                      });
+                  Get.to(() => const HistoriAbsenSiswaGuruView(), arguments: {
+                    "nama": controller.siswa.value?.nama?.toString(),
+                    "id": controller.siswa.value?.id,
+                  });
                 },
                 icon: const Icon(
                   Icons.fingerprint,
@@ -170,10 +169,6 @@ class DetilSiswaGuruView extends GetView<DetilSiswaGuruController> {
                   controller.bukaWhatsApp(controller.siswa.value?.noTelepon
                           ?.replaceAll("08", "62") ??
                       "");
-                  // AllMaterial.messageScaffold(
-                  //   title: "Fitur Sedang Digarap, Coming Soon",
-                  //   context: context,
-                  // );
                 },
                 icon: Icon(MdiIcons.whatsapp, color: AllMaterial.colorBlue),
                 label: Text(

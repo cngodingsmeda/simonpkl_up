@@ -39,7 +39,7 @@ class ProfileGuruController extends GetxController {
       profil.value = profileModel;
       isLoading.value = false;
       instansiC.text = profileModel.sekolah!.nama!.toUpperCase();
-      alamatC.text = AllMaterial.setiapHurufPertama(
+      alamatC.text = AllMaterial.formatAlamat(
         '${profileModel.alamat!.detailTempat}, ${profileModel.alamat!.desa}, ${profileModel.alamat!.kecamatan}, ${profileModel.alamat!.kabupaten}, ${profileModel.alamat!.provinsi}',
       );
       noTeleponC.text = profileModel.noTelepon ?? "";

@@ -161,7 +161,7 @@ class LaporanAbsenSiswaGuruView
                               physics: const NeverScrollableScrollPhysics(),
                               itemBuilder: (context, cardIndex) {
                                 return CardWidget(
-                                  tanggal: AllMaterial.setiapHurufPertama(
+                                  tanggal: AllMaterial.setiapNamaHurufPertama(
                                       absen[cardIndex].siswa?.nama ?? ""),
                                   icon: CircleAvatar(
                                     backgroundColor: const Color(0xffF8F8F8),

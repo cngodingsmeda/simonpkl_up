@@ -35,7 +35,7 @@ class DetilSiswaGuruController extends GetxController {
       var detilSiswa = DetilSiswaBimbinganModel.fromJson(data["data"]);
       siswa.value = detilSiswa;
       kelasC.text = detilSiswa.kelas!.nama!.toUpperCase();
-      alamatC.text = AllMaterial.setiapHurufPertama(
+      alamatC.text = AllMaterial.formatAlamat(
         '${detilSiswa.alamat!.detailTempat}, ${detilSiswa.alamat!.desa}, ${detilSiswa.alamat!.kecamatan}, ${detilSiswa.alamat!.kabupaten}, ${detilSiswa.alamat!.provinsi}',
       );
       noTelpC.text = detilSiswa.noTelepon ?? "";

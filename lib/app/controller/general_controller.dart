@@ -24,7 +24,9 @@ class GeneralController extends GetxController {
       );
       print(response.body);
       if (response.statusCode == 200) {
+        Get.reloadAll();
         Get.back();
+
         // ALL
         Get.offAll(() => const LoginPageView());
         AllMaterial.box.erase();
@@ -33,8 +35,7 @@ class GeneralController extends GetxController {
           title: "Logout Berhasil, Sampai Jumpa!",
           context: context,
         );
-
-        // GURU
+        
         // GURU
         final homeGuruController = Get.put(HomeGuruController());
         homeGuruController.indexPage.value = 0;

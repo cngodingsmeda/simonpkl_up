@@ -59,7 +59,7 @@ class SiswaBimbinganGuruView extends GetView<SiswaBimbinganGuruController> {
                         var detilSiswa = Get.put(DetilSiswaGuruController());
                         detilSiswa.getDetilSiswaById(siswa.id ?? 0);
                       },
-                      tanggal: AllMaterial.setiapHurufPertama(siswa.nama),
+                      tanggal: AllMaterial.setiapNamaHurufPertama(siswa.nama),
                       icon: CircleAvatar(
                         onBackgroundImageError: (exception, stackTrace) {
                           const Icon(

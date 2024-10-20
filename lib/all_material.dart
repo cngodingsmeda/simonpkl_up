@@ -250,9 +250,42 @@ abstract class AllMaterial {
     );
   }
 
+  static String formatAlamat(String? text) {
+    if (text == null || text.isEmpty) {
+      return '';
+    }
+
+    return text.split(', ').map((word) {
+      // Memeriksa setiap kata
+      return word.split(' ').map((part) {
+        if (part.length == 3) {
+          return part.toUpperCase();
+        } else if (part.length == 2) {
+          return part.toUpperCase();
+        } else {
+          return part[0].toUpperCase() + part.substring(1).toLowerCase();
+        }
+      }).join(' ');
+    }).join(', ');
+  }
+
   static String setiapHurufPertama(String? text) {
     return text!.split(' ').map((word) {
       if (text != "") {
+        return word[0].toUpperCase() + word.substring(1).toLowerCase();
+      }
+    }).join(' ');
+  }
+
+  static String setiapNamaHurufPertama(String? text) {
+    if (text == null || text.isEmpty) {
+      return '';
+    }
+
+    return text.split(' ').map((word) {
+      if (word.length == 3 || word.length <= 3 && word.contains(".")) {
+        return word.toUpperCase();
+      } else {
         return word[0].toUpperCase() + word.substring(1).toLowerCase();
       }
     }).join(' ');

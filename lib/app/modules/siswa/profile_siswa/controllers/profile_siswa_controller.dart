@@ -46,7 +46,7 @@ class ProfileSiswaController extends GetxController {
       HomepageSiswaController.statusPkl.value = data["data"]["status"];
 
       kelasC.text = profileModel.kelas!.nama.toUpperCase();
-      alamatC.text = AllMaterial.setiapHurufPertama(
+      alamatC.text = AllMaterial.formatAlamat(
         '${profileModel.alamat!.detailTempat}, ${profileModel.alamat!.desa}, ${profileModel.alamat!.kecamatan}, ${profileModel.alamat!.kabupaten}, ${profileModel.alamat!.provinsi}',
       );
       noTeleponC.text = profileModel.noTelepon ?? "";

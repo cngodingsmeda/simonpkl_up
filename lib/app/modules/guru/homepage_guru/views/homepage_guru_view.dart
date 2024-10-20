@@ -21,6 +21,7 @@ class HomepageGuruView extends GetView<HomepageGuruController> {
     var controller = Get.put(HomepageGuruController());
     controller.getSiswaBimbingan();
     controller.getDudiTerkait();
+    controller.getKendalaSiswaCount();
     return Scaffold(
       backgroundColor: AllMaterial.colorWhite,
       body: SafeArea(
@@ -282,7 +283,7 @@ class HomepageGuruView extends GetView<HomepageGuruController> {
                                   Get.put(DetilSiswaGuruController());
                               detilSiswa.getDetilSiswaById(siswa.id ?? 0);
                             },
-                            tanggal: AllMaterial.setiapHurufPertama(siswa.nama),
+                            tanggal: AllMaterial.setiapNamaHurufPertama(siswa.nama),
                             icon: CircleAvatar(
                               backgroundColor: const Color(0xffF8F8F8),
                               backgroundImage: (siswa.fotoProfile != null)

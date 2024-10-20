@@ -166,43 +166,6 @@ class DetilLaporanSiswaView extends GetView<DetilLaporanSiswaControllr> {
                                     ),
                                   ),
                           ),
-                          // ListTile(
-                          //   contentPadding: const EdgeInsets.symmetric(
-                          //     vertical: 0,
-                          //     horizontal: 15,
-                          //   ),
-                          //   title: (LaporanSiswaController.isKendala.isTrue)
-                          //       ? Text(
-                          //           "Deskripsi Kendala:",
-                          //           style: AllMaterial.montSerrat(
-                          //             fontSize: 13,
-                          //           ),
-                          //         )
-                          //       : Text(
-                          //           "Rujukan Kompetensi Dasar:",
-                          //           style: AllMaterial.montSerrat(
-                          //             fontSize: 13,
-                          //           ),
-                          //         ),
-                          //   subtitle: (LaporanSiswaController.isKendala.isTrue)
-                          //       ? Text(
-                          //           AllMaterial.hurufPertama(
-                          //             controller.kendala.value?.deskripsi ??
-                          //                 "Tidak ada data",
-                          //           ),
-                          //         )
-                          //       : Text(
-                          //           AllMaterial.hurufPertama(
-                          //             controller.laporan.value
-                          //                     ?.rujukanKompetensiDasar ??
-                          //                 "Tidak ada data",
-                          //           ),
-                          //           style: AllMaterial.montSerrat(
-                          //             fontSize: 16,
-                          //             fontWeight: AllMaterial.fontBold,
-                          //           ),
-                          //         ),
-                          // ),
                           ListTile(
                             contentPadding: const EdgeInsets.symmetric(
                               vertical: 0,

@@ -19,7 +19,7 @@ class HistoriAbsenSiswaGuruView
         backgroundColor: AllMaterial.colorWhite,
         surfaceTintColor: AllMaterial.colorWhite,
         title: Text(
-          'Absen ${AllMaterial.hurufPertama((arg["nama"].toString().split(' ').length) > 1 ? (arg["nama"].toString().split(' ')[0].length) <= 2 ? arg["nama"].toString().split(' ')[1] : arg["nama"].toString().split(' ')[0] : arg["nama"].toString())}',
+          'Absen ${AllMaterial.setiapHurufPertama((arg["nama"].toString().split(' ').length) > 1 ? (arg["nama"].toString().split(' ')[0].length) <= 2 ? arg["nama"].toString().split(' ')[1] : arg["nama"].toString().split(' ')[0] : arg["nama"].toString())}',
           style: AllMaterial.montSerrat(
             fontWeight: AllMaterial.fontSemiBold,
           ),

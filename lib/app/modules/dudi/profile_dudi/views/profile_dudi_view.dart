@@ -28,7 +28,12 @@ class ProfileDudiView extends GetView<ProfileDudiController> {
             padding: const EdgeInsets.all(16),
             onPressed: () {
               var genController = Get.put(GeneralController());
-              genController.logoutUser(context);
+              AllMaterial.cusDialogValidasi(
+                title: "Logout",
+                subtitle: "Apakah Anda ingin keluar dari akun saat ini?",
+                onConfirm: () => genController.logout(context),
+                onCancel: () => Get.back(),
+              );
             },
             icon: const Icon(
               Icons.logout,
@@ -51,8 +56,14 @@ class ProfileDudiView extends GetView<ProfileDudiController> {
                     width: 100,
                     height: 100,
                     decoration: BoxDecoration(
-                      image: const DecorationImage(
-                        image: AssetImage("assets/images/haqi.png"),
+                      image: DecorationImage(
+                        image: (controller.profil.value?.fotoProfile != null)
+                            ? NetworkImage(controller.profil.value!.fotoProfile
+                                .toString()
+                                .replaceAll("localhost", "10.0.2.2"))
+                            : const AssetImage(
+                                "assets/images/foto-profile.png",
+                              ),
                         fit: BoxFit.cover,
                       ),
                       borderRadius: BorderRadius.circular(500),
@@ -62,23 +73,23 @@ class ProfileDudiView extends GetView<ProfileDudiController> {
                       ),
                       color: AllMaterial.colorBlue,
                     ),
-                    child: IconButton(
-                      tooltip: "Edit Profil",
-                      style: const ButtonStyle(
-                        padding: WidgetStatePropertyAll(EdgeInsets.zero),
-                      ),
-                      onPressed: () {
-                        AllMaterial.messageScaffold(
-                          title: "Fitur Sedang Digarap, Coming Soon",
-                          context: context,
-                        );
-                      },
-                      icon: const Icon(
-                        size: 20,
-                        Icons.edit,
-                        color: AllMaterial.colorWhite,
-                      ),
-                    ),
+                    // child: IconButton(
+                    //   tooltip: "Edit Profil",
+                    //   style: const ButtonStyle(
+                    //     padding: WidgetStatePropertyAll(EdgeInsets.zero),
+                    //   ),
+                    //   onPressed: () {
+                    //     AllMaterial.messageScaffold(
+                    //       title: "Fitur Sedang Digarap, Coming Soon",
+                    //       context: context,
+                    //     );
+                    //   },
+                    //   icon: const Icon(
+                    //     size: 20,
+                    //     Icons.edit,
+                    //     color: AllMaterial.colorWhite,
+                    //   ),
+                    // ),
                   ),
                   const SizedBox(width: 25),
                   Column(
@@ -87,7 +98,9 @@ class ProfileDudiView extends GetView<ProfileDudiController> {
                       FittedBox(
                         fit: BoxFit.scaleDown,
                         child: Text(
-                          "Fauzan Azqa",
+                          AllMaterial.formatNamaPanjang(
+                            controller.profil.value?.nama?.toUpperCase() ?? "",
+                          ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: AllMaterial.montSerrat(
@@ -97,7 +110,7 @@ class ProfileDudiView extends GetView<ProfileDudiController> {
                         ),
                       ),
                       Text(
-                        "Username : haqicuy",
+                        "Username : ${controller.profil.value?.username ?? ""}",
                         style: AllMaterial.montSerrat(
                           fontWeight: AllMaterial.fontRegular,
                         ),
@@ -128,7 +141,7 @@ class ProfileDudiView extends GetView<ProfileDudiController> {
                     ),
                     ProfileWidget(
                       controller: controller,
-                      textController: controller.deskrisiC,
+                      textController: controller.deskripsiC,
                       title: "Deskripsi Instansi:",
                     ),
                     ProfileWidget(

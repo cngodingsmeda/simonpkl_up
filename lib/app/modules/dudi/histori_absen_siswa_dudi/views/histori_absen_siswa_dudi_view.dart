@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:simon_pkl/all_material.dart';
-import 'package:simon_pkl/app/modules/siswa/detil_histori_absen_siswa/views/detil_histori_absen_siswa_view.dart';
+import 'package:simon_pkl/app/modules/dudi/detil_histori_absen_siswa_dudi/controllers/detil_histori_absen_siswa_dudi_controller.dart';
 import 'package:simon_pkl/app/modules/siswa/homepage_siswa/widgets/cards_widget.dart';
 
 import '../controllers/histori_absen_siswa_dudi_controller.dart';
@@ -12,13 +12,14 @@ class HistoriAbsenSiswaDudiView
   @override
   Widget build(BuildContext context) {
     var controller = Get.put(HistoriAbsenSiswaDudiController());
+    var arg = Get.arguments;
     return Scaffold(
       backgroundColor: AllMaterial.colorWhite,
       appBar: AppBar(
         backgroundColor: AllMaterial.colorWhite,
         surfaceTintColor: AllMaterial.colorWhite,
         title: Text(
-          'Absen Aditya',
+          'Absen ${AllMaterial.setiapHurufPertama((arg["nama"].toString().split(' ').length) > 1 ? (arg["nama"].toString().split(' ')[0].length) <= 2 ? arg["nama"].toString().split(' ')[1] : arg["nama"].toString().split(' ')[0] : arg["nama"].toString())}',
           style: AllMaterial.montSerrat(
             fontWeight: AllMaterial.fontSemiBold,
           ),
@@ -30,7 +31,6 @@ class HistoriAbsenSiswaDudiView
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
           child: Column(
             children: [
-              // Chip untuk memilih bulan
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
@@ -70,59 +70,133 @@ class HistoriAbsenSiswaDudiView
                       label: 'Desember',
                       month: 12,
                     ),
+                    const SizedBox(width: 8),
+                    ChoiceChipWidget(
+                      controller: controller,
+                      label: 'Januari',
+                      month: 1,
+                    ),
+                    const SizedBox(width: 8),
+                    ChoiceChipWidget(
+                      controller: controller,
+                      label: 'Februari',
+                      month: 2,
+                    ),
+                    const SizedBox(width: 8),
+                    ChoiceChipWidget(
+                      controller: controller,
+                      label: 'Maret',
+                      month: 3,
+                    ),
+                    const SizedBox(width: 8),
+                    ChoiceChipWidget(
+                      controller: controller,
+                      label: 'April',
+                      month: 4,
+                    ),
+                    const SizedBox(width: 8),
+                    ChoiceChipWidget(
+                      controller: controller,
+                      label: 'Mei',
+                      month: 5,
+                    ),
+                    const SizedBox(width: 8),
+                    ChoiceChipWidget(
+                      controller: controller,
+                      label: 'Juni',
+                      month: 6,
+                    ),
+                    const SizedBox(width: 8),
                   ],
                 ),
               ),
-
               const SizedBox(height: 20),
-
-              // Expanded(
-              //   child: Obx(() {
-              //     if (controller.historiAbsenM.isEmpty) {
-              //       return const Center(child: Text("Tidak ada historiAbsen di bulan ini"));
-              //     }
-              //     return ListView.builder(
-              //       itemCount: controller.historiAbsenM.length,
-              //       itemBuilder: (context, index) {
-              //         final item = controller.historiAbsenM[index];
-              //         return CardWidget(
-              //           tanggal: item.tanggal,
-              //           icon: Icon(
-              //             item.icon,
-              //             color: item.color,
-              //           ),
-              //           keterangan: item.status,
-              //         );
-              //       },
-              //     );
-              //   }),
-              // ),
-
-              //tanpa api
               Expanded(
                 child: Obx(
-                  () => controller.historiAbsen.isNotEmpty
+                  () => (controller.historiAbsenSiswaDudi.value == null ||
+                          controller
+                              .historiAbsenSiswaDudi.value!.data!.isNotEmpty)
                       ? ListView.builder(
-                          itemCount: controller.historiAbsen.length,
+                          itemCount: controller
+                                  .historiAbsenSiswaDudi.value?.data?.length ??
+                              0,
                           itemBuilder: (context, index) {
-                            var item = controller.historiAbsen[index];
+                            var item = controller
+                                .historiAbsenSiswaDudi.value?.data?[index];
+                            var status = item!.status.toString().contains("_")
+                                ? item.status.toString().split("_").join(" ")
+                                : item.status;
                             return CardWidget(
-                              tanggal: item["tanggal"],
+                              tanggal: AllMaterial.ubahTanggal(
+                                  item.tanggal?.toIso8601String() ?? ""),
                               icon: Icon(
-                                item["icon"],
-                                color: item["color"],
+                                controller.iconCard(status!.toLowerCase()),
+                                color:
+                                    controller.iconColor(status.toLowerCase()),
                               ),
-                              onTap: () => Get.to(
-                                  () => const DetilHistoriAbsenSiswaView()),
-                              keterangan: item["status"],
+                              onTap: () {
+                                if (item.status!.contains("tidak")) {
+                                  AllMaterial.messageScaffold(
+                                      title: "Siswa melewatkan Absen Harian!",
+                                      context: context);
+                                } else {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AllMaterial.cusDialog(
+                                        topTitle: "Absen Harian",
+                                        path: "assets/icons/laporan.svg",
+                                        dateTime: AllMaterial.ubahTanggal(
+                                            item.tanggal?.toIso8601String() ??
+                                                ""),
+                                        onTap1: () {
+                                          var absensi = Get.put(
+                                              DetilHistoriAbsenSiswaDudiController());
+                                          absensi.getDetilAbsenById(
+                                            item.id!.toInt(),
+                                            "masuk",
+                                            item.status!,
+                                            item.siswa!.nama!,
+                                          );
+                                        },
+                                        onTap2: () {
+                                          var absensi = Get.put(
+                                              DetilHistoriAbsenSiswaDudiController());
+                                          if (item.statusAbsenPulang == null) {
+                                            Get.back();
+                                            AllMaterial.messageScaffold(
+                                                title:
+                                                    "Absen Pulang tidak ditemukan!",
+                                                context: context);
+                                          } else {
+                                            absensi.getDetilAbsenById(
+                                              item.id!.toInt(),
+                                              "pulang",
+                                              item.status!,
+                                              item.siswa!.nama!,
+                                            );
+                                          }
+                                        },
+                                      );
+                                    },
+                                  );
+                                }
+                              },
+                              keterangan:
+                                  AllMaterial.setiapHurufPertama(status),
                             );
                           },
                         )
-                      : Center(
-                          child: Text(
-                            "Tidak ada histori absen untuk bulan ini",
-                            style: AllMaterial.montSerrat(),
-                          ),
+                      : Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Center(
+                              child: Text(
+                                "Tidak ada histori absen untuk bulan ini",
+                                style: AllMaterial.montSerrat(),
+                              ),
+                            ),
+                          ],
                         ),
                 ),
               ),
@@ -163,6 +237,7 @@ class ChoiceChipWidget extends StatelessWidget {
         onSelected: (bool selected) {
           if (selected) {
             controller.updateHistoriAbsen(month);
+            controller.fetchHistoriAbsen();
           }
         },
         backgroundColor: Colors.grey[200],

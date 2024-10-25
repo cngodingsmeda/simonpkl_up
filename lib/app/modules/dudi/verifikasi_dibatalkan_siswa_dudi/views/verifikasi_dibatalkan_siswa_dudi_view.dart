@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:simon_pkl/all_material.dart';
+import 'package:simon_pkl/app/modules/dudi/profile_dudi/controllers/profile_dudi_controller.dart';
 import 'package:simon_pkl/app/modules/siswa/ajuan_siswa/widgets/clippath_widget.dart';
 
 import '../controllers/verifikasi_dibatalkan_siswa_dudi_controller.dart';
@@ -11,6 +12,9 @@ class VerifikasiDibatalkanSiswaDudiView
   const VerifikasiDibatalkanSiswaDudiView({super.key});
   @override
   Widget build(BuildContext context) {
+    var controller = Get.put(VerifikasiDibatalkanSiswaDudiController());
+    var dudiC = Get.put(ProfileDudiController());
+    var dataDudi = dudiC.profil.value;
     return Scaffold(
       backgroundColor: AllMaterial.colorWhite,
       body: SingleChildScrollView(
@@ -41,12 +45,14 @@ class VerifikasiDibatalkanSiswaDudiView
                         ),
                       ),
                     ),
-                    Text(
-                      "Oleh : Habil Arlian Asrori",
-                      style: AllMaterial.montSerrat(
-                        color: AllMaterial.colorWhite,
-                        fontSize: 15,
-                        fontWeight: AllMaterial.fontRegular,
+                    Obx(
+                      () => Text(
+                        "Oleh : ${controller.detilAjuan.value?.data?.siswa?.nama == null ? "" : AllMaterial.setiapNamaHurufPertama(controller.detilAjuan.value?.data?.siswa?.nama ?? "")}",
+                        style: AllMaterial.montSerrat(
+                          color: AllMaterial.colorWhite,
+                          fontSize: 15,
+                          fontWeight: AllMaterial.fontRegular,
+                        ),
                       ),
                     ),
                   ],
@@ -108,11 +114,20 @@ class VerifikasiDibatalkanSiswaDudiView
                                 fontSize: 13,
                               ),
                             ),
-                            subtitle: Text(
-                              "20 Februari 2024",
-                              style: AllMaterial.montSerrat(
-                                fontSize: 16,
-                                fontWeight: AllMaterial.fontBold,
+                            subtitle: Obx(
+                              () => Text(
+                                controller.detilAjuan.value?.data
+                                            ?.waktuPengajuan ==
+                                        null
+                                    ? ""
+                                    : AllMaterial.ubahHari(controller.detilAjuan
+                                            .value?.data?.waktuPengajuan
+                                            ?.toIso8601String() ??
+                                        ""),
+                                style: AllMaterial.montSerrat(
+                                  fontSize: 16,
+                                  fontWeight: AllMaterial.fontBold,
+                                ),
                               ),
                             ),
                           ),
@@ -128,7 +143,7 @@ class VerifikasiDibatalkanSiswaDudiView
                               ),
                             ),
                             subtitle: Text(
-                              "CV GLOBAL VINTAGE NUMERATION",
+                              dataDudi?.dudi?.namaInstansiPerusahaan ?? "",
                               style: AllMaterial.montSerrat(
                                 fontSize: 16,
                                 fontWeight: AllMaterial.fontBold,
@@ -147,7 +162,7 @@ class VerifikasiDibatalkanSiswaDudiView
                               ),
                             ),
                             subtitle: Text(
-                              "+62 987654321",
+                              dataDudi?.dudi?.noTelepon ?? "",
                               style: AllMaterial.montSerrat(
                                 fontSize: 16,
                                 fontWeight: AllMaterial.fontBold,
@@ -166,7 +181,9 @@ class VerifikasiDibatalkanSiswaDudiView
                               ),
                             ),
                             subtitle: Text(
-                              "Jl. Lorem ipsum, Dolor sit 4",
+                              AllMaterial.formatAlamat(
+                                '${dataDudi?.alamat?.detailTempat}, ${dataDudi?.alamat?.desa}, ${dataDudi?.alamat?.kecamatan}, ${dataDudi?.alamat?.kabupaten}, ${dataDudi?.alamat?.provinsi}',
+                              ),
                               style: AllMaterial.montSerrat(
                                 fontSize: 16,
                                 fontWeight: AllMaterial.fontBold,

@@ -89,11 +89,11 @@ class NotifikasiSiswaView extends GetView<NotifikasiSiswaController> {
                               else
                                 const SizedBox(width: 10),
                               const SizedBox(width: 5),
-                              if (notifikasi.body
+                              if (notifikasi.title
                                   .toLowerCase()
                                   .contains("buruk"))
                                 SvgPicture.asset("assets/icons/silang.svg")
-                              else if (notifikasi.body
+                              else if (notifikasi.title
                                   .toLowerCase()
                                   .contains("informasi"))
                                 SvgPicture.asset("assets/icons/tanda_seru.svg")

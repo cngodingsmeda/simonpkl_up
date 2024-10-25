@@ -81,4 +81,18 @@ abstract class ApiUrl {
       "http://10.0.2.2:2008/guru-pembimbing/laporan-pkl-siswa";
   static var urlGetAllLaporanHarianDudiGuru =
       "http://10.0.2.2:2008/guru-pembimbing/laporan-pkl-dudi";
+
+  // DUDI
+  static var urlGetProfileDudi = "http://10.0.2.2:2008/pembimbingDudi/profile";
+  static var urlGetNotifUnreadDudi =
+      "http://10.0.2.2:2008/pembimbingDudi/notification/unread/count";
+  static var urlGetCountSiswaDudi =
+      "http://10.0.2.2:2008/pembimbingDudi/siswa/get/count";
+  static var urlGetAllPengajuanPKLDudi =
+      "http://10.0.2.2:2008/pembimbingDudi/pengajuan-pkl";
+  static var urlGetAllNotifDudi =
+      "http://10.0.2.2:2008/pembimbingDudi/notification";
+  static var urlGetAllSiswaDudi = "http://10.0.2.2:2008/pembimbingDudi/siswa";
+  static var urlGetAllHistoriAbsenSiswaByIdMonthDudi =
+      "http://10.0.2.2:2008/pembimbingDudi/absen";
 }

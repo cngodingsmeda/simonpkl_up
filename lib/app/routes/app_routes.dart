@@ -62,8 +62,12 @@ abstract class Routes {
   static const DETIL_NOTIFIKASI_GURU = _Paths.DETIL_NOTIFIKASI_GURU;
   static const DETIL_ABSEN_SISWA_GURU = _Paths.DETIL_ABSEN_SISWA_GURU;
   static const LAPORAN_DUDI_GURU = _Paths.LAPORAN_DUDI_GURU;
-  static const DETIL_LAPORAN_SISWA_GURU =_Paths.DETIL_LAPORAN_SISWA_GURU;
-  static const DETIL_LAPORAN_DUDI_GURU =_Paths.DETIL_LAPORAN_DUDI_GURU;
+  static const DETIL_LAPORAN_SISWA_GURU = _Paths.DETIL_LAPORAN_SISWA_GURU;
+  static const DETIL_LAPORAN_DUDI_GURU = _Paths.DETIL_LAPORAN_DUDI_GURU;
+  static const NOTIFIKASI_DUDI = _Paths.NOTIFIKASI_DUDI;
+  static const DETIL_NOTIFIKASI_DUDI = _Paths.DETIL_NOTIFIKASI_DUDI;
+  static const DETIL_HISTORI_ABSEN_SISWA_DUDI =
+      _Paths.DETIL_HISTORI_ABSEN_SISWA_DUDI;
 }
 
 abstract class _Paths {
@@ -121,4 +125,8 @@ abstract class _Paths {
   static const LAPORAN_DUDI_GURU = '/laporan-dudi-guru';
   static const DETIL_LAPORAN_SISWA_GURU = '/detil-laporan-siswa-guru';
   static const DETIL_LAPORAN_DUDI_GURU = '/detil-laporan-dudi-guru';
+  static const NOTIFIKASI_DUDI = '/notifikasi-dudi';
+  static const DETIL_NOTIFIKASI_DUDI = '/detil-notifikasi-dudi';
+  static const DETIL_HISTORI_ABSEN_SISWA_DUDI =
+      '/detil-histori-absen-siswa-dudi';
 }

@@ -145,22 +145,31 @@ class HomeGuruView extends GetView<HomeGuruController> {
   }
 
   Widget _splashWait() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        const Center(
-          child: CircularProgressIndicator(
-            color: AllMaterial.colorBlue,
-          ),
-        ),
-        const SizedBox(height: 15),
-        Text(
-          "Mohon tunggu sebentar...",
-          style: AllMaterial.montSerrat(
-            fontWeight: AllMaterial.fontSemiBold,
-          ),
-        ),
-      ],
+    return FutureBuilder(
+      future: Future.delayed(const Duration(seconds: 15)),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Center(
+                child: CircularProgressIndicator(
+                  color: AllMaterial.colorBlue,
+                ),
+              ),
+              const SizedBox(height: 15),
+              Text(
+                "Mohon tunggu sebentar...",
+                style: AllMaterial.montSerrat(
+                  fontWeight: AllMaterial.fontSemiBold,
+                ),
+              ),
+            ],
+          );
+        } else {
+          return _buildErrorScreen(profCont.statusCode.value);
+        }
+      },
     );
   }
 

@@ -28,8 +28,7 @@ class HomepageSiswaView extends GetView<HomepageSiswaController> {
       controller.getAbsenTigaHari();
     }
 
-    var status = AllMaterial.box.read("statusSiswa");
-    if (status != null || status != "") {
+    if (HomepageSiswaController.statusPkl.value == "menunggu") {
       controller.getLastAjuanPkl();
     }
     controller.getNotifUnread();

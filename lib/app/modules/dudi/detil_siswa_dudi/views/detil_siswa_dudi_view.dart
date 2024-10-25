@@ -19,7 +19,7 @@ class DetilSiswaDudiView extends GetView<DetilSiswaDudiController> {
         surfaceTintColor: AllMaterial.colorWhite,
         elevation: 0,
         title: Text(
-          'Tentang Aditya',
+          'Tentang ${AllMaterial.setiapHurufPertama((controller.siswa.value?.data?.nama?.split(' ').length ?? 0) > 1 ? (controller.siswa.value?.data?.nama?.split(' ')[0].length ?? 0) <= 2 ? controller.siswa.value?.data?.nama?.split(' ')[1] ?? "Siswa" : controller.siswa.value?.data?.nama?.split(' ')[0].replaceAll(".", "") ?? "Siswa" : controller.siswa.value?.data?.nama ?? "Siswa")}',
           style: AllMaterial.montSerrat(
             fontWeight: AllMaterial.fontSemiBold,
             color: Colors.black,
@@ -40,8 +40,17 @@ class DetilSiswaDudiView extends GetView<DetilSiswaDudiController> {
                     width: 100,
                     height: 100,
                     decoration: BoxDecoration(
-                      image: const DecorationImage(
-                        image: AssetImage("assets/images/iyah.jpg"),
+                      image: DecorationImage(
+                        image:
+                            (controller.siswa.value?.data?.fotoProfile != null)
+                                ? NetworkImage(
+                                    controller.siswa.value!.data!.fotoProfile
+                                        .toString()
+                                        .replaceAll("localhost", "10.0.2.2"),
+                                  )
+                                : const AssetImage(
+                                    "assets/images/foto-profile.png",
+                                  ),
                         fit: BoxFit.cover,
                       ),
                       borderRadius: BorderRadius.circular(500),
@@ -53,25 +62,33 @@ class DetilSiswaDudiView extends GetView<DetilSiswaDudiController> {
                     ),
                   ),
                   const SizedBox(width: 20),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Aditya Putra',
-                        style: AllMaterial.montSerrat(
-                          fontWeight: AllMaterial.fontBold,
-                          fontSize: 20,
+                  Flexible(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            AllMaterial.formatNamaPanjang(
+                                controller.siswa.value?.data?.nama ?? ""),
+                            style: AllMaterial.montSerrat(
+                              fontWeight: AllMaterial.fontBold,
+                              fontSize: 20,
+                            ),
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 5),
-                      Text(
-                        'NISN: 21414125125',
-                        style: AllMaterial.montSerrat(
-                          fontWeight: AllMaterial.fontRegular,
-                          color: Colors.grey,
+                        const SizedBox(height: 5),
+                        Text(
+                          'NIS: ${controller.siswa.value?.data?.nis ?? ""}',
+                          style: AllMaterial.montSerrat(
+                            fontWeight: AllMaterial.fontRegular,
+                            color: Colors.grey,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -111,7 +128,11 @@ class DetilSiswaDudiView extends GetView<DetilSiswaDudiController> {
               width: Get.width,
               child: ElevatedButton.icon(
                 onPressed: () {
-                  Get.to(() => const HistoriAbsenSiswaDudiView());
+                  Get.to(() => const HistoriAbsenSiswaDudiView(), arguments: {
+                    "nama": controller.siswa.value?.data?.nama?.toString(),
+                    "id": controller.siswa.value?.data?.id,
+                  });
+                  
                 },
                 icon: const Icon(
                   Icons.fingerprint,
@@ -138,10 +159,10 @@ class DetilSiswaDudiView extends GetView<DetilSiswaDudiController> {
               width: Get.width,
               child: OutlinedButton.icon(
                 onPressed: () {
-                  AllMaterial.messageScaffold(
-                    title: "Fitur Sedang Digarap, Coming Soon",
-                    context: context,
-                  );
+                  controller.bukaWhatsApp(controller
+                          .siswa.value?.data?.noTelepon
+                          ?.replaceAll("08", "62") ??
+                      "");
                 },
                 icon: Icon(MdiIcons.whatsapp, color: AllMaterial.colorBlue),
                 label: Text(

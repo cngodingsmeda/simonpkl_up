@@ -447,12 +447,10 @@ class DetilAbsenSiswaGuruView extends GetView<DetilAbsenSiswaGuruController> {
 
 Widget buildAbsenTile(String jenis, DetilHistoriAbsenModel? absensi,
     DetilAbsenSiswaGuruController controller) {
-  // Mendapatkan keterangan absen berdasarkan jenis
   String? keterangan = jenis.contains("masuk")
       ? absensi?.keteranganAbsenMasuk?.note
       : absensi?.keteranganAbsenPulang?.note;
 
-  // Mendapatkan status dari controller
   String status = controller.getTextStatus(jenis);
   if (status == "Tepat Waktu") {
     return const SizedBox.shrink();
@@ -462,7 +460,6 @@ Widget buildAbsenTile(String jenis, DetilHistoriAbsenModel? absensi,
     return const SizedBox.shrink();
   }
 
-  // Jika status dan keterangan valid, tampilkan ListTile
   return ListTile(
     contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 15),
     title: Text(

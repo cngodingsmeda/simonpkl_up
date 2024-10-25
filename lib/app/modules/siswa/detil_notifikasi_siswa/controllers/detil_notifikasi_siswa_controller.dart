@@ -53,6 +53,7 @@ class DetilNotifikasiSiswaController extends GetxController {
     if (response.statusCode == 200) {
       print("read: $data");
     } else {
+      print(data);
       print("gagal mengirim data");
       throw Exception('Failed to send data');
     }

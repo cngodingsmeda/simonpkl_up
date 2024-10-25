@@ -1,13 +1,15 @@
 // ignore_for_file: deprecated_member_use
 
+import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:simon_pkl/all_material.dart';
 import 'package:simon_pkl/app/modules/dudi/ajuan_pkl_siswa_dudi/views/ajuan_pkl_siswa_dudi_view.dart';
 import 'package:simon_pkl/app/modules/dudi/menunggu_verifikasi_pkl_siswa_dudi/views/menunggu_verifikasi_pkl_siswa_dudi_view.dart';
+import 'package:simon_pkl/app/modules/dudi/notifikasi_dudi/views/notifikasi_dudi_view.dart';
+import 'package:simon_pkl/app/modules/dudi/profile_dudi/controllers/profile_dudi_controller.dart';
 import 'package:simon_pkl/app/modules/dudi/skema_pkl_dudi/views/skema_pkl_dudi_view.dart';
-import 'package:simon_pkl/app/modules/guru/notifikasi_guru/views/notifikasi_guru_view.dart';
 import 'package:simon_pkl/app/modules/siswa/homepage_siswa/widgets/cards_widget.dart';
 
 import '../controllers/homepage_dudi_controller.dart';
@@ -16,6 +18,11 @@ class HomepageDudiView extends GetView<HomepageDudiController> {
   const HomepageDudiView({super.key});
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(HomepageDudiController());
+    final profCont = Get.put(ProfileDudiController());
+    controller.getNotifUnreadDudi();
+    controller.getCountSiswaDudi();
+    controller.getAllPengajuanPKL();
     return Scaffold(
       backgroundColor: AllMaterial.colorWhite,
       body: SafeArea(
@@ -38,26 +45,54 @@ class HomepageDudiView extends GetView<HomepageDudiController> {
                           ),
                         ),
                         Text(
-                          "Username : haqicuy",
+                          "Username : ${profCont.profil.value?.username ?? ""}",
                           style: AllMaterial.montSerrat(
                             fontWeight: AllMaterial.fontRegular,
                           ),
                         ),
                       ],
                     ),
-                    IconButton(
-                      tooltip: "Notifikasi",
-                      style: const ButtonStyle(
-                        backgroundColor:
-                            WidgetStatePropertyAll(AllMaterial.colorBlue),
-                      ),
-                      onPressed: () {
-                        Get.to(() => const NotifikasiGuruView());
-                      },
-                      icon: const Icon(
-                        Icons.notifications,
-                        color: AllMaterial.colorWhite,
-                      ),
+                    Obx(
+                      () => (controller.readCount.value == 0)
+                          ? IconButton(
+                              tooltip: "Notifikasi",
+                              style: const ButtonStyle(
+                                backgroundColor: WidgetStatePropertyAll(
+                                  AllMaterial.colorBlue,
+                                ),
+                              ),
+                              onPressed: () {
+                                Get.to(() => const NotifikasiDudiView());
+                              },
+                              icon: const Icon(
+                                Icons.notifications,
+                                color: AllMaterial.colorWhite,
+                              ),
+                            )
+                          : badges.Badge(
+                              position: badges.BadgePosition.topEnd(),
+                              badgeContent: Text(
+                                controller.readCount.value.toString(),
+                                style: AllMaterial.montSerrat(
+                                  color: AllMaterial.colorWhite,
+                                ),
+                              ),
+                              child: IconButton(
+                                tooltip: "Notifikasi",
+                                style: const ButtonStyle(
+                                  backgroundColor: WidgetStatePropertyAll(
+                                    AllMaterial.colorBlue,
+                                  ),
+                                ),
+                                onPressed: () {
+                                  Get.to(() => const NotifikasiDudiView());
+                                },
+                                icon: const Icon(
+                                  Icons.notifications,
+                                  color: AllMaterial.colorWhite,
+                                ),
+                              ),
+                            ),
                     ),
                   ],
                 ),
@@ -99,11 +134,13 @@ class HomepageDudiView extends GetView<HomepageDudiController> {
                                 ),
                                 const SizedBox(width: 10),
                                 Expanded(
-                                  child: Text(
-                                    "3 Siswa Terikat",
-                                    style: AllMaterial.montSerrat(
-                                      color: AllMaterial.colorWhite,
-                                      fontWeight: AllMaterial.fontMedium,
+                                  child: Obx(
+                                    () => Text(
+                                      "${controller.jumlahSiswa.value} Siswa Terikat",
+                                      style: AllMaterial.montSerrat(
+                                        color: AllMaterial.colorWhite,
+                                        fontWeight: AllMaterial.fontMedium,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -137,11 +174,13 @@ class HomepageDudiView extends GetView<HomepageDudiController> {
                                 ),
                                 const SizedBox(width: 10),
                                 Expanded(
-                                  child: Text(
-                                    "4 Ajuan Menunggu Verifikasi",
-                                    style: AllMaterial.montSerrat(
-                                      color: AllMaterial.colorWhite,
-                                      fontWeight: AllMaterial.fontMedium,
+                                  child: Obx(
+                                    () => Text(
+                                      "${controller.jumlahPengajuanProses.value} Ajuan Menunggu Verifikasi",
+                                      style: AllMaterial.montSerrat(
+                                        color: AllMaterial.colorWhite,
+                                        fontWeight: AllMaterial.fontMedium,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -210,53 +249,68 @@ class HomepageDudiView extends GetView<HomepageDudiController> {
                         ],
                       ),
                     ),
-                    Column(
-                      children: [
-                        CardWidget(
-                          onTap: () => Get.to(
-                            () => const MenungguVerifikasiPklSiswaDudiView(),
-                          ),
-                          tanggal: "Aditya Putra Budiman",
-                          icon: CircleAvatar(
-                            backgroundColor: const Color(0xffF8F8F8),
-                            child: SvgPicture.asset(
-                              "assets/icons/tanda-seru.svg",
-                              color: Colors.yellow,
+                    Obx(() {
+                      if (controller.pengajuanPKL.value == null ||
+                          controller.pengajuanPKL.value!.data!.isEmpty) {
+                        return Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const SizedBox(height: 25),
+                            Center(
+                              child: Text(
+                                "Belum ada siswa bimbingan",
+                                style: AllMaterial.montSerrat(),
+                              ),
                             ),
-                          ),
-                          keterangan: "XI RPL 1",
-                        ),
-                        CardWidget(
-                          onTap: () => Get.to(
-                            () => const MenungguVerifikasiPklSiswaDudiView(),
-                          ),
-                          tanggal: "Gheral Deva Bagus Archana",
-                          icon: CircleAvatar(
-                            backgroundColor: const Color(0xffF8F8F8),
-                            child: SvgPicture.asset(
-                              "assets/icons/tanda-seru.svg",
-                            ),
-                          ),
-                          keterangan: "XI RPL 2",
-                        ),
-                        CardWidget(
-                          onTap: () {
-                            Get.to(
-                              () => const MenungguVerifikasiPklSiswaDudiView(),
+                          ],
+                        );
+                      }
+                      var ajuanList = controller.pengajuanPKL.value!.data!
+                          .where(
+                            (element) => element.status == "proses",
+                          )
+                          .take(3)
+                          .toList();
+                      if (controller.jumlahPengajuanProses.value > 0) {
+                        return ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: ajuanList.length,
+                          itemBuilder: (context, index) {
+                            var ajuan = ajuanList[index];
+                            return CardWidget(
+                              onTap: () => Get.to(
+                                () =>
+                                    const MenungguVerifikasiPklSiswaDudiView(),
+                                arguments: {"id": ajuanList[index].id},
+                              ),
+                              tanggal: AllMaterial.setiapNamaHurufPertama(
+                                  ajuan.siswa?.nama ?? ""),
+                              icon: CircleAvatar(
+                                backgroundColor: const Color(0xffF8F8F8),
+                                child: SvgPicture.asset(
+                                  "assets/icons/tanda-seru.svg",
+                                ),
+                              ),
+                              keterangan: ajuan.siswa?.kelas?.nama ?? "",
                             );
                           },
-                          tanggal: "Fauzan Azka Al-Haqi",
-                          icon: CircleAvatar(
-                            backgroundColor: const Color(0xffF8F8F8),
-                            child: SvgPicture.asset(
-                              "assets/icons/tanda-seru.svg",
+                        );
+                      } else {
+                        return Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const SizedBox(height: 25),
+                            Center(
+                              child: Text(
+                                "Belum ada ajuan pkl",
+                                style: AllMaterial.montSerrat(),
+                              ),
                             ),
-                          ),
-                          keterangan: "XI RPL 3",
-                        ),
-                        const SizedBox(height: 60),
-                      ],
-                    ),
+                          ],
+                        );
+                      }
+                    })
                   ],
                 )
               ],

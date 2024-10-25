@@ -1,9 +1,7 @@
 import 'package:get/get.dart';
 
-import '../modules/guru/detil_laporan_dudi_guru/bindings/detil_laporan_dudi_guru_binding.dart';
-import '../modules/guru/detil_laporan_dudi_guru/views/detil_laporan_dudi_guru_view.dart';
-import '../modules/guru/detil_laporan_siswa_guru/bindings/detil_laporan_siswa_guru_binding.dart';
-import '../modules/guru/detil_laporan_siswa_guru/views/detil_laporan_siswa_guru_view.dart';
+import '../modules/dudi/detil_histori_absen_siswa_dudi/bindings/detil_histori_absen_siswa_dudi_binding.dart';
+import '../modules/dudi/detil_histori_absen_siswa_dudi/views/detil_histori_absen_siswa_dudi_view.dart';
 import '../modules/dudi/ajuan_pkl_siswa_dudi/bindings/ajuan_pkl_siswa_dudi_binding.dart';
 import '../modules/dudi/ajuan_pkl_siswa_dudi/views/ajuan_pkl_siswa_dudi_view.dart';
 import '../modules/dudi/buat_form_pkl_dudi/bindings/buat_form_pkl_dudi_binding.dart';
@@ -14,6 +12,8 @@ import '../modules/dudi/data_siswa_dudi/bindings/data_siswa_dudi_binding.dart';
 import '../modules/dudi/data_siswa_dudi/views/data_siswa_dudi_view.dart';
 import '../modules/dudi/detil_laporan_pkl_dudi/bindings/detil_laporan_pkl_dudi_binding.dart';
 import '../modules/dudi/detil_laporan_pkl_dudi/views/detil_laporan_pkl_dudi_view.dart';
+import '../modules/dudi/detil_notifikasi_dudi/bindings/detil_notifikasi_dudi_binding.dart';
+import '../modules/dudi/detil_notifikasi_dudi/views/detil_notifikasi_dudi_view.dart';
 import '../modules/dudi/detil_siswa_dudi/bindings/detil_siswa_dudi_binding.dart';
 import '../modules/dudi/detil_siswa_dudi/views/detil_siswa_dudi_view.dart';
 import '../modules/dudi/histori_absen_siswa_dudi/bindings/histori_absen_siswa_dudi_binding.dart';
@@ -26,6 +26,8 @@ import '../modules/dudi/laporan_pkl_dudi/bindings/laporan_pkl_dudi_binding.dart'
 import '../modules/dudi/laporan_pkl_dudi/views/laporan_pkl_dudi_view.dart';
 import '../modules/dudi/menunggu_verifikasi_pkl_siswa_dudi/bindings/menunggu_verifikasi_pkl_siswa_dudi_binding.dart';
 import '../modules/dudi/menunggu_verifikasi_pkl_siswa_dudi/views/menunggu_verifikasi_pkl_siswa_dudi_view.dart';
+import '../modules/dudi/notifikasi_dudi/bindings/notifikasi_dudi_binding.dart';
+import '../modules/dudi/notifikasi_dudi/views/notifikasi_dudi_view.dart';
 import '../modules/dudi/profile_dudi/bindings/profile_dudi_binding.dart';
 import '../modules/dudi/profile_dudi/views/profile_dudi_view.dart';
 import '../modules/dudi/skema_pkl_dudi/bindings/skema_pkl_dudi_binding.dart';
@@ -36,8 +38,10 @@ import '../modules/dudi/verifikasi_selesai_pkl_siswa_dudi/bindings/verifikasi_se
 import '../modules/dudi/verifikasi_selesai_pkl_siswa_dudi/views/verifikasi_selesai_pkl_siswa_dudi_view.dart';
 import '../modules/guru/detil_absen_siswa_guru/bindings/detil_absen_siswa_guru_binding.dart';
 import '../modules/guru/detil_absen_siswa_guru/views/detil_absen_siswa_guru_view.dart';
-import '../modules/guru/detil_laporan_guru/bindings/detil_laporan_guru_binding.dart';
-import '../modules/guru/detil_laporan_guru/views/detil_laporan_guru_view.dart';
+import '../modules/guru/detil_laporan_dudi_guru/bindings/detil_laporan_dudi_guru_binding.dart';
+import '../modules/guru/detil_laporan_dudi_guru/views/detil_laporan_dudi_guru_view.dart';
+import '../modules/guru/detil_laporan_siswa_guru/bindings/detil_laporan_siswa_guru_binding.dart';
+import '../modules/guru/detil_laporan_siswa_guru/views/detil_laporan_siswa_guru_view.dart';
 import '../modules/guru/detil_siswa_guru/bindings/detil_siswa_guru_binding.dart';
 import '../modules/guru/detil_siswa_guru/views/detil_siswa_guru_view.dart';
 import '../modules/guru/histori_absen_siswa_guru/bindings/histori_absen_siswa_guru_binding.dart';
@@ -227,11 +231,6 @@ class AppPages {
       binding: MonitoringGuruBinding(),
     ),
     GetPage(
-      name: _Paths.DETIL_LAPORAN_GURU,
-      page: () => const DetilLaporanGuruView(),
-      binding: DetilLaporanGuruBinding(),
-    ),
-    GetPage(
       name: _Paths.HOME_DUDI,
       page: () => HomeDudiView(),
       binding: HomeDudiBinding(),
@@ -330,6 +329,21 @@ class AppPages {
       name: _Paths.DETIL_LAPORAN_DUDI_GURU,
       page: () => const DetilLaporanDudiGuruView(),
       binding: DetilLaporanDudiGuruBinding(),
+    ),
+    GetPage(
+      name: _Paths.NOTIFIKASI_DUDI,
+      page: () => const NotifikasiDudiView(),
+      binding: NotifikasiDudiBinding(),
+    ),
+    GetPage(
+      name: _Paths.DETIL_NOTIFIKASI_DUDI,
+      page: () => const DetilNotifikasiDudiView(),
+      binding: DetilNotifikasiDudiBinding(),
+    ),
+    GetPage(
+      name: _Paths.DETIL_HISTORI_ABSEN_SISWA_DUDI,
+      page: () => const DetilHistoriAbsenSiswaDudiView(),
+      binding: DetilHistoriAbsenSiswaDudiBinding(),
     ),
   ];
 }

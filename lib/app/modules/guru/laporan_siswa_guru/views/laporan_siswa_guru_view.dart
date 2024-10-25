@@ -21,7 +21,6 @@ class LaporanSiswaGuruView extends GetView<LaporanSiswaGuruController> {
     bool isKendala = AllMaterial.box.read("isKendala") ?? false;
     var role = Get.arguments;
     final controller = Get.put(LaporanSiswaGuruController());
-
     return Scaffold(
       backgroundColor: AllMaterial.colorWhite,
       appBar: AppBar(

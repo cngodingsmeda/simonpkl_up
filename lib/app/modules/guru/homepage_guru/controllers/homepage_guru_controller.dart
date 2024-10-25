@@ -98,7 +98,7 @@ class HomepageGuruController extends GetxController {
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
       print(data);
-      readCount.value = data["count"] ?? 0;
+      readCount.value = data["data"]["count"] ?? 0;
       update();
     } else {
       print("Gagal mengirim data");

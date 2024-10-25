@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:simon_pkl/all_material.dart';
 import 'package:simon_pkl/app/modules/dudi/buat_form_pkl_dudi/views/buat_form_pkl_dudi_view.dart';
 import 'package:simon_pkl/app/modules/dudi/laporan_pkl_dudi/views/laporan_pkl_dudi_view.dart';
+import 'package:simon_pkl/app/modules/dudi/profile_dudi/controllers/profile_dudi_controller.dart';
 
 import '../controllers/skema_pkl_dudi_controller.dart';
 
@@ -11,6 +12,7 @@ class SkemaPklDudiView extends GetView<SkemaPklDudiController> {
   const SkemaPklDudiView({super.key});
   @override
   Widget build(BuildContext context) {
+    final profController = Get.put(ProfileDudiController());
     return Scaffold(
       backgroundColor: AllMaterial.colorWhite,
       body: SingleChildScrollView(
@@ -31,8 +33,7 @@ class SkemaPklDudiView extends GetView<SkemaPklDudiController> {
                 children: [
                   FittedBox(
                     child: Text(
-                      // instansi.nama,
-                      "Skema PKL SMKN 2 Mataram",
+                      "Skema PKL ${AllMaterial.formatNamaPanjang(profController.profil.value?.dudi?.namaInstansiPerusahaan ?? "")}",
                       style: AllMaterial.montSerrat(
                         fontWeight: AllMaterial.fontBold,
                         fontSize: 18,
@@ -47,7 +48,7 @@ class SkemaPklDudiView extends GetView<SkemaPklDudiController> {
                       child: FittedBox(
                         fit: BoxFit.scaleDown,
                         child: Text(
-                          "Pembimbing Dudi : Fauzan Azqa S.Kom",
+                          "Pembimbing Dudi : ${AllMaterial.setiapNamaHurufPertama(profController.profil.value?.nama ?? "")}",
                           style: AllMaterial.montSerrat(
                             fontWeight: AllMaterial.fontSemiBold,
                             color: AllMaterial.colorWhite,

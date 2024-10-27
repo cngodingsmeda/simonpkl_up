@@ -3,6 +3,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:simon_pkl/all_material.dart';
 import 'package:simon_pkl/app/modules/dudi/buat_form_pkl_dudi/views/buat_form_pkl_dudi_view.dart';
+import 'package:simon_pkl/app/modules/dudi/laporan_kendala_dudi/views/laporan_kendala_dudi_view.dart';
+import 'package:simon_pkl/app/modules/dudi/laporan_pkl_dudi/controllers/laporan_pkl_dudi_controller.dart';
 import 'package:simon_pkl/app/modules/dudi/laporan_pkl_dudi/views/laporan_pkl_dudi_view.dart';
 import 'package:simon_pkl/app/modules/dudi/profile_dudi/controllers/profile_dudi_controller.dart';
 
@@ -114,7 +116,7 @@ class SkemaPklDudiView extends GetView<SkemaPklDudiController> {
                           Get.to(
                             () => const LaporanPklDudiView(),
                           );
-                          AllMaterial.box.write("isKendala", false);
+                          LaporanPklDudiController.isKendala.value = false;
                         },
                       ),
                       const SizedBox(width: 12),
@@ -123,9 +125,9 @@ class SkemaPklDudiView extends GetView<SkemaPklDudiController> {
                         svg: "assets/icons/kendala-toa.svg",
                         tekan: () {
                           Get.to(
-                            () => const LaporanPklDudiView(),
+                            () => const LaporanKendalaDudiView(),
                           );
-                          AllMaterial.box.write("isKendala", true);
+                          LaporanPklDudiController.isKendala.value = true;
                         },
                       ),
                     ],

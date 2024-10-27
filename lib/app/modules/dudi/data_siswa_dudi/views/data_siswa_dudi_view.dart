@@ -12,7 +12,7 @@ class DataSiswaDudiView extends GetView<DataSiswaDudiController> {
   const DataSiswaDudiView({super.key});
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(DataSiswaDudiController());
+    Get.put(DataSiswaDudiController());
     final homeC = Get.put(HomepageDudiController());
     return Scaffold(
       backgroundColor: AllMaterial.colorWhite,
@@ -31,12 +31,13 @@ class DataSiswaDudiView extends GetView<DataSiswaDudiController> {
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Obx(
           () {
-            if (controller.allSiswa.value != null) {
-              if (controller.allSiswa.value!.data!.isNotEmpty) {
+            if (DataSiswaDudiController.allSiswa.value != null) {
+              if (DataSiswaDudiController.allSiswa.value!.data!.isNotEmpty) {
                 return ListView.builder(
                   itemCount: homeC.jumlahSiswa.value,
                   itemBuilder: (context, index) {
-                    var siswa = controller.allSiswa.value?.data?[index];
+                    var siswa =
+                        DataSiswaDudiController.allSiswa.value?.data?[index];
                     return CardWidget(
                       onTap: () {
                         var detilSiswa = Get.put(DetilSiswaDudiController());

@@ -1,18 +1,19 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:open_file/open_file.dart';
+import 'package:http/http.dart' as http;
 import 'package:simon_pkl/all_material.dart';
+import 'package:simon_pkl/app/data/api_url.dart';
+import 'package:simon_pkl/app/modules/dudi/laporan_kendala_dudi/controllers/laporan_kendala_dudi_controller.dart';
+import 'package:simon_pkl/app/modules/dudi/laporan_pkl_dudi/controllers/laporan_pkl_dudi_controller.dart';
 
 class BuatLaporanPklDudiController extends GetxController {
-  List<String> topikList = [
-    "Gheral Deva Bagus Archana",
-    "Habil Arlian Asrori",
-    "Aditya Putra Budiman",
-  ];
-  String selectedTopik = '';
+  var selectedSiswaId = "".obs;
 
   var inputC = TextEditingController();
   var topikC = TextEditingController();
@@ -22,6 +23,9 @@ class BuatLaporanPklDudiController extends GetxController {
   var namaF = FocusNode();
   var alasanIzin = ''.obs;
   var selectedFile = Rx<File?>(null);
+  var inputAtas = "".obs;
+  var inputBawah = "".obs;
+  var token = AllMaterial.box.read("token");
 
   Future<void> pickDocument() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
@@ -38,6 +42,161 @@ class BuatLaporanPklDudiController extends GetxController {
     }
   }
 
+  Future<void> postLaporanHarianDudi(BuildContext context) async {
+    final response = await http.post(
+      Uri.parse(ApiUrl.urlPostLaporanHarianDudi),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer $token",
+      },
+      body: jsonEncode(
+        {
+          "tanggal": DateFormat('yyyy-MM-dd').format(DateTime.now()),
+          "topik_pekerjaan": topikC.text,
+          "rujukan_kompetensi_dasar": inputC.text
+        },
+      ),
+    );
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body);
+      var id = data["data"]["id"];
+      if (selectedFile.value != null) {
+        putDokumenLaporan(selectedFile.value!, id, context);
+      }
+      if (LaporanPklDudiController.isKendala.isFalse) {
+        final c = Get.put(LaporanPklDudiController());
+        c.getAllLaporanHarianDudi();
+      } else {
+        final c = Get.put(LaporanKendalaDudiController());
+        c.getAllLaporanKendalaDudi();
+      }
+      Get.back();
+      inputC.text = "";
+      topikC.text = "";
+      selectedFile.value = null;
+      AllMaterial.messageScaffold(
+        title: AllMaterial.hurufPertama("Laporan berhasil dibuat!"),
+        context: context,
+      );
+      print("postLaporanHarianDudi: $data");
+      update();
+    } else {
+      print("gagal mengirim data");
+      throw Exception('Failed to send data');
+    }
+  }
+
+  Future<void> postLaporanKendalaDudi(BuildContext context) async {
+    final response = await http.post(
+      Uri.parse(ApiUrl.urlPostLaporanKendalaDudi),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer $token",
+      },
+      body: jsonEncode(
+        {
+          "tanggal": DateFormat('yyyy-MM-dd').format(DateTime.now()),
+          "id_siswa": int.parse(selectedSiswaId.value),
+          "kendala": inputC.text,
+          "deskripsi": topikC.text,
+        },
+      ),
+    );
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body);
+      var id = data["data"]["id"];
+      if (selectedFile.value != null) {
+        putDokumenLaporan(selectedFile.value!, id, context);
+      }
+      Get.back();
+      if (LaporanPklDudiController.isKendala.isFalse) {
+        final c = Get.put(LaporanPklDudiController());
+        c.getAllLaporanHarianDudi();
+      } else {
+        final c = Get.put(LaporanKendalaDudiController());
+        c.getAllLaporanKendalaDudi();
+      }
+      inputC.text = "";
+      topikC.text = "";
+      selectedFile.value = null;
+      AllMaterial.messageScaffold(
+        title: AllMaterial.hurufPertama("Laporan kendala berhasil dibuat!"),
+        context: context,
+      );
+      print("postLaporanKendalaDudi: $data");
+      update();
+    } else {
+      print("gagal mengirim data");
+      throw Exception('Failed to send data');
+    }
+  }
+
+  Future<void> putDokumenLaporan(
+      File? file, int id, BuildContext context) async {
+    if (file == null) {
+      AllMaterial.messageScaffold(
+        title: AllMaterial.hurufPertama("File tidak ditemukan!"),
+        context: context,
+      );
+      return;
+    }
+
+    try {
+      final uri = Uri.parse(
+          "${(LaporanPklDudiController.isKendala.isTrue) ? ApiUrl.urlPutFileLaporanKendalaDudi : ApiUrl.urlPutFileLaporanHarianDudi}/$id");
+      final request = http.MultipartRequest('PUT', uri);
+
+      // Header authorization
+      request.headers.addAll({
+        "Authorization": "Bearer $token",
+      });
+
+      // Menambahkan file sebagai multipart
+      final fileStream = http.MultipartFile.fromBytes(
+        'file',
+        await file.readAsBytes(),
+        filename: file.path.split('/').last,
+      );
+      request.files.add(fileStream);
+
+      // Mengirim request dan mendapatkan StreamedResponse
+      final streamedResponse = await request.send();
+
+      // Mengubah StreamedResponse menjadi Response agar bisa dibaca
+      final response = await http.Response.fromStream(streamedResponse);
+
+      // Mengecek isi body response
+      if (response.statusCode == 200) {
+        if (LaporanPklDudiController.isKendala.isFalse) {
+          final c = Get.put(LaporanPklDudiController());
+          c.getAllLaporanHarianDudi();
+        } else {
+          final c = Get.put(LaporanKendalaDudiController());
+          c.getAllLaporanKendalaDudi();
+        }
+        AllMaterial.messageScaffold(
+          title: AllMaterial.hurufPertama("Laporan berhasil dibuat!"),
+          context: context,
+        );
+        Get.back();
+        inputC.text = "";
+        topikC.text = "";
+      } else {
+        print("Error Response: ${response.body}");
+        AllMaterial.messageScaffold(
+          title: AllMaterial.hurufPertama("Gagal, coba lagi nanti!"),
+          context: context,
+        );
+      }
+    } catch (e) {
+      print("Exception: $e");
+      AllMaterial.messageScaffold(
+        title: AllMaterial.hurufPertama("Terjadi kesalahan, coba lagi nanti!"),
+        context: context,
+      );
+    }
+  }
+
   void openFile(File file) async {
     await OpenFile.open(file.path);
   }
@@ -47,6 +206,7 @@ class BuatLaporanPklDudiController extends GetxController {
     inputC.text = "";
     topikC.text = "";
     namaC.text = "";
+    selectedFile.value = null;
     super.onClose();
   }
 }

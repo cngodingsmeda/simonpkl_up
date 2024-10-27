@@ -7,7 +7,7 @@ import 'package:simon_pkl/app/data/api_url.dart';
 import 'package:simon_pkl/app/model/model_dudi/data_siswa_dudi_model.dart';
 
 class DataSiswaDudiController extends GetxController {
-  var allSiswa = Rxn<DataSiswaDudiModel>();
+  static var allSiswa = Rxn<DataSiswaDudiModel>();
   var token = AllMaterial.box.read("token");
 
   @override
@@ -29,8 +29,8 @@ class DataSiswaDudiController extends GetxController {
       if (response.statusCode == 200) {
         var data = jsonDecode(response.body);
         print(data);
-
-        allSiswa.value = DataSiswaDudiModel.fromJson(data);
+        var siswa = DataSiswaDudiModel.fromJson(data);
+        allSiswa.value = siswa;
         update();
       } else {
         print("Failed to load notifications");

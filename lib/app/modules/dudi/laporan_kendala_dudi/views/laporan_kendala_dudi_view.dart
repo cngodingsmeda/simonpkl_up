@@ -1,27 +1,37 @@
-// ignore_for_file: deprecated_member_use
-
 import 'package:flutter/material.dart';
+
 import 'package:get/get.dart';
 import 'package:simon_pkl/all_material.dart';
 import 'package:simon_pkl/app/modules/dudi/buat_laporan_pkl_dudi/views/buat_laporan_pkl_dudi_view.dart';
+import 'package:simon_pkl/app/modules/dudi/laporan_pkl_dudi/controllers/laporan_pkl_dudi_controller.dart';
 import 'package:simon_pkl/app/modules/siswa/homepage_siswa/widgets/cards_widget.dart';
 
-import '../controllers/laporan_pkl_dudi_controller.dart';
+import '../controllers/laporan_kendala_dudi_controller.dart';
 
-class LaporanPklDudiView extends GetView<LaporanPklDudiController> {
-  const LaporanPklDudiView({super.key});
+class LaporanKendalaDudiView extends GetView<LaporanKendalaDudiController> {
+  const LaporanKendalaDudiView({super.key});
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(LaporanPklDudiController());
-    controller.getAllLaporanHarianDudi();
-
+    final laporanSiswaC = Get.put(LaporanPklDudiController());
+    final controller = Get.put(LaporanKendalaDudiController());
+    controller.getAllLaporanKendalaDudi();
     return Scaffold(
       backgroundColor: AllMaterial.colorWhite,
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            Get.back();
+            LaporanPklDudiController.isKendala.value = false;
+            laporanSiswaC.getAllLaporanHarianDudi();
+          },
+          icon: const Icon(
+            Icons.arrow_back,
+          ),
+        ),
         backgroundColor: AllMaterial.colorWhite,
         surfaceTintColor: AllMaterial.colorWhite,
         title: Text(
-          'Laporan Saya',
+          'Kendala Saya',
           style: AllMaterial.montSerrat(
             fontWeight: AllMaterial.fontSemiBold,
           ),
@@ -35,13 +45,13 @@ class LaporanPklDudiView extends GetView<LaporanPklDudiController> {
             children: [
               Expanded(
                 child: Obx(() {
-                  final laporanHarian = controller.laporanHarian.value;
+                  final laporanHarian = controller.laporanKendala.value;
                   if (laporanHarian == null ||
                       laporanHarian.data == null ||
                       laporanHarian.data!.isEmpty) {
                     return Center(
                       child: Text(
-                        "Tidak ada laporan harian",
+                        "Tidak ada laporan kendala",
                         style: AllMaterial.montSerrat(),
                       ),
                     );
@@ -59,13 +69,13 @@ class LaporanPklDudiView extends GetView<LaporanPklDudiController> {
                           subtitle: "Apakah anda yakin?",
                           onCancel: () => Get.back(),
                           onConfirm: () {
-                            controller.deleteLaporanSiswa(item.id!, context);
+                            controller.deleteLaporanDudi(item.id!, context);
                             reversedData.removeAt(index);
-                            controller.laporanHarian.refresh();
+                            controller.laporanKendala.refresh();
                           },
                         ),
                         onTap: () {
-                          controller.getLaporanHarianByIdDudi(
+                          controller.getLaporanKendalaByIdDudi(
                             item.id != null ? item.id!.toInt() : 0,
                           );
                         },
@@ -73,11 +83,11 @@ class LaporanPklDudiView extends GetView<LaporanPklDudiController> {
                           item.tanggal!.toIso8601String(),
                         ),
                         icon: const Icon(
-                          Icons.check_circle,
-                          color: Colors.green,
+                          Icons.info_sharp,
+                          color: Colors.yellow,
                         ),
                         keterangan: AllMaterial.setiapHurufPertama(
-                          item.topikPekerjaan.toString(),
+                          item.kendala.toString(),
                         ),
                       );
                     },
@@ -91,7 +101,7 @@ class LaporanPklDudiView extends GetView<LaporanPklDudiController> {
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: FloatingActionButton(
         elevation: 2,
-        tooltip: "Buat Laporan Harian",
+        tooltip: "Buat Laporan Kendala",
         backgroundColor: AllMaterial.colorBlue,
         child: const Icon(
           Icons.add,

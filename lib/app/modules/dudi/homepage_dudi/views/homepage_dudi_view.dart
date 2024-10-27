@@ -4,6 +4,7 @@ import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:simon_pkl/all_material.dart';
 import 'package:simon_pkl/app/modules/dudi/ajuan_pkl_siswa_dudi/views/ajuan_pkl_siswa_dudi_view.dart';
 import 'package:simon_pkl/app/modules/dudi/menunggu_verifikasi_pkl_siswa_dudi/views/menunggu_verifikasi_pkl_siswa_dudi_view.dart';
@@ -23,6 +24,7 @@ class HomepageDudiView extends GetView<HomepageDudiController> {
     controller.getNotifUnreadDudi();
     controller.getCountSiswaDudi();
     controller.getAllPengajuanPKL();
+    controller.getCountKuotaDudi();
     return Scaffold(
       backgroundColor: AllMaterial.colorWhite,
       body: SafeArea(
@@ -112,7 +114,7 @@ class HomepageDudiView extends GetView<HomepageDudiController> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Tentang PKL",
+                        "Skema PKL",
                         style: AllMaterial.montSerrat(
                           color: AllMaterial.colorWhite,
                           fontWeight: AllMaterial.fontSemiBold,
@@ -129,14 +131,14 @@ class HomepageDudiView extends GetView<HomepageDudiController> {
                             Row(
                               children: [
                                 const Icon(
-                                  Icons.person_2_outlined,
+                                  Icons.person,
                                   color: AllMaterial.colorWhite,
                                 ),
                                 const SizedBox(width: 10),
                                 Expanded(
                                   child: Obx(
                                     () => Text(
-                                      "${controller.jumlahSiswa.value} Siswa Terikat",
+                                      "${controller.jumlahSiswa.value} Siswa PKL",
                                       style: AllMaterial.montSerrat(
                                         color: AllMaterial.colorWhite,
                                         fontWeight: AllMaterial.fontMedium,
@@ -149,17 +151,19 @@ class HomepageDudiView extends GetView<HomepageDudiController> {
                             const SizedBox(height: 10),
                             Row(
                               children: [
-                                const Icon(
-                                  Icons.cases_outlined,
+                                Icon(
+                                  MdiIcons.genderMale,
                                   color: AllMaterial.colorWhite,
                                 ),
                                 const SizedBox(width: 10),
                                 Expanded(
-                                  child: Text(
-                                    "3 Guru Pembimbing Terikat",
-                                    style: AllMaterial.montSerrat(
-                                      color: AllMaterial.colorWhite,
-                                      fontWeight: AllMaterial.fontMedium,
+                                  child: Obx(
+                                    () => Text(
+                                      "${controller.kuotaSiswaLakiLaki.value} Jumlah Kuota Laki-Laki",
+                                      style: AllMaterial.montSerrat(
+                                        color: AllMaterial.colorWhite,
+                                        fontWeight: AllMaterial.fontMedium,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -168,15 +172,15 @@ class HomepageDudiView extends GetView<HomepageDudiController> {
                             const SizedBox(height: 10),
                             Row(
                               children: [
-                                const Icon(
-                                  Icons.running_with_errors_sharp,
+                                Icon(
+                                  MdiIcons.genderFemale,
                                   color: AllMaterial.colorWhite,
                                 ),
                                 const SizedBox(width: 10),
                                 Expanded(
                                   child: Obx(
                                     () => Text(
-                                      "${controller.jumlahPengajuanProses.value} Ajuan Menunggu Verifikasi",
+                                      "${controller.kuotaSiswaPerempuan.value} Jumlah Kuota Perempuan",
                                       style: AllMaterial.montSerrat(
                                         color: AllMaterial.colorWhite,
                                         fontWeight: AllMaterial.fontMedium,

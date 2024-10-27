@@ -10,6 +10,8 @@ class HomepageDudiController extends GetxController {
   var readCount = 0.obs;
   var jumlahSiswa = 0.obs;
   var jumlahPengajuanProses = 0.obs;
+  var kuotaSiswaLakiLaki = 0.obs;
+  var kuotaSiswaPerempuan = 0.obs;
   var pengajuanPKL = Rxn<AllPengajuanPklSiswaDudiModel?>();
 
   Future<void> getNotifUnreadDudi() async {
@@ -49,8 +51,35 @@ class HomepageDudiController extends GetxController {
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
       print(data);
-      jumlahSiswa.value = data["data"]["countSiswa"] ?? 0;
+      if (data != null) {
+        jumlahSiswa.value = data["data"]["countSiswa"] ?? 0;
+      }
       update();
+    } else {
+      print("Gagal mengirim data");
+      throw Exception('Failed to fetch data');
+    }
+  }
+
+  Future<void> getCountKuotaDudi() async {
+    var token = AllMaterial.box.read("token");
+
+    final response = await http.get(
+      Uri.parse(ApiUrl.urlGetCountKuotaSiswaDudi),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer $token",
+      },
+    );
+
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body);
+      print(data);
+      if (data != null) {
+        kuotaSiswaLakiLaki.value = data["data"]["kuota"]["jumlah_pria"] ?? 0;
+        kuotaSiswaPerempuan.value = data["data"]["kuota"]["jumlah_wanita"] ?? 0;
+        update();
+      }
     } else {
       print("Gagal mengirim data");
       throw Exception('Failed to fetch data');

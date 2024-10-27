@@ -1,26 +1,23 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 import 'package:simon_pkl/all_material.dart';
 import 'package:simon_pkl/app/data/api_url.dart';
-import 'package:simon_pkl/app/model/model_dudi/laporan_harian_pkl_dudi_model.dart';
+import 'package:simon_pkl/app/model/model_dudi/laporan_kendala_dudi_model.dart';
 import 'package:simon_pkl/app/modules/dudi/detil_laporan_pkl_dudi/views/detil_laporan_pkl_dudi_view.dart';
-import 'package:simon_pkl/app/modules/dudi/laporan_kendala_dudi/controllers/laporan_kendala_dudi_controller.dart';
+import 'package:simon_pkl/app/modules/dudi/laporan_pkl_dudi/controllers/laporan_pkl_dudi_controller.dart';
 
-class LaporanPklDudiController extends GetxController {
-  static var isKendala = false.obs;
-  var laporanHarian = Rxn<LaporanHarianDudiModel>();
+class LaporanKendalaDudiController extends GetxController {
+  var laporanKendala = Rxn<LaporanKendalaDudiModel>();
   var token = AllMaterial.box.read("token");
 
-  Future<void> getAllLaporanHarianDudi() async {
+  Future<void> getAllLaporanKendalaDudi() async {
     print("dijalankan");
     try {
       final response = await http.get(
-        Uri.parse(ApiUrl.urlGetAllLaporanHarianDudi),
+        Uri.parse(ApiUrl.urlGetAllLaporanKendalaDudi),
         headers: {
           "Content-Type": "application/json",
           "Authorization": "Bearer $token",
@@ -29,7 +26,7 @@ class LaporanPklDudiController extends GetxController {
       if (response.statusCode == 200) {
         var data = jsonDecode(response.body);
         print(data);
-        laporanHarian.value = LaporanHarianDudiModel.fromJson(data);
+        laporanKendala.value = LaporanKendalaDudiModel.fromJson(data);
         update();
       } else {
         print("Failed to load report");
@@ -39,10 +36,11 @@ class LaporanPklDudiController extends GetxController {
     }
   }
 
-  Future<void> deleteLaporanSiswa(int id, BuildContext context) async {
+  Future<void> deleteLaporanDudi(int id, BuildContext context) async {
     try {
       final response = await http.delete(
-        Uri.parse("${ApiUrl.urlGetAllLaporanHarianDudi}/$id"),
+        Uri.parse(
+            "${(LaporanPklDudiController.isKendala.isTrue) ? ApiUrl.urlGetAllLaporanKendalaDudi : ApiUrl.urlGetAllLaporanHarianDudi}/$id"),
         headers: {
           "Content-Type": "application/json",
           "Authorization": "Bearer $token",
@@ -51,10 +49,10 @@ class LaporanPklDudiController extends GetxController {
       if (response.statusCode == 200) {
         Get.back();
         if (LaporanPklDudiController.isKendala.isFalse) {
-          getAllLaporanHarianDudi();
+          final c = Get.put(LaporanPklDudiController());
+          c.getAllLaporanHarianDudi();
         } else {
-          final c = Get.put(LaporanKendalaDudiController());
-          c.getAllLaporanKendalaDudi();
+          getAllLaporanKendalaDudi();
         }
         AllMaterial.messageScaffold(
           title: AllMaterial.hurufPertama("Laporan berhasil dihapus!"),
@@ -69,11 +67,11 @@ class LaporanPklDudiController extends GetxController {
     }
   }
 
-  Future<void> getLaporanHarianByIdDudi(int id) async {
+  Future<void> getLaporanKendalaByIdDudi(int id) async {
     print("by id dijalankan");
     try {
       final response = await http.get(
-        Uri.parse("${ApiUrl.urlGetAllLaporanHarianDudi}/$id"),
+        Uri.parse("${ApiUrl.urlGetAllLaporanKendalaDudi}/$id"),
         headers: {
           "Content-Type": "application/json",
           "Authorization": "Bearer $token",

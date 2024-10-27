@@ -31,7 +31,13 @@ class HomepageSiswaController extends GetxController {
       var lastAjuanPkl = LastAjuanPklModel.fromJson(data["data"]);
       ajuanPkl.value = lastAjuanPkl;
       print(lastAjuanPkl.status);
-      statusPkl.value = lastAjuanPkl.status;
+      if (lastAjuanPkl.status.contains("diterima")) {
+        statusPkl.value = "sudah_pkl";
+      } else if (lastAjuanPkl.status.contains("proses")) {
+        statusPkl.value = "menunggu";
+      } else {
+        statusPkl.value = "belum_pkl";
+      }
       update();
     } else {
       print("gagal mengirim data");

@@ -68,6 +68,7 @@ abstract class Routes {
   static const DETIL_NOTIFIKASI_DUDI = _Paths.DETIL_NOTIFIKASI_DUDI;
   static const DETIL_HISTORI_ABSEN_SISWA_DUDI =
       _Paths.DETIL_HISTORI_ABSEN_SISWA_DUDI;
+  static const LAPORAN_KENDALA_DUDI =_Paths.LAPORAN_KENDALA_DUDI;
 }
 
 abstract class _Paths {
@@ -129,4 +130,5 @@ abstract class _Paths {
   static const DETIL_NOTIFIKASI_DUDI = '/detil-notifikasi-dudi';
   static const DETIL_HISTORI_ABSEN_SISWA_DUDI =
       '/detil-histori-absen-siswa-dudi';
+  static const LAPORAN_KENDALA_DUDI = '/laporan-kendala-dudi';
 }

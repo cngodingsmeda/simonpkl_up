@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:open_file/open_file.dart';
+import 'package:photo_view/photo_view.dart';
 import 'package:simon_pkl/all_material.dart';
 import 'package:simon_pkl/app/modules/siswa/ajuan_siswa/widgets/clippath_widget.dart';
 import 'package:simon_pkl/app/modules/siswa/laporan_siswa/controllers/laporan_siswa_controller.dart';
@@ -14,6 +16,11 @@ class DetilLaporanSiswaView extends GetView<DetilLaporanSiswaControllr> {
   Widget build(BuildContext context) {
     final controller = Get.put(DetilLaporanSiswaControllr());
     final profController = Get.put(ProfileSiswaController());
+    PhotoViewController photoViewController = PhotoViewController();
+    void openFile(String file) async {
+      await OpenFile.open(file);
+    }
+
     return Scaffold(
       backgroundColor: AllMaterial.colorWhite,
       body: SingleChildScrollView(
@@ -205,18 +212,98 @@ class DetilLaporanSiswaView extends GetView<DetilLaporanSiswaControllr> {
                                       ),
                                       subtitle: GestureDetector(
                                         onTap: () {
-                                          // print(
-                                          //     "di ontap: ${controller.buktiDokumen.value}");
-                                          // final File? file = controller.buktiDokumen.value;
-                                          // final String fileUrl = controller.buktiDokumenUrl.value;
-                                          // if (file != null && fileUrl.isNotEmpty) {
-                                          //   controller.openFile(fileUrl, file);
-                                          // } else {
-                                          //   AllMaterial.cusBottomSheet(
-                                          //     text: "Kesalahan!",
-                                          //     subtitle: "Dokumen tidak ditemukan",
-                                          //   );
-                                          // }
+                                          var fotoAbsen = controller
+                                              .kendala.value!.fileLaporan
+                                              .toString();
+                                          if (fotoAbsen != "" &&
+                                              (fotoAbsen.endsWith('.pdf') ||
+                                                  fotoAbsen
+                                                      .endsWith('.docx'))) {
+                                            print("Masuk ke if dokumen");
+                                            openFile(fotoAbsen.replaceAll(
+                                                "localhost", "10.0.2.2"));
+                                          } else {
+                                            print("Masuk ke else gambar");
+                                            showDialog(
+                                              barrierColor:
+                                                  Colors.black.withOpacity(0.9),
+                                              context: context,
+                                              builder: (context) =>
+                                                  StatefulBuilder(
+                                                builder: (context, setState) {
+                                                  return Dialog(
+                                                    backgroundColor:
+                                                        Colors.transparent,
+                                                    child: Stack(
+                                                      children: [
+                                                        PhotoView(
+                                                          controller:
+                                                              photoViewController,
+                                                          imageProvider:
+                                                              NetworkImage(
+                                                            fotoAbsen
+                                                                .replaceAll(
+                                                                    "localhost",
+                                                                    "10.0.2.2"),
+                                                          ),
+                                                          minScale:
+                                                              PhotoViewComputedScale
+                                                                  .contained,
+                                                          maxScale:
+                                                              PhotoViewComputedScale
+                                                                      .covered *
+                                                                  2,
+                                                          initialScale:
+                                                              PhotoViewComputedScale
+                                                                  .contained,
+                                                          backgroundDecoration:
+                                                              const BoxDecoration(
+                                                            color: Colors
+                                                                .transparent,
+                                                          ),
+                                                          enableRotation: true,
+                                                          loadingBuilder:
+                                                              (context,
+                                                                      event) =>
+                                                                  const Center(
+                                                            child:
+                                                                CircularProgressIndicator(),
+                                                          ),
+                                                          onScaleEnd: (context,
+                                                              details,
+                                                              controllerValue) {
+                                                            if (controllerValue
+                                                                        .scale !=
+                                                                    null &&
+                                                                controllerValue
+                                                                        .scale! <=
+                                                                    1.0) {
+                                                              Get.back();
+                                                            }
+                                                          },
+                                                        ),
+                                                        Positioned(
+                                                          top: 0,
+                                                          right: 0,
+                                                          child: IconButton(
+                                                            icon: const Icon(
+                                                              Icons.close,
+                                                              color:
+                                                                  Colors.white,
+                                                              size: 30,
+                                                            ),
+                                                            onPressed: () {
+                                                              Get.back();
+                                                            },
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  );
+                                                },
+                                              ),
+                                            );
+                                          }
                                         },
                                         child: Container(
                                           margin: const EdgeInsets.only(top: 5),
@@ -233,39 +320,109 @@ class DetilLaporanSiswaView extends GetView<DetilLaporanSiswaControllr> {
                                                   .withOpacity(0.7),
                                             ),
                                           ),
-                                          child: Row(
-                                            children: [
-                                              Icon(
-                                                Icons.description,
-                                                color: Colors.black87
-                                                    .withOpacity(0.7),
-                                              ),
-                                              const SizedBox(width: 5),
-                                              Expanded(
-                                                child: Text(
+                                          child: controller.kendala.value!
+                                                      .fileLaporan!
+                                                      .toString()
+                                                      .endsWith('.pdf') ||
                                                   controller.laporan.value!
-                                                              .dokumentasi ==
-                                                          null
-                                                      ? ""
-                                                      : controller.laporan
-                                                          .value!.dokumentasi!
-                                                          .split('/')
-                                                          .last
-                                                          .toString()
-                                                          .split(' ')
-                                                          .join('-'),
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  style: AllMaterial.montSerrat(
-                                                    color: Colors.black87
-                                                        .withOpacity(0.7),
-                                                    fontWeight:
-                                                        AllMaterial.fontMedium,
-                                                  ),
+                                                      .dokumentasi!
+                                                      .endsWith('.docx')
+                                              ? Row(
+                                                  children: [
+                                                    Icon(
+                                                      Icons.description,
+                                                      color: Colors.black87
+                                                          .withOpacity(0.7),
+                                                    ),
+                                                    const SizedBox(width: 5),
+                                                    Expanded(
+                                                      child: Text(
+                                                        controller
+                                                                    .kendala
+                                                                    .value!
+                                                                    .fileLaporan
+                                                                    .toString() ==
+                                                                ""
+                                                            ? ""
+                                                            : controller
+                                                                .kendala
+                                                                .value!
+                                                                .fileLaporan
+                                                                .toString()
+                                                                .split('/')
+                                                                .last
+                                                                .toString()
+                                                                .split(' ')
+                                                                .join('-'),
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        style: AllMaterial
+                                                            .montSerrat(
+                                                          color: Colors.black87
+                                                              .withOpacity(0.7),
+                                                          fontWeight:
+                                                              AllMaterial
+                                                                  .fontMedium,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                )
+                                              : Row(
+                                                  children: [
+                                                    ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              5),
+                                                      child: Image.network(
+                                                        controller.kendala
+                                                            .value!.fileLaporan!
+                                                            .toString()
+                                                            .replaceAll(
+                                                                "localhost",
+                                                                "10.0.2.2"),
+                                                        fit: BoxFit.cover,
+                                                        width: 35,
+                                                        height: 35,
+                                                        errorBuilder:
+                                                            (BuildContext
+                                                                    context,
+                                                                Object
+                                                                    exception,
+                                                                StackTrace?
+                                                                    stackTrace) {
+                                                          return const Icon(
+                                                              Icons
+                                                                  .description);
+                                                        },
+                                                      ),
+                                                    ),
+                                                    const SizedBox(width: 5),
+                                                    Expanded(
+                                                      child: Text(
+                                                        controller.kendala
+                                                            .value!.fileLaporan!
+                                                            .toString()
+                                                            .split('/')
+                                                            .last
+                                                            .toString()
+                                                            .split(' ')
+                                                            .join('-'),
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        maxLines: 1,
+                                                        style: AllMaterial
+                                                            .montSerrat(
+                                                          color: Colors.black87
+                                                              .withOpacity(0.7),
+                                                          fontWeight:
+                                                              AllMaterial
+                                                                  .fontMedium,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
-                                              ),
-                                            ],
-                                          ),
                                         ),
                                       ),
                                     )
@@ -285,18 +442,97 @@ class DetilLaporanSiswaView extends GetView<DetilLaporanSiswaControllr> {
                                       ),
                                       subtitle: GestureDetector(
                                         onTap: () {
-                                          // print(
-                                          //     "di ontap: ${controller.buktiDokumen.value}");
-                                          // final File? file = controller.buktiDokumen.value;
-                                          // final String fileUrl = controller.buktiDokumenUrl.value;
-                                          // if (file != null && fileUrl.isNotEmpty) {
-                                          //   controller.openFile(fileUrl, file);
-                                          // } else {
-                                          //   AllMaterial.cusBottomSheet(
-                                          //     text: "Kesalahan!",
-                                          //     subtitle: "Dokumen tidak ditemukan",
-                                          //   );
-                                          // }
+                                          var fotoAbsen = controller
+                                              .laporan.value!.dokumentasi;
+                                          if (fotoAbsen != null &&
+                                              (fotoAbsen.endsWith('.pdf') ||
+                                                  fotoAbsen
+                                                      .endsWith('.docx'))) {
+                                            print("Masuk ke if dokumen");
+                                            openFile(fotoAbsen.replaceAll(
+                                                "localhost", "10.0.2.2"));
+                                          } else {
+                                            print("Masuk ke else gambar");
+                                            showDialog(
+                                              barrierColor:
+                                                  Colors.black.withOpacity(0.9),
+                                              context: context,
+                                              builder: (context) =>
+                                                  StatefulBuilder(
+                                                builder: (context, setState) {
+                                                  return Dialog(
+                                                    backgroundColor:
+                                                        Colors.transparent,
+                                                    child: Stack(
+                                                      children: [
+                                                        PhotoView(
+                                                          controller:
+                                                              photoViewController,
+                                                          imageProvider:
+                                                              NetworkImage(
+                                                            fotoAbsen?.replaceAll(
+                                                                    "localhost",
+                                                                    "10.0.2.2") ??
+                                                                "",
+                                                          ),
+                                                          minScale:
+                                                              PhotoViewComputedScale
+                                                                  .contained,
+                                                          maxScale:
+                                                              PhotoViewComputedScale
+                                                                      .covered *
+                                                                  2,
+                                                          initialScale:
+                                                              PhotoViewComputedScale
+                                                                  .contained,
+                                                          backgroundDecoration:
+                                                              const BoxDecoration(
+                                                            color: Colors
+                                                                .transparent,
+                                                          ),
+                                                          enableRotation: true,
+                                                          loadingBuilder:
+                                                              (context,
+                                                                      event) =>
+                                                                  const Center(
+                                                            child:
+                                                                CircularProgressIndicator(),
+                                                          ),
+                                                          onScaleEnd: (context,
+                                                              details,
+                                                              controllerValue) {
+                                                            if (controllerValue
+                                                                        .scale !=
+                                                                    null &&
+                                                                controllerValue
+                                                                        .scale! <=
+                                                                    1.0) {
+                                                              Get.back();
+                                                            }
+                                                          },
+                                                        ),
+                                                        Positioned(
+                                                          top: 0,
+                                                          right: 0,
+                                                          child: IconButton(
+                                                            icon: const Icon(
+                                                              Icons.close,
+                                                              color:
+                                                                  Colors.white,
+                                                              size: 30,
+                                                            ),
+                                                            onPressed: () {
+                                                              Get.back();
+                                                            },
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  );
+                                                },
+                                              ),
+                                            );
+                                          }
                                         },
                                         child: Container(
                                           margin: const EdgeInsets.only(top: 5),
@@ -313,39 +549,104 @@ class DetilLaporanSiswaView extends GetView<DetilLaporanSiswaControllr> {
                                                   .withOpacity(0.7),
                                             ),
                                           ),
-                                          child: Row(
-                                            children: [
-                                              Icon(
-                                                Icons.description,
-                                                color: Colors.black87
-                                                    .withOpacity(0.7),
-                                              ),
-                                              const SizedBox(width: 5),
-                                              Expanded(
-                                                child: Text(
+                                          child: controller.laporan.value!
+                                                      .dokumentasi!
+                                                      .endsWith('.pdf') ||
                                                   controller.laporan.value!
-                                                              .dokumentasi ==
-                                                          null
-                                                      ? ""
-                                                      : controller.laporan
-                                                          .value!.dokumentasi!
-                                                          .split('/')
-                                                          .last
-                                                          .toString()
-                                                          .split(' ')
-                                                          .join('-'),
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  style: AllMaterial.montSerrat(
-                                                    color: Colors.black87
-                                                        .withOpacity(0.7),
-                                                    fontWeight:
-                                                        AllMaterial.fontMedium,
-                                                  ),
+                                                      .dokumentasi!
+                                                      .endsWith('.docx')
+                                              ? Row(
+                                                  children: [
+                                                    Icon(
+                                                      Icons.description,
+                                                      color: Colors.black87
+                                                          .withOpacity(0.7),
+                                                    ),
+                                                    const SizedBox(width: 5),
+                                                    Expanded(
+                                                      child: Text(
+                                                        controller
+                                                                    .laporan
+                                                                    .value!
+                                                                    .dokumentasi ==
+                                                                null
+                                                            ? ""
+                                                            : controller
+                                                                .laporan
+                                                                .value!
+                                                                .dokumentasi!
+                                                                .split('/')
+                                                                .last
+                                                                .toString()
+                                                                .split(' ')
+                                                                .join('-'),
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        style: AllMaterial
+                                                            .montSerrat(
+                                                          color: Colors.black87
+                                                              .withOpacity(0.7),
+                                                          fontWeight:
+                                                              AllMaterial
+                                                                  .fontMedium,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                )
+                                              : Row(
+                                                  children: [
+                                                    ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              5),
+                                                      child: Image.network(
+                                                        controller.laporan
+                                                            .value!.dokumentasi!
+                                                            .replaceAll(
+                                                                "localhost",
+                                                                "10.0.2.2"),
+                                                        fit: BoxFit.cover,
+                                                        width: 35,
+                                                        height: 35,
+                                                        errorBuilder:
+                                                            (BuildContext
+                                                                    context,
+                                                                Object
+                                                                    exception,
+                                                                StackTrace?
+                                                                    stackTrace) {
+                                                          return const Icon(
+                                                              Icons
+                                                                  .description);
+                                                        },
+                                                      ),
+                                                    ),
+                                                    const SizedBox(width: 5),
+                                                    Expanded(
+                                                      child: Text(
+                                                        controller.laporan
+                                                            .value!.dokumentasi!
+                                                            .split('/')
+                                                            .last
+                                                            .toString()
+                                                            .split(' ')
+                                                            .join('-'),
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        maxLines: 1,
+                                                        style: AllMaterial
+                                                            .montSerrat(
+                                                          color: Colors.black87
+                                                              .withOpacity(0.7),
+                                                          fontWeight:
+                                                              AllMaterial
+                                                                  .fontMedium,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
-                                              ),
-                                            ],
-                                          ),
                                         ),
                                       ),
                                     ),

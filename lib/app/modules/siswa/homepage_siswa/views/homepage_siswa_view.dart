@@ -602,96 +602,80 @@ class HomepageSiswaView extends GetView<HomepageSiswaController> {
                                   itemBuilder: (context, index) {
                                     var absen = controller.absenTigaHari[index];
                                     print(absen.status);
-                                    return (absen.status!.contains("tidak"))
-                                        ? const SizedBox.shrink()
-                                        : CardWidget(
-                                            onTap: () {
-                                              showDialog(
-                                                context: context,
-                                                builder: (context) {
-                                                  return AllMaterial.cusDialog(
-                                                    topTitle: "Absen Harian",
-                                                    path:
-                                                        "assets/icons/laporan.svg",
-                                                    dateTime:
-                                                        AllMaterial.ubahHari(
-                                                      absen.tanggal!
-                                                          .toIso8601String(),
+                                    return CardWidget(
+                                      onTap: () {
+                                        showDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            return AllMaterial.cusDialog(
+                                              topTitle: "Absen Harian",
+                                              path: "assets/icons/laporan.svg",
+                                              dateTime: AllMaterial.ubahHari(
+                                                absen.tanggal!
+                                                    .toIso8601String(),
+                                              ),
+                                              onTap1: () {
+                                                var absensi = Get.put(
+                                                    DetilHistoriAbsenSiswaControllr());
+                                                absensi.getDetilAbsenById(
+                                                    absen.id!.toInt(),
+                                                    "masuk",
+                                                    absen.status!);
+                                              },
+                                              onTap2: () {
+                                                var absensi = Get.put(
+                                                    DetilHistoriAbsenSiswaControllr());
+                                                if (absen.statusAbsenPulang !=
+                                                    null) {
+                                                  absensi.getDetilAbsenById(
+                                                      absen.id!.toInt(),
+                                                      "pulang",
+                                                      absen.status!);
+                                                } else {
+                                                  Get.back();
+                                                  AllMaterial.messageScaffold(
+                                                      title:
+                                                          "Absen Pulang tidak ditemukan!",
+                                                      context: context);
+                                                }
+                                              },
+                                            );
+                                          },
+                                        );
+                                      },
+                                      tanggal: AllMaterial.ubahHari(
+                                          absen.tanggal!.toIso8601String()),
+                                      icon: (absen.status == "hadir")
+                                          ? const Icon(
+                                              Icons.check_circle,
+                                              color: Colors.green,
+                                            )
+                                          : (absen.status!.contains("tidak"))
+                                              ? const Icon(
+                                                  Icons.cancel_sharp,
+                                                  color: Colors.red,
+                                                )
+                                              : (absen.status!
+                                                          .contains("sakit") ||
+                                                      absen.status!
+                                                          .contains("izin"))
+                                                  ? const Icon(
+                                                      Icons.remove_circle,
+                                                      color: Colors.yellow,
+                                                    )
+                                                  : const Icon(
+                                                      Icons.info_rounded,
+                                                      color: Colors.yellow,
                                                     ),
-                                                    onTap1: () {
-                                                      var absensi = Get.put(
-                                                          DetilHistoriAbsenSiswaControllr());
-                                                      absensi.getDetilAbsenById(
-                                                          absen.id!.toInt(),
-                                                          "masuk",
-                                                          absen.status!);
-                                                    },
-                                                    onTap2: () {
-                                                      var absensi = Get.put(
-                                                          DetilHistoriAbsenSiswaControllr());
-                                                      if (absen
-                                                              .statusAbsenPulang !=
-                                                          null) {
-                                                        absensi
-                                                            .getDetilAbsenById(
-                                                                absen.id!
-                                                                    .toInt(),
-                                                                "pulang",
-                                                                absen.status!);
-                                                      } else {
-                                                        Get.back();
-                                                        AllMaterial.messageScaffold(
-                                                            title:
-                                                                "Absen Pulang tidak ditemukan!",
-                                                            context: context);
-                                                      }
-                                                    },
-                                                  );
-                                                },
-                                              );
-                                            },
-                                            tanggal: AllMaterial.ubahHari(absen
-                                                .tanggal!
-                                                .toIso8601String()),
-                                            icon: (absen.status!
-                                                    .contains("hadir"))
-                                                ? const Icon(
-                                                    Icons.check_circle,
-                                                    color: Colors.green,
-                                                  )
-                                                : (absen.status!
-                                                        .contains("tidak"))
-                                                    ? const Icon(
-                                                        Icons.cancel_sharp,
-                                                        color: Colors.red,
-                                                      )
-                                                    : (absen.status!.contains(
-                                                                "sakit") ||
-                                                            absen.status!
-                                                                .contains(
-                                                                    "izin"))
-                                                        ? const Icon(
-                                                            Icons.remove_circle,
-                                                            color:
-                                                                Colors.yellow,
-                                                          )
-                                                        : const Icon(
-                                                            Icons.info_rounded,
-                                                            color:
-                                                                Colors.yellow,
-                                                          ),
-                                            keterangan:
-                                                (absen.status!.contains("_"))
-                                                    ? AllMaterial
-                                                        .setiapHurufPertama(
-                                                            absen.status!
-                                                                .split('_')
-                                                                .join(' '))
-                                                    : AllMaterial
-                                                        .setiapHurufPertama(
-                                                        absen.status,
-                                                      ),
-                                          );
+                                      keterangan: (absen.status!.contains("_"))
+                                          ? AllMaterial.setiapHurufPertama(absen
+                                              .status!
+                                              .split('_')
+                                              .join(' '))
+                                          : AllMaterial.setiapHurufPertama(
+                                              absen.status,
+                                            ),
+                                    );
                                   },
                                 );
                               }

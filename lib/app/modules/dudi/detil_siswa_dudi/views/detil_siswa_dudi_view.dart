@@ -19,7 +19,7 @@ class DetilSiswaDudiView extends GetView<DetilSiswaDudiController> {
         surfaceTintColor: AllMaterial.colorWhite,
         elevation: 0,
         title: Text(
-          'Tentang ${AllMaterial.setiapHurufPertama((controller.siswa.value?.data?.nama?.split(' ').length ?? 0) > 1 ? (controller.siswa.value?.data?.nama?.split(' ')[0].length ?? 0) <= 2 ? controller.siswa.value?.data?.nama?.split(' ')[1] ?? "Siswa" : controller.siswa.value?.data?.nama?.split(' ')[0].replaceAll(".", "") ?? "Siswa" : controller.siswa.value?.data?.nama ?? "Siswa")}',
+          'Tentang ${AllMaterial.setiapHurufPertama((controller.siswa.value?.data?.nama?.split(' ').length ?? 0) > 1 ? (controller.siswa.value?.data?.nama?.split(' ')[0].length ?? 0) <= 3 && controller.siswa.value!.data!.nama!.contains(".") ? controller.siswa.value?.data?.nama?.split(' ')[1] ?? "Siswa" : controller.siswa.value?.data?.nama?.split(' ')[0].replaceAll(".", "") ?? "Siswa" : controller.siswa.value?.data?.nama ?? "Siswa")}',
           style: AllMaterial.montSerrat(
             fontWeight: AllMaterial.fontSemiBold,
             color: Colors.black,
@@ -132,7 +132,6 @@ class DetilSiswaDudiView extends GetView<DetilSiswaDudiController> {
                     "nama": controller.siswa.value?.data?.nama?.toString(),
                     "id": controller.siswa.value?.data?.id,
                   });
-                  
                 },
                 icon: const Icon(
                   Icons.fingerprint,

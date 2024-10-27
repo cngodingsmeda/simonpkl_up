@@ -6,9 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:simon_pkl/all_material.dart';
+import 'package:simon_pkl/app/modules/dudi/data_siswa_dudi/controllers/data_siswa_dudi_controller.dart';
+import 'package:simon_pkl/app/modules/dudi/laporan_pkl_dudi/controllers/laporan_pkl_dudi_controller.dart';
 import 'package:simon_pkl/app/modules/siswa/buat_laporan_siswa/views/buat_laporan_siswa_view.dart';
-import 'package:simon_pkl/app/modules/siswa/detil_histori_absen_siswa/controllers/detil_histori_absen_siswa_controller.dart';
-import 'package:simon_pkl/app/modules/siswa/home_siswa/views/home_siswa_view.dart';
 import 'package:simon_pkl/app/modules/siswa/homepage_siswa/views/homepage_siswa_view.dart';
 
 import '../controllers/buat_laporan_pkl_dudi_controller.dart';
@@ -17,8 +17,10 @@ class BuatLaporanPklDudiView extends GetView<BuatLaporanPklDudiController> {
   const BuatLaporanPklDudiView({super.key});
   @override
   Widget build(BuildContext context) {
-    bool isKendala = AllMaterial.box.read("isKendala") ?? false;
+    bool isKendala = LaporanPklDudiController.isKendala.value;
     var controller = Get.put(BuatLaporanPklDudiController());
+    var siswa = DataSiswaDudiController.allSiswa.value;
+    print(siswa);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -82,6 +84,7 @@ class BuatLaporanPklDudiView extends GetView<BuatLaporanPklDudiController> {
                           cursorColor: AllMaterial.colorWhite,
                           onTapOutside: (_) {
                             controller.inputF.unfocus();
+                            controller.inputAtas.value = controller.inputC.text;
                           },
                           decoration: InputDecoration(
                             hintText: !isKendala
@@ -118,7 +121,7 @@ class BuatLaporanPklDudiView extends GetView<BuatLaporanPklDudiController> {
                         const SizedBox(height: 20),
                         Text(
                           !isKendala
-                              ? "Topik Pekerjaan :"
+                              ? "Rujukan Kompetensi Dasar :"
                               : "Deskripsi Kendala :",
                           style: AllMaterial.montSerrat(
                             fontSize: 15,
@@ -137,6 +140,8 @@ class BuatLaporanPklDudiView extends GetView<BuatLaporanPklDudiController> {
                           cursorColor: AllMaterial.colorWhite,
                           onTapOutside: (_) {
                             controller.topikF.unfocus();
+                            controller.inputBawah.value =
+                                controller.topikC.text;
                           },
                           decoration: InputDecoration(
                             hintText: !isKendala
@@ -192,16 +197,26 @@ class BuatLaporanPklDudiView extends GetView<BuatLaporanPklDudiController> {
                                       color: AllMaterial.colorWhite,
                                     ),
                                     iconEnabledColor: AllMaterial.colorWhite,
-                                    onChanged: (String? newValue) {
-                                      controller.selectedTopik = newValue!;
+                                    onChanged: (String? selectedId) {
+                                      if (selectedId != null) {
+                                        print(
+                                            "ID Siswa yang dipilih: $selectedId");
+                                        controller.selectedSiswaId.value =
+                                            selectedId;
+                                      }
                                     },
-                                    items: controller.topikList
-                                        .map<DropdownMenuItem<String>>(
-                                            (String value) {
+                                    items: siswa?.data
+                                        ?.map<DropdownMenuItem<String>>(
+                                            (siswa) {
                                       return DropdownMenuItem<String>(
-                                        value: value,
+                                        value: siswa.id.toString(),
                                         child: Text(
-                                          value,
+                                          siswa.nama == ""
+                                              ? ""
+                                              : AllMaterial
+                                                  .setiapNamaHurufPertama(
+                                                  siswa.nama,
+                                                ),
                                           style: AllMaterial.montSerrat(
                                             fontWeight: AllMaterial.fontMedium,
                                             color: AllMaterial.colorWhite,
@@ -219,8 +234,7 @@ class BuatLaporanPklDudiView extends GetView<BuatLaporanPklDudiController> {
                                           color: AllMaterial.colorWhite,
                                         ),
                                         borderRadius: BorderRadius.all(
-                                          Radius.circular(15),
-                                        ),
+                                            Radius.circular(15)),
                                       ),
                                       focusedBorder: OutlineInputBorder(
                                         borderSide: const BorderSide(
@@ -322,22 +336,25 @@ class BuatLaporanPklDudiView extends GetView<BuatLaporanPklDudiController> {
                         const SizedBox(height: 30),
                         Obx(
                           () => ElevatedButton(
-                            onPressed: (controller.selectedFile.value != null)
+                            onPressed: (controller.inputAtas.value != "" ||
+                                    controller.inputBawah.value != "" ||
+                                    controller.selectedSiswaId.value != "")
                                 ? () {
-                                    print(
-                                        "Alasan Izin: ${controller.alasanIzin.value}");
-                                    if (controller.selectedFile.value != null) {
-                                      print(
-                                        "Dokumen: ${controller.selectedFile.value!.path}",
-                                      );
-                                    }
-                                    // controller.selectedFile.value = null;
-                                    var historiAbsen = Get.put(
-                                        DetilHistoriAbsenSiswaControllr());
-                                    historiAbsen.buktiDokumen.value =
-                                        controller.selectedFile.value;
-                                    print(historiAbsen.buktiDokumen.value);
-                                    Get.off(() => HomeSiswaView());
+                                    AllMaterial.cusDialogValidasi(
+                                      title: "Membuat Laporan",
+                                      subtitle: "Apakah Anda yakin?",
+                                      onConfirm: () {
+                                        if (isKendala) {
+                                          controller
+                                              .postLaporanKendalaDudi(context);
+                                        } else {
+                                          controller
+                                              .postLaporanHarianDudi(context);
+                                        }
+                                        Get.back();
+                                      },
+                                      onCancel: () => Get.back(),
+                                    );
                                   }
                                 : null,
                             style: ElevatedButton.styleFrom(

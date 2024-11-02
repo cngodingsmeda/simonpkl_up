@@ -68,7 +68,13 @@ abstract class Routes {
   static const DETIL_NOTIFIKASI_DUDI = _Paths.DETIL_NOTIFIKASI_DUDI;
   static const DETIL_HISTORI_ABSEN_SISWA_DUDI =
       _Paths.DETIL_HISTORI_ABSEN_SISWA_DUDI;
-  static const LAPORAN_KENDALA_DUDI =_Paths.LAPORAN_KENDALA_DUDI;
+  static const LAPORAN_KENDALA_DUDI = _Paths.LAPORAN_KENDALA_DUDI;
+  static const FORM_REKRUT_SISWA_DUDI = _Paths.FORM_REKRUT_SISWA_DUDI;
+  static const JADWAL_ABSEN_SISWA_DUDI = _Paths.JADWAL_ABSEN_SISWA_DUDI;
+  static const KUOTA_UMUM_DUDI = _Paths.KUOTA_UMUM_DUDI;
+  static const LOKASI_ABSEN_DUDI = _Paths.LOKASI_ABSEN_DUDI;
+  static const DAFTAR_LOKASI_ABSEN_DUDI = _Paths.DAFTAR_LOKASI_ABSEN_DUDI;
+  static const BUAT_JADWAL_ABSEN_DUDI = _Paths.BUAT_JADWAL_ABSEN_DUDI;
 }
 
 abstract class _Paths {
@@ -131,4 +137,10 @@ abstract class _Paths {
   static const DETIL_HISTORI_ABSEN_SISWA_DUDI =
       '/detil-histori-absen-siswa-dudi';
   static const LAPORAN_KENDALA_DUDI = '/laporan-kendala-dudi';
+  static const FORM_REKRUT_SISWA_DUDI = '/form-rekrut-siswa-dudi';
+  static const JADWAL_ABSEN_SISWA_DUDI = '/jadwal-absen-siswa-dudi';
+  static const KUOTA_UMUM_DUDI = '/kuota-umum-dudi';
+  static const LOKASI_ABSEN_DUDI = '/lokasi-absen-dudi';
+  static const DAFTAR_LOKASI_ABSEN_DUDI = '/daftar-lokasi-absen-dudi';
+  static const BUAT_JADWAL_ABSEN_DUDI = '/buat-jadwal-absen-dudi';
 }

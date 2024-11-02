@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:simon_pkl/all_material.dart';
+import 'package:simon_pkl/app/model/model_dudi/kuota_pkl_siswa_dudi_model.dart';
 
 import '../controllers/buat_form_pkl_dudi_controller.dart';
 
@@ -8,8 +9,14 @@ class BuatFormPklDudiView extends GetView<BuatFormPklDudiController> {
   const BuatFormPklDudiView({super.key});
   @override
   Widget build(BuildContext context) {
-    bool isJadwal = AllMaterial.box.read("isJadwal") ?? false;
+    bool isBuat = AllMaterial.box.read("isBuat") ?? false;
     var controller = Get.put(BuatFormPklDudiController());
+    var data = Get.arguments;
+    int id = data["id"];
+    Kuota? dataRekrut = (id == 0) ? null : data["data"];
+    bool isEnable = id == 0 ? false : true;
+
+    print(id);
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -17,7 +24,7 @@ class BuatFormPklDudiView extends GetView<BuatFormPklDudiController> {
         backgroundColor: AllMaterial.colorWhite,
         surfaceTintColor: AllMaterial.colorWhite,
         title: Text(
-          "Buat ${isJadwal ? 'Jadwal' : "Rekrut"} Baru",
+          "${isBuat ? "Buat" : "Edit"} Rekrut",
           style: AllMaterial.montSerrat(
             fontWeight: AllMaterial.fontSemiBold,
             color: Colors.black,
@@ -27,7 +34,7 @@ class BuatFormPklDudiView extends GetView<BuatFormPklDudiController> {
           icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
             Get.back();
-            AllMaterial.box.remove("isJadwal");
+            AllMaterial.box.remove("isBuat");
           },
         ),
         centerTitle: true,
@@ -48,7 +55,7 @@ class BuatFormPklDudiView extends GetView<BuatFormPklDudiController> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      isJadwal ? "Form Jadwal Absen" : "Form Rekrut Siswa PKL",
+                      "Form Rekrut Siswa PKL",
                       style: AllMaterial.montSerrat(
                         color: AllMaterial.colorWhite,
                         fontWeight: AllMaterial.fontSemiBold,
@@ -58,102 +65,63 @@ class BuatFormPklDudiView extends GetView<BuatFormPklDudiController> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        isJadwal
-                            ? Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Banyak Siswa:",
+                              style: AllMaterial.montSerrat(
+                                fontSize: 15,
+                                color: AllMaterial.colorWhite,
+                                fontWeight: AllMaterial.fontSemiBold,
+                              ),
+                            ),
+                            const SizedBox(height: 5),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 10,
+                              ),
+                              child: Column(
                                 children: [
-                                  // Menambahkan hari dan jam masuk/pulang
-                                  Obx(
-                                    () => Column(
-                                      children: List.generate(
-                                        controller.jumlahFormJadwal.value,
-                                        (index) {
-                                          return FieldDayAbsen(
-                                            controller: controller,
-                                          );
-                                        },
-                                      ),
-                                    ),
+                                  const SizedBox(height: 10),
+                                  _buildNumberField(
+                                    "Laki-Laki",
+                                    controller,
+                                    true,
                                   ),
-                                  Obx(
-                                    () => controller.jumlahFormJadwal.value ==
-                                            controller.hariList.length
-                                        ? const SizedBox.shrink()
-                                        : Padding(
-                                            padding: const EdgeInsets.only(
-                                                bottom: 20),
-                                            child: TextButton(
-                                              onPressed: () {
-                                                controller.addNewDay();
-                                              },
-                                              child: Text(
-                                                "+ Tambah Hari",
-                                                style: AllMaterial.montSerrat(
-                                                  color: AllMaterial.colorWhite,
-                                                  fontWeight:
-                                                      AllMaterial.fontSemiBold,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
+                                  const SizedBox(height: 20),
+                                  _buildNumberField(
+                                    "Perempuan",
+                                    controller,
+                                    false,
                                   ),
-                                ],
-                              )
-                            : Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  // Input jurusan dan jumlah siswa
-                                  Text(
-                                    "Banyak Siswa:",
-                                    style: AllMaterial.montSerrat(
-                                      fontSize: 15,
-                                      color: AllMaterial.colorWhite,
-                                      fontWeight: AllMaterial.fontSemiBold,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 5),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 10,
-                                    ),
-                                    child: Column(
-                                      children: [
-                                        const SizedBox(height: 10),
-                                        _buildNumberField(
-                                          "Laki-Laki",
-                                          controller,
-                                        ),
-                                        const SizedBox(height: 20),
-                                        _buildNumberField(
-                                          "Perempuan",
-                                          controller,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  _buildJurusanField(controller),
-                                  Obx(() => controller.jumlahJurusan ==
-                                          controller.jurusanList.length
-                                      ? const SizedBox.shrink()
-                                      : TextButton(
-                                          onPressed: () {
-                                            // controller.addJurusan();
-                                          },
-                                          child: Text(
-                                            "+ Tambah Jurusan",
-                                            style: AllMaterial.montSerrat(
-                                              color: AllMaterial.colorWhite,
-                                              fontWeight:
-                                                  AllMaterial.fontSemiBold,
-                                            ),
-                                          ),
-                                        )),
                                 ],
                               ),
+                            ),
+                            _buildJurusanField(
+                              controller,
+                              dataRekrut,
+                              data["id"] ?? 0,
+                              isEnable,
+                            ),
+                          ],
+                        ),
                         const SizedBox(height: 30),
                         ElevatedButton(
                           onPressed: () {
-                            // Aksi untuk kirim data
+                            AllMaterial.cusDialogValidasi(
+                              title: "Membuat Laporan",
+                              subtitle: "Apakah Anda yakin?",
+                              onConfirm: () async {
+                                bool isPost = (id == 0);
+                                await controller.getKuotaSiswa(
+                                  isPost: isPost,
+                                  context: context,
+                                );
+                                Get.back();
+                              },
+                              onCancel: () => Get.back(),
+                            );
                           },
                           style: ElevatedButton.styleFrom(
                             fixedSize: Size.fromWidth(Get.width),
@@ -164,9 +132,7 @@ class BuatFormPklDudiView extends GetView<BuatFormPklDudiController> {
                             ),
                           ),
                           child: Text(
-                            isJadwal
-                                ? "Posting Form Jadwal"
-                                : "Posting Rekrut Siswa",
+                            "Posting Rekrut Siswa",
                             style: AllMaterial.montSerrat(
                               color: AllMaterial.colorBlue,
                               fontWeight: AllMaterial.fontSemiBold,
@@ -186,105 +152,16 @@ class BuatFormPklDudiView extends GetView<BuatFormPklDudiController> {
   }
 }
 
-class FieldDayAbsen extends StatelessWidget {
-  const FieldDayAbsen({
-    super.key,
-    required this.controller,
-  });
-
-  final BuatFormPklDudiController controller;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        _buildDropdownField(
-          controller,
-          "Hari Absen:",
-          controller.hariList,
-          controller.selectedTopik.value,
-        ),
-        const SizedBox(height: 20),
-        _buildTimePicker(
-          "Atur Jam Masuk:",
-          controller,
-          true,
-        ),
-        const SizedBox(height: 20),
-        _buildTimePicker(
-          "Atur Jam Pulang:",
-          controller,
-          false,
-        ),
-        const SizedBox(height: 20),
-      ],
-    );
-  }
-}
-
-Widget _buildDropdownField(BuatFormPklDudiController controller, String label,
-    List<String> items, String? selectedItem) {
-  print(selectedItem);
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      Text(
-        label,
-        style: AllMaterial.montSerrat(
-          fontSize: 15,
-          color: AllMaterial.colorWhite,
-          fontWeight: AllMaterial.fontSemiBold,
-        ),
-      ),
-      const SizedBox(height: 10),
-      DropdownButtonFormField<String>(
-        dropdownColor: AllMaterial.colorBlue,
-        value: items[0],
-        style: AllMaterial.montSerrat(
-          color: AllMaterial.colorWhite,
-        ),
-        iconEnabledColor: AllMaterial.colorWhite,
-        onChanged: (String? newValue) {
-          controller.selectedTopik.value = newValue!;
-        },
-        items: items.map<DropdownMenuItem<String>>((String value) {
-          return DropdownMenuItem<String>(
-            value: value,
-            child: Text(
-              value,
-              style: AllMaterial.montSerrat(
-                fontWeight: AllMaterial.fontMedium,
-                color: AllMaterial.colorWhite,
-              ),
-            ),
-          );
-        }).toList(),
-        decoration: InputDecoration(
-          enabledBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: AllMaterial.colorWhite),
-            borderRadius: BorderRadius.all(Radius.circular(15)),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color: AllMaterial.colorWhite),
-            borderRadius: BorderRadius.circular(15),
-          ),
-          border: OutlineInputBorder(
-            borderSide: const BorderSide(color: AllMaterial.colorWhite),
-            borderRadius: BorderRadius.circular(15),
-          ),
-        ),
-      ),
-    ],
-  );
-}
-
-Widget _buildJurusanField(BuatFormPklDudiController controller) {
+Widget _buildJurusanField(
+    BuatFormPklDudiController controller, Kuota? kuota, int id, bool isEnable) {
+  print(kuota?.jurusan?.nama);
+  print(isEnable);
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       const SizedBox(height: 20),
       Text(
-        "Tentukkan Jurusan (Opsional) :",
+        "Tentukkan Jurusan:",
         style: AllMaterial.montSerrat(
           fontSize: 15,
           color: AllMaterial.colorWhite,
@@ -292,201 +169,82 @@ Widget _buildJurusanField(BuatFormPklDudiController controller) {
         ),
       ),
       const SizedBox(height: 10),
-      DropdownButtonFormField<String>(
-        isDense: true,
-        padding: EdgeInsets.zero,
-        dropdownColor: AllMaterial.colorBlue,
-        elevation: 0,
-        isExpanded: true,
-        value: controller.jurusanList[0],
-        style: AllMaterial.montSerrat(
-          color: AllMaterial.colorWhite,
-        ),
-        // iconSize: 12,
-        iconEnabledColor: AllMaterial.colorWhite,
-        onChanged: (String? newValue) {
-          if (newValue != null) {
-            controller.selectedTopik.value = newValue;
-          }
-        },
-        items: controller.jurusanList
-            .map<DropdownMenuItem<String>>((String value) {
-          return DropdownMenuItem<String>(
-            value: value,
-            child: Text(
-              value,
-              overflow: TextOverflow.ellipsis,
-              maxLines: 1,
-              style: AllMaterial.montSerrat(
-                fontWeight: AllMaterial.fontMedium,
-                color: AllMaterial.colorWhite,
-              ),
-            ),
-          );
-        }).toList(),
-        decoration: InputDecoration(
-          hintStyle: AllMaterial.montSerrat(
-            color: AllMaterial.colorWhite,
-            fontWeight: AllMaterial.fontMedium,
-          ),
-          enabledBorder: const OutlineInputBorder(
-            borderSide: BorderSide(
+      Obx(
+        () => DropdownButtonFormField<String>(
+          dropdownColor: AllMaterial.colorBlue,
+          elevation: 0,
+          value: null,
+          isDense: true,
+          hint: Text(
+            (id == 0)
+                ? "Pilih Jurusan"
+                : AllMaterial.setiapHurufPertama(kuota?.jurusan?.nama ?? ""),
+            style: AllMaterial.montSerrat(
+              fontWeight: AllMaterial.fontMedium,
               color: AllMaterial.colorWhite,
             ),
-            borderRadius: BorderRadius.all(
-              Radius.circular(15),
-            ),
           ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: const BorderSide(
-              color: Colors.white,
-            ),
-            borderRadius: BorderRadius.circular(15),
+          style: AllMaterial.montSerrat(
+            color: AllMaterial.colorWhite,
           ),
-          border: OutlineInputBorder(
-            borderSide: const BorderSide(
-              color: Colors.white,
-            ),
-            borderRadius: BorderRadius.circular(15),
-          ),
-        ),
-      ),
-    ],
-  );
-}
-
-Widget _buildTimePicker(
-    String label, BuatFormPklDudiController controller, bool isJamMasuk) {
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      Text(
-        label,
-        style: AllMaterial.montSerrat(
-          fontSize: 15,
-          color: AllMaterial.colorWhite,
-          fontWeight: AllMaterial.fontSemiBold,
-        ),
-      ),
-      const SizedBox(height: 10),
-      Row(
-        children: [
-          Expanded(
-            child: GestureDetector(
-              onTap: () async {
-                TimeOfDay? pickedTime = await showTimePicker(
-                  context: Get.context!,
-                  initialTime: TimeOfDay.now(),
-                  builder: (BuildContext context, Widget? child) {
-                    return MediaQuery(
-                      data: MediaQuery.of(context)
-                          .copyWith(alwaysUse24HourFormat: true),
-                      child: child ?? const SizedBox(),
-                    );
-                  },
-                );
-                if (pickedTime != null) {
-                  if (isJamMasuk) {
-                    controller.jamMasukAwal.value = pickedTime;
-                  } else {
-                    controller.jamPulangAwal.value = pickedTime;
+          isExpanded: true,
+          iconEnabledColor: AllMaterial.colorWhite,
+          onChanged: id == 0
+              ? (String? selectedId) {
+                  if (selectedId != null) {
+                    print("ID Jurusan yang dipilih: $selectedId");
+                    controller.selectedJurusanId.value = selectedId;
                   }
                 }
-              },
-              child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 15),
-                decoration: BoxDecoration(
-                  border: Border.all(color: AllMaterial.colorWhite),
-                  borderRadius: BorderRadius.circular(15),
+              : null,
+          items: BuatFormPklDudiController.jurusan.value?.data
+              ?.map<DropdownMenuItem<String>>((jurusan) {
+            print(jurusan.nama);
+            return DropdownMenuItem<String>(
+              value: jurusan.id.toString(),
+              child: Text(
+                jurusan.nama == ""
+                    ? ""
+                    : AllMaterial.setiapHurufPertama(jurusan.nama),
+                style: AllMaterial.montSerrat(
+                  fontWeight: AllMaterial.fontMedium,
+                  color: AllMaterial.colorWhite,
                 ),
-                alignment: Alignment.center,
-                child: Obx(() {
-                  String timeString = _formatTime(
-                    isJamMasuk
-                        ? controller.jamMasukAwal.value
-                        : controller.jamPulangAwal.value,
-                  );
-                  return Text(
-                    timeString,
-                    style: AllMaterial.montSerrat(
-                      color: AllMaterial.colorWhite,
-                      fontWeight: AllMaterial.fontMedium,
-                    ),
-                  );
-                }),
               ),
-            ),
-          ),
-          const SizedBox(width: 10),
-          Text(
-            "-",
-            style: AllMaterial.montSerrat(
+            );
+          }).toList(),
+          decoration: InputDecoration(
+            hintStyle: AllMaterial.montSerrat(
               color: AllMaterial.colorWhite,
               fontWeight: AllMaterial.fontMedium,
             ),
-          ),
-          const SizedBox(width: 10),
-          Expanded(
-            child: GestureDetector(
-              onTap: () async {
-                TimeOfDay? pickedTime = await showTimePicker(
-                  context: Get.context!,
-                  initialTime: TimeOfDay.now(),
-                  builder: (BuildContext context, Widget? child) {
-                    return MediaQuery(
-                      data: MediaQuery.of(context)
-                          .copyWith(alwaysUse24HourFormat: true),
-                      child: child ?? const SizedBox(),
-                    );
-                  },
-                );
-                if (pickedTime != null) {
-                  if (isJamMasuk) {
-                    controller.jamMasukAkhir.value = pickedTime;
-                  } else {
-                    controller.jamPulangAkhir.value = pickedTime;
-                  }
-                }
-              },
-              child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 15),
-                decoration: BoxDecoration(
-                  border: Border.all(color: AllMaterial.colorWhite),
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                alignment: Alignment.center,
-                child: Obx(() {
-                  String timeString = _formatTime(
-                    isJamMasuk
-                        ? controller.jamMasukAkhir.value
-                        : controller.jamPulangAkhir.value,
-                  );
-                  return Text(
-                    timeString,
-                    style: AllMaterial.montSerrat(
-                      color: AllMaterial.colorWhite,
-                      fontWeight: AllMaterial.fontMedium,
-                    ),
-                  );
-                }),
+            enabledBorder: const OutlineInputBorder(
+              borderSide: BorderSide(
+                color: AllMaterial.colorWhite,
               ),
+              borderRadius: BorderRadius.all(Radius.circular(15)),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderSide: const BorderSide(
+                color: Colors.white,
+              ),
+              borderRadius: BorderRadius.circular(15),
+            ),
+            border: OutlineInputBorder(
+              borderSide: const BorderSide(
+                color: Colors.white,
+              ),
+              borderRadius: BorderRadius.circular(15),
             ),
           ),
-        ],
+        ),
       ),
     ],
   );
 }
 
-// Fungsi untuk memformat waktu ke format 24 jam
-String _formatTime(TimeOfDay time) {
-  final hour = time.hour.toString().padLeft(2, '0');
-  final minute = time.minute.toString().padLeft(2, '0');
-  return '$hour:$minute';
-}
-
-// Fungsi untuk NumberField (Laki-Laki/Perempuan)
-Widget _buildNumberField(String label, BuatFormPklDudiController controller) {
+Widget _buildNumberField(
+    String label, BuatFormPklDudiController controller, bool isLaki) {
   return Row(
     crossAxisAlignment: CrossAxisAlignment.center,
     children: [
@@ -505,7 +263,7 @@ Widget _buildNumberField(String label, BuatFormPklDudiController controller) {
             width: 100,
             alignment: Alignment.center,
             child: TextFormField(
-              initialValue: "0",
+              controller: isLaki ? controller.lakiC : controller.perempuanC,
               keyboardType: TextInputType.number,
               textAlign: TextAlign.center,
               style: AllMaterial.montSerrat(

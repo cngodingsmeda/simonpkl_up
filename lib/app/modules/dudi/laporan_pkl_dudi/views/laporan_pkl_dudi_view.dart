@@ -69,16 +69,20 @@ class LaporanPklDudiView extends GetView<LaporanPklDudiController> {
                             item.id != null ? item.id!.toInt() : 0,
                           );
                         },
-                        tanggal: AllMaterial.ubahHari(
-                          item.tanggal!.toIso8601String(),
-                        ),
+                        tanggal: (item.tanggal == null)
+                            ? ""
+                            : AllMaterial.ubahHari(
+                                item.tanggal!.toIso8601String(),
+                              ),
                         icon: const Icon(
                           Icons.check_circle,
                           color: Colors.green,
                         ),
-                        keterangan: AllMaterial.setiapHurufPertama(
-                          item.topikPekerjaan.toString(),
-                        ),
+                        keterangan: (item.topikPekerjaan == "")
+                            ? ""
+                            : AllMaterial.setiapHurufPertama(
+                                item.topikPekerjaan.toString(),
+                              ),
                       );
                     },
                   );

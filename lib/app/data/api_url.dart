@@ -93,6 +93,7 @@ abstract class ApiUrl {
   static var urlGetAllNotifDudi =
       "http://10.0.2.2:2008/pembimbingDudi/notification";
   static var urlGetAllSiswaDudi = "http://10.0.2.2:2008/pembimbingDudi/siswa";
+  static var urlGetAllJurusanDudi = "http://10.0.2.2:2008/pembimbingDudi/jurusan";
   static var urlGetAllHistoriAbsenSiswaByIdMonthDudi =
       "http://10.0.2.2:2008/pembimbingDudi/absen";
   static var urlGetCountKuotaSiswaDudi =
@@ -109,4 +110,10 @@ abstract class ApiUrl {
       "http://10.0.2.2:2008/pembimbingDudi/laporan-pkl";
   static var urlPutFileLaporanHarianDudi =
       "http://10.0.2.2:2008/pembimbingDudi/laporan-pkl/file";
+  static var urlGetKuotaSiswaDudi =
+      "http://10.0.2.2:2008/pembimbingDudi/kuota";
+  static var urlPostKoordinatAbsen =
+      "http://10.0.2.2:2008/pembimbingDudi/koordinat-absen";
+  static var urlJadwalAbsenDudi =
+      "http://10.0.2.2:2008/pembimbingDudi/jadwal-absen";
 }

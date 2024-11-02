@@ -22,6 +22,9 @@ class LoginPageController extends GetxController {
   FocusNode userF = FocusNode();
   FocusNode passF = FocusNode();
   var isPasswordHidden = true.obs;
+  var isGuru = false.obs;
+  var isSiswa = false.obs;
+  var isDudi = false.obs;
   var genController = Get.put(GeneralController);
 
   void togglePasswordVisibility() {
@@ -36,8 +39,8 @@ class LoginPageController extends GetxController {
 
   @override
   void onClose() {
-    userC.dispose();
-    passC.dispose();
+    userC.clear();
+    passC.clear();
     userF.dispose();
     passF.dispose();
     super.onClose();
@@ -88,6 +91,7 @@ class LoginPageController extends GetxController {
         AllMaterial.box.write("role", roleData);
         isAuth.value = true;
         if (roleData.contains("guru")) {
+          isGuru.value = true;
           isAuth.value = true;
           userC.text = "";
           passC.text = "";
@@ -97,6 +101,7 @@ class LoginPageController extends GetxController {
             context: context,
           );
         } else if (roleData.contains("siswa")) {
+          isSiswa.value = true;
           isAuth.value = true;
           userC.text = "";
           passC.text = "";
@@ -106,6 +111,7 @@ class LoginPageController extends GetxController {
             context: context,
           );
         } else if (roleData.contains("dudi")) {
+          isDudi.value = true;
           isAuth.value = true;
           userC.text = "";
           passC.text = "";
@@ -135,31 +141,4 @@ class LoginPageController extends GetxController {
       isAuth.value = false;
     }
   }
-
-  // Widget navigateToHome(String? role) {
-  //   var log = Get.find<LoginPageController>();
-
-  //   if (role == "guru pembimbing") {
-  //     log.isAuth.value = true;
-  //     userC.text = "";
-  //     passC.text = "";
-  //     Get.off(() => HomeGuruView());
-  //     return HomeGuruView();
-  //   } else if (role == "siswa") {
-  //     log.isAuth.value = true;
-  //     userC.text = "";
-  //     passC.text = "";
-  //     Get.off(() => HomeSiswaView());
-  //     return HomeSiswaView();
-  //   } else if (role == "pembimbing dudi") {
-  //     log.isAuth.value = true;
-  //     userC.text = "";
-  //     passC.text = "";
-  //     Get.off(() => HomeDudiView());
-  //     return HomeDudiView();
-  //   } else {
-  //     log.isAuth.value = false;
-  //     return const LoginPageView();
-  //   }
-  // }
 }

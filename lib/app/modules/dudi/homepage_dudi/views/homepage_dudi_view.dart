@@ -194,35 +194,32 @@ class HomepageDudiView extends GetView<HomepageDudiController> {
                         ),
                       ),
                       const SizedBox(height: 5),
-                      SizedBox(
-                        width: Get.width,
-                        child: ElevatedButton.icon(
-                          icon: const Icon(
-                            Icons.laptop,
+                      ElevatedButton.icon(
+                        icon: const Icon(
+                          Icons.laptop,
+                          color: AllMaterial.colorBlue,
+                        ),
+                        onPressed: () {
+                          Get.to(
+                            () => const SkemaPklDudiView(),
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          fixedSize: Size.fromWidth(Get.width),
+                          shadowColor: Colors.transparent,
+                          backgroundColor: AllMaterial.colorWhite,
+                          elevation: 0,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(16),
+                            ),
+                          ),
+                        ),
+                        label: Text(
+                          "Skema PKL",
+                          style: AllMaterial.montSerrat(
                             color: AllMaterial.colorBlue,
-                          ),
-                          onPressed: () {
-                            Get.to(
-                              () => const SkemaPklDudiView(),
-                            );
-                          },
-                          style: ElevatedButton.styleFrom(
-                            fixedSize: Size.fromWidth(Get.width),
-                            shadowColor: Colors.transparent,
-                            backgroundColor: AllMaterial.colorWhite,
-                            elevation: 0,
-                            shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(16),
-                              ),
-                            ),
-                          ),
-                          label: Text(
-                            "Skema PKL",
-                            style: AllMaterial.montSerrat(
-                              color: AllMaterial.colorBlue,
-                              fontWeight: AllMaterial.fontMedium,
-                            ),
+                            fontWeight: AllMaterial.fontMedium,
                           ),
                         ),
                       ),
@@ -262,7 +259,7 @@ class HomepageDudiView extends GetView<HomepageDudiController> {
                             const SizedBox(height: 25),
                             Center(
                               child: Text(
-                                "Belum ada siswa bimbingan",
+                                "Belum ada ajuan pkl",
                                 style: AllMaterial.montSerrat(),
                               ),
                             ),

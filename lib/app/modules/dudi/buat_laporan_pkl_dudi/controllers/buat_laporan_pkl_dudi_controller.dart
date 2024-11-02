@@ -4,9 +4,9 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:open_file/open_file.dart';
-import 'package:http/http.dart' as http;
 import 'package:simon_pkl/all_material.dart';
 import 'package:simon_pkl/app/data/api_url.dart';
 import 'package:simon_pkl/app/modules/dudi/laporan_kendala_dudi/controllers/laporan_kendala_dudi_controller.dart';
@@ -38,7 +38,9 @@ class BuatLaporanPklDudiController extends GetxController {
     } else {
       selectedFile.value = null;
       AllMaterial.cusBottomSheet(
-          text: "Kesalahan!", subtitle: "File tidak ditemukan");
+        text: "Kesalahan!",
+        subtitle: "File tidak ditemukan",
+      );
     }
   }
 
@@ -62,6 +64,8 @@ class BuatLaporanPklDudiController extends GetxController {
       var id = data["data"]["id"];
       if (selectedFile.value != null) {
         putDokumenLaporan(selectedFile.value!, id, context);
+      } else {
+        Get.back();
       }
       if (LaporanPklDudiController.isKendala.isFalse) {
         final c = Get.put(LaporanPklDudiController());
@@ -70,7 +74,6 @@ class BuatLaporanPklDudiController extends GetxController {
         final c = Get.put(LaporanKendalaDudiController());
         c.getAllLaporanKendalaDudi();
       }
-      Get.back();
       inputC.text = "";
       topikC.text = "";
       selectedFile.value = null;
@@ -107,8 +110,9 @@ class BuatLaporanPklDudiController extends GetxController {
       var id = data["data"]["id"];
       if (selectedFile.value != null) {
         putDokumenLaporan(selectedFile.value!, id, context);
+      } else {
+        Get.back();
       }
-      Get.back();
       if (LaporanPklDudiController.isKendala.isFalse) {
         final c = Get.put(LaporanPklDudiController());
         c.getAllLaporanHarianDudi();
@@ -118,7 +122,6 @@ class BuatLaporanPklDudiController extends GetxController {
       }
       inputC.text = "";
       topikC.text = "";
-      selectedFile.value = null;
       AllMaterial.messageScaffold(
         title: AllMaterial.hurufPertama("Laporan kendala berhasil dibuat!"),
         context: context,
@@ -144,14 +147,14 @@ class BuatLaporanPklDudiController extends GetxController {
     try {
       final uri = Uri.parse(
           "${(LaporanPklDudiController.isKendala.isTrue) ? ApiUrl.urlPutFileLaporanKendalaDudi : ApiUrl.urlPutFileLaporanHarianDudi}/$id");
-      final request = http.MultipartRequest('PUT', uri);
+      final request = http.MultipartRequest(
+          (LaporanPklDudiController.isKendala.isTrue) ? 'PUT' : 'PATCH', uri);
 
       // Header authorization
       request.headers.addAll({
         "Authorization": "Bearer $token",
       });
 
-      // Menambahkan file sebagai multipart
       final fileStream = http.MultipartFile.fromBytes(
         'file',
         await file.readAsBytes(),
@@ -159,10 +162,8 @@ class BuatLaporanPklDudiController extends GetxController {
       );
       request.files.add(fileStream);
 
-      // Mengirim request dan mendapatkan StreamedResponse
       final streamedResponse = await request.send();
 
-      // Mengubah StreamedResponse menjadi Response agar bisa dibaca
       final response = await http.Response.fromStream(streamedResponse);
 
       // Mengecek isi body response
@@ -170,14 +171,18 @@ class BuatLaporanPklDudiController extends GetxController {
         if (LaporanPklDudiController.isKendala.isFalse) {
           final c = Get.put(LaporanPklDudiController());
           c.getAllLaporanHarianDudi();
+          AllMaterial.messageScaffold(
+            title: AllMaterial.hurufPertama("Laporan berhasil dibuat!"),
+            context: context,
+          );
         } else {
           final c = Get.put(LaporanKendalaDudiController());
           c.getAllLaporanKendalaDudi();
+          AllMaterial.messageScaffold(
+            title: AllMaterial.hurufPertama("Laporan berhasil dibuat!"),
+            context: context,
+          );
         }
-        AllMaterial.messageScaffold(
-          title: AllMaterial.hurufPertama("Laporan berhasil dibuat!"),
-          context: context,
-        );
         Get.back();
         inputC.text = "";
         topikC.text = "";

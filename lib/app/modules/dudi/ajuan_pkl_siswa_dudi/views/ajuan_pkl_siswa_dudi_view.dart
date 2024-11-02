@@ -46,25 +46,26 @@ class AjuanPklSiswaDudiView extends GetView<AjuanPklSiswaDudiController> {
         ),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          child: (ajuanList.isEmpty &&
-                  diterimaList.isEmpty &&
-                  dibatalkanList.isEmpty)
-              ? Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const SizedBox(height: 25),
-                    Center(
-                      child: Text(
-                        "Belum ada ajuan pkl",
-                        style: AllMaterial.montSerrat(),
-                      ),
-                    ),
-                  ],
-                )
-              : Column(
+      body: (ajuanList.isEmpty &&
+              diterimaList.isEmpty &&
+              dibatalkanList.isEmpty)
+          ? Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const SizedBox(height: 25),
+                Center(
+                  child: Text(
+                    "Belum ada ajuan pkl",
+                    style: AllMaterial.montSerrat(),
+                  ),
+                ),
+              ],
+            )
+          : SingleChildScrollView(
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                child: Column(
                   children: [
                     // Expanded 1
                     (ajuanList.isEmpty)
@@ -214,8 +215,8 @@ class AjuanPklSiswaDudiView extends GetView<AjuanPklSiswaDudiController> {
                           ),
                   ],
                 ),
-        ),
-      ),
+              ),
+            ),
     );
   }
 }

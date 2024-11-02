@@ -3,13 +3,13 @@ import 'dart:io';
 
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:simon_pkl/all_material.dart';
 import 'package:simon_pkl/app/modules/dudi/data_siswa_dudi/controllers/data_siswa_dudi_controller.dart';
 import 'package:simon_pkl/app/modules/dudi/laporan_pkl_dudi/controllers/laporan_pkl_dudi_controller.dart';
 import 'package:simon_pkl/app/modules/siswa/buat_laporan_siswa/views/buat_laporan_siswa_view.dart';
-import 'package:simon_pkl/app/modules/siswa/homepage_siswa/views/homepage_siswa_view.dart';
 
 import '../controllers/buat_laporan_pkl_dudi_controller.dart';
 
@@ -345,8 +345,20 @@ class BuatLaporanPklDudiView extends GetView<BuatLaporanPklDudiController> {
                                       subtitle: "Apakah Anda yakin?",
                                       onConfirm: () {
                                         if (isKendala) {
-                                          controller
-                                              .postLaporanKendalaDudi(context);
+                                          if (controller
+                                                  .selectedSiswaId.value !=
+                                              "") {
+                                            controller.postLaporanKendalaDudi(
+                                              context,
+                                            );
+                                          } else {
+                                            AllMaterial.messageScaffold(
+                                              title: AllMaterial.hurufPertama(
+                                                "Harap pilih siswa terkait",
+                                              ),
+                                              context: context,
+                                            );
+                                          }
                                         } else {
                                           controller
                                               .postLaporanHarianDudi(context);
@@ -477,12 +489,13 @@ Widget previewOtherFile(File file) {
         const SizedBox(width: 10),
         Expanded(
           child: Text(
-            controller.selectedFile.value!.path
-                .split('/')
-                .last
-                .toString()
-                .split(' ')
-                .join('-'),
+            controller.selectedFile.value?.path
+                    .split('/')
+                    .last
+                    .toString()
+                    .split(' ')
+                    .join('-') ??
+                "",
             overflow: TextOverflow.ellipsis,
             style: AllMaterial.montSerrat(
               color: AllMaterial.colorWhite,
@@ -492,8 +505,7 @@ Widget previewOtherFile(File file) {
         ),
         IconButton(
           onPressed: () {
-            // controller.selectedFile.value = null;
-            Get.off(const HomepageSiswaView());
+            controller.selectedFile.value = null;
           },
           icon: const Icon(
             Icons.clear_rounded,
@@ -519,14 +531,13 @@ Widget uploadFilePlaceholder() {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Icon(
-            Icons.file_upload,
-            color: Colors.white,
-            size: 50,
+          SvgPicture.asset(
+            "assets/icons/lokasi.svg",
+            height: 40,
           ),
           const SizedBox(height: 10),
           Text(
-            "docx, pdf, jpg, atau png",
+            "tekan untuk memilih lokasi",
             style: AllMaterial.montSerrat(
               color: Colors.white,
             ),

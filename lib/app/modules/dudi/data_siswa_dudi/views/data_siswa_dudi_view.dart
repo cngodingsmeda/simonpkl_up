@@ -10,10 +10,15 @@ import '../controllers/data_siswa_dudi_controller.dart';
 
 class DataSiswaDudiView extends GetView<DataSiswaDudiController> {
   const DataSiswaDudiView({super.key});
+
   @override
   Widget build(BuildContext context) {
     Get.put(DataSiswaDudiController());
-    final homeC = Get.put(HomepageDudiController());
+    final homeController = Get.put(HomepageDudiController());
+    controller.getAllSiswa();
+    print(
+        "Debug: Data siswa - ${DataSiswaDudiController.allSiswa.value?.data}");
+
     return Scaffold(
       backgroundColor: AllMaterial.colorWhite,
       appBar: AppBar(
@@ -31,61 +36,47 @@ class DataSiswaDudiView extends GetView<DataSiswaDudiController> {
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Obx(
           () {
-            if (DataSiswaDudiController.allSiswa.value != null) {
-              if (DataSiswaDudiController.allSiswa.value!.data!.isNotEmpty) {
-                return ListView.builder(
-                  itemCount: homeC.jumlahSiswa.value,
-                  itemBuilder: (context, index) {
-                    var siswa =
-                        DataSiswaDudiController.allSiswa.value?.data?[index];
-                    return CardWidget(
-                      onTap: () {
-                        var detilSiswa = Get.put(DetilSiswaDudiController());
-                        detilSiswa.getDetilSiswaById(siswa?.id ?? 0);
-                      },
-                      tanggal:
-                          AllMaterial.setiapNamaHurufPertama(siswa?.nama ?? ""),
-                      icon: CircleAvatar(
-                        backgroundColor: const Color(0xffF8F8F8),
-                        backgroundImage: (siswa?.fotoProfile != null)
-                            ? NetworkImage(
-                                siswa!.fotoProfile!
-                                    .replaceAll("localhost", "10.0.2.2"),
-                              )
-                            : const AssetImage("assets/images/foto-profile.png")
-                                as ImageProvider,
-                        child: (siswa?.fotoProfile == null)
-                            ? SvgPicture.asset("assets/icons/person.svg")
-                            : null,
-                      ),
-                      keterangan: siswa?.kelas?.nama ?? "",
-                    );
-                  },
-                );
-              } else {
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Center(
-                      child: Text(
-                        "Tidak ada data siswa...",
-                        style: AllMaterial.montSerrat(),
-                      ),
-                    ),
-                  ],
-                );
-              }
+            final siswaList =
+                DataSiswaDudiController.allSiswa.value?.data ?? [];
+            final jumlahSiswa = homeController.jumlahSiswa.value;
+
+            if (siswaList.isEmpty || jumlahSiswa == 0) {
+              return Center(
+                child: Text(
+                  "Belum ada data siswa",
+                  style: AllMaterial.montSerrat(),
+                ),
+              );
             } else {
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Center(
-                    child: Text(
-                      "Belum ada data siswa...",
-                      style: AllMaterial.montSerrat(),
+              return ListView.builder(
+                itemCount: siswaList.length,
+                itemBuilder: (context, index) {
+                  var siswa = siswaList[index];
+
+                  return CardWidget(
+                    onTap: () {
+                      var detilSiswaController =
+                          Get.put(DetilSiswaDudiController());
+                      detilSiswaController.getDetilSiswaById(siswa.id ?? 0);
+                    },
+                    tanggal:
+                        AllMaterial.setiapNamaHurufPertama(siswa.nama ?? ""),
+                    icon: CircleAvatar(
+                      backgroundColor: const Color(0xffF8F8F8),
+                      backgroundImage: (siswa.fotoProfile != null)
+                          ? NetworkImage(
+                              siswa.fotoProfile!
+                                  .replaceAll("localhost", "10.0.2.2"),
+                            )
+                          : const AssetImage("assets/images/foto-profile.png")
+                              as ImageProvider,
+                      child: (siswa.fotoProfile == null)
+                          ? SvgPicture.asset("assets/icons/person.svg")
+                          : null,
                     ),
-                  ),
-                ],
+                    keterangan: siswa.kelas?.nama ?? "",
+                  );
+                },
               );
             }
           },

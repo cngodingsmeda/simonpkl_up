@@ -10,12 +10,6 @@ class DataSiswaDudiController extends GetxController {
   static var allSiswa = Rxn<DataSiswaDudiModel>();
   var token = AllMaterial.box.read("token");
 
-  @override
-  void onInit() {
-    getAllSiswa();
-    super.onInit();
-  }
-
   Future<void> getAllSiswa() async {
     try {
       final response = await http.get(
@@ -28,7 +22,7 @@ class DataSiswaDudiController extends GetxController {
 
       if (response.statusCode == 200) {
         var data = jsonDecode(response.body);
-        print(data);
+        print("getAllSiswa: $data");
         var siswa = DataSiswaDudiModel.fromJson(data);
         allSiswa.value = siswa;
         update();

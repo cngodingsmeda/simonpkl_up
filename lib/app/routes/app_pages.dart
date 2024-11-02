@@ -1,13 +1,15 @@
 import 'package:get/get.dart';
 
-import '../modules/dudi/laporan_kendala_dudi/bindings/laporan_kendala_dudi_binding.dart';
-import '../modules/dudi/laporan_kendala_dudi/views/laporan_kendala_dudi_view.dart';
+import '../modules/dudi/buat_jadwal_absen_dudi/bindings/buat_jadwal_absen_dudi_binding.dart';
+import '../modules/dudi/buat_jadwal_absen_dudi/views/buat_jadwal_absen_dudi_view.dart';
 import '../modules/dudi/ajuan_pkl_siswa_dudi/bindings/ajuan_pkl_siswa_dudi_binding.dart';
 import '../modules/dudi/ajuan_pkl_siswa_dudi/views/ajuan_pkl_siswa_dudi_view.dart';
 import '../modules/dudi/buat_form_pkl_dudi/bindings/buat_form_pkl_dudi_binding.dart';
 import '../modules/dudi/buat_form_pkl_dudi/views/buat_form_pkl_dudi_view.dart';
 import '../modules/dudi/buat_laporan_pkl_dudi/bindings/buat_laporan_pkl_dudi_binding.dart';
 import '../modules/dudi/buat_laporan_pkl_dudi/views/buat_laporan_pkl_dudi_view.dart';
+import '../modules/dudi/daftar_lokasi_absen_dudi/bindings/daftar_lokasi_absen_dudi_binding.dart';
+import '../modules/dudi/daftar_lokasi_absen_dudi/views/daftar_lokasi_absen_dudi_view.dart';
 import '../modules/dudi/data_siswa_dudi/bindings/data_siswa_dudi_binding.dart';
 import '../modules/dudi/data_siswa_dudi/views/data_siswa_dudi_view.dart';
 import '../modules/dudi/detil_histori_absen_siswa_dudi/bindings/detil_histori_absen_siswa_dudi_binding.dart';
@@ -18,14 +20,24 @@ import '../modules/dudi/detil_notifikasi_dudi/bindings/detil_notifikasi_dudi_bin
 import '../modules/dudi/detil_notifikasi_dudi/views/detil_notifikasi_dudi_view.dart';
 import '../modules/dudi/detil_siswa_dudi/bindings/detil_siswa_dudi_binding.dart';
 import '../modules/dudi/detil_siswa_dudi/views/detil_siswa_dudi_view.dart';
+import '../modules/dudi/form_rekrut_siswa_dudi/bindings/form_rekrut_siswa_dudi_binding.dart';
+import '../modules/dudi/form_rekrut_siswa_dudi/views/form_rekrut_siswa_dudi_view.dart';
 import '../modules/dudi/histori_absen_siswa_dudi/bindings/histori_absen_siswa_dudi_binding.dart';
 import '../modules/dudi/histori_absen_siswa_dudi/views/histori_absen_siswa_dudi_view.dart';
 import '../modules/dudi/home_dudi/bindings/home_dudi_binding.dart';
 import '../modules/dudi/home_dudi/views/home_dudi_view.dart';
 import '../modules/dudi/homepage_dudi/bindings/homepage_dudi_binding.dart';
 import '../modules/dudi/homepage_dudi/views/homepage_dudi_view.dart';
+import '../modules/dudi/jadwal_absen_siswa_dudi/bindings/jadwal_absen_siswa_dudi_binding.dart';
+import '../modules/dudi/jadwal_absen_siswa_dudi/views/jadwal_absen_siswa_dudi_view.dart';
+import '../modules/dudi/kuota_umum_dudi/bindings/kuota_umum_dudi_binding.dart';
+import '../modules/dudi/kuota_umum_dudi/views/kuota_umum_dudi_view.dart';
+import '../modules/dudi/laporan_kendala_dudi/bindings/laporan_kendala_dudi_binding.dart';
+import '../modules/dudi/laporan_kendala_dudi/views/laporan_kendala_dudi_view.dart';
 import '../modules/dudi/laporan_pkl_dudi/bindings/laporan_pkl_dudi_binding.dart';
 import '../modules/dudi/laporan_pkl_dudi/views/laporan_pkl_dudi_view.dart';
+import '../modules/dudi/lokasi_absen_dudi/bindings/lokasi_absen_dudi_binding.dart';
+import '../modules/dudi/lokasi_absen_dudi/views/lokasi_absen_dudi_view.dart';
 import '../modules/dudi/menunggu_verifikasi_pkl_siswa_dudi/bindings/menunggu_verifikasi_pkl_siswa_dudi_binding.dart';
 import '../modules/dudi/menunggu_verifikasi_pkl_siswa_dudi/views/menunggu_verifikasi_pkl_siswa_dudi_view.dart';
 import '../modules/dudi/notifikasi_dudi/bindings/notifikasi_dudi_binding.dart';
@@ -351,6 +363,36 @@ class AppPages {
       name: _Paths.LAPORAN_KENDALA_DUDI,
       page: () => const LaporanKendalaDudiView(),
       binding: LaporanKendalaDudiBinding(),
+    ),
+    GetPage(
+      name: _Paths.FORM_REKRUT_SISWA_DUDI,
+      page: () => const FormRekrutSiswaDudiView(),
+      binding: FormRekrutSiswaDudiBinding(),
+    ),
+    GetPage(
+      name: _Paths.JADWAL_ABSEN_SISWA_DUDI,
+      page: () => const JadwalAbsenSiswaDudiView(),
+      binding: JadwalAbsenSiswaDudiBinding(),
+    ),
+    GetPage(
+      name: _Paths.KUOTA_UMUM_DUDI,
+      page: () => const KuotaUmumDudiView(),
+      binding: KuotaUmumDudiBinding(),
+    ),
+    GetPage(
+      name: _Paths.LOKASI_ABSEN_DUDI,
+      page: () => const LokasiAbsenDudiView(),
+      binding: LokasiAbsenDudiBinding(),
+    ),
+    GetPage(
+      name: _Paths.DAFTAR_LOKASI_ABSEN_DUDI,
+      page: () => const DaftarLokasiAbsenDudiView(),
+      binding: DaftarLokasiAbsenDudiBinding(),
+    ),
+    GetPage(
+      name: _Paths.BUAT_JADWAL_ABSEN_DUDI,
+      page: () => const BuatJadwalAbsenDudiView(),
+      binding: BuatJadwalAbsenDudiBinding(),
     ),
   ];
 }

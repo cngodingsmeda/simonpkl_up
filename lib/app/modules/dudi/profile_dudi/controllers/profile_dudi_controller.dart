@@ -19,7 +19,7 @@ class ProfileDudiController extends GetxController {
   var profil = Rx<ProfileDudiModel?>(null);
 
   Future<void> fetchProfileDudi() async {
-    print("Fetching profil guru...");
+    print("Fetching profil dudi...");
     String token = AllMaterial.box.read("token");
 
     final response = await http.get(

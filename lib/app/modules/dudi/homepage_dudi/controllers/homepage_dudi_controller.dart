@@ -72,14 +72,12 @@ class HomepageDudiController extends GetxController {
       },
     );
 
+    var data = jsonDecode(response.body);
+    print("getCountKuotaDudi: $data");
     if (response.statusCode == 200) {
-      var data = jsonDecode(response.body);
-      print(data);
-      if (data != null) {
-        kuotaSiswaLakiLaki.value = data["data"]["kuota"]["jumlah_pria"] ?? 0;
-        kuotaSiswaPerempuan.value = data["data"]["kuota"]["jumlah_wanita"] ?? 0;
-        update();
-      }
+      kuotaSiswaLakiLaki.value = data["data"]["kuota"]["jumlah_pria"] ?? 0;
+      kuotaSiswaPerempuan.value = data["data"]["kuota"]["jumlah_wanita"] ?? 0;
+      update();
     } else {
       print("Gagal mengirim data");
       throw Exception('Failed to fetch data');

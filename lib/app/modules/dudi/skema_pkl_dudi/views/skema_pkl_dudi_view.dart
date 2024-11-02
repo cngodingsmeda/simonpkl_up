@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:simon_pkl/all_material.dart';
-import 'package:simon_pkl/app/modules/dudi/buat_form_pkl_dudi/views/buat_form_pkl_dudi_view.dart';
+import 'package:simon_pkl/app/modules/dudi/daftar_lokasi_absen_dudi/views/daftar_lokasi_absen_dudi_view.dart';
+import 'package:simon_pkl/app/modules/dudi/form_rekrut_siswa_dudi/views/form_rekrut_siswa_dudi_view.dart';
+import 'package:simon_pkl/app/modules/dudi/homepage_dudi/controllers/homepage_dudi_controller.dart';
+import 'package:simon_pkl/app/modules/dudi/jadwal_absen_siswa_dudi/views/jadwal_absen_siswa_dudi_view.dart';
+import 'package:simon_pkl/app/modules/dudi/kuota_umum_dudi/views/kuota_umum_dudi_view.dart';
 import 'package:simon_pkl/app/modules/dudi/laporan_kendala_dudi/views/laporan_kendala_dudi_view.dart';
 import 'package:simon_pkl/app/modules/dudi/laporan_pkl_dudi/controllers/laporan_pkl_dudi_controller.dart';
 import 'package:simon_pkl/app/modules/dudi/laporan_pkl_dudi/views/laporan_pkl_dudi_view.dart';
@@ -21,7 +25,7 @@ class SkemaPklDudiView extends GetView<SkemaPklDudiController> {
         child: Column(
           children: [
             Container(
-              height: MediaQuery.of(context).size.height * 0.30,
+              height: Get.height * 0.22,
               width: Get.width,
               decoration: const BoxDecoration(
                 color: AllMaterial.colorBlue,
@@ -63,7 +67,7 @@ class SkemaPklDudiView extends GetView<SkemaPklDudiController> {
               ),
             ),
             Container(
-              padding: const EdgeInsets.all(24),
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 4),
               decoration: BoxDecoration(
                 color: AllMaterial.colorWhite,
                 boxShadow: [
@@ -87,20 +91,40 @@ class SkemaPklDudiView extends GetView<SkemaPklDudiController> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       ButtonAbsen(
-                        nama: "Jadwal Absen",
-                        svg: "assets/icons/buat-jadwal.svg",
+                        nama: "Kuota Umum",
+                        svg: "assets/icons/kuota-umum.svg",
                         tekan: () {
-                          Get.to(() => const BuatFormPklDudiView());
-                          AllMaterial.box.write("isJadwal", true);
+                          Get.to(() => const KuotaUmumDudiView());
                         },
                       ),
                       const SizedBox(width: 12),
                       ButtonAbsen(
-                        nama: "Form Rekrut",
+                        nama: "Kuota Jurusan",
                         svg: "assets/icons/buat-rekrut.svg",
                         tekan: () {
-                          Get.to(() => const BuatFormPklDudiView());
+                          Get.to(() => const FormRekrutSiswaDudiView());
                           AllMaterial.box.write("isJadwal", false);
+                        },
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 30),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ButtonAbsen(
+                        nama: "Lokasi Absen",
+                        svg: "assets/icons/lokasi.svg",
+                        tekan: () {
+                          Get.to(() => const DaftarLokasiAbsenDudiView());
+                        },
+                      ),
+                      const SizedBox(width: 12),
+                      ButtonAbsen(
+                        nama: "Jadwal Absen",
+                        svg: "assets/icons/buat-jadwal.svg",
+                        tekan: () {
+                          Get.to(() => const JadwalAbsenSiswaDudiView());
                         },
                       ),
                     ],
@@ -119,7 +143,7 @@ class SkemaPklDudiView extends GetView<SkemaPklDudiController> {
                           LaporanPklDudiController.isKendala.value = false;
                         },
                       ),
-                      const SizedBox(width: 12),
+                      const SizedBox(width: 10),
                       ButtonAbsen(
                         nama: "Lapor Kendala",
                         svg: "assets/icons/kendala-toa.svg",
@@ -141,6 +165,8 @@ class SkemaPklDudiView extends GetView<SkemaPklDudiController> {
       bottomNavigationBar: GestureDetector(
         onTap: () {
           Get.back();
+          final homePageDudi = Get.put(HomepageDudiController());
+          homePageDudi.getCountKuotaDudi();
         },
         child: Container(
           margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),

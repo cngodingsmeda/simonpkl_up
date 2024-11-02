@@ -1,97 +1,125 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
+import 'package:simon_pkl/all_material.dart';
+import 'package:simon_pkl/app/data/api_url.dart';
+import 'package:simon_pkl/app/model/model_dudi/all_jurusan_dudi_model.dart';
+import 'package:simon_pkl/app/model/model_dudi/kuota_pkl_siswa_dudi_model.dart';
+import 'package:simon_pkl/app/modules/dudi/form_rekrut_siswa_dudi/controllers/form_rekrut_siswa_dudi_controller.dart';
 
 class BuatFormPklDudiController extends GetxController {
-  // Daftar hari untuk jadwal
-  List<String> hariList = [
-    "Senin",
-    "Selasa",
-    "Rabu",
-    "Kamis",
-    "Jumat",
-    "Sabtu",
-  ];
+  var token = AllMaterial.box.read("token");
+  static var jurusan = Rx<AllJurusanDudiModel?>(null);
+  var selectedJurusanId = "".obs;
+  var jumlahLakiLaki = 0.obs;
+  var idKuotaJurusan = "".obs;
+  var jumlahPerempuan = 0.obs;
+  late TextEditingController lakiC;
+  late TextEditingController perempuanC;
 
-  // List Dropdown untuk Topik/Jurusan
-  final List<String> jurusanList = [
-    "Tidak Ada Kriteria Jurusan",
-    "Akuntansi & Keuangan Lembaga",
-    "Bisnis Digital",
-    "Bisnis Retail",
-    "Layanan Perbankan Syariah",
-    "Manajemen Perkantoran",
-    "Rekayasa Perangkat Lunak",
-    "Teknik Komputer & Jaringan",
-    "Usaha Layanan Wisata",
-  ];
+  Future<void> getKuotaSiswa({
+    required bool isPost,
+    required BuildContext context,
+  }) async {
+    try {
+      final response =
+          isPost ? await _postKuotaJurusan() : await _putKuotaJurusan();
+      var data = jsonDecode(response.body);
+      print(data);
 
-  // Variabel observables
-  var selectedTopik = ''.obs; // Jurusan/Topik yang dipilih
-  var jamMasukAwal = TimeOfDay.now().obs; // Jam Masuk Awal
-  var jamMasukAkhir = TimeOfDay.now().obs; // Jam Masuk Akhir
-  var jamPulangAwal = TimeOfDay.now().obs; // Jam Pulang Awal
-  var jamPulangAkhir = TimeOfDay.now().obs; // Jam Pulang Akhir
-  var jumlahLakiLaki = 0.obs; // Jumlah siswa laki-laki
-  var jumlahPerempuan = 0.obs; // Jumlah siswa perempuan
-  var selectedLocation = "".obs; // Lokasi absen yang dipilih
-  var jumlahFormJadwal = 1.obs; // Jumlah form jadwal yang ditampilkan
-  var selectedHariList = <String>[].obs; // Hari yang dipilih dalam jadwal
-  var selectedJurusanList = <String>[].obs; // Jurusan yang dipilih
-  var jamMasukList = <TimeOfDay>[].obs; // List waktu masuk untuk tiap hari
-  var jamPulangList = <TimeOfDay>[].obs; // List waktu pulang untuk tiap hari
-
-  // Fungsi untuk memilih lokasi
-  void pickLocation() {
-    selectedLocation.value = "Lokasi Terpilih";
-  }
-
-  // Fungsi untuk menambah form jadwal
-  void addNewDay() {
-    if (jumlahFormJadwal.value < hariList.length) {
-      jumlahFormJadwal.value += 1;
-      addTimePickersForNewDay();
-      print("daftar hari: $selectedHariList");
+      if (response.statusCode == 200) {
+        AllMaterial.messageScaffold(
+          title: AllMaterial.hurufPertama(
+            isPost
+                ? "Form Rekrut berhasil dibuat!"
+                : "Form Rekrut berhasil diperbarui!",
+          ),
+          context: context,
+        );
+        final kuotaC = Get.put(FormRekrutSiswaDudiController());
+        kuotaC.getAllKuotaSiswaDudi();
+        Get.back();
+      } else {
+        print(data["msg"]);
+        AllMaterial.messageScaffold(
+          title: AllMaterial.hurufPertama(data["msg"] ?? ""),
+          context: context,
+        );
+      }
+    } catch (e) {
+      print("Exception: $e");
+    } finally {
+      update();
     }
   }
 
-  // Fungsi untuk mendapatkan jumlah jurusan yang dipilih
-  int get jumlahJurusan => selectedJurusanList.length;
-
-  // Fungsi untuk menambah jam masuk/pulang ke list
-  void addTimePickersForNewDay() {
-    if (jamMasukList.length < jumlahFormJadwal.value) {
-      jamMasukList.add(TimeOfDay.now());
-      jamPulangList.add(TimeOfDay.now());
-      print("List Masuk: $jamMasukList");
-      print("List Pulang: $jamPulangList");
-      print("Jam Masuk : $jamMasukAwal - $jamMasukAkhir");
-      print("Jam Pulang : $jamPulangAwal - $jamPulangAkhir");
-    }
+  Future<http.Response> _postKuotaJurusan() {
+    return http.post(
+      Uri.parse("${ApiUrl.urlGetKuotaSiswaDudi}/kuota-jurusan"),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer $token",
+      },
+      body: jsonEncode([
+        {
+          "id_jurusan": int.tryParse(selectedJurusanId.value),
+          "jumlah_pria": int.tryParse(lakiC.text),
+          "jumlah_wanita": int.tryParse(perempuanC.text),
+        }
+      ]),
+    );
   }
 
-  // Fungsi untuk memilih jurusan
-  void selectJurusan(String jurusan) {
-    if (!selectedJurusanList.contains(jurusan)) {
-      selectedJurusanList.add(jurusan);
-    }
+  Future<http.Response> _putKuotaJurusan() {
+    return http.put(
+      Uri.parse(ApiUrl.urlGetKuotaSiswaDudi),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer $token",
+      },
+      body: jsonEncode({
+        "kuota_jurusan": [
+          {
+            "id": int.tryParse(idKuotaJurusan.value) ?? 0,
+            "jumlah_pria": int.tryParse(lakiC.text) ?? 0,
+            "jumlah_wanita": int.tryParse(perempuanC.text) ?? 0,
+          }
+        ]
+      }),
+    );
   }
 
-  // Fungsi untuk memilih hari
-  void selectHari(String hari) {
-    if (!selectedHariList.contains(hari)) {
-      selectedHariList.add(hari);
-    }
+  @override
+  void onInit() {
+    super.onInit();
+
+    var arg = Get.arguments ?? {};
+    var id = arg["id"] ?? 0;
+    Kuota? dataRekrut = (id == 0) ? null : arg["data"] as Kuota?;
+
+    selectedJurusanId.value = dataRekrut?.jurusan?.id.toString() ?? "";
+    idKuotaJurusan.value = dataRekrut?.id.toString() ?? "";
+    idKuotaJurusan.value = arg["id"].toString();
+
+    lakiC = TextEditingController(
+        text: (id == 0) ? "0" : dataRekrut?.jumlahPria.toString() ?? "0");
+    perempuanC = TextEditingController(
+        text: (id == 0) ? "0" : dataRekrut?.jumlahWanita?.toString() ?? "0");
+    print("data wanita: ${dataRekrut?.jumlahWanita}");
+    print("data pria: ${dataRekrut?.jumlahPria}");
+    print("kuota jurusan: ${dataRekrut?.jurusan?.nama}");
   }
 
-  // Fungsi untuk mereset form
-  void resetForm() {
-    selectedTopik.value = '';
-    selectedJurusanList.clear();
-    selectedHariList.clear();
-    jamMasukList.clear();
-    jamPulangList.clear();
+  @override
+  void onClose() {
+    selectedJurusanId.value = "";
     jumlahLakiLaki.value = 0;
     jumlahPerempuan.value = 0;
-    jumlahFormJadwal.value = 1;
+    idKuotaJurusan.value = "";
+    lakiC.text = "";
+    perempuanC.text = "";
+    super.onClose();
   }
 }

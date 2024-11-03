@@ -40,6 +40,7 @@ class HomepageSiswaController extends GetxController {
       }
       update();
     } else {
+      print(response.body);
       print("gagal mengirim data");
       throw Exception('Failed to send data');
     }

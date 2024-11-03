@@ -97,7 +97,7 @@ class DetilHistoriAbsenSiswaDudiController extends GetxController {
     if (arg.contains("pulang")) {
       if (statusIzinPulang == null) {
         return "Tepat Waktu";
-      } else if (statusIzinPulang.contains("radius")) {
+      } else if (statusIzinPulang.contains("diluar_radius")) {
         return "Telat";
       }
       return AllMaterial.setiapHurufPertama(statusIzinPulang);

@@ -95,7 +95,7 @@ class JadwalAbsenSiswaDudiView extends GetView<JadwalAbsenSiswaDudiController> {
                                 color: Colors.green,
                               )
                             : const Icon(
-                                Icons.highlight_remove,
+                                Icons.cancel_sharp,
                                 color: Colors.red,
                               ),
                         keterangan: item.enable ?? true

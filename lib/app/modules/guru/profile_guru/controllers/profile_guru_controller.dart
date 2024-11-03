@@ -53,4 +53,9 @@ class ProfileGuruController extends GetxController {
       throw Exception('Failed to load profile');
     }
   }
+  @override
+  void onInit() {
+    fetchProfileGuru();
+    super.onInit();
+  }
 }

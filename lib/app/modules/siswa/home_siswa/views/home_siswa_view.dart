@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 import 'package:simon_pkl/all_material.dart';
 import 'package:simon_pkl/app/controller/general_controller.dart';
@@ -50,8 +51,8 @@ class HomeSiswaView extends GetView<HomeSiswaController> {
         ),
         PersistentBottomNavBarItem(
           scrollToTopOnNavBarItemPress: true,
-          icon: SvgPicture.asset(
-            "assets/icons/histori-absen.svg",
+          icon: Icon(
+            MdiIcons.clipboardTextClock,
             color: AllMaterial.colorWhite,
           ),
           textStyle: AllMaterial.montSerrat(fontWeight: AllMaterial.fontMedium),
@@ -78,7 +79,6 @@ class HomeSiswaView extends GetView<HomeSiswaController> {
 
   @override
   Widget build(BuildContext context) {
-    profCont.fetchProfilSiswa();
     return Scaffold(
       backgroundColor: AllMaterial.colorWhite,
       body: Obx(() {

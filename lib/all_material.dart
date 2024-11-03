@@ -349,4 +349,14 @@ abstract class AllMaterial {
 
     return (namaTigaPertama + inisialSisa).join(' ').toUpperCase();
   }
+
+  static Widget setupPullToRefresh({
+    required Future<void> Function() onRefresh,
+    required Widget child,
+  }) {
+    return RefreshIndicator(
+      onRefresh: onRefresh,
+      child: child,
+    );
+  }
 }

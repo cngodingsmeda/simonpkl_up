@@ -57,4 +57,10 @@ class ProfileDudiController extends GetxController {
       throw Exception('Failed to load profile');
     }
   }
+
+  @override
+  void onInit() {
+    fetchProfileDudi();
+    super.onInit();
+  }
 }

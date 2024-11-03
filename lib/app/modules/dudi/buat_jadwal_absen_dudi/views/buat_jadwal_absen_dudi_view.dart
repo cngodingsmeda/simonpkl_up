@@ -12,8 +12,7 @@ class BuatJadwalAbsenDudiView extends GetView<BuatJadwalAbsenDudiController> {
   @override
   Widget build(BuildContext context) {
     var controller = Get.put(BuatJadwalAbsenDudiController());
-    controller
-        .getJadwalAbsenById(); // Memanggil fungsi untuk mendapatkan jadwal berdasarkan ID
+    controller.getJadwalAbsenById();
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -53,7 +52,9 @@ class BuatJadwalAbsenDudiView extends GetView<BuatJadwalAbsenDudiController> {
                       ),
                     ),
                     const SizedBox(height: 20),
-                    FieldDayAbsen(controller: controller),
+                    FieldDayAbsen(
+                      controller: controller,
+                    ),
                     const SizedBox(height: 30),
                   ],
                 ),
@@ -137,6 +138,50 @@ class FieldDayAbsen extends StatelessWidget {
               ),
             ),
           ],
+        ),
+        const SizedBox(height: 20),
+        Obx(
+          () {
+            bool isUpdate = controller.idPut.value != 0;
+
+            print(controller.isEnable.value);
+            return isUpdate
+                ? GestureDetector(
+                    onTap: () => controller.isEnable.toggle(),
+                    child: Row(
+                      children: [
+                        Checkbox(
+                          fillColor: const WidgetStatePropertyAll(
+                            AllMaterial.colorBlue,
+                          ),
+                          value: controller.isEnable.value,
+                          onChanged: (value) {
+                            print(value);
+                            controller.ubahStatusJadwalAbsen(
+                                value ?? controller.isEnable.value);
+                          },
+                          checkColor: Colors.white,
+                          side: const BorderSide(
+                            color: AllMaterial.colorWhite,
+                            width: 2,
+                          ),
+                          activeColor: Colors.white,
+                        ),
+                        Expanded(
+                          child: Text(
+                            'Tandai sebagai "Jadwal Aktif"',
+                            style: AllMaterial.montSerrat(
+                              color: AllMaterial.colorWhite,
+                              fontWeight: AllMaterial.fontMedium,
+                              fontSize: 13,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                : const SizedBox.shrink();
+          },
         ),
         const SizedBox(height: 20),
         _buildSubmitButton(controller, context),

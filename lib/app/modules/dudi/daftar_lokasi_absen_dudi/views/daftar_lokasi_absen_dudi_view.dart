@@ -87,7 +87,7 @@ class DaftarLokasiAbsenDudiView
                         },
                         tanggal: (item.namaTempat != null &&
                                 item.namaTempat!.isNotEmpty)
-                            ? item.namaTempat ?? ""
+                            ? item.namaTempat!.toUpperCase()
                             : "Nama tidak tersedia",
                         icon: const Icon(
                           Icons.check_circle,

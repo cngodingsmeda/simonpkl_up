@@ -235,7 +235,8 @@ class HomepageSiswaView extends GetView<HomepageSiswaController> {
                                                 const SizedBox(width: 10),
                                                 Expanded(
                                                   child: Text(
-                                                    ajuanPkl!.dudi.noTelepon,
+                                                    ajuanPkl?.dudi.noTelepon ??
+                                                        "",
                                                     style:
                                                         AllMaterial.montSerrat(
                                                       color: AllMaterial
@@ -258,7 +259,7 @@ class HomepageSiswaView extends GetView<HomepageSiswaController> {
                                                 Expanded(
                                                   child: Text(
                                                     AllMaterial.setiapHurufPertama(
-                                                        "${ajuanPkl.dudi.alamat.detailTempat}, ${ajuanPkl.dudi.alamat.desa}, ${ajuanPkl.dudi.alamat.kecamatan}, ${ajuanPkl.dudi.alamat.kabupaten}, ${ajuanPkl.dudi.alamat.kabupaten}, ${ajuanPkl.dudi.alamat.provinsi}"),
+                                                        "${ajuanPkl?.dudi.alamat.detailTempat}, ${ajuanPkl?.dudi.alamat.desa}, ${ajuanPkl?.dudi.alamat.kecamatan}, ${ajuanPkl?.dudi.alamat.kabupaten}, ${ajuanPkl?.dudi.alamat.kabupaten}, ${ajuanPkl?.dudi.alamat.provinsi}"),
                                                     style:
                                                         AllMaterial.montSerrat(
                                                       color: AllMaterial
@@ -286,8 +287,8 @@ class HomepageSiswaView extends GetView<HomepageSiswaController> {
                                                     () =>
                                                         const BatalkanPklSiswaView(),
                                                     arguments: {
-                                                      "id": ajuanPkl.id,
-                                                      "instansi": ajuanPkl.dudi
+                                                      "id": ajuanPkl?.id,
+                                                      "instansi": ajuanPkl?.dudi
                                                           .namaInstansiPerusahaan
                                                     });
                                               },
@@ -321,7 +322,7 @@ class HomepageSiswaView extends GetView<HomepageSiswaController> {
                                               onPressed: () {
                                                 Get.to(
                                                   () => const AjuanSiswaView(),
-                                                  arguments: ajuanPkl.id,
+                                                  arguments: ajuanPkl?.id ?? 0,
                                                 );
                                               },
                                               style: ElevatedButton.styleFrom(
@@ -413,6 +414,7 @@ class HomepageSiswaView extends GetView<HomepageSiswaController> {
                                                       profController
                                                               .profil
                                                               .value
+                                                              ?.dudi
                                                               ?.noTelepon ??
                                                           "",
                                                       style: AllMaterial
@@ -438,8 +440,10 @@ class HomepageSiswaView extends GetView<HomepageSiswaController> {
                                                   Expanded(
                                                     child: Obx(
                                                       () => Text(
-                                                        (profController.profil
-                                                                    .value ==
+                                                        (profController
+                                                                    .profil
+                                                                    .value
+                                                                    ?.dudi ==
                                                                 null)
                                                             ? ""
                                                             : AllMaterial

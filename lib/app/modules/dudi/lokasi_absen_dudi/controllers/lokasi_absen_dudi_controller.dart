@@ -16,8 +16,8 @@ class LokasiAbsenDudiController extends GetxController {
   TextEditingController radiusAbsen = TextEditingController();
   TextEditingController latitudeController = TextEditingController();
   TextEditingController longitudeController = TextEditingController();
-  // Observables for location data
   Rx<LatLng> currentLocation = const LatLng(0.0, 0.0).obs;
+  var isEnable = true.obs;
   RxBool manualLocationEnabled = false.obs;
   var latitude = 0.0.obs;
   var longitude = 0.0.obs;
@@ -114,6 +114,7 @@ class LokasiAbsenDudiController extends GetxController {
         "nama_tempat": namaTempatC.text,
         "latitude": latitude.value,
         "longitude": longitude.value,
+        "enable": isEnable.value,
         "radius_absen_meter": radiusAbsen.text
       }),
     );

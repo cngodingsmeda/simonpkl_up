@@ -5,7 +5,7 @@ abstract class ApiUrl {
 
   // SISWA
   static var urlGetProfileSiswa = "http://10.0.2.2:2008/siswa/profile";
-  static var urlGetAllDudiSiswa = "http://10.0.2.2:2008/siswa/dudi?page=";
+  static var urlGetAllDudiSiswa = "http://10.0.2.2:2008/siswa/dudi";
   static var urlGetDudiByIdsiswa = "http://10.0.2.2:2008/siswa/dudi/";
   static var urlPostAjuanPklSiswa = "http://10.0.2.2:2008/siswa/pengajuan_pkl";
   static var urlPutCancelAjuanPklSiswa =

@@ -80,7 +80,6 @@ class HomeDudiView extends GetView<HomeDudiController> {
 
   @override
   Widget build(BuildContext context) {
-    profCont.fetchProfileDudi();
     return Scaffold(
       backgroundColor: AllMaterial.colorWhite,
       body: Obx(() {

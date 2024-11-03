@@ -433,10 +433,12 @@ Widget buildAbsenTile(String jenis, DetilHistoriAbsenSiswaDudiModel? absensi,
 
   String status = controller.getTextStatus(jenis);
   if (status == "Tepat Waktu") {
+    print("masuk ke situ");
     return const SizedBox.shrink();
   }
 
   if (keterangan == "" || keterangan == null) {
+    print("masuk ke sini");
     return const SizedBox.shrink();
   }
 

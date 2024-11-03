@@ -78,7 +78,6 @@ class HomeGuruView extends GetView<HomeGuruController> {
 
   @override
   Widget build(BuildContext context) {
-    profCont.fetchProfileGuru();
     return Scaffold(
       backgroundColor: AllMaterial.colorWhite,
       body: Obx(() {

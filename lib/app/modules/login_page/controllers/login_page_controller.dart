@@ -39,10 +39,8 @@ class LoginPageController extends GetxController {
 
   @override
   void onClose() {
-    userC.clear();
-    passC.clear();
-    userF.dispose();
-    passF.dispose();
+    userC.text = "";
+    passC.text = "";
     super.onClose();
   }
 

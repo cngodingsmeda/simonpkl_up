@@ -72,6 +72,11 @@ class BuatJadwalAbsenDudiController extends GetxController {
     }
   }
 
+  void ubahStatusJadwalAbsen(bool value) {
+    isEnable.value = value;
+    update();
+  }
+
   void _isiInputDenganDataGet() {
     final jadwalAbsen = detil.value;
     selectedTopik.value =
@@ -139,7 +144,7 @@ class BuatJadwalAbsenDudiController extends GetxController {
       },
       body: jsonEncode([
         {
-          "hari": selectedTopik.value.toLowerCase(),
+          "id": idPut.value,
           "enable": isEnable.value,
           "batas_absen_masuk": formatTime(jamMasukAwal.value),
           "batas_absen_pulang": formatTime(jamPulangAwal.value),

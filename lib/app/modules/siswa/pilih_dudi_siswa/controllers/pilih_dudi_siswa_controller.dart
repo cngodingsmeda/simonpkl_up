@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -31,10 +32,11 @@ class PilihDudiSiswaController extends GetxController {
   }
 
   Future<void> fetchDudiList() async {
+    intPage.value++;
     isLoading.value = true;
     final response = await http.get(
       Uri.parse(
-          "${ApiUrl.urlGetAllDudiSiswa}?page=${intPage.value + 1}&nama_instansi_perusahaan=${searchController.text}&bidang_usaha=${searchController.text}"),
+          "${ApiUrl.urlGetAllDudiSiswa}?page=${intPage.value}&nama_instansi_perusahaan=${searchController.text}&bidang_usaha=${searchController.text}"),
       headers: {
         "Content-Type": "application/json",
         "Authorization": "Bearer $token",
@@ -124,7 +126,6 @@ class PilihDudiSiswaController extends GetxController {
       results = results.where((dudi) => dudi.tersedia == true).toList();
     }
 
-    // Perbarui daftar terfilter
     filteredDudi.assignAll(results);
     update();
   }

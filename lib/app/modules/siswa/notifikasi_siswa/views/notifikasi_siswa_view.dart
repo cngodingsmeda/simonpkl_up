@@ -18,9 +18,9 @@ class NotifikasiSiswaView extends GetView<NotifikasiSiswaController> {
     RefreshController refreshController =
         RefreshController(initialRefresh: false);
 
-    // Fungsi untuk memuat ulang data
     Future<void> onRefresh() async {
       await controller.getAllNotif();
+      print("dijalankan euy");
       refreshController.refreshCompleted();
     }
 
@@ -44,10 +44,18 @@ class NotifikasiSiswaView extends GetView<NotifikasiSiswaController> {
           child: Obx(() {
             if (controller.allNotifikasi.value == null ||
                 controller.allNotifikasi.value!.data.isEmpty) {
-              return Center(
-                child: Text(
-                  "Belum ada notifikasi...",
-                  style: AllMaterial.montSerrat(),
+              return ListView.builder(
+                itemCount: 1,
+                itemBuilder: (context, index) => Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Center(
+                      child: Text(
+                        "Belum ada notifikasi...",
+                        style: AllMaterial.montSerrat(),
+                      ),
+                    ),
+                  ],
                 ),
               );
             }

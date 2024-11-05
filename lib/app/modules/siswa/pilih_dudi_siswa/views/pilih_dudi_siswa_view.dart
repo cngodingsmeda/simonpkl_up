@@ -1,6 +1,7 @@
 // lib/app/modules/siswa/pilih_dudi_siswa/views/pilih_dudi_siswa_view.dart
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:simon_pkl/all_material.dart';
 import 'package:simon_pkl/app/model/model_siswa/pilih_dudi_model.dart';
 
@@ -12,6 +13,7 @@ class PilihDudiSiswaView extends GetView<PilihDudiSiswaController> {
   @override
   Widget build(BuildContext context) {
     var controller = Get.put(PilihDudiSiswaController());
+    RefreshController refreshController = RefreshController();
     return Scaffold(
       appBar: AppBar(
         title: Obx(() {
@@ -110,36 +112,41 @@ class PilihDudiSiswaView extends GetView<PilihDudiSiswaController> {
                           ),
                           const Divider(),
                           Expanded(
-                            child: ListView(
+                            child: SingleChildScrollView(
                               controller: scrollController,
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
-                              children: [
-                                Obx(() {
-                                  return CheckboxListTile(
-                                    checkColor: AllMaterial.colorWhite,
-                                    fillColor: controller.availableFilter.isTrue
-                                        ? const WidgetStatePropertyAll(
-                                            AllMaterial.colorBlue,
-                                          )
-                                        : const WidgetStatePropertyAll(
-                                            AllMaterial.colorWhite,
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 16),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Obx(() {
+                                      return CheckboxListTile(
+                                        checkColor: AllMaterial.colorWhite,
+                                        fillColor:
+                                            controller.availableFilter.isTrue
+                                                ? WidgetStateProperty.all(
+                                                    AllMaterial.colorBlue)
+                                                : WidgetStateProperty.all(
+                                                    AllMaterial.colorWhite),
+                                        title: Text(
+                                          "Tampilkan yang tersedia",
+                                          style: AllMaterial.montSerrat(
+                                            color: AllMaterial.colorBlack,
                                           ),
-                                    title: Text(
-                                      "Tampilkan yang tersedia",
-                                      style: AllMaterial.montSerrat(
-                                        color: AllMaterial.colorBlack,
-                                      ),
-                                    ),
-                                    value: controller.availableFilter.value,
-                                    onChanged: (bool? value) {
-                                      if (value != null) {
-                                        controller.toggleAvailabilityFilter();
-                                      }
-                                    },
-                                  );
-                                }),
-                              ],
+                                        ),
+                                        value: controller.availableFilter.value,
+                                        onChanged: (bool? value) {
+                                          if (value != null) {
+                                            controller
+                                                .toggleAvailabilityFilter();
+                                          }
+                                        },
+                                      );
+                                    }),
+                                  ],
+                                ),
+                              ),
                             ),
                           ),
                           GestureDetector(
@@ -149,9 +156,7 @@ class PilihDudiSiswaView extends GetView<PilihDudiSiswaController> {
                             },
                             child: Container(
                               margin: const EdgeInsets.symmetric(
-                                horizontal: 20,
-                                vertical: 20,
-                              ),
+                                  horizontal: 20, vertical: 20),
                               decoration: BoxDecoration(
                                 color: AllMaterial.colorBlue,
                                 borderRadius: BorderRadius.circular(5),
@@ -228,8 +233,15 @@ class PilihDudiSiswaView extends GetView<PilihDudiSiswaController> {
                       ],
                     );
                   } else {
-                    return Scrollbar(
-                      interactive: true,
+                    return SmartRefresher(
+                      controller: refreshController,
+                      enablePullUp: true,
+                      enablePullDown: false,
+                      onLoading: () async {
+                        print(controller.intPage.value);
+                        await controller.fetchDudiList();
+                        refreshController.loadComplete();
+                      },
                       child: ListView.builder(
                         physics: const AlwaysScrollableScrollPhysics(),
                         itemCount: controller.filteredDudi.length,
@@ -574,53 +586,6 @@ class PilihDudiSiswaView extends GetView<PilihDudiSiswaController> {
                   }
                 }
               }),
-            ),
-            Obx(
-              () => controller.isSearching.value
-                  ? const SizedBox.shrink()
-                  : SizedBox(
-                      height: 65,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: controller.dudi.value?.countPage ?? 1,
-                          itemBuilder: (context, index) => Obx(
-                            () => GestureDetector(
-                              onTap: () {
-                                if (controller.dudi.value!.countPage > 1) {
-                                  controller.changePage(index);
-                                }
-                              },
-                              child: Container(
-                                width: 50,
-                                alignment: Alignment.center,
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 20),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15),
-                                  color: (controller.intPage.value == index)
-                                      ? AllMaterial.colorBlue
-                                      : AllMaterial.colorWhite,
-                                ),
-                                margin:
-                                    const EdgeInsets.symmetric(horizontal: 5),
-                                child: Text(
-                                  "${index + 1}",
-                                  style: AllMaterial.montSerrat(
-                                    fontSize: 16,
-                                    fontWeight: AllMaterial.fontSemiBold,
-                                    color: (controller.intPage.value == index)
-                                        ? AllMaterial.colorWhite
-                                        : AllMaterial.colorBlue,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
             ),
           ],
         ),

@@ -151,7 +151,20 @@ class LoginPageView extends GetView<LoginPageController> {
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
-                          onPressed: ()=> loginController.login(context),
+                          onPressed: () {
+                            AllMaterial.cusDialogValidasi(
+                              title: "Login",
+                              subtitle: "Apakah Anda yakin?",
+                              onConfirm: () {
+                                loginController.login(
+                                    context,
+                                    loginController.userC.text,
+                                    loginController.passC.text);
+                                Get.back();
+                              },
+                              onCancel: () => Get.back(),
+                            );
+                          },
                           style: ElevatedButton.styleFrom(
                             padding: const EdgeInsets.symmetric(vertical: 16.0),
                             textStyle: const TextStyle(fontSize: 18),

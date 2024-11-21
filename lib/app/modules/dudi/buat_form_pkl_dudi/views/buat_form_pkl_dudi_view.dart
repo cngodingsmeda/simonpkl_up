@@ -110,13 +110,12 @@ class BuatFormPklDudiView extends GetView<BuatFormPklDudiController> {
                         ElevatedButton(
                           onPressed: () {
                             AllMaterial.cusDialogValidasi(
-                              title: "Membuat Laporan",
+                              title: "Membuat Form Rekrut",
                               subtitle: "Apakah Anda yakin?",
                               onConfirm: () async {
                                 bool isPost = (id == 0);
                                 await controller.getKuotaSiswa(
-                                  isPost: isPost,
-                                  context: context,
+                                  isPost: isPost,  context: context, 
                                 );
                                 Get.back();
                               },

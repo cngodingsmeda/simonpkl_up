@@ -295,10 +295,9 @@ class DetilHistoriAbsenSiswaView
                                                 "localhost", "10.0.2.2"));
                                           } else {
                                             print("Masuk ke else gambar");
-                                            showDialog(
+                                            showDialog(context: context,
                                               barrierColor:
                                                   Colors.black.withOpacity(0.9),
-                                              context: context,
                                               builder: (context) =>
                                                   StatefulBuilder(
                                                 builder: (context, setState) {
@@ -482,9 +481,8 @@ Widget previewImage(String file, BuildContext context) {
 
   return GestureDetector(
     onTap: () {
-      showDialog(
+      showDialog(context: context,
         barrierColor: Colors.black.withOpacity(0.9),
-        context: context,
         builder: (context) => StatefulBuilder(
           builder: (context, setState) {
             return Dialog(

@@ -333,7 +333,6 @@ class PilihanAbsenSiswaView extends GetView<PilihanAbsenSiswaController> {
                                         AllMaterial.messageScaffold(
                                           title:
                                               "Absen Masuk tidak tersedia saat ini",
-                                          context: context,
                                         );
                                       }
                                     },
@@ -360,7 +359,6 @@ class PilihanAbsenSiswaView extends GetView<PilihanAbsenSiswaController> {
                                         AllMaterial.messageScaffold(
                                           title:
                                               "Absen Pulang tidak tersedia saat ini",
-                                          context: context,
                                         );
                                       }
                                     },
@@ -391,7 +389,6 @@ class PilihanAbsenSiswaView extends GetView<PilihanAbsenSiswaController> {
                                           AllMaterial.messageScaffold(
                                             title:
                                                 "Absen Telat tidak tersedia saat ini",
-                                            context: context,
                                           );
                                         }
                                       }),
@@ -419,7 +416,6 @@ class PilihanAbsenSiswaView extends GetView<PilihanAbsenSiswaController> {
                                             AllMaterial.messageScaffold(
                                               title:
                                                   "Absen Izin tidak tersedia saat ini",
-                                              context: context,
                                             );
                                           },
                                   ),

@@ -48,7 +48,6 @@ class JadwalAbsenSiswaDudiController extends GetxController {
         getAllJadwalAbsen();
         AllMaterial.messageScaffold(
           title: AllMaterial.hurufPertama("Jadwal berhasil dihapus!"),
-          context: context,
         );
         update();
       } else {

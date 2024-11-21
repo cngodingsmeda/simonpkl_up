@@ -8,6 +8,7 @@ import 'package:simon_pkl/app/model/model_dudi/all_pengajuan_pkl_siswa_dudi_mode
 
 class HomepageDudiController extends GetxController {
   var readCount = 0.obs;
+  var isCompleted = false.obs;
   var jumlahSiswa = 0.obs;
   var jumlahPengajuanProses = 0.obs;
   var kuotaSiswaLakiLaki = 0.obs;
@@ -103,8 +104,10 @@ class HomepageDudiController extends GetxController {
       jumlahPengajuanProses.value =
           pengajuan.data!.where((element) => element.status == "proses").length;
       print("proses: ${jumlahPengajuanProses.value}");
+      isCompleted.value = true;
       update();
     } else {
+      isCompleted.value = false;
       print("Gagal mengirim data");
       print(data);
       throw Exception('Failed to fetch data');

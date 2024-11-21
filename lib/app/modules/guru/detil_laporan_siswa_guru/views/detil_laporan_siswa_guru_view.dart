@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
 import 'package:get/get.dart';
 import 'package:open_file/open_file.dart';
 import 'package:photo_view/photo_view.dart';
@@ -246,10 +245,9 @@ class DetilLaporanSiswaGuruView
                                                     "localhost", "10.0.2.2"));
                                               } else {
                                                 print("Masuk ke else gambar");
-                                                showDialog(
+                                                showDialog(context: context,
                                                   barrierColor: Colors.black
                                                       .withOpacity(0.9),
-                                                  context: context,
                                                   builder: (context) =>
                                                       StatefulBuilder(
                                                     builder:
@@ -423,10 +421,9 @@ class DetilLaporanSiswaGuruView
                                                     "localhost", "10.0.2.2"));
                                               } else {
                                                 print("Masuk ke else gambar");
-                                                showDialog(
+                                                showDialog(context: context,
                                                   barrierColor: Colors.black
                                                       .withOpacity(0.9),
-                                                  context: context,
                                                   builder: (context) =>
                                                       StatefulBuilder(
                                                     builder:

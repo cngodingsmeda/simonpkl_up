@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
 import 'package:get/get.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:open_file/open_file.dart';
@@ -281,10 +280,9 @@ class DetilLaporanDudiGuruView extends GetView<DetilLaporanDudiGuruController> {
                                                   "localhost", "10.0.2.2"));
                                             } else {
                                               print("Masuk ke else gambar");
-                                              showDialog(
+                                              showDialog(context: context,
                                                 barrierColor: Colors.black
                                                     .withOpacity(0.9),
-                                                context: context,
                                                 builder: (context) =>
                                                     StatefulBuilder(
                                                   builder: (context, setState) {
@@ -454,10 +452,9 @@ class DetilLaporanDudiGuruView extends GetView<DetilLaporanDudiGuruController> {
                                                   "localhost", "10.0.2.2"));
                                             } else {
                                               print("Masuk ke else gambar");
-                                              showDialog(
+                                              showDialog(context: context,
                                                 barrierColor: Colors.black
                                                     .withOpacity(0.9),
-                                                context: context,
                                                 builder: (context) =>
                                                     StatefulBuilder(
                                                   builder: (context, setState) {

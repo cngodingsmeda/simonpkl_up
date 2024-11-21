@@ -115,6 +115,23 @@ class AbsenNormalSiswaView extends GetView<AbsenNormalSiswaController> {
                                           ),
                                           width: Get.width,
                                           height: Get.height,
+                                          alignment: Alignment.topRight,
+                                          child: controller.selectedImagePath
+                                                      .value ==
+                                                  null
+                                              ? const SizedBox.shrink()
+                                              : IconButton(
+                                                  onPressed: () {
+                                                    controller.selectedImagePath
+                                                        .value = null;
+                                                  },
+                                                  icon: const Icon(
+                                                    Icons.clear,
+                                                    size: 20,
+                                                    color:
+                                                        AllMaterial.colorWhite,
+                                                  ),
+                                                ),
                                         );
                                 }),
                               ),

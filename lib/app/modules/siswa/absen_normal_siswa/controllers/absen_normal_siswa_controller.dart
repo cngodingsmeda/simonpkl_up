@@ -24,7 +24,6 @@ class AbsenNormalSiswaController extends GetxController {
     } else {
       AllMaterial.messageScaffold(
         title: AllMaterial.hurufPertama("Gambar tidak ditemukan!"),
-        context: context,
       );
     }
   }
@@ -38,7 +37,6 @@ class AbsenNormalSiswaController extends GetxController {
     } else {
       AllMaterial.messageScaffold(
         title: AllMaterial.hurufPertama("Gambar tidak ditemukan!"),
-        context: context,
       );
     }
   }
@@ -73,7 +71,6 @@ class AbsenNormalSiswaController extends GetxController {
         title: AllMaterial.hurufPertama(
           "Absen ${AllMaterial.hurufPertama(status)} berhasil!",
         ),
-        context: context,
       );
       Get.off(() => HomeSiswaView());
       absenC.isMasuk.value = false;
@@ -85,7 +82,6 @@ class AbsenNormalSiswaController extends GetxController {
         title: AllMaterial.hurufPertama(
           "Absen ${AllMaterial.hurufPertama(status)} gagal, coba lagi nanti!",
         ),
-        context: context,
       );
     }
   }

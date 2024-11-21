@@ -72,7 +72,6 @@ class BuatLaporanSiswaController extends GetxController {
       selectedFile.value = null;
       AllMaterial.messageScaffold(
         title: AllMaterial.hurufPertama("Laporan berhasil dibuat!"),
-        context: context,
       );
       print("postLaporanHarianSiswa: $data");
       update();
@@ -116,7 +115,6 @@ class BuatLaporanSiswaController extends GetxController {
       selectedFile.value = null;
       AllMaterial.messageScaffold(
         title: AllMaterial.hurufPertama("Laporan kendala berhasil dibuat!"),
-        context: context,
       );
       print("postLaporanKendalaSiswa: $data");
       update();
@@ -131,7 +129,6 @@ class BuatLaporanSiswaController extends GetxController {
     if (file == null) {
       AllMaterial.messageScaffold(
         title: AllMaterial.hurufPertama("File tidak ditemukan!"),
-        context: context,
       );
       return;
     }
@@ -171,7 +168,6 @@ class BuatLaporanSiswaController extends GetxController {
         }
         AllMaterial.messageScaffold(
           title: AllMaterial.hurufPertama("Laporan berhasil dibuat!"),
-          context: context,
         );
         Get.back();
         inputC.text = "";
@@ -181,14 +177,12 @@ class BuatLaporanSiswaController extends GetxController {
         print("Error Response: ${response.body}");
         AllMaterial.messageScaffold(
           title: AllMaterial.hurufPertama("Gagal, coba lagi nanti!"),
-          context: context,
         );
       }
     } catch (e) {
       print("Exception: $e");
       AllMaterial.messageScaffold(
         title: AllMaterial.hurufPertama("Terjadi kesalahan, coba lagi nanti!"),
-        context: context,
       );
     }
   }

@@ -60,7 +60,7 @@ class BuatJadwalAbsenDudiController extends GetxController {
           Get.find<JadwalAbsenSiswaDudiController>().getAllJadwalAbsen();
           AllMaterial.messageScaffold(
             title: "Jadwal berhasil ${isPost ? "ditambahkan" : "diubah"}!",
-            context: context!,
+           
           );
         }
         update();
@@ -103,7 +103,6 @@ class BuatJadwalAbsenDudiController extends GetxController {
   void _showErrorMessage(BuildContext? context, String message) {
     AllMaterial.messageScaffold(
       title: message,
-      context: context!,
     );
   }
 

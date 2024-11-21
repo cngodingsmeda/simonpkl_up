@@ -33,7 +33,6 @@ class AbsenAbnormalSiswaController extends GetxController {
       selectedFile.value = null;
       AllMaterial.messageScaffold(
         title: AllMaterial.hurufPertama("File tidak ditemukan!"),
-        context: context,
       );
     }
   }
@@ -79,15 +78,15 @@ class AbsenAbnormalSiswaController extends GetxController {
       absenC.isPulang.value = false;
       absenC.isTelat.value = false;
       AllMaterial.messageScaffold(
-          title: AllMaterial.hurufPertama(
-              "Absen ${AllMaterial.hurufPertama(status)} berhasil!"),
-          context: context);
+        title: AllMaterial.hurufPertama(
+            "Absen ${AllMaterial.hurufPertama(status)} berhasil!"),
+      );
     } else {
       print("res: ${response.body}");
       AllMaterial.messageScaffold(
-          title: AllMaterial.hurufPertama(
-              "Absen ${AllMaterial.hurufPertama(status)} gagal, coba lagi nanti!"),
-          context: context);
+        title: AllMaterial.hurufPertama(
+            "Absen ${AllMaterial.hurufPertama(status)} gagal, coba lagi nanti!"),
+      );
     }
   }
 
@@ -130,14 +129,14 @@ class AbsenAbnormalSiswaController extends GetxController {
       absenC.isPulang.value = false;
       absenC.isTelat.value = false;
       AllMaterial.messageScaffold(
-          title: AllMaterial.hurufPertama(
-              "Absen ${AllMaterial.hurufPertama(status)} berhasil!"),
-          context: context);
+        title: AllMaterial.hurufPertama(
+            "Absen ${AllMaterial.hurufPertama(status)} berhasil!"),
+      );
     } else {
       AllMaterial.messageScaffold(
-          title: AllMaterial.hurufPertama(
-              "Absen ${AllMaterial.hurufPertama(status)} gagal, coba lagi nanti!"),
-          context: context);
+        title: AllMaterial.hurufPertama(
+            "Absen ${AllMaterial.hurufPertama(status)} gagal, coba lagi nanti!"),
+      );
     }
   }
 

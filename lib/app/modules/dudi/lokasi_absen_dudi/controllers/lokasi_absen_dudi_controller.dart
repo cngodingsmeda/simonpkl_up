@@ -60,7 +60,7 @@ class LokasiAbsenDudiController extends GetxController {
           dafCont.getAllLokasiAbsen();
           AllMaterial.messageScaffold(
             title: "Lokasi berhasil ${isPost ? "ditambahkan" : "diubah"}!",
-            context: context!,
+              
           );
         }
         update();
@@ -68,7 +68,7 @@ class LokasiAbsenDudiController extends GetxController {
         print("getKoordinatAbsen: $data");
         AllMaterial.messageScaffold(
           title: "${data["msg"]}",
-          context: context!,
+            
         );
       }
     } catch (e) {

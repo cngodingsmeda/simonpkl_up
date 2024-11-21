@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:simon_pkl/all_material.dart';
+import 'package:simon_pkl/app/controller/general_controller.dart';
 import 'package:simon_pkl/app/data/api_url.dart';
 import 'package:simon_pkl/app/model/model_guru/profile_guru_model.dart';
 
@@ -17,7 +18,7 @@ class ProfileGuruController extends GetxController {
   var isLoading = true.obs;
   var profil = Rx<ProfileGuruModel?>(null);
 
-  Future<void> fetchProfileGuru() async {
+  Future<void> fetchProfileGuru({BuildContext? context}) async {
     print("Fetching profil guru...");
     String token = AllMaterial.box.read("token");
 
@@ -46,8 +47,11 @@ class ProfileGuruController extends GetxController {
 
       npsnInstansiC.text = profileModel.sekolah!.npsn!;
       update();
+    } else if (response.statusCode == 401) {
+      var genController = Get.put(GeneralController());
+      genController.logout( isExpired: true);
     } else {
-      statusCode.value = 500;
+      statusCode.value = response.statusCode;
       update();
       print("gagal menampilkan data");
       throw Exception('Failed to load profile');

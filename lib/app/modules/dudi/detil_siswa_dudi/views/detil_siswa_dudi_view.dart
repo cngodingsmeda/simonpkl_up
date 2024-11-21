@@ -97,18 +97,21 @@ class DetilSiswaDudiView extends GetView<DetilSiswaDudiController> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ProfileWidget(
+                    isEdit: false,
                     controller: controller,
                     textController: controller.kelasC,
                     title: "Kelas:",
                   ),
                   const SizedBox(height: 10),
                   ProfileWidget(
+                    isEdit: false,
                     controller: controller,
                     textController: controller.noTelpC,
                     title: "No. Telepon:",
                   ),
                   const SizedBox(height: 10),
                   ProfileWidget(
+                    isEdit: false,
                     controller: controller,
                     textController: controller.alamatC,
                     title: "Alamat:",

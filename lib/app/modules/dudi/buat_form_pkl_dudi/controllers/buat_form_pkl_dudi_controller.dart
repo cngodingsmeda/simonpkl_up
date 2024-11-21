@@ -36,7 +36,7 @@ class BuatFormPklDudiController extends GetxController {
                 ? "Form Rekrut berhasil dibuat!"
                 : "Form Rekrut berhasil diperbarui!",
           ),
-          context: context,
+         
         );
         final kuotaC = Get.put(FormRekrutSiswaDudiController());
         kuotaC.getAllKuotaSiswaDudi();
@@ -45,7 +45,7 @@ class BuatFormPklDudiController extends GetxController {
         print(data["msg"]);
         AllMaterial.messageScaffold(
           title: AllMaterial.hurufPertama(data["msg"] ?? ""),
-          context: context,
+          
         );
       }
     } catch (e) {

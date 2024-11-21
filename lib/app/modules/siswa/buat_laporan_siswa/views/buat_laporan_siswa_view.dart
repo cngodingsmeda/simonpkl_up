@@ -194,9 +194,8 @@ class BuatLaporanSiswaView extends GetView<BuatLaporanSiswaController> {
                               if (file.path.endsWith('.jpg') ||
                                   file.path.endsWith('.png') ||
                                   file.path.endsWith('.jpeg')) {
-                                showDialog(
+                                showDialog(context: context,
                                   barrierColor: Colors.black.withOpacity(0.6),
-                                  context: context,
                                   builder: (context) => Dialog(
                                     backgroundColor: Colors.transparent,
                                     child: LayoutBuilder(
@@ -259,10 +258,19 @@ class BuatLaporanSiswaView extends GetView<BuatLaporanSiswaController> {
                         ),
                         const SizedBox(height: 30),
                         ElevatedButton(
-                          onPressed: () =>
+                          onPressed: () {
+                            if (controller.inputC.text == "" ||
+                                controller.topikC.text == "") {
+                              AllMaterial.messageScaffold(
+                                title:
+                                    "${LaporanSiswaController.isKendala.isTrue ? "Kendala" : "Laporan"} tidak boleh kosong",
+                              );
+                            } else {
                               (LaporanSiswaController.isKendala.isTrue)
                                   ? controller.postLaporanKendalaSiswa(context)
-                                  : controller.postLaporanHarianSiswa(context),
+                                  : controller.postLaporanHarianSiswa(context);
+                            }
+                          },
                           style: ElevatedButton.styleFrom(
                             fixedSize: Size.fromWidth(Get.width),
                             disabledBackgroundColor:

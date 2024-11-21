@@ -38,19 +38,19 @@ abstract class AllMaterial {
     spreadRadius: -10,
   );
 
-  // Bottom Sheet
-  static messageScaffold({
-    required String title,
-    required BuildContext context,
-  }) {
-    return ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        duration: const Duration(seconds: 2),
-        content: Text(title),
-      ),
-    );
+  // Message Scaffold
+  static void messageScaffold({required String title}) {
+    if (Get.context != null) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(
+        SnackBar(
+          duration: const Duration(seconds: 2),
+          content: Text(title),
+        ),
+      );
+    }
   }
 
+  // Dialog
   static cusDialog({
     required String topTitle,
     required String path,
@@ -127,6 +127,7 @@ abstract class AllMaterial {
     );
   }
 
+  // BOTTOM SHEET
   static cusBottomSheet({
     required String text,
     required String subtitle,
@@ -162,6 +163,7 @@ abstract class AllMaterial {
     ));
   }
 
+  // DIALOG
   static void cusDialogValidasi({
     required String title,
     required String subtitle,
@@ -250,13 +252,12 @@ abstract class AllMaterial {
     );
   }
 
+  // FORMAT TEXT
   static String formatAlamat(String? text) {
     if (text == null || text.isEmpty) {
       return '';
     }
-
     return text.split(', ').map((word) {
-      // Memeriksa setiap kata
       return word.split(' ').map((part) {
         if (part.length == 3) {
           return part.toUpperCase();
@@ -358,5 +359,30 @@ abstract class AllMaterial {
       onRefresh: onRefresh,
       child: child,
     );
+  }
+
+  static String getErrorMessage(int statusCode) {
+    switch (statusCode) {
+      case 400:
+        return "Permintaan tidak valid. Periksa input Anda.";
+      case 401:
+        return "Anda tidak memiliki akses. Silakan login.";
+      case 403:
+        return "Anda tidak diizinkan untuk mengakses halaman ini.";
+      case 404:
+        return "Data tidak ditemukan.";
+      case 408:
+        return "Waktu habis. Silakan coba lagi.";
+      case 500:
+        return "Terjadi kesalahan pada server. Silakan coba lagi nanti.";
+      case 502:
+        return "Server sedang tidak dapat diakses. Coba lagi nanti.";
+      case 503:
+        return "Layanan sedang tidak tersedia. Silakan coba beberapa saat lagi.";
+      case 504:
+        return "Server tidak merespons tepat waktu. Silakan coba lagi.";
+      default:
+        return "Terjadi kesalahan tidak diketahui.";
+    }
   }
 }

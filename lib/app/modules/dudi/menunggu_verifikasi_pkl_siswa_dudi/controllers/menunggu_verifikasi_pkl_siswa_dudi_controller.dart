@@ -60,7 +60,6 @@ class MenungguVerifikasiPklSiswaDudiController extends GetxController {
       AllMaterial.messageScaffold(
         title: AllMaterial.hurufPertama(
             "Ajuan telah di${setuju ? "terima" : "tolak"}"),
-        context: context,
       );
       final homeC = Get.put(HomepageDudiController());
       final siswaC = Get.put(DataSiswaDudiController());
@@ -72,7 +71,6 @@ class MenungguVerifikasiPklSiswaDudiController extends GetxController {
       print(data);
       AllMaterial.messageScaffold(
         title: AllMaterial.hurufPertama("Terjadi kesalahan, coba lagi nanti"),
-        context: context,
       );
       print("gagal mengirim data");
       throw Exception('Failed to send data');

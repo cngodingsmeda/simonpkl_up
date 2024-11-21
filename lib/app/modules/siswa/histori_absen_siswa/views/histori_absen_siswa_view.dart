@@ -133,11 +133,10 @@ class HistoriAbsenSiswaView extends GetView<HistoriAbsenSiswaControllr> {
                               onTap: () {
                                 if (item.status!.contains("tidak")) {
                                   AllMaterial.messageScaffold(
-                                      title: "Anda melewatkan Absen Harian!",
-                                      context: context);
+                                    title: "Anda melewatkan Absen Harian!",
+                                  );
                                 } else {
-                                  showDialog(
-                                    context: context,
+                                  showDialog(context: context,
                                     builder: (context) {
                                       return AllMaterial.cusDialog(
                                         topTitle: "Absen Harian",
@@ -160,9 +159,9 @@ class HistoriAbsenSiswaView extends GetView<HistoriAbsenSiswaControllr> {
                                           if (item.statusAbsenPulang == null) {
                                             Get.back();
                                             AllMaterial.messageScaffold(
-                                                title:
-                                                    "Absen Pulang tidak ditemukan!",
-                                                context: context);
+                                              title:
+                                                  "Absen Pulang tidak ditemukan!",
+                                            );
                                           } else {
                                             absensi.getDetilAbsenById(
                                               item.id!.toInt(),

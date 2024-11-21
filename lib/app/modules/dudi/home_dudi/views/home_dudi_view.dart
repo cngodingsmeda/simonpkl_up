@@ -131,7 +131,7 @@ class HomeDudiView extends GetView<HomeDudiController> {
           const Icon(Icons.error_outline, color: Colors.red, size: 50),
           const SizedBox(height: 15),
           Text(
-            genController.getErrorMessage(statusCode),
+            AllMaterial.getErrorMessage(statusCode),
             textAlign: TextAlign.center,
             style: AllMaterial.montSerrat(
               fontSize: 18,

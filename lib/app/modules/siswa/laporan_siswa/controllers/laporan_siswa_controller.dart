@@ -59,7 +59,6 @@ class LaporanSiswaController extends GetxController {
         }
         AllMaterial.messageScaffold(
           title: AllMaterial.hurufPertama("Laporan berhasil dihapus!"),
-          context: context,
         );
         update();
       } else {

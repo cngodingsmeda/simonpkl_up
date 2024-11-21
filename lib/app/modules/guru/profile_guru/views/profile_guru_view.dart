@@ -11,36 +11,54 @@ class ProfileGuruView extends GetView<ProfileGuruController> {
   @override
   Widget build(BuildContext context) {
     var controller = Get.put(ProfileGuruController());
+    bool isEdit = false;
+    if (Get.arguments != null && Get.arguments["isEdit"] != null) {
+      isEdit = Get.arguments["isEdit"];
+    }
     return Scaffold(
       backgroundColor: AllMaterial.colorWhite,
       appBar: AppBar(
         backgroundColor: AllMaterial.colorWhite,
         surfaceTintColor: AllMaterial.colorWhite,
         title: Text(
-          'Profil Saya',
+          (isEdit) ? 'Edit Profil' : 'Profil Saya',
           style: AllMaterial.montSerrat(
             fontWeight: AllMaterial.fontSemiBold,
           ),
         ),
-        actions: [
-          IconButton(
-            tooltip: "Logout",
-            padding: const EdgeInsets.all(16),
-            onPressed: () {
-              var genController = Get.put(GeneralController());
-              AllMaterial.cusDialogValidasi(
-                title: "Logout",
-                subtitle: "Apakah Anda ingin keluar dari akun saat ini?",
-                onConfirm: () => genController.logout(context),
-                onCancel: () => Get.back(),
-              );
-            },
-            icon: const Icon(
-              Icons.logout,
-              color: Colors.red,
-            ),
-          )
-        ],
+        // leading: (isEdit == false)
+        //     ? const SizedBox.shrink()
+        //     : IconButton(
+        //         onPressed: () {
+        //           Get.back();
+        //           isEdit = false;
+        //         },
+        //         icon: const Icon(
+        //           Icons.arrow_back,
+        //         ),
+        //       ),
+        // actions: (isEdit)
+        //     ? null
+        //     : [
+        //         IconButton(
+        //           tooltip: "Edit Profil",
+        //           style: const ButtonStyle(
+        //             elevation: WidgetStatePropertyAll(5),
+        //             padding: WidgetStatePropertyAll(EdgeInsets.zero),
+        //           ),
+        //           onPressed: () {
+        //             Get.to(
+        //               () => const ProfileGuruView(),
+        //               arguments: {"isEdit": true},
+        //             );
+        //           },
+        //           icon: const Icon(
+        //             size: 20,
+        //             Icons.edit,
+        //             color: AllMaterial.colorBlack,
+        //           ),
+        //         ),
+        //       ],
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -81,7 +99,7 @@ class ProfileGuruView extends GetView<ProfileGuruController> {
                     //   onPressed: () {
                     //     AllMaterial.messageScaffold(
                     //       title: "Fitur Sedang Digarap, Coming Soon",
-                    //       context: context,
+                    //
                     //     );
                     //   },
                     //   icon: const Icon(
@@ -125,21 +143,25 @@ class ProfileGuruView extends GetView<ProfileGuruController> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     ProfileWidget(
+                      isEdit: false,
                       controller: controller,
                       textController: controller.instansiC,
                       title: "Instansi:",
                     ),
                     ProfileWidget(
+                      isEdit: false,
                       controller: controller,
                       textController: controller.npsnInstansiC,
                       title: "NPSN Instansi:",
                     ),
                     ProfileWidget(
+                      isEdit: false,
                       controller: controller,
                       textController: controller.noTeleponC,
                       title: "No. Telepon:",
                     ),
                     ProfileWidget(
+                      isEdit: false,
                       controller: controller,
                       textController: controller.alamatC,
                       title: "Alamat:",
@@ -152,6 +174,33 @@ class ProfileGuruView extends GetView<ProfileGuruController> {
           ),
         ),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButton: (isEdit)
+          ? const SizedBox.shrink()
+          : Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                FloatingActionButton(
+                  backgroundColor: AllMaterial.colorRed,
+                  onPressed: () {
+                    var genController = Get.put(GeneralController());
+                    AllMaterial.cusDialogValidasi(
+                      title: "Logout",
+                      subtitle: "Apakah Anda ingin keluar dari akun saat ini?",
+                      onConfirm: () => genController.logout(),
+                      onCancel: () => Get.back(),
+                    );
+                  },
+                  elevation: 0,
+                  tooltip: "Logout",
+                  child: const Icon(
+                    Icons.logout,
+                    color: Colors.white,
+                  ),
+                ),
+                const SizedBox(height: 90),
+              ],
+            ),
     );
   }
 }

@@ -18,6 +18,7 @@ void main() async {
     GetMaterialApp(
       title: "Simon PKL",
       getPages: AppPages.routes,
+      locale: const Locale('id_ID'),
       theme: ThemeData(
         textSelectionTheme: const TextSelectionThemeData(
           cursorColor: AllMaterial.colorBlue,
@@ -46,7 +47,6 @@ class InitPage extends StatelessWidget {
         } else {
           return PopScope(
             canPop: true,
-            
             child: Obx(
               () {
                 if (logController.isAuth.value == true) {

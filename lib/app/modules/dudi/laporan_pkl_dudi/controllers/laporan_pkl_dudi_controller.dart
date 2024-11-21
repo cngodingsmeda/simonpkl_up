@@ -3,8 +3,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 import 'package:simon_pkl/all_material.dart';
 import 'package:simon_pkl/app/data/api_url.dart';
 import 'package:simon_pkl/app/model/model_dudi/laporan_harian_pkl_dudi_model.dart';
@@ -58,7 +58,6 @@ class LaporanPklDudiController extends GetxController {
         }
         AllMaterial.messageScaffold(
           title: AllMaterial.hurufPertama("Laporan berhasil dihapus!"),
-          context: context,
         );
         update();
       } else {

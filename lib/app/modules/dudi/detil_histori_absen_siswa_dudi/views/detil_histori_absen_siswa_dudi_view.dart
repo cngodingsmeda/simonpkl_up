@@ -244,9 +244,9 @@ class DetilHistoriAbsenSiswaDudiView
                                           } else {
                                             print("Masuk ke else gambar");
                                             showDialog(
+                                                context: context,
                                               barrierColor:
                                                   Colors.black.withOpacity(0.9),
-                                              context: context,
                                               builder: (context) =>
                                                   StatefulBuilder(
                                                 builder: (context, setState) {

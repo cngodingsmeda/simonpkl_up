@@ -116,7 +116,7 @@ class AbsenAbnormalSiswaView extends GetView<AbsenAbnormalSiswaController> {
                         ),
                         const SizedBox(height: 20),
                         Text(
-                          "Bukti Dokumen (Opsional) :",
+                          "Bukti Dokumen :",
                           style: AllMaterial.montSerrat(
                             fontSize: 15,
                             color: AllMaterial.colorWhite,
@@ -255,9 +255,8 @@ class AbsenAbnormalSiswaView extends GetView<AbsenAbnormalSiswaController> {
 
     return GestureDetector(
       onTap: () {
-        showDialog(
+        showDialog(context: context,
           barrierColor: Colors.black.withOpacity(0.9),
-          context: context,
           builder: (context) => StatefulBuilder(
             builder: (context, setState) {
               return Dialog(

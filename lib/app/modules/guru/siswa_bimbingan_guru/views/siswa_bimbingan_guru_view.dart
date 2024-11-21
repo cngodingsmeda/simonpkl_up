@@ -46,9 +46,9 @@ class SiswaBimbinganGuruView extends GetView<SiswaBimbinganGuruController> {
             );
           }
           var siswaList = homeCont.siswaBimbingan.value!.data!;
+          siswaList.sort((a, b) => (a.nama ?? "").compareTo(b.nama ?? ""));
           return ListView.builder(
             shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
             itemCount: siswaList.length,
             itemBuilder: (context, index) {
               var siswa = siswaList[index];

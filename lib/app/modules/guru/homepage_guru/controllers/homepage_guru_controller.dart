@@ -10,6 +10,7 @@ import 'package:simon_pkl/app/model/model_guru/siswa_bimbingan_guru_model.dart';
 class HomepageGuruController extends GetxController {
   var readCount = 0.obs;
   var jumlahSiswa = 0.obs;
+  var isCompleted = false.obs;
   var jumlahDudi = 0.obs;
   var jumlahKendalaSiswa = 0.obs;
   var dudiTerkait = Rxn<DudiTerkaitModel?>();
@@ -31,8 +32,10 @@ class HomepageGuruController extends GetxController {
       print(data);
       siswaBimbingan.value = SiswaBimbinganModel.fromJson(data);
       jumlahSiswa.value = siswaBimbingan.value?.data?.length ?? 0;
+      isCompleted.value = true;
       update();
     } else {
+      isCompleted.value = false;
       print("Gagal mengirim data");
       throw Exception('Failed to fetch data');
     }

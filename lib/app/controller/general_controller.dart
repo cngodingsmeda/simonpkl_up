@@ -1,6 +1,5 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:simon_pkl/all_material.dart';
@@ -22,7 +21,8 @@ import 'package:simon_pkl/app/modules/siswa/profile_siswa/controllers/profile_si
 
 class GeneralController extends GetxController {
   var logController = Get.put(LoginPageController());
-  Future<dynamic> logout(BuildContext context) async {
+
+  Future<dynamic> logout({bool? isExpired}) async {
     try {
       final response = await http.post(
         Uri.parse(ApiUrl.urlPostLogout),
@@ -39,10 +39,15 @@ class GeneralController extends GetxController {
         Get.offAll(() => const LoginPageView());
         AllMaterial.box.erase();
         AllMaterial.box.remove("token");
-        AllMaterial.messageScaffold(
-          title: "Logout Berhasil, Sampai Jumpa!",
-          context: context,
-        );
+        if (isExpired == true) {
+          AllMaterial.messageScaffold(
+            title: "Sesi berakhir, silahkan login kembali",
+          );
+        } else {
+          AllMaterial.messageScaffold(
+            title: "Logout Berhasil, Sampai Jumpa!",
+          );
+        }
 
         if (logController.isGuru.value) {
           // GURU
@@ -89,36 +94,10 @@ class GeneralController extends GetxController {
       } else {
         AllMaterial.messageScaffold(
           title: "Kesalahan, tidak dapat melakukan aksi sebelumnya!",
-          context: context,
         );
       }
     } catch (e) {
       throw Exception(e.toString());
-    }
-  }
-
-  String getErrorMessage(int statusCode) {
-    switch (statusCode) {
-      case 400:
-        return "Permintaan tidak valid. Periksa input Anda.";
-      case 401:
-        return "Anda tidak memiliki akses. Silakan login.";
-      case 403:
-        return "Anda tidak diizinkan untuk mengakses halaman ini.";
-      case 404:
-        return "Data tidak ditemukan.";
-      case 408:
-        return "Waktu habis. Silakan coba lagi.";
-      case 500:
-        return "Terjadi kesalahan pada server. Silakan coba lagi nanti.";
-      case 502:
-        return "Server sedang tidak dapat diakses. Coba lagi nanti.";
-      case 503:
-        return "Layanan sedang tidak tersedia. Silakan coba beberapa saat lagi.";
-      case 504:
-        return "Server tidak merespons tepat waktu. Silakan coba lagi.";
-      default:
-        return "Terjadi kesalahan tidak diketahui.";
     }
   }
 }

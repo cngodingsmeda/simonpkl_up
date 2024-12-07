@@ -57,12 +57,12 @@ class LoginPageController extends GetxController {
     }
   }
 
-  Future<dynamic> login(BuildContext context) async {
+  Future<dynamic> login(
+      BuildContext context, String username, String password) async {
     try {
       if (userC.text.isEmpty || passC.text.isEmpty) {
         AllMaterial.messageScaffold(
           title: "Username atau Password tidak boleh kosong!",
-          context: context,
         );
         return;
       }
@@ -73,8 +73,8 @@ class LoginPageController extends GetxController {
         },
         body: jsonEncode(
           {
-            "textBody": userC.text,
-            "password": passC.text,
+            "textBody": username,
+            "password": password,
           },
         ),
       );
@@ -83,7 +83,10 @@ class LoginPageController extends GetxController {
       if (response.statusCode == 200) {
         final homeSiswaC = Get.put(HomepageSiswaController());
         homeSiswaC.refresh();
+        print(data);
         var token = data["data"]["access_token"];
+        AllMaterial.box.write("username", userC.text);
+        AllMaterial.box.write("password", passC.text);
         AllMaterial.box.write("token", token);
         String roleData = data["data"]["role"];
         AllMaterial.box.write("role", roleData);
@@ -96,7 +99,6 @@ class LoginPageController extends GetxController {
           Get.off(() => HomeGuruView());
           AllMaterial.messageScaffold(
             title: "Verifikasi Berhasil, Selamat Datang!",
-            context: context,
           );
         } else if (roleData.contains("siswa")) {
           isSiswa.value = true;
@@ -106,7 +108,6 @@ class LoginPageController extends GetxController {
           Get.off(() => HomeSiswaView());
           AllMaterial.messageScaffold(
             title: "Verifikasi Berhasil, Selamat Datang!",
-            context: context,
           );
         } else if (roleData.contains("dudi")) {
           isDudi.value = true;
@@ -116,13 +117,11 @@ class LoginPageController extends GetxController {
           Get.off(() => HomeDudiView());
           AllMaterial.messageScaffold(
             title: "Verifikasi Berhasil, Selamat Datang!",
-            context: context,
           );
         }
       } else {
         AllMaterial.messageScaffold(
           title: "Username atau Password salah!",
-          context: context,
         );
       }
     } catch (e) {
@@ -133,8 +132,12 @@ class LoginPageController extends GetxController {
   Future<void> checkAuthentication() async {
     var token = AllMaterial.box.read("token");
     if (token != null) {
-      isAuth.value = true;
-      update();
+      try {
+        isAuth.value = true;
+        update();
+      } catch (e) {
+        isAuth.value = false;
+      }
     } else {
       isAuth.value = false;
     }

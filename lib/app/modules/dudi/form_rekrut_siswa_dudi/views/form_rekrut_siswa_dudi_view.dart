@@ -62,7 +62,8 @@ class FormRekrutSiswaDudiView extends GetView<FormRekrutSiswaDudiController> {
                       ),
                     );
                   }
-
+                  kuotaJurusan.sort((a, b) =>
+                      (a.jurusan?.nama ?? '').compareTo(b.jurusan?.nama ?? ''));
                   return ListView.builder(
                     itemCount: kuotaJurusan.length,
                     itemBuilder: (context, index) {
@@ -104,21 +105,20 @@ class FormRekrutSiswaDudiView extends GetView<FormRekrutSiswaDudiController> {
           color: AllMaterial.colorWhite,
         ),
         onPressed: () {
-
-          // Dapatkan panjang kuota dan jurusan
           final kuotaJurusanLength =
               controller.kuotaDudi.value?.data?.kuota?.kuotaJurusan?.length ??
                   0;
-          final jurusanLength = BuatFormPklDudiController.jurusan.value?.data?.length ?? 0;
+          final jurusanLength =
+              BuatFormPklDudiController.jurusan.value?.data?.length ?? 0;
 
           if (jurusanLength == 0) {
             AllMaterial.messageScaffold(
-                title: "Tidak ada jurusan ditemukan!", context: context);
+                title: "Tidak ada jurusan ditemukan!",);
             return;
           }
           if (kuotaJurusanLength >= jurusanLength) {
             AllMaterial.messageScaffold(
-                title: "Telah melewati jumlah jurusan!", context: context);
+                title: "Telah melewati jumlah jurusan!",);
           } else {
             Get.to(() => const BuatFormPklDudiView(), arguments: {"id": 0});
             AllMaterial.box.write("isBuat", true);

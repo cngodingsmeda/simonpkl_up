@@ -138,10 +138,9 @@ class HistoriAbsenSiswaDudiView
                                 if (item.status!.contains("tidak")) {
                                   AllMaterial.messageScaffold(
                                       title: "Siswa melewatkan Absen Harian!",
-                                      context: context);
+                                      );
                                 } else {
-                                  showDialog(
-                                    context: context,
+                                  showDialog(  context: context,
                                     builder: (context) {
                                       return AllMaterial.cusDialog(
                                         topTitle: "Absen Harian",
@@ -167,7 +166,7 @@ class HistoriAbsenSiswaDudiView
                                             AllMaterial.messageScaffold(
                                                 title:
                                                     "Absen Pulang tidak ditemukan!",
-                                                context: context);
+                                               );
                                           } else {
                                             absensi.getDetilAbsenById(
                                               item.id!.toInt(),

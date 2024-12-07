@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
 import 'package:get/get.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:open_file/open_file.dart';
@@ -278,13 +277,14 @@ class DetilLaporanDudiGuruView extends GetView<DetilLaporanDudiGuruController> {
                                                         .endsWith('.docx'))) {
                                               print("Masuk ke if dokumen");
                                               openFile(fileKendala.replaceAll(
-                                                  "localhost", "10.0.2.2"));
+                                                  "localhost",
+                                                  "103.56.148.178"));
                                             } else {
                                               print("Masuk ke else gambar");
                                               showDialog(
+                                                context: context,
                                                 barrierColor: Colors.black
                                                     .withOpacity(0.9),
-                                                context: context,
                                                 builder: (context) =>
                                                     StatefulBuilder(
                                                   builder: (context, setState) {
@@ -298,10 +298,9 @@ class DetilLaporanDudiGuruView extends GetView<DetilLaporanDudiGuruController> {
                                                                 photoViewController,
                                                             imageProvider:
                                                                 NetworkImage(
-                                                              fileKendala
-                                                                  .replaceAll(
-                                                                      "localhost",
-                                                                      "10.0.2.2"),
+                                                              fileKendala.replaceAll(
+                                                                  "localhost",
+                                                                  "103.56.148.178"),
                                                             ),
                                                             minScale:
                                                                 PhotoViewComputedScale
@@ -387,7 +386,7 @@ class DetilLaporanDudiGuruView extends GetView<DetilLaporanDudiGuruController> {
                                                   child: Image.network(
                                                     fileKendala.replaceAll(
                                                         "localhost",
-                                                        "10.0.2.2"),
+                                                        "103.56.148.178"),
                                                     fit: BoxFit.cover,
                                                     width: 35,
                                                     height: 35,
@@ -451,13 +450,14 @@ class DetilLaporanDudiGuruView extends GetView<DetilLaporanDudiGuruController> {
                                                         .endsWith('.docx'))) {
                                               print("Masuk ke if dokumen");
                                               openFile(fileLaporan.replaceAll(
-                                                  "localhost", "10.0.2.2"));
+                                                  "localhost",
+                                                  "103.56.148.178"));
                                             } else {
                                               print("Masuk ke else gambar");
                                               showDialog(
+                                                context: context,
                                                 barrierColor: Colors.black
                                                     .withOpacity(0.9),
-                                                context: context,
                                                 builder: (context) =>
                                                     StatefulBuilder(
                                                   builder: (context, setState) {
@@ -471,10 +471,9 @@ class DetilLaporanDudiGuruView extends GetView<DetilLaporanDudiGuruController> {
                                                                 photoViewController,
                                                             imageProvider:
                                                                 NetworkImage(
-                                                              fileLaporan
-                                                                  .replaceAll(
-                                                                      "localhost",
-                                                                      "10.0.2.2"),
+                                                              fileLaporan.replaceAll(
+                                                                  "localhost",
+                                                                  "103.56.148.178"),
                                                             ),
                                                             minScale:
                                                                 PhotoViewComputedScale
@@ -560,7 +559,7 @@ class DetilLaporanDudiGuruView extends GetView<DetilLaporanDudiGuruController> {
                                                   child: Image.network(
                                                     fileLaporan.replaceAll(
                                                         "localhost",
-                                                        "10.0.2.2"),
+                                                        "103.56.148.178"),
                                                     fit: BoxFit.cover,
                                                     width: 35,
                                                     height: 35,

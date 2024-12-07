@@ -298,21 +298,6 @@ class PilihDudiSiswaView extends GetView<PilihDudiSiswaController> {
                                   children: [
                                     ListTile(
                                       leading: Text(
-                                        "Tahun :",
-                                        style: AllMaterial.montSerrat(
-                                          fontWeight: AllMaterial.fontMedium,
-                                          color: AllMaterial.colorBlack,
-                                        ),
-                                      ),
-                                      title: Text(
-                                        dudi.idTahun.toString(),
-                                        style: AllMaterial.montSerrat(
-                                          fontWeight: AllMaterial.fontMedium,
-                                        ),
-                                      ),
-                                    ),
-                                    ListTile(
-                                      leading: Text(
                                         "No. Telepon :",
                                         style: AllMaterial.montSerrat(
                                           fontWeight: AllMaterial.fontMedium,
@@ -321,7 +306,6 @@ class PilihDudiSiswaView extends GetView<PilihDudiSiswaController> {
                                       ),
                                       title: Text(
                                         dudi.noTelepon,
-                                        // "0814177323",
                                         style: AllMaterial.montSerrat(
                                           fontWeight: AllMaterial.fontMedium,
                                         ),

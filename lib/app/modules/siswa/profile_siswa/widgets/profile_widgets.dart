@@ -7,10 +7,12 @@ class ProfileWidget extends StatelessWidget {
     this.controller,
     required this.title,
     this.textController,
+    required this.isEdit,
   });
 
   // ignore: prefer_typing_uninitialized_variables
   final controller;
+  bool isEdit = false;
   String title;
   TextEditingController? textController;
 
@@ -33,7 +35,7 @@ class ProfileWidget extends StatelessWidget {
             fontWeight: AllMaterial.fontRegular,
           ),
           controller: textController,
-          enabled: false,
+          enabled: isEdit,
           cursorColor: AllMaterial.colorBlue,
           decoration: InputDecoration(
             focusedBorder: OutlineInputBorder(

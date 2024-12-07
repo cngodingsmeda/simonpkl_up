@@ -130,7 +130,7 @@ class HomeSiswaView extends GetView<HomeSiswaController> {
           const Icon(Icons.error_outline, color: Colors.red, size: 50),
           const SizedBox(height: 15),
           Text(
-            genController.getErrorMessage(statusCode),
+            AllMaterial.getErrorMessage(statusCode),
             textAlign: TextAlign.center,
             style: AllMaterial.montSerrat(
               fontSize: 18,
@@ -146,7 +146,7 @@ class HomeSiswaView extends GetView<HomeSiswaController> {
 
   Widget _splashWait() {
     return FutureBuilder(
-      future: Future.delayed(const Duration(seconds: 15)),
+      future: Future.delayed(const Duration(seconds: 5)),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Column(

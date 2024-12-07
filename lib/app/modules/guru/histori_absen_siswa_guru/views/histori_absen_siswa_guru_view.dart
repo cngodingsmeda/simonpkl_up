@@ -137,11 +137,10 @@ class HistoriAbsenSiswaGuruView
                               onTap: () {
                                 if (item.status!.contains("tidak")) {
                                   AllMaterial.messageScaffold(
-                                      title: "Siswa melewatkan Absen Harian!",
-                                      context: context);
+                                    title: "Siswa melewatkan Absen Harian!",
+                                  );
                                 } else {
-                                  showDialog(
-                                    context: context,
+                                  showDialog(context: context,
                                     builder: (context) {
                                       return AllMaterial.cusDialog(
                                         topTitle: "Absen Harian",
@@ -165,9 +164,9 @@ class HistoriAbsenSiswaGuruView
                                           if (item.statusAbsenPulang == null) {
                                             Get.back();
                                             AllMaterial.messageScaffold(
-                                                title:
-                                                    "Absen Pulang tidak ditemukan!",
-                                                context: context);
+                                              title:
+                                                  "Absen Pulang tidak ditemukan!",
+                                            );
                                           } else {
                                             absensi.getDetilAbsenById(
                                               item.id!.toInt(),

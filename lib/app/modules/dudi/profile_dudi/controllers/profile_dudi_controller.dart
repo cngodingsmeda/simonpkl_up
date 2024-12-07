@@ -3,11 +3,14 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:simon_pkl/all_material.dart';
+import 'package:simon_pkl/app/controller/general_controller.dart';
 import 'package:simon_pkl/app/data/api_url.dart';
 import 'package:simon_pkl/app/model/model_dudi/profile_dudi_model.dart';
 
 class ProfileDudiController extends GetxController {
+  RefreshController refreshControllerProfil = RefreshController();
   var instansiC = TextEditingController();
   var alamatC = TextEditingController();
   var noTeleponC = TextEditingController();
@@ -38,20 +41,22 @@ class ProfileDudiController extends GetxController {
       var profileModel = ProfileDudiModel.fromJson(data["data"]);
       profil.value = profileModel;
       isLoading.value = false;
-      instansiC.text = AllMaterial.setiapNamaHurufPertama(
-          profileModel.dudi?.namaInstansiPerusahaan ?? "");
+      instansiC.text = profileModel.dudi?.namaInstansiPerusahaan ?? "";
       alamatC.text = AllMaterial.formatAlamat(
         '${profileModel.alamat?.detailTempat}, ${profileModel.alamat?.desa}, ${profileModel.alamat?.kecamatan}, ${profileModel.alamat?.kabupaten}, ${profileModel.alamat?.provinsi}',
       );
       noTeleponC.text = profileModel.noTelepon ?? "";
-      deskripsiC.text =
-          AllMaterial.hurufPertama(profileModel.dudi?.deskripsi ?? "");
-      bidangUsahaC.text =
-          AllMaterial.setiapHurufPertama(profileModel.dudi?.bidangUsaha ?? "");
-
+      deskripsiC.text = profileModel.dudi?.deskripsi ?? "";
+      
+      bidangUsahaC.text = profileModel.dudi?.bidangUsaha ?? "";
+      refreshControllerProfil.refreshCompleted();
       update();
+    } else if (response.statusCode == 401) {
+      var genController = Get.put(GeneralController());
+      genController.logout(isExpired: true);
     } else {
-      statusCode.value = 500;
+      statusCode.value = response.statusCode;
+      refreshControllerProfil.refreshFailed();
       update();
       print("gagal menampilkan data");
       throw Exception('Failed to load profile');

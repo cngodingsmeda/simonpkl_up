@@ -11,36 +11,55 @@ class ProfileSiswaView extends GetView<ProfileSiswaController> {
   @override
   Widget build(BuildContext context) {
     var controller = Get.put(ProfileSiswaController());
+    bool isEdit = false;
+    if (Get.arguments != null && Get.arguments["isEdit"] != null) {
+      isEdit = Get.arguments["isEdit"];
+    }
+
     return Scaffold(
       backgroundColor: AllMaterial.colorWhite,
       appBar: AppBar(
         backgroundColor: AllMaterial.colorWhite,
         surfaceTintColor: AllMaterial.colorWhite,
         title: Text(
-          'Profil Saya',
+          (isEdit) ? 'Edit Profil' : 'Profil Saya',
           style: AllMaterial.montSerrat(
             fontWeight: AllMaterial.fontSemiBold,
           ),
         ),
-        actions: [
-          IconButton(
-            tooltip: "Logout",
-            padding: const EdgeInsets.all(16),
-            onPressed: () {
-              var genController = Get.put(GeneralController());
-              AllMaterial.cusDialogValidasi(
-                title: "Logout",
-                subtitle: "Apakah Anda ingin keluar dari akun saat ini?",
-                onConfirm: () => genController.logout(context),
-                onCancel: () => Get.back(),
-              );
-            },
-            icon: const Icon(
-              Icons.logout,
-              color: Colors.red,
-            ),
-          )
-        ],
+        // leading: (isEdit == false)
+        //     ? const SizedBox.shrink()
+        //     : IconButton(
+        //         onPressed: () {
+        //           Get.back();
+        //           isEdit = false;
+        //         },
+        //         icon: const Icon(
+        //           Icons.arrow_back,
+        //         ),
+        //       ),
+        // actions: (isEdit)
+        //     ? null
+        //     : [
+        //         IconButton(
+        //           tooltip: "Edit Profil",
+        //           style: const ButtonStyle(
+        //             elevation: WidgetStatePropertyAll(5),
+        //             padding: WidgetStatePropertyAll(EdgeInsets.zero),
+        //           ),
+        //           onPressed: () {
+        //             Get.to(
+        //               () => const ProfileSiswaView(),
+        //               arguments: {"isEdit": true},
+        //             );
+        //           },
+        //           icon: const Icon(
+        //             size: 20,
+        //             Icons.edit,
+        //             color: AllMaterial.colorBlack,
+        //           ),
+        //         ),
+        //       ],
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -62,7 +81,7 @@ class ProfileSiswaView extends GetView<ProfileSiswaController> {
                             ? NetworkImage(
                                 controller.profil.value!.fotoProfile
                                     .toString()
-                                    .replaceAll("localhost", "10.0.2.2"),
+                                    .replaceAll("localhost", "103.56.148.178"),
                               )
                             : const AssetImage(
                                 "assets/images/foto-profile.png",
@@ -76,24 +95,21 @@ class ProfileSiswaView extends GetView<ProfileSiswaController> {
                       ),
                       color: AllMaterial.colorBlue,
                     ),
-                    // child: IconButton(
-                    //   tooltip: "Edit Profil",
-                    //   style: const ButtonStyle(
-                    //     elevation: WidgetStatePropertyAll(5),
-                    //     padding: WidgetStatePropertyAll(EdgeInsets.zero),
-                    //   ),
-                    //   onPressed: () {
-                    //     AllMaterial.messageScaffold(
-                    //       title: "Fitur Sedang Digarap, Coming Soon",
-                    //       context: context,
-                    //     );
-                    //   },
-                    //   icon: const Icon(
-                    //     size: 20,
-                    //     Icons.edit,
-                    //     color: AllMaterial.colorWhite,
-                    //   ),
-                    // ),
+                    child: (isEdit == false)
+                        ? const SizedBox.shrink()
+                        : IconButton(
+                            tooltip: "Edit Foto Profil",
+                            style: const ButtonStyle(
+                              elevation: WidgetStatePropertyAll(5),
+                              padding: WidgetStatePropertyAll(EdgeInsets.zero),
+                            ),
+                            onPressed: () {},
+                            icon: const Icon(
+                              size: 20,
+                              Icons.edit,
+                              color: AllMaterial.colorWhite,
+                            ),
+                          ),
                   ),
                   const SizedBox(width: 25),
                   Flexible(
@@ -128,42 +144,107 @@ class ProfileSiswaView extends GetView<ProfileSiswaController> {
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 15),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    ProfileWidget(
-                      controller: controller,
-                      textController: controller.kelasC,
-                      title: "Kelas:",
-                    ),
-                    ProfileWidget(
-                      controller: controller,
-                      textController: controller.noTeleponC,
-                      title: "No. Telepon:",
-                    ),
-                    ProfileWidget(
-                      controller: controller,
-                      textController: controller.alamatC,
-                      title: "Alamat:",
-                    ),
-                    ProfileWidget(
-                      controller: controller,
-                      textController: controller.statusPklC,
-                      title: "Status PKL:",
-                    ),
-                    ProfileWidget(
-                      controller: controller,
-                      textController: controller.guruPembimbingC,
-                      title: "Guru Pembimbing:",
-                    ),
-                    const SizedBox(height: 60),
-                  ],
-                ),
+                child: isEdit
+                    ? Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ProfileWidget(
+                            isEdit: isEdit,
+                            controller: controller,
+                            textController: controller.noTeleponC,
+                            title: "No. Telepon:",
+                          ),
+                          ProfileWidget(
+                            isEdit: isEdit,
+                            controller: controller,
+                            textController: controller.alamatC,
+                            title: "Alamat:",
+                          ),
+                          ProfileWidget(
+                            isEdit: false,
+                            controller: controller,
+                            textController: controller.statusPklC,
+                            title: "Detail Tempat:",
+                          ),
+                          (isEdit)
+                              ? const SizedBox.shrink()
+                              : ProfileWidget(
+                                  isEdit: false,
+                                  controller: controller,
+                                  textController: controller.guruPembimbingC,
+                                  title: "Guru Pembimbing:",
+                                ),
+                          const SizedBox(height: 60),
+                        ],
+                      )
+                    : Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ProfileWidget(
+                            isEdit: false,
+                            controller: controller,
+                            textController: controller.kelasC,
+                            title: "Kelas:",
+                          ),
+                          ProfileWidget(
+                            isEdit: isEdit,
+                            controller: controller,
+                            textController: controller.noTeleponC,
+                            title: "No. Telepon:",
+                          ),
+                          ProfileWidget(
+                            isEdit: isEdit,
+                            controller: controller,
+                            textController: controller.alamatC,
+                            title: "Alamat:",
+                          ),
+                          ProfileWidget(
+                            isEdit: false,
+                            controller: controller,
+                            textController: controller.statusPklC,
+                            title: "Status PKL:",
+                          ),
+                          ProfileWidget(
+                            isEdit: false,
+                            controller: controller,
+                            textController: controller.guruPembimbingC,
+                            title: "Guru Pembimbing:",
+                          ),
+                          const SizedBox(height: 60),
+                        ],
+                      ),
               ),
             ],
           ),
         ),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButton: (isEdit)
+          ? const SizedBox.shrink()
+          : Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                FloatingActionButton(
+                  backgroundColor: AllMaterial.colorRed,
+                  onPressed: () {
+                    var genController = Get.put(GeneralController());
+                    AllMaterial.cusDialogValidasi(
+                      title: "Logout",
+                      subtitle: "Apakah Anda ingin keluar dari akun saat ini?",
+                      onConfirm: () => genController.logout(),
+                      onCancel: () => Get.back(),
+                    );
+                  },
+                  elevation: 0,
+                  tooltip: "Logout",
+                  child: const Icon(
+                    Icons.logout,
+                    color: Colors.white,
+                  ),
+                ),
+                const SizedBox(height: 90),
+              ],
+            ),
     );
   }
 }

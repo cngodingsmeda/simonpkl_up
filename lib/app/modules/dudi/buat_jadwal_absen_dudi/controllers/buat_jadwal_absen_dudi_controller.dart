@@ -60,12 +60,9 @@ class BuatJadwalAbsenDudiController extends GetxController {
           Get.find<JadwalAbsenSiswaDudiController>().getAllJadwalAbsen();
           AllMaterial.messageScaffold(
             title: "Jadwal berhasil ${isPost ? "ditambahkan" : "diubah"}!",
-            context: context!,
           );
         }
         update();
-      } else {
-        _showErrorMessage(context, data["msg"]);
       }
     } catch (e) {
       print("Exception: $e");
@@ -100,10 +97,10 @@ class BuatJadwalAbsenDudiController extends GetxController {
     return TimeOfDay(hour: int.parse(parts[0]), minute: int.parse(parts[1]));
   }
 
+  // ignore: unused_element
   void _showErrorMessage(BuildContext? context, String message) {
     AllMaterial.messageScaffold(
       title: message,
-      context: context!,
     );
   }
 

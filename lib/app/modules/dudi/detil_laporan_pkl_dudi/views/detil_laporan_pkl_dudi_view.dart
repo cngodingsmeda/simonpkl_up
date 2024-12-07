@@ -301,13 +301,13 @@ class DetilLaporanPklDudiView extends GetView<DetilLaporanPklDudiController> {
                                                       .endsWith('.docx'))) {
                                             print("Masuk ke if dokumen");
                                             openFile(fotoAbsen.replaceAll(
-                                                "localhost", "10.0.2.2"));
+                                                "localhost", "103.56.148.178"));
                                           } else {
                                             print("Masuk ke else gambar");
                                             showDialog(
+                                              context: context,
                                               barrierColor:
                                                   Colors.black.withOpacity(0.9),
-                                              context: context,
                                               builder: (context) =>
                                                   StatefulBuilder(
                                                 builder: (context, setState) {
@@ -323,7 +323,7 @@ class DetilLaporanPklDudiView extends GetView<DetilLaporanPklDudiController> {
                                                               NetworkImage(
                                                             fotoAbsen?.replaceAll(
                                                                     "localhost",
-                                                                    "10.0.2.2") ??
+                                                                    "103.56.148.178") ??
                                                                 "",
                                                           ),
                                                           minScale:
@@ -468,7 +468,7 @@ class DetilLaporanPklDudiView extends GetView<DetilLaporanPklDudiController> {
                                                             .toString()
                                                             .replaceAll(
                                                                 "localhost",
-                                                                "10.0.2.2"),
+                                                                "103.56.148.178"),
                                                         fit: BoxFit.cover,
                                                         width: 35,
                                                         height: 35,
@@ -545,13 +545,13 @@ class DetilLaporanPklDudiView extends GetView<DetilLaporanPklDudiController> {
                                                       .endsWith('.docx'))) {
                                             print("Masuk ke if dokumen");
                                             openFile(fotoAbsen.replaceAll(
-                                                "localhost", "10.0.2.2"));
+                                                "localhost", "103.56.148.178"));
                                           } else {
                                             print("Masuk ke else gambar");
                                             showDialog(
+                                              context: context,
                                               barrierColor:
                                                   Colors.black.withOpacity(0.9),
-                                              context: context,
                                               builder: (context) =>
                                                   StatefulBuilder(
                                                 builder: (context, setState) {
@@ -567,7 +567,7 @@ class DetilLaporanPklDudiView extends GetView<DetilLaporanPklDudiController> {
                                                               NetworkImage(
                                                             fotoAbsen?.replaceAll(
                                                                     "localhost",
-                                                                    "10.0.2.2") ??
+                                                                    "103.56.148.178") ??
                                                                 "",
                                                           ),
                                                           minScale:
@@ -707,7 +707,7 @@ class DetilLaporanPklDudiView extends GetView<DetilLaporanPklDudiController> {
                                                             .fileLaporan!
                                                             .replaceAll(
                                                                 "localhost",
-                                                                "10.0.2.2"),
+                                                                "103.56.148.178"),
                                                         fit: BoxFit.cover,
                                                         width: 35,
                                                         height: 35,

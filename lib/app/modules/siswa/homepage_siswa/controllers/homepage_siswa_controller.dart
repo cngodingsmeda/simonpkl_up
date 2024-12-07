@@ -9,6 +9,7 @@ import 'package:simon_pkl/app/model/model_siswa/last_ajuan_pkl_model.dart';
 import 'package:simon_pkl/app/modules/siswa/home_siswa/views/home_siswa_view.dart';
 
 class HomepageSiswaController extends GetxController {
+  var isCompleted = false.obs;
   static RxString statusPkl = "".obs;
   var readCount = 0.obs;
   var ajuanPkl = Rx<LastAjuanPklModel?>(null);
@@ -60,8 +61,10 @@ class HomepageSiswaController extends GetxController {
     print(data);
     if (response.statusCode == 200) {
       readCount.value = data["data"]["count"];
+      isCompleted.value = true;
       update();
     } else {
+      isCompleted.value = false;
       print("gagal mengirim data");
       throw Exception('Failed to send data');
     }

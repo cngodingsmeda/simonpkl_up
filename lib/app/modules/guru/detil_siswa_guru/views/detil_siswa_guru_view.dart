@@ -46,7 +46,7 @@ class DetilSiswaGuruView extends GetView<DetilSiswaGuruController> {
                             ? NetworkImage(
                                 controller.siswa.value!.fotoProfile
                                     .toString()
-                                    .replaceAll("localhost", "10.0.2.2"),
+                                    .replaceAll("localhost", "103.56.148.178"),
                               )
                             : const AssetImage(
                                 "assets/images/foto-profile.png",
@@ -97,18 +97,21 @@ class DetilSiswaGuruView extends GetView<DetilSiswaGuruController> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ProfileWidget(
+                    isEdit: false,
                     controller: controller,
                     textController: controller.kelasC,
                     title: "Kelas:",
                   ),
                   const SizedBox(height: 10),
                   ProfileWidget(
+                    isEdit: false,
                     controller: controller,
                     textController: controller.noTelpC,
                     title: "No. Telepon:",
                   ),
                   const SizedBox(height: 10),
                   ProfileWidget(
+                    isEdit: false,
                     controller: controller,
                     textController: controller.alamatC,
                     title: "Alamat Siswa:",
@@ -117,6 +120,7 @@ class DetilSiswaGuruView extends GetView<DetilSiswaGuruController> {
                   (controller.siswa.value?.dudi?.namaInstansiPerusahaan == null)
                       ? const SizedBox.shrink()
                       : ProfileWidget(
+                          isEdit: false,
                           controller: controller,
                           textController: controller.instansiC,
                           title: "Tempat PKL:",

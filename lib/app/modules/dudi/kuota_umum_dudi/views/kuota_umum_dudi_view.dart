@@ -125,7 +125,6 @@ class KuotaUmumDudiView extends GetView<KuotaUmumDudiController> {
             controller.getKuotaSiswa(
               isPost: !isUpdate,
               isPut: isUpdate,
-              context: context,
             );
             Get.back();
           },

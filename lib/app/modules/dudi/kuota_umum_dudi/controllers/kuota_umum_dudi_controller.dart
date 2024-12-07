@@ -50,7 +50,7 @@ class KuotaUmumDudiController extends GetxController {
           Get.back();
           AllMaterial.messageScaffold(
             title: "Form Rekrut berhasil dibuat!",
-            context: context!,
+              
           );
         }
         update();
@@ -58,7 +58,7 @@ class KuotaUmumDudiController extends GetxController {
         print("getKuotaSiswa: ${response.body}");
         AllMaterial.messageScaffold(
           title: "Kesalahan, coba lagi nanti!",
-          context: context!,
+            
         );
       }
     } catch (e) {

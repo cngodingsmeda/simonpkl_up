@@ -221,13 +221,13 @@ class DetilLaporanSiswaView extends GetView<DetilLaporanSiswaControllr> {
                                                       .endsWith('.docx'))) {
                                             print("Masuk ke if dokumen");
                                             openFile(fotoAbsen.replaceAll(
-                                                "localhost", "10.0.2.2"));
+                                                "localhost", "103.56.148.178"));
                                           } else {
                                             print("Masuk ke else gambar");
                                             showDialog(
+                                              context: context,
                                               barrierColor:
                                                   Colors.black.withOpacity(0.9),
-                                              context: context,
                                               builder: (context) =>
                                                   StatefulBuilder(
                                                 builder: (context, setState) {
@@ -241,10 +241,9 @@ class DetilLaporanSiswaView extends GetView<DetilLaporanSiswaControllr> {
                                                               photoViewController,
                                                           imageProvider:
                                                               NetworkImage(
-                                                            fotoAbsen
-                                                                .replaceAll(
-                                                                    "localhost",
-                                                                    "10.0.2.2"),
+                                                            fotoAbsen.replaceAll(
+                                                                "localhost",
+                                                                "103.56.148.178"),
                                                           ),
                                                           minScale:
                                                               PhotoViewComputedScale
@@ -380,7 +379,7 @@ class DetilLaporanSiswaView extends GetView<DetilLaporanSiswaControllr> {
                                                             .toString()
                                                             .replaceAll(
                                                                 "localhost",
-                                                                "10.0.2.2"),
+                                                                "103.56.148.178"),
                                                         fit: BoxFit.cover,
                                                         width: 35,
                                                         height: 35,
@@ -450,13 +449,13 @@ class DetilLaporanSiswaView extends GetView<DetilLaporanSiswaControllr> {
                                                       .endsWith('.docx'))) {
                                             print("Masuk ke if dokumen");
                                             openFile(fotoAbsen.replaceAll(
-                                                "localhost", "10.0.2.2"));
+                                                "localhost", "103.56.148.178"));
                                           } else {
                                             print("Masuk ke else gambar");
                                             showDialog(
+                                              context: context,
                                               barrierColor:
                                                   Colors.black.withOpacity(0.9),
-                                              context: context,
                                               builder: (context) =>
                                                   StatefulBuilder(
                                                 builder: (context, setState) {
@@ -472,7 +471,7 @@ class DetilLaporanSiswaView extends GetView<DetilLaporanSiswaControllr> {
                                                               NetworkImage(
                                                             fotoAbsen?.replaceAll(
                                                                     "localhost",
-                                                                    "10.0.2.2") ??
+                                                                    "103.56.148.178") ??
                                                                 "",
                                                           ),
                                                           minScale:
@@ -605,7 +604,7 @@ class DetilLaporanSiswaView extends GetView<DetilLaporanSiswaControllr> {
                                                             .value!.dokumentasi!
                                                             .replaceAll(
                                                                 "localhost",
-                                                                "10.0.2.2"),
+                                                                "103.56.148.178"),
                                                         fit: BoxFit.cover,
                                                         width: 35,
                                                         height: 35,

@@ -66,7 +66,7 @@ class DataSiswaDudiView extends GetView<DataSiswaDudiController> {
                       backgroundImage: (siswa.fotoProfile != null)
                           ? NetworkImage(
                               siswa.fotoProfile!
-                                  .replaceAll("localhost", "10.0.2.2"),
+                                  .replaceAll("localhost", "103.56.148.178"),
                             )
                           : const AssetImage("assets/images/foto-profile.png")
                               as ImageProvider,

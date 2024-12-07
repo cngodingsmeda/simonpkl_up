@@ -41,16 +41,16 @@ class DetilSiswaDudiView extends GetView<DetilSiswaDudiController> {
                     height: 100,
                     decoration: BoxDecoration(
                       image: DecorationImage(
-                        image:
-                            (controller.siswa.value?.data?.fotoProfile != null)
-                                ? NetworkImage(
-                                    controller.siswa.value!.data!.fotoProfile
-                                        .toString()
-                                        .replaceAll("localhost", "10.0.2.2"),
-                                  )
-                                : const AssetImage(
-                                    "assets/images/foto-profile.png",
-                                  ),
+                        image: (controller.siswa.value?.data?.fotoProfile !=
+                                null)
+                            ? NetworkImage(
+                                controller.siswa.value!.data!.fotoProfile
+                                    .toString()
+                                    .replaceAll("localhost", "103.56.148.178"),
+                              )
+                            : const AssetImage(
+                                "assets/images/foto-profile.png",
+                              ),
                         fit: BoxFit.cover,
                       ),
                       borderRadius: BorderRadius.circular(500),
@@ -97,18 +97,21 @@ class DetilSiswaDudiView extends GetView<DetilSiswaDudiController> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ProfileWidget(
+                    isEdit: false,
                     controller: controller,
                     textController: controller.kelasC,
                     title: "Kelas:",
                   ),
                   const SizedBox(height: 10),
                   ProfileWidget(
+                    isEdit: false,
                     controller: controller,
                     textController: controller.noTelpC,
                     title: "No. Telepon:",
                   ),
                   const SizedBox(height: 10),
                   ProfileWidget(
+                    isEdit: false,
                     controller: controller,
                     textController: controller.alamatC,
                     title: "Alamat:",

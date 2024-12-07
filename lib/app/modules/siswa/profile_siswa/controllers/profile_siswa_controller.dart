@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:simon_pkl/all_material.dart';
+import 'package:simon_pkl/app/controller/general_controller.dart';
 import 'package:simon_pkl/app/data/api_url.dart';
 import 'package:simon_pkl/app/model/model_siswa/profile_siswa_model.dart';
 import 'package:simon_pkl/app/modules/siswa/home_siswa/controllers/home_siswa_controller.dart';
@@ -17,6 +18,12 @@ class ProfileSiswaController extends GetxController {
   var guruPembimbingC = TextEditingController();
   var statusCode = 0.obs;
   var isLoading = true.obs;
+  // ALAMAT
+  var detailTempatC = TextEditingController();
+  var desaC = TextEditingController();
+  var kecamatanC = TextEditingController();
+  var kabupatenC = TextEditingController();
+  var provinsiC = TextEditingController();
 
   var profil = Rx<ProfileSiswaModel?>(null);
 
@@ -55,16 +62,18 @@ class ProfileSiswaController extends GetxController {
           ? "${AllMaterial.hurufPertama(status.replaceAll("_", " ").split(' ').elementAt(0))} ${status.replaceAll("_", " ").split(' ').elementAt(1).toUpperCase()}"
           : AllMaterial.hurufPertama(status);
       guruPembimbingC.text =
-          AllMaterial.setiapHurufPertama(profileModel.guruPembimbing!.nama);
+          profileModel.guruPembimbing!.nama;
       update();
+    } else if (response.statusCode == 401) {
+      var genController = Get.put(GeneralController());
+      genController.logout(isExpired: true);
     } else {
-      statusCode.value = 500;
+      statusCode.value = response.statusCode;
       update();
       print("gagal menampilkan data");
       throw Exception('Failed to load profile');
     }
   }
-
   @override
   void onInit() {
     fetchProfilSiswa();

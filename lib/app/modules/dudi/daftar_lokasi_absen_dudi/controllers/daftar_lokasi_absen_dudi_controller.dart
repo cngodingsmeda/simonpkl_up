@@ -49,7 +49,6 @@ class DaftarLokasiAbsenDudiController extends GetxController {
         getAllLokasiAbsen();
         AllMaterial.messageScaffold(
           title: AllMaterial.hurufPertama("Lokasi berhasil dihapus!"),
-          context: context,
         );
         update();
       } else {

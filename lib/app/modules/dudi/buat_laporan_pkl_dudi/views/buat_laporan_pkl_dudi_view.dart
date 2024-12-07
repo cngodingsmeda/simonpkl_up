@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:simon_pkl/all_material.dart';
@@ -190,9 +189,19 @@ class BuatLaporanPklDudiView extends GetView<BuatLaporanPklDudiController> {
                                   ),
                                   const SizedBox(height: 10),
                                   DropdownButtonFormField<String>(
+                                    isExpanded: true,
                                     dropdownColor: AllMaterial.colorBlue,
                                     elevation: 0,
                                     value: null,
+                                    hint: Text(
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      "Pilih Siswa Terkait",
+                                      style: AllMaterial.montSerrat(
+                                        fontWeight: AllMaterial.fontMedium,
+                                        color: AllMaterial.colorWhite,
+                                      ),
+                                    ),
                                     style: AllMaterial.montSerrat(
                                       color: AllMaterial.colorWhite,
                                     ),
@@ -211,6 +220,8 @@ class BuatLaporanPklDudiView extends GetView<BuatLaporanPklDudiController> {
                                       return DropdownMenuItem<String>(
                                         value: siswa.id.toString(),
                                         child: Text(
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
                                           siswa.nama == ""
                                               ? ""
                                               : AllMaterial
@@ -270,9 +281,8 @@ class BuatLaporanPklDudiView extends GetView<BuatLaporanPklDudiController> {
                               if (file.path.endsWith('.jpg') ||
                                   file.path.endsWith('.png') ||
                                   file.path.endsWith('.jpeg')) {
-                                showDialog(
+                                showDialog(  context: context,
                                   barrierColor: Colors.black.withOpacity(0.6),
-                                  context: context,
                                   builder: (context) => Dialog(
                                     backgroundColor: Colors.transparent,
                                     child: LayoutBuilder(
@@ -356,7 +366,6 @@ class BuatLaporanPklDudiView extends GetView<BuatLaporanPklDudiController> {
                                               title: AllMaterial.hurufPertama(
                                                 "Harap pilih siswa terkait",
                                               ),
-                                              context: context,
                                             );
                                           }
                                         } else {
@@ -531,13 +540,14 @@ Widget uploadFilePlaceholder() {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SvgPicture.asset(
-            "assets/icons/lokasi.svg",
-            height: 40,
+          const Icon(
+            Icons.file_upload,
+            color: Colors.white,
+            size: 50,
           ),
           const SizedBox(height: 10),
           Text(
-            "tekan untuk memilih lokasi",
+            "docx, pdf, jpg, atau png",
             style: AllMaterial.montSerrat(
               color: Colors.white,
             ),

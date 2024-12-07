@@ -264,7 +264,6 @@ Widget _buildSubmitButton(
           controller.getJadwalAbsenById(
             isPost: !isUpdate,
             isPut: isUpdate,
-            context: context,
           );
           Get.back();
         },

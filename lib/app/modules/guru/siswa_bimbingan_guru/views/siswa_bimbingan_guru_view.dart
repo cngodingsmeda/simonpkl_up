@@ -46,9 +46,9 @@ class SiswaBimbinganGuruView extends GetView<SiswaBimbinganGuruController> {
             );
           }
           var siswaList = homeCont.siswaBimbingan.value!.data!;
+          siswaList.sort((a, b) => (a.nama ?? "").compareTo(b.nama ?? ""));
           return ListView.builder(
             shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
             itemCount: siswaList.length,
             itemBuilder: (context, index) {
               var siswa = siswaList[index];
@@ -69,7 +69,7 @@ class SiswaBimbinganGuruView extends GetView<SiswaBimbinganGuruController> {
                   backgroundImage: (siswa.fotoProfile != null)
                       ? NetworkImage(
                           siswa.fotoProfile!
-                              .replaceAll("localhost", "10.0.2.2"),
+                              .replaceAll("localhost", "103.56.148.178"),
                         )
                       : const AssetImage("assets/images/foto-profile.png")
                           as ImageProvider,

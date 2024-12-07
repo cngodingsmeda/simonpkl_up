@@ -195,8 +195,8 @@ class BuatLaporanSiswaView extends GetView<BuatLaporanSiswaController> {
                                   file.path.endsWith('.png') ||
                                   file.path.endsWith('.jpeg')) {
                                 showDialog(
-                                  barrierColor: Colors.black.withOpacity(0.6),
                                   context: context,
+                                  barrierColor: Colors.black.withOpacity(0.6),
                                   builder: (context) => Dialog(
                                     backgroundColor: Colors.transparent,
                                     child: LayoutBuilder(
@@ -259,10 +259,28 @@ class BuatLaporanSiswaView extends GetView<BuatLaporanSiswaController> {
                         ),
                         const SizedBox(height: 30),
                         ElevatedButton(
-                          onPressed: () =>
-                              (LaporanSiswaController.isKendala.isTrue)
-                                  ? controller.postLaporanKendalaSiswa(context)
-                                  : controller.postLaporanHarianSiswa(context),
+                          onPressed: () {
+                            if (controller.inputC.text == "" ||
+                                controller.topikC.text == "") {
+                              AllMaterial.messageScaffold(
+                                title:
+                                    "${LaporanSiswaController.isKendala.isTrue ? "Kendala" : "Laporan"} tidak boleh kosong",
+                              );
+                            } else {
+                              AllMaterial.cusDialogValidasi(
+                                title: "Konfirmasi",
+                                subtitle:
+                                    "Apakah Anda ingin membuat laporan ${LaporanSiswaController.isKendala.isTrue ? "kendala" : "harian"}?",
+                                onConfirm: () =>
+                                    (LaporanSiswaController.isKendala.isTrue)
+                                        ? controller
+                                            .postLaporanKendalaSiswa(context)
+                                        : controller
+                                            .postLaporanHarianSiswa(context),
+                                onCancel: () => Get.back(),
+                              );
+                            }
+                          },
                           style: ElevatedButton.styleFrom(
                             fixedSize: Size.fromWidth(Get.width),
                             disabledBackgroundColor:

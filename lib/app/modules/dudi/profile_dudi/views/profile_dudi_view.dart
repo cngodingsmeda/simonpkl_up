@@ -11,36 +11,54 @@ class ProfileDudiView extends GetView<ProfileDudiController> {
   @override
   Widget build(BuildContext context) {
     var controller = Get.put(ProfileDudiController());
+    bool isEdit = false;
+    if (Get.arguments != null && Get.arguments["isEdit"] != null) {
+      isEdit = Get.arguments["isEdit"];
+    }
     return Scaffold(
       backgroundColor: AllMaterial.colorWhite,
       appBar: AppBar(
         backgroundColor: AllMaterial.colorWhite,
         surfaceTintColor: AllMaterial.colorWhite,
         title: Text(
-          'Profil Saya',
+          (isEdit) ? 'Edit Profil' : 'Profil Saya',
           style: AllMaterial.montSerrat(
             fontWeight: AllMaterial.fontSemiBold,
           ),
         ),
-        actions: [
-          IconButton(
-            tooltip: "Logout",
-            padding: const EdgeInsets.all(16),
-            onPressed: () {
-              var genController = Get.put(GeneralController());
-              AllMaterial.cusDialogValidasi(
-                title: "Logout",
-                subtitle: "Apakah Anda ingin keluar dari akun saat ini?",
-                onConfirm: () => genController.logout(context),
-                onCancel: () => Get.back(),
-              );
-            },
-            icon: const Icon(
-              Icons.logout,
-              color: Colors.red,
-            ),
-          )
-        ],
+        // leading: (isEdit == false)
+        //     ? const SizedBox.shrink()
+        //     : IconButton(
+        //         onPressed: () {
+        //           Get.back();
+        //           isEdit = false;
+        //         },
+        //         icon: const Icon(
+        //           Icons.arrow_back,
+        //         ),
+        //       ),
+        // actions: (isEdit)
+        //     ? null
+        //     : [
+        //         IconButton(
+        //           tooltip: "Edit Profil",
+        //           style: const ButtonStyle(
+        //             elevation: WidgetStatePropertyAll(5),
+        //             padding: WidgetStatePropertyAll(EdgeInsets.zero),
+        //           ),
+        //           onPressed: () {
+        //             Get.to(
+        //               () => const ProfileDudiView(),
+        //               arguments: {"isEdit": true},
+        //             );
+        //           },
+        //           icon: const Icon(
+        //             size: 20,
+        //             Icons.edit,
+        //             color: AllMaterial.colorBlack,
+        //           ),
+        //         ),
+        //       ],
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -60,7 +78,7 @@ class ProfileDudiView extends GetView<ProfileDudiController> {
                         image: (controller.profil.value?.fotoProfile != null)
                             ? NetworkImage(controller.profil.value!.fotoProfile
                                 .toString()
-                                .replaceAll("localhost", "10.0.2.2"))
+                                .replaceAll("localhost", "103.56.148.178"))
                             : const AssetImage(
                                 "assets/images/foto-profile.png",
                               ),
@@ -81,7 +99,7 @@ class ProfileDudiView extends GetView<ProfileDudiController> {
                     //   onPressed: () {
                     //     AllMaterial.messageScaffold(
                     //       title: "Fitur Sedang Digarap, Coming Soon",
-                    //       context: context,
+                    //
                     //     );
                     //   },
                     //   icon: const Icon(
@@ -125,26 +143,31 @@ class ProfileDudiView extends GetView<ProfileDudiController> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     ProfileWidget(
+                      isEdit: false,
                       controller: controller,
                       textController: controller.instansiC,
                       title: "Nama Instansi Perusahaan:",
                     ),
                     ProfileWidget(
+                      isEdit: false,
                       controller: controller,
                       textController: controller.noTeleponC,
                       title: "No. Telepon:",
                     ),
                     ProfileWidget(
+                      isEdit: false,
                       controller: controller,
                       textController: controller.bidangUsahaC,
                       title: "Bidang Instansi:",
                     ),
                     ProfileWidget(
+                      isEdit: false,
                       controller: controller,
                       textController: controller.deskripsiC,
                       title: "Deskripsi Instansi:",
                     ),
                     ProfileWidget(
+                      isEdit: false,
                       controller: controller,
                       textController: controller.alamatC,
                       title: "Alamat Instansi:",
@@ -157,6 +180,33 @@ class ProfileDudiView extends GetView<ProfileDudiController> {
           ),
         ),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButton: (isEdit)
+          ? const SizedBox.shrink()
+          : Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                FloatingActionButton(
+                  backgroundColor: AllMaterial.colorRed,
+                  onPressed: () {
+                    var genController = Get.put(GeneralController());
+                    AllMaterial.cusDialogValidasi(
+                      title: "Logout",
+                      subtitle: "Apakah Anda ingin keluar dari akun saat ini?",
+                      onConfirm: () => genController.logout(),
+                      onCancel: () => Get.back(),
+                    );
+                  },
+                  elevation: 0,
+                  tooltip: "Logout",
+                  child: const Icon(
+                    Icons.logout,
+                    color: Colors.white,
+                  ),
+                ),
+                const SizedBox(height: 90),
+              ],
+            ),
     );
   }
 }
